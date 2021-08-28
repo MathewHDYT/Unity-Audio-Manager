@@ -311,4 +311,3 @@ am.ChangeVolume("SoundName", endValue, stepValue, waitTime);
 
 **When to use it:**
 Use if you want to decrease the volume over a given time span.
-# Unity-Audio-Manager-UAM
