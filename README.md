@@ -28,10 +28,19 @@ Used to play/change/stop/mute etc. Songs or Sounds at certain circumstances or e
 Nearly all games need music and soundeffects and this small and easily integrated Audio Manager can help integrate and play music in Unity for your game quick and easily.
 
 **Unity Audio Manager implements the following methods:**
-- The forward and inverse negacyclic number-theoretic transform (NTT) (see [Compile-time options](#compile-time-options))
-- Element-wise vector-vector modular multiplication (see [Compile-time options](#compile-time-options))
-- Element-wise vector-scalar modular multiplication with optional addition (see [Compile-time options](#compile-time-options))
-- Element-wise modular multiplication (see [Compile-time options](#compile-time-options))
+- A way to simply play a sound (see [Play method](#play-method))
+- A way to play a sound at a given time in the song (see [Play At Time Stamp method](#play-at-time-stamp-method))
+- A way to get the amount of time a sound has been played (see [Get Playback Position method](#get-playback-position-method))
+- A way to play a sound at a 3D position (see [Play At 3D Position method](#play-at-3d-position-method))
+- A way to play a sound attached to a gameobject (see [Play Attached To GameObject method](#play-attached-to-gameobject-method))
+- A way to play a sound after a certain delay time (see [Play Delayed method](#play-delayed-method))
+- A way to play a sound once (see [Play OneShot method](#play-oneshot-method))
+- A way to play a sound at a given time in the time line (see [Play Scheduled method](#play-scheduled-method))
+- A way to stop a sound (see [Stop method](#stop-method))
+- A way to mute or unmute a sound (see [Toggle Mute method](#toggle-mute-method))
+- A way to get the source of a sound (see [Get Source method](#get-source-method))
+- A way to change the pitch of a sound (see [Change Pitch method](#change-pitch-method))
+- A way to change the volume of a sound (see [Change Volume method](#change-volume-method))
 
 For each method there is a description on how to call it and how to use it correctly for your game in the given section.
 
@@ -92,6 +101,8 @@ am.Play("SoundName");
 
 **When to use it:**
 Use the play method when you want to play a sound directly without changing it's initally properties. So if you enabled looping for the sound (see [Adding a new sound](#adding-a-new-sound)) then it will loop.
+
+See [AudioSource.Play](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/AudioSource.Play.html) for more details on what play does.
 
 ### Play At Time Stamp method
 **What it does:**
@@ -200,6 +211,7 @@ am.PlayDelayed("SoundName", delay);
 **When to use it:**
 Use the play delayed method when you want to play a sound after a given delay time instead of directly when the method is called.
 
+See [AudioSource.PlayDelayed](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/AudioSource.PlayDelayed.html) for more details on what play delayed does.
 
 ### Play OneShot method
 **What it does:**
@@ -214,6 +226,8 @@ am.PlayOneShot("SoundName");
 
 **When to use it:**
 Use the play oneshot method when you want to play a sound once.
+
+See [AudioSource.PlayOneShot](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/AudioSource.PlayOneShot.html) for more details on what play oneshot does.
 
 ### Play Scheduled method
 **What it does:**
@@ -230,6 +244,8 @@ am.PlayScheduled("SoundName", time);
 **When to use it:**
 Use to switch smoovly between sounds because it is independent of the frame rate and gives the audio system enough time to prepare the playback of the sound to fetch it from media where the opening and buffering takes a lot of time (streams) without causing sudden CPU spikes.
 
+See [AudioSource.PlayScheduled](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/AudioSource.PlayScheduled.html) for more details on what play scheduled does.
+
 ### Stop method
 **What it does:**
 Stops the sound if it is currently playing.
@@ -243,6 +259,8 @@ am.Stop("SoundName");
 
 **When to use it:**
 Use to stop the given sound, if you restart it later the sound will start a new so to really stop it a workaround with the [Get Playback Position method](#get-playback-position-method) would be needed to start but at the given start time with the [Play At Time Stamp method](#play-at-time-stamp-method).
+
+See [AudioSource.Stop](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/AudioSource.Stop.html) for more details on what stop does.
 
 ### Toggle Mute method
 **What it does:**
