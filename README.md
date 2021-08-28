@@ -51,6 +51,8 @@ For each method there is a description on how to call it and how to use it corre
 The Audio Manager itself is version independent and the example project can be upgraded to a newer version if needed. It is recommended to use the Version the project was originally created in to ensure that everything works correctly.
 After installing Unity you can simply download the project and open it in Unity (see [Opening a Project in Unity](https://docs.unity3d.com/2021.2/Documentation/Manual/GettingStartedOpeningProjects.html)) and start the game with the Play Button to test the Audio Managers methodality.
 
+To simply use the Audio Manager in your own project simply get the two files in the *Example Project/Assets/Scritps* called *AudioManager* and *Sound* and use them like shown in [Adding a new sound](#adding-a-new-sound).
+
 # Documentation
 This documentation strives to explain how to start using the Audio Manager in your project and explains how to call and how to use it's publicly accesible methods correctly.
 
