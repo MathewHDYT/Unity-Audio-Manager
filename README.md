@@ -299,9 +299,10 @@ Use to directly change the values of the given song yourself and affect it while
 Changes the pitch of a sound over a given amount of time.
 
 **How to call it:**
-SoundName in this case is the Name we have given the sound we want to change the pitch from.
-The endValue (0 - 3) is the value the pitch should have after the given amount of time, which is defined by the waitTime in this case 1 second.
-The stepValue is the granularity in which we decrease the pitch to the endValue.
+SoundName in this case is the Name we have given the sound we want to change the volume from.
+The endValue (0 - 1) is the value the volume should have at the end.
+The waitTime defines the amount of time we wait for each in -or decrease in this case 1 second 
+The stepValue is the granularity in which we decrease the volume to the endValue.
 
 ```csharp
 float endValue = 0.8f;
@@ -319,7 +320,8 @@ Changes the volume of a given sound over a given amount of time.
 
 **How to call it:**
 SoundName in this case is the Name we have given the sound we want to change the volume from.
-The endValue (0 - 1) is the value the volume should have after the given amount of time, which is defined by the waitTime in this case 1 second.
+The endValue (0 - 1) is the value the volume should have at the end.
+The waitTime defines the amount of time we wait for each in -or decrease in this case 1 second 
 The stepValue is the granularity in which we decrease the volume to the endValue.
 
 ```csharp

@@ -291,15 +291,14 @@ public class AudioManager : MonoBehaviour {
     /// <param name="waitTime">Delay we want to have after each de -or increase.</param>
     private IEnumerator PitchChanger(AudioSource source, float endValue, float stepValue, float waitTime) {
         // Check if we de -or increase the pitch.
-        bool negative = Math.Abs(source.pitch) - Math.Abs(endValue) > float.Epsilon;
+        bool negative = (source.pitch - endValue > float.Epsilon);
 
         // Checks for the current Pitch depeding on if we want to be smaller or bigger than the startValue.        
         while (negative ?
-            Math.Abs(source.pitch) - Math.Abs(endValue) > float.Epsilon :
-            Math.Abs(endValue) - Math.Abs(source.pitch) > float.Epsilon) {
+            (source.pitch - endValue > float.Epsilon) :
+            (endValue - source.pitch > float.Epsilon)) {
             source.pitch += stepValue;
             yield return new WaitForSeconds(waitTime);
-            negative = Math.Abs(source.pitch) - Math.Abs(endValue) > float.Epsilon;
         }
     }
 
@@ -335,15 +334,14 @@ public class AudioManager : MonoBehaviour {
     /// <param name="waitTime">Delay we want to have after each de -or increase.</param>
     private IEnumerator VolumeChanger(string name, AudioSource source, float endValue, float stepValue, float waitTime) {
         // Check if we de -or increase the pitch.
-        bool negative = Math.Abs(source.volume) - Math.Abs(endValue) > float.Epsilon;
+        bool negative = (source.volume - endValue > float.Epsilon);
 
         // Checks for the current Volume depeding on if we want to be smaller or bigger than the startValue.
         while (negative ?
-            Math.Abs(source.volume) - Math.Abs(endValue) > float.Epsilon :
-            Math.Abs(endValue) - Math.Abs(source.volume) > float.Epsilon) {
+            (source.volume -endValue > float.Epsilon) :
+            (endValue - source.volume > float.Epsilon)) {
             source.volume += stepValue;
             yield return new WaitForSeconds(waitTime);
-            negative = Math.Abs(source.volume) - Math.Abs(endValue) > float.Epsilon;
         }
     }
 }
