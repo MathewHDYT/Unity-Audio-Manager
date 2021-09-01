@@ -191,10 +191,11 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Plays the song with the given name and prints a Warning if it wasn't found at the given time on the timeline.
+    /// Plays the song with the given name and prints a Warning if it wasn't found after the given delay time.
+    /// Additionally buffer time is added to the waitTime to prepare the playback and fetch it from media.
     /// </summary>
     /// <param name="name">Name of the Song.</param>
-    /// <param name="time">Time the Song should be played on the timeline.</param>
+    /// <param name="time">Delay until Song is played.</param>
     public void PlayScheduled(string name, double time) {
         AudioSource source = GetSource(name);
 
@@ -234,6 +235,24 @@ public class AudioManager : MonoBehaviour {
         }
 
         source.mute = !source.mute;
+    }
+    
+    /// <summary>
+    /// Returns the progress of the song with the given name from 0 to 1 where 1 is fully completed.
+    /// </summary>
+    /// <param name="name">Name of the Song.</param>
+    /// <returns>Progress of the given Song (0 to 1).</returns>
+    public float Progress(string name) {
+        float progress = 0f;
+        AudioSource source = GetSource(name);
+        
+        // Couldn't find source.
+        if (source == default || source.clip == null) {
+            return progress;
+        }
+
+        progress = float.Parse(source.timesamples) / float.Parse(clip.samples);
+        return progress;
     }
 
     /// <summary>
