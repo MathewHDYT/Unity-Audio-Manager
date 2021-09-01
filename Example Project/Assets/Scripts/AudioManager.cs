@@ -237,111 +237,99 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Gets the corresponding Source to the song with the given name and prints a Warning if it wasn't found.
+    /// Gets the corresponding Source to the song with the given name and prints a Warning if it wasn't found or if we found multiple.
     /// </summary>
     /// <param name="name">Name of the Song.</param>
     /// <returns>AudioSource of the given Song.</returns>
     public AudioSource GetSource(string name) {
-        AudioSource source = default;
-
         // Find Sound with the corresponding given Name
         List<Sound> s = sounds.Where(sound => string.Equals(sound.name, name)).ToList();
-        // If we found no sound print a Warning in the Console and return default value
+        // If we found no sound print a Warning in the Console.
         if (s.Count == 0) {
             Debug.LogWarning("Sound: " + name + " not found");
-            return source;
         }
-        // If we found more than one sound print a Warning in the Console and return default value
+        // If we found more than one sound print a Warning in the Console.
         else if (s.Count > 1) {
             Debug.LogWarning("Multiple Instances of Sound: " + name + " found");
         }
 
-        source = s.FirstOrDefault().source;
-        return source;
+        // Return the first or default values source.
+        return s.FirstOrDefault().source;
     }
 
     /// <summary>
-    /// Checks certain conditions and start to change the pitch over the given time.
+    /// Changes the pitch over the given amount of time to the given endValue.
     /// </summary>
     /// <param name="name">Name of the Song.</param>
     /// <param name="endValue">Value we wan't to have at the end.</param>
-    /// <param name="stepValue">How much we want to de -or increase the value by each step .</param>
-    /// <param name="waitTime">Delay we want to have after each de -or increase.</param>
-    public void ChangePitch(string name, float endValue, float stepValue, float waitTime) {
+    /// <param name="waitTime">Total time needed to reach the given endValue.</param>
+    /// <param name="granularity">Amount of steps that will be taken to decrease to the endValue (Setting to high is not advised).</param>
+    public void ChangePitch(string name, float endValue, float waitTime = 1f, float granularity = 5f) {
         AudioSource source = GetSource(name);
 
-        // Couldn't find source.
-        if (source == default) {
+        // Couldn't find source or the pitch is already on the wanted endValue.
+        if (source == default || source.pitch == endValue) {
             return;
         }
-        // Check if the stepValue goes into the right direction (smaller or bigger).
-        else if (Math.Abs(source.pitch - endValue) < Math.Abs((source.pitch + stepValue) - endValue)) {
-            stepValue *= -1;
-        }
+        
+        // Calculate what we need to remove or add to the pitch to achieve the endValue.
+        float difference = endValue - source.pitch;
+        float stepValue = difference / granularity;
+        float stepTime = waitTime / granulairty;
 
-        StartCoroutine(PitchChanger(source, endValue, stepValue, waitTime));
+        StartCoroutine(PitchChanger(source, stepValue, stepTime, granularity));
     }
 
     /// <summary>
     /// Changes the Pitch of the given Song with a certain waitTime after each de -or increase.
     /// </summary>
     /// <param name="source">Source of the AudioFile.</param>
-    /// <param name="endValue">Value we wan't to have at the end.</param>
     /// <param name="stepValue">How much we want to de -or increase the value by each step .</param>
-    /// <param name="waitTime">Delay we want to have after each de -or increase.</param>
-    private IEnumerator PitchChanger(AudioSource source, float endValue, float stepValue, float waitTime) {
-        // Check if we de -or increase the pitch.
-        bool negative = (source.pitch - endValue > float.Epsilon);
-
-        // Checks for the current Pitch depeding on if we want to be smaller or bigger than the startValue.        
-        while (negative ?
-            (source.pitch - endValue > float.Epsilon) :
-            (endValue - source.pitch > float.Epsilon)) {
+    /// <param name="stepTime">Delay we want to have after each de -or increase.</param>
+    /// <param name="steps">Amount of steps that will be taken to decrease to the endValue.</param>
+    private IEnumerator PitchChanger(AudioSource source, float stepValue, float stepTime, float steps) {
+        // De -or increases the given pitch with the given amount of steps           
+        for (; steps >= 0; steps--) {
             source.pitch += stepValue;
-            yield return new WaitForSeconds(waitTime);
+            yield return new WaitForSeconds(stepTime);
         }
     }
 
     /// <summary>
-    /// Checks certain variables and starts to change the volume over the given time.
+    /// Changes the volume over the given amount of time to the given endValue.
     /// </summary>
     /// <param name="name">Name of the Song.</param>
     /// <param name="endValue">Value we wan't to have at the end.</param>
-    /// <param name="stepValue">How much we want to de -or increase the value by each step .</param>
-    /// <param name="waitTime">Delay we want to have after each de -or increase.</param>
-    public void ChangeVolume(string name, float endValue, float stepValue, float waitTime) {
+    /// <param name="waitTime">Total time needed to reach the given endValue.</param>
+    /// <param name="granularity">Amount of steps that will be taken to decrease to the endValue (Setting to high is not advised).</param>
+    public void ChangeVolume(string name, float endValue, float waitTime = 1f, float granularity = 5f) {
         AudioSource source = GetSource(name);
 
-        // Couldn't find source.
-        if (source == default) {
+        // Couldn't find source or the pitch is already on the wanted endValue.
+        if (source == default || source.volume == endValue) {
             return;
         }
-        // Check if the stepValue goes into the right direction (smaller or bigger).
-        else if (Math.Abs(source.volume - endValue) < Math.Abs((source.volume + stepValue) - endValue)) {
-            stepValue *= -1;
-        }
+        
+        // Calculate what we need to remove or add to the pitch to achieve the endValue.
+        float difference = endValue - source.volume;
+        float stepValue = difference / granularity;
+        float stepTime = waitTime / granulairty;
 
-        StartCoroutine(VolumeChanger(name, source, endValue, stepValue, waitTime));
+        StartCoroutine(VolumeChanger(source, stepValue, stepTime, granularity));
     }
 
     /// <summary>
     /// Changes the Volume of the given Song with a certain waitTime after each de -or increase.
     /// </summary>
-    /// <param name="name">Name of the Song.</param>
     /// <param name="source">Source of the AudioFile.</param>
-    /// <param name="endValue">Value we wan't to have at the end.</param>
     /// <param name="stepValue">How much we want to de -or increase the value by each step .</param>
-    /// <param name="waitTime">Delay we want to have after each de -or increase.</param>
-    private IEnumerator VolumeChanger(string name, AudioSource source, float endValue, float stepValue, float waitTime) {
-        // Check if we de -or increase the pitch.
-        bool negative = (source.volume - endValue > float.Epsilon);
-
-        // Checks for the current Volume depeding on if we want to be smaller or bigger than the startValue.
-        while (negative ?
-            (source.volume -endValue > float.Epsilon) :
-            (endValue - source.volume > float.Epsilon)) {
+    /// <param name="stepTime">Delay we want to have after each de -or increase.</param>
+    /// <param name="steps">Amount of steps that will be taken to decrease to the endValue.</param>
+    private IEnumerator VolumeChanger(AudioSource source, float stepValue, float stepTime, float steps) {
+        // De -or increases the given pitch with the given amount of steps           
+        for (; steps >= 0; steps--) {
             source.volume += stepValue;
-            yield return new WaitForSeconds(waitTime);
+            yield return new WaitForSeconds(stepTime);
         }
     }
 }
