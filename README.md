@@ -287,7 +287,8 @@ Returns the progress of the given sound, which is a float from 0 to 1.
 SoundName in this case is the Name we have given the sound we want to get the progress from.
 
 ```csharp
-am.Progress("SoundName");
+float progress = am.Progress("SoundName");
+Debug.Log("Current progress in the song: " + progress);
 ```
 
 **When to use it:**
