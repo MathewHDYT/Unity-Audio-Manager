@@ -1,5 +1,9 @@
+![Unity Audio Manager](https://github.com/MathewHDYT/Unity-Audio-Manager-UAM/blob/main/logo.png/)
+[![MIT license](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](https://lbesson.mit-license.org/)
+[![Unity](https://img.shields.io/badge/Unity-5.2%2B-green.svg?style=flat-square)](https://docs.unity3d.com/520/Documentation/Manual/index.html/)
+[![GitHub release](https://img.shields.io/github/release/MathewHDYT/Unity-Audio-Manager-UAM/all.svg?style=flat-square)](https://github.com/MathewHDYT/Unity-Audio-Manager-UAM/releases/)
 # Unity Audio Manager (UAM)
-Used to play/change/stop/mute etc. Songs or Sounds at certain circumstances or events, can also be used for looping background music. Made for the Unity Game Engine in C#.
+Used to play/change/stop/mute/... sounds at certain circumstances or events in 2D and 3D simply via. code.
 
 ## Contents
 - [Unity Audio Manager (UAM)](#unity-audio-manager-uam)
@@ -49,7 +53,7 @@ For each method there is a description on how to call it and how to use it corre
 **Required Software:**
 - [Unity](https://unity3d.com/get-unity/download) Ver. 2020.3.17f1
 
-The Audio Manager itself is version independent and the example project can be upgraded to a newer version if needed. It is recommended to use the Version the project was originally created in to ensure that everything works correctly.
+The Audio Manager itself is version independent, as long as the AudioSource object exists. Additionally the example project can be upgraded to a newer version if needed. It is recommended to use the Version the project was originally created in, to ensure that everything works as expected.
 After installing Unity you can simply download the project and open it in Unity (see [Opening a Project in Unity](https://docs.unity3d.com/2021.2/Documentation/Manual/GettingStartedOpeningProjects.html)) and start the game with the Play Button to test the Audio Managers methodality.
 
 To simply use the Audio Manager in your own project simply get the two files in the *Example Project/Assets/Scritps* called *AudioManager* and *Sound* and use them like shown in [Adding a new sound](#adding-a-new-sound).
