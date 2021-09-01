@@ -20,6 +20,7 @@ Used to play/change/stop/mute etc. Songs or Sounds at certain circumstances or e
 	- [Play Scheduled method](#play-scheduled-method)
 	- [Stop method](#stop-method)
 	- [Toggle Mute method](#toggle-mute-method)
+	- [Progress method](#progress-method)
 	- [Get Source method](#get-source-method)
 	- [Change Pitch method](#change-pitch-method)
 	- [Change Volume method](#change-volume-method)
@@ -233,10 +234,10 @@ See [AudioSource.PlayOneShot](https://docs.unity3d.com/2021.2/Documentation/Scri
 
 ### Play Scheduled method
 **What it does:**
-Starts playing the sound at a given time on the absolute time line.
+Starts playing the sound after the given amount of time with additional buffer time to fetch the data from media.
 
 **How to call it:**
-SoundName in this case is the Name we have given the sound we want to play at the given time in our absolute time line which would be the 10 seconds we've defined.
+SoundName in this case is the Name we have given the sound we want to play after the given amount of time which would be the 10 seconds we've defined.
 
 ```csharp
 double time = 10d;
@@ -244,9 +245,9 @@ am.PlayScheduled("SoundName", time);
 ```
 
 **When to use it:**
-Use to switch smoovly between sounds because it is independent of the frame rate and gives the audio system enough time to prepare the playback of the sound to fetch it from media where the opening and buffering takes a lot of time (streams) without causing sudden CPU spikes.
+Use to switch smoothly between sounds because it is independent of the frame rate and gives the audio system enough time to prepare the playback of the sound to fetch it from media where the opening and buffering takes a lot of time (streams) without causing sudden CPU spikes.
 
-See [AudioSource.PlayScheduled](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/AudioSource.PlayScheduled.html) for more details on what play scheduled does.
+See [AudioSource.PlayScheduled](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/AudioSource.PlayScheduled.html) for more details on what Play Scheduled does.
 
 ### Stop method
 **What it does:**
@@ -278,6 +279,20 @@ am.ToggleMute("SoundName");
 **When to use it:**
 Use to completly silence a sound and still keep it playing in the background. For example if you have a radio channel with a mute button.
 
+### Progress method
+**What it does:**
+Returns the progress of the given sound, which is a float from 0 to 1.
+
+**How to call it:**
+SoundName in this case is the Name we have given the sound we want to get the progress from.
+
+```csharp
+am.Progress("SoundName");
+```
+
+**When to use it:**
+Use to get the progress of a song for an animation or to track once it's finished to start a new song.
+
 ### Get Source method
 **What it does:**
 Returns the source of the given sound.
@@ -299,20 +314,27 @@ Use to directly change the values of the given song yourself and affect it while
 Changes the pitch of a sound over a given amount of time.
 
 **How to call it:**
-SoundName in this case is the Name we have given the sound we want to change the volume from.
-The endValue (0 - 1) is the value the volume should have at the end.
-The waitTime defines the amount of time we wait for each in -or decrease in this case 1 second 
-The stepValue is the granularity in which we decrease the volume to the endValue.
+SoundName in this case is the Name we have given the sound we want to change the pitch from.
+The endValue (0.1 - 3) is the value the pitch should have at the end.
+The waitTime defines the total amount of time needed to achieve the given endValue.
+The granularity is the amount of steps in which we decrease the volume to the endValue.
 
 ```csharp
 float endValue = 0.8f;
-float stepValue = 0.025f;
 float waitTime = 1f;
-am.ChangePitch("SoundName", endValue, stepValue, waitTime);
+float granularity = 2f;
+am.ChangePitch("SoundName", endValue, waitTime, granularity);
+```
+
+Alternatively you can call the methods with less paramters as some of them have default arguments.
+
+```csharp
+float endValue = 0.8f;
+am.ChangePitch("SoundName", endValue);
 ```
 
 **When to use it:**
-Use if you want to decrease the pitch over a given time span.
+Use if you want to decrease the pitch over a given amount of time.
 
 ### Change Volume method
 **What it does:**
@@ -321,15 +343,22 @@ Changes the volume of a given sound over a given amount of time.
 **How to call it:**
 SoundName in this case is the Name we have given the sound we want to change the volume from.
 The endValue (0 - 1) is the value the volume should have at the end.
-The waitTime defines the amount of time we wait for each in -or decrease in this case 1 second 
-The stepValue is the granularity in which we decrease the volume to the endValue.
+The waitTime defines the total amount of time needed to achieve the given endValue.
+The granularity is the amount of steps in which we decrease the volume to the endValue.
 
 ```csharp
 float endValue = 0.8f;
-float stepValue = 0.025f;
 float waitTime = 1f;
-am.ChangeVolume("SoundName", endValue, stepValue, waitTime);
+float granularity = 2f;
+am.ChangeVolume("SoundName", endValue, waitTime, granularity);
+```
+
+Alternatively you can call the methods with less paramters as some of them have default arguments.
+
+```csharp
+float endValue = 0.8f;
+am.ChangeVolume("SoundName", endValue);
 ```
 
 **When to use it:**
-Use if you want to decrease the volume over a given time span.
+Use if you want to decrease the volume over a given amount of time.
