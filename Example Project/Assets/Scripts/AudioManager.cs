@@ -306,7 +306,7 @@ public class AudioManager : MonoBehaviour {
         float stepValue = difference / granularity;
         float stepTime = waitTime / granularity;
 
-        StartCoroutine(PitchChanger(source, stepValue, stepTime, granularity));
+        StartCoroutine(PitchChanger(source, stepValue, stepTime, granularity, endValue));
     }
 
     /// <summary>
@@ -316,12 +316,15 @@ public class AudioManager : MonoBehaviour {
     /// <param name="stepValue">How much we want to de -or increase the value by each step .</param>
     /// <param name="stepTime">Delay we want to have after each de -or increase.</param>
     /// <param name="steps">Amount of steps that will be taken to decrease to the endValue.</param>
-    private IEnumerator PitchChanger(AudioSource source, float stepValue, float stepTime, float steps) {
-        // De -or increases the given pitch with the given amount of steps           
-        for (; steps >= 0; steps--) {
+    /// <param name="endValue">Value we wan't to have at the end.</param>
+    private IEnumerator PitchChanger(AudioSource source, float stepValue, float stepTime, float steps, float endValue) {
+        // De -or increases the given pitch with the given amount of steps.
+        for (; steps > 0; steps--) {
             source.pitch += stepValue;
             yield return new WaitForSeconds(stepTime);
         }
+        // Correct for float rounding errors.
+        source.volume = endValue;
     }
 
     /// <summary>
@@ -344,7 +347,7 @@ public class AudioManager : MonoBehaviour {
         float stepValue = difference / granularity;
         float stepTime = waitTime / granularity;
 
-        StartCoroutine(VolumeChanger(source, stepValue, stepTime, granularity));
+        StartCoroutine(VolumeChanger(source, stepValue, stepTime, granularity, endValue));
     }
 
     /// <summary>
@@ -354,12 +357,15 @@ public class AudioManager : MonoBehaviour {
     /// <param name="stepValue">How much we want to de -or increase the value by each step .</param>
     /// <param name="stepTime">Delay we want to have after each de -or increase.</param>
     /// <param name="steps">Amount of steps that will be taken to decrease to the endValue.</param>
-    private IEnumerator VolumeChanger(AudioSource source, float stepValue, float stepTime, float steps) {
-        // De -or increases the given pitch with the given amount of steps           
-        for (; steps >= 0; steps--) {
+    /// <param name="endValue">Value we wan't to have at the end.</param>
+    private IEnumerator VolumeChanger(AudioSource source, float stepValue, float stepTime, float steps, float endValue) {
+        // De -or increases the given pitch with the given amount of steps.
+        for (; steps > 0; steps--) {
             source.volume += stepValue;
             yield return new WaitForSeconds(stepTime);
         }
+        // Correct for float rounding errors.
+        source.volume = endValue;
     }
 
     /// <summary>
