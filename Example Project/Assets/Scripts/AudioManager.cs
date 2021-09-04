@@ -50,6 +50,7 @@ public class AudioManager : MonoBehaviour {
             return;
         }
 
+        SetStartTime(source);
         source.Play();
     }
 
@@ -67,7 +68,7 @@ public class AudioManager : MonoBehaviour {
         }
 
         // Sets the start playback position to the given startTime in seconds.
-        source.time = startTime;
+        SetStartTime(source, startTime);
         source.Play();
     }
 
@@ -110,6 +111,7 @@ public class AudioManager : MonoBehaviour {
 
         // Set position of our AudioSource.
         source.transform.position = position;
+        SetStartTime(source);
         source.Play();
     }
 
@@ -136,6 +138,7 @@ public class AudioManager : MonoBehaviour {
 
         // Set parent of AudioSource to the given gameObject.
         source.transform.SetParent(gameObject.transform);
+        SetStartTime(source);
         source.Play();
     }
 
@@ -172,11 +175,13 @@ public class AudioManager : MonoBehaviour {
             return;
         }
 
+        SetStartTime(source);
         source.PlayDelayed(delay);
     }
 
     /// <summary>
     /// Plays the sound with the given name once and prints a Warning if it wasn't found.
+    /// Multiple instances of the same sound can be run with this function.
     /// </summary>
     /// <param name="name">Name of the sound.</param>
     public void PlayOneShot(string name) {
@@ -187,6 +192,7 @@ public class AudioManager : MonoBehaviour {
             return;
         }
 
+        SetStartTime(source);
         source.PlayOneShot(source.clip);
     }
 
@@ -204,6 +210,7 @@ public class AudioManager : MonoBehaviour {
             return;
         }
 
+        SetStartTime(source);
         source.PlayScheduled(time);
     }
 
@@ -242,7 +249,7 @@ public class AudioManager : MonoBehaviour {
     /// </summary>
     /// <param name="name">Name of the sound.</param>
     /// <returns>Progress of the given sound (0 to 1).</returns>
-    public float Progress(string name) {
+    public float GetProgress(string name) {
         float progress = 0f;
         AudioSource source = GetSource(name);
         
@@ -251,7 +258,7 @@ public class AudioManager : MonoBehaviour {
             return progress;
         }
 
-        progress = float.Parse(source.timesamples) / float.Parse(clip.samples);
+        progress = (float)source.timeSamples / (float)source.clip.samples;
         return progress;
     }
 
@@ -261,19 +268,22 @@ public class AudioManager : MonoBehaviour {
     /// <param name="name">Name of the sound.</param>
     /// <returns>AudioSource of the given sound.</returns>
     public AudioSource GetSource(string name) {
+        AudioSource source = default;
+
         // Find Sound with the corresponding given Name
         List<Sound> s = sounds.Where(sound => string.Equals(sound.name, name)).ToList();
-        // If we found no sound print a Warning in the Console.
+        // If we found no sound print a Warning in the Console and return default value
         if (s.Count == 0) {
             Debug.LogWarning("Sound: " + name + " not found");
+            return source;
         }
-        // If we found more than one sound print a Warning in the Console.
+        // If we found more than one sound print a Warning in the Console and return default value
         else if (s.Count > 1) {
             Debug.LogWarning("Multiple Instances of Sound: " + name + " found");
         }
 
-        // Return the first or default values source.
-        return s.FirstOrDefault().source;
+        source = s.FirstOrDefault().source;
+        return source;
     }
 
     /// <summary>
@@ -294,7 +304,7 @@ public class AudioManager : MonoBehaviour {
         // Calculate what we need to remove or add to the pitch to achieve the endValue.
         float difference = endValue - source.pitch;
         float stepValue = difference / granularity;
-        float stepTime = waitTime / granulairty;
+        float stepTime = waitTime / granularity;
 
         StartCoroutine(PitchChanger(source, stepValue, stepTime, granularity));
     }
@@ -332,7 +342,7 @@ public class AudioManager : MonoBehaviour {
         // Calculate what we need to remove or add to the pitch to achieve the endValue.
         float difference = endValue - source.volume;
         float stepValue = difference / granularity;
-        float stepTime = waitTime / granulairty;
+        float stepTime = waitTime / granularity;
 
         StartCoroutine(VolumeChanger(source, stepValue, stepTime, granularity));
     }
@@ -350,5 +360,15 @@ public class AudioManager : MonoBehaviour {
             source.volume += stepValue;
             yield return new WaitForSeconds(stepTime);
         }
+    }
+
+    /// <summary>
+    /// Sets the startTime of the song. Needs to be done all the time before starting a sound to ensure we start it at the beginning
+    /// and not the time set by the PlayAtTimeStamp method.
+    /// </summary>
+    /// <param name="source">Source of the AudioFile.</param>
+    /// <param name="startTime">Moment in the sound we want to start playing at.</param>
+    private void SetStartTime(AudioSource source, float startTime = 0f) {
+        source.time = startTime;
     }
 }

@@ -27,10 +27,10 @@ Used to play/change/stop/mute/... sounds at certain circumstances or events in 2
 	- [Play Scheduled method](#play-scheduled-method)
 	- [Stop method](#stop-method)
 	- [Toggle Mute method](#toggle-mute-method)
-	- [Progress method](#progress-method)
+	- [Get Progress method](#get-progress-method)
 	- [Get Source method](#get-source-method)
 	- [Change Pitch method](#change-pitch-method)
-	- [Change Volume method](#change-volume-method)f
+	- [Change Volume method](#change-volume-method)
 
 ## Introduction
 Nearly all games need music and soundeffects and this small and easily integrated Audio Manager can help you play sounds in Unity for your game quick and easily.
@@ -46,7 +46,7 @@ Nearly all games need music and soundeffects and this small and easily integrate
 - Play a sound at a given time in the time line (see [Play Scheduled method](#play-scheduled-method))
 - Stop a sound (see [Stop method](#stop-method))
 - Mute or unmute a sound (see [Toggle Mute method](#toggle-mute-method))
-- Get the progress of a sound (see [Progress method](#progress-method))
+- Get the progress of a sound (see [Get Progress method](#get-progress-method))
 - Get the source of a sound (see [Get Source method](#get-source-method))
 - Change the pitch of a sound (see [Change Pitch method](#change-pitch-method))
 - Change the volume of a sound (see [Change Volume method](#change-volume-method))
@@ -57,11 +57,11 @@ For each method there is a description on how to call it and how to use it corre
 **Required Software:**
 - [Unity](https://unity3d.com/get-unity/download) Ver. 2020.3.17f1
 
-The Audio Manager itself is version independent, as long as the AudioSource object already exists. Additionally the example project can be opened with Unity itself or alternatively the build in the **Example Project/Builds/Windows Build** folder can be downloaded and exectued.
+The Audio Manager itself is version independent, as long as the AudioSource object already exists. Additionally the example project can be opened with Unity itself or alternatively the build in the **Example Project/Builds/** folder can be downloaded and exectued.
 
 If you prefer the first method you can simply install the shown Unity Version and after installing it you can download the project and open it in Unity (see [Opening a Project in Unity](https://docs.unity3d.com/2021.2/Documentation/Manual/GettingStartedOpeningProjects.html)). Then you can start the game with the play button to test the Audio Managers functionality.
 
-To simply use the Audio Manager in your own project get the two files in the **Example Project/Assets/Scritps** called ```AudioManager.CS``` and ```Sound.CS``` and save them in your own project. Then create a new empty ```gameObject``` and attach the ```AudioManager.CS``` script to it. Now you can easily add sounds like shown in [Adding a new sound](#adding-a-new-sound).
+To simply use the Audio Manager in your own project get the two files in the **Example Project/Assets/Scritps/** called ```AudioManager.CS``` and ```Sound.CS``` and save them in your own project. Then create a new empty ```gameObject``` and attach the ```AudioManager.CS``` script to it. Now you can easily add sounds like shown in [Adding a new sound](#adding-a-new-sound).
 
 # Documentation
 This documentation strives to explain how to start using the Audio Manager in your project and explains how to call and how to use it's publicly accesible methods correctly.
@@ -304,7 +304,7 @@ am.ToggleMute("SoundName");
 **When to use it:**
 When you want to completly silence a sound and still keep it playing in the background. For example if you have a radio channel with a mute or switch channel button.
 
-### Progress method
+### Get Progress method
 **What it does:**
 Returns the ```progress``` of the given sound, which is a float from 0 to 1.
 
@@ -313,7 +313,7 @@ Returns the ```progress``` of the given sound, which is a float from 0 to 1.
 
 ```csharp
 float progress = am.Progress("SoundName");
-Debug.Log("Current progress in the sound: " + progress);
+Debug.Log("Current progress in the sound: " + (progress * 100f) + "% completed");
 ```
 
 **When to use it:**

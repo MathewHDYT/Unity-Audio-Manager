@@ -5,13 +5,13 @@ public class MethodCalls : MonoBehaviour {
 
     [Header("Input:")]
     [SerializeField]
-    private Text soundNameInput;
+    private InputField soundNameInput;
     [SerializeField]
-    private Text timeInput;
+    private InputField timeInput;
     [SerializeField]
-    private Text endValueInput;
+    private InputField endValueInput;
     [SerializeField]
-    private Text stepValueInput;
+    private InputField granularityInput;
 
     [Header("Output:")]
     [SerializeField]
@@ -30,6 +30,25 @@ public class MethodCalls : MonoBehaviour {
 
     private void Start() {
         am = AudioManager.instance;
+    }
+
+    public void ResetAllInputFieldColors(string name) {
+        switch (name) {
+            case "SoundName":
+                ResetInputFieldColor(soundNameInput);
+                break;
+            case "Time":
+                ResetInputFieldColor(timeInput);
+                break;
+            case "EndValue":
+                ResetInputFieldColor(endValueInput);
+                break;
+            case "Granularity":
+                ResetInputFieldColor(granularityInput);
+                break;
+            default:
+                break;
+        }
     }
 
     public void PlayAtTimeStampClicked() {
@@ -154,27 +173,27 @@ public class MethodCalls : MonoBehaviour {
         string methodName = "ChangePitch";
         string tempSoundName = "";
         float tempEndValue = 0f;
-        float tempStepValue = 0f;
-        float tempTime = 0f;
+        float tempTime = 1f;
+        float tempGranularity = 5f;
 
-        if (GetSoundName(ref tempSoundName) && GetTime(ref tempTime) && GetEndAndStepValue(ref tempEndValue, ref tempStepValue)) {
-            am.ChangePitch(tempSoundName, tempEndValue, tempStepValue, tempTime);
+        if (GetSoundName(ref tempSoundName) && GetTime(ref tempTime) && GetEndValue(ref tempEndValue) && GetGranularity(ref tempGranularity)) {
+            am.ChangePitch(tempSoundName, tempEndValue, tempTime, tempGranularity);
             SetTextColor(Color.green);
-            errorField.text = SUCCESS + methodName + " in the time " + tempTime.ToString("0.00") + " with the endValue " + tempEndValue.ToString("0.00") + " and the stepValue " + tempStepValue.ToString("0.00");
+            errorField.text = SUCCESS + methodName + " in the time " + tempTime.ToString("0.00") + " with the endValue " + tempEndValue.ToString("0.00") + " and the stepValue " + tempGranularity.ToString("0.00");
         }
     }
 
     public void ChangeVolumeClicked() {
         string methodName = "ChangeVolume";
         string tempSoundName = "";
-        float endValue = 0f;
-        float stepValue = 0f;
-        float tempTime = 0f;
+        float tempEndValue = 0f;
+        float tempTime = 1f;
+        float tempGranularity = 5f;
 
-        if (GetSoundName(ref tempSoundName) && GetTime(ref tempTime) && GetEndAndStepValue(ref endValue, ref stepValue)) {
-            am.ChangeVolume(tempSoundName, endValue, stepValue, tempTime);
+        if (GetSoundName(ref tempSoundName) && GetTime(ref tempTime) && GetEndValue(ref tempEndValue) && GetGranularity(ref tempGranularity)) {
+            am.ChangeVolume(tempSoundName, tempEndValue, tempTime, tempGranularity);
             SetTextColor(Color.green);
-            errorField.text = SUCCESS + methodName + " in the time " + tempTime.ToString("0.00") + " with the endValue " + endValue.ToString("0.00") + " and the stepValue " + stepValue.ToString("0.00");
+            errorField.text = SUCCESS + methodName + " in the time " + tempTime.ToString("0.00") + " with the endValue " + tempEndValue.ToString("0.00") + " and the granularity " + tempGranularity.ToString("0.00");
         }
     }
 
@@ -189,20 +208,34 @@ public class MethodCalls : MonoBehaviour {
         }
     }
 
+    public void GetProgressClicked() {
+        string methodName = "Progress";
+        string tempSoundName = "";
+
+        if (GetSoundName(ref tempSoundName)) {
+            // Get current progress as float from 0 to 1.
+            float progress = am.GetProgress(tempSoundName);
+            SetTextColor(Color.green);
+            errorField.text = SUCCESS + methodName + " with the output " + (progress * 100).ToString("0.00") + " % of the sound completed";
+        }
+    }
+
     private bool GetSoundName(ref string soundName) {
         string inputField = "Sound Name";
 
         // Check if we received any input.
-        if (string.IsNullOrWhiteSpace(soundNameInput.text)) {
+        if (string.IsNullOrWhiteSpace(soundNameInput.textComponent.text)) {
             SetTextColor(Color.red);
+            SetInputFieldColor(soundNameInput, Color.red);
             errorField.text = MISSING_INPUT + inputField;
             return false;
         }
 
         // Check if the input is equal to an actual sound.
-        AudioSource source = am.GetSource(soundNameInput.text);
+        AudioSource source = am.GetSource(soundNameInput.textComponent.text);
         if (source == default) {
             SetTextColor(Color.red);
+            SetInputFieldColor(soundNameInput, Color.red);
             errorField.text = WRONG_INPUT + inputField;
             return false;
         }
@@ -215,16 +248,18 @@ public class MethodCalls : MonoBehaviour {
         string inputField = "Time";
 
         // Check if we received any input.
-        if (string.IsNullOrWhiteSpace(timeInput.text)) {
+        if (string.IsNullOrWhiteSpace(timeInput.textComponent.text)) {
             SetTextColor(Color.red);
+            SetInputFieldColor(timeInput, Color.red);
             errorField.text = MISSING_INPUT + inputField;
             return false;
         }
 
         // Check if input is a valid number.
-        bool success = float.TryParse(timeInput.text, out timeStamp);
+        bool success = float.TryParse(timeInput.textComponent.text, out timeStamp);
         if (!success) {
             SetTextColor(Color.red);
+            SetInputFieldColor(timeInput, Color.red);
             errorField.text = NOT_A_NUMBER + inputField;
             return false;
         }
@@ -232,33 +267,44 @@ public class MethodCalls : MonoBehaviour {
         return true;
     }
 
-    private bool GetEndAndStepValue(ref float endValue, ref float stepValue) {
+    private bool GetEndValue(ref float endValue) {
         string inputField = "End Value";
-        string inputField2 = "Step Value";
 
         // Check if we received any input.
-        if (string.IsNullOrWhiteSpace(endValueInput.text)) {
+        if (string.IsNullOrWhiteSpace(endValueInput.textComponent.text)) {
             SetTextColor(Color.red);
+            SetInputFieldColor(endValueInput, Color.red);
             errorField.text = MISSING_INPUT + inputField;
-            return false;
-        }
-        else if (string.IsNullOrWhiteSpace(stepValueInput.text)) {
-            SetTextColor(Color.red);
-            errorField.text = MISSING_INPUT + inputField2;
             return false;
         }
 
         // Check if input is a valid number.
-        bool success = float.TryParse(endValueInput.text, out endValue);
-        if (!success) {
+        if (!float.TryParse(endValueInput.textComponent.text, out endValue)) {
             SetTextColor(Color.red);
+            SetInputFieldColor(endValueInput, Color.red);
             errorField.text = NOT_A_NUMBER + inputField;
             return false;
         }
-        success = float.TryParse(stepValueInput.text, out stepValue);
-        if (!success) {
+
+        return true;
+    }
+
+    private bool GetGranularity(ref float granularity) {
+        string inputField = "Granularity";
+
+        // Check if we received any input.
+        if (string.IsNullOrWhiteSpace(granularityInput.textComponent.text)) {
             SetTextColor(Color.red);
-            errorField.text = NOT_A_NUMBER + inputField2;
+            SetInputFieldColor(granularityInput, Color.red);
+            errorField.text = MISSING_INPUT + inputField;
+            return false;
+        }
+
+        // Check if input is a valid number.
+        if (!float.TryParse(granularityInput.textComponent.text, out granularity)) {
+            SetTextColor(Color.red);
+            SetInputFieldColor(granularityInput, Color.red);
+            errorField.text = NOT_A_NUMBER + inputField;
             return false;
         }
 
@@ -267,5 +313,29 @@ public class MethodCalls : MonoBehaviour {
 
     private void SetTextColor(Color color) {
         errorField.color = color;
+    }
+
+    private void SetInputFieldColor(InputField inputField, Color color) {
+        ColorBlock colorVar = inputField.colors;
+
+        // Set RGB values of the inputFields color normally.
+        colorVar.normalColor = color;
+        inputField.colors = colorVar;
+
+        // Set RGB values of the inputFields color when it's hovered over.
+        colorVar.highlightedColor = color;
+        inputField.colors = colorVar;
+    }
+
+    private void ResetInputFieldColor(InputField inputField) {
+        ColorBlock colorVar = inputField.colors;
+
+        // Reset RGB values of the inputFields color normally.
+        colorVar.normalColor = new Color(255f, 255f, 255f);
+        inputField.colors = colorVar;
+
+        // Reset RGB values of the inputFields color when it's hovered over.
+        colorVar.highlightedColor = new Color(245f, 245f, 245f);
+        inputField.colors = colorVar;
     }
 }
