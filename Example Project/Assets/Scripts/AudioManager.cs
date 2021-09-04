@@ -39,9 +39,9 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Plays the song with the given name and prints a Warning if it wasn't found.
+    /// Plays the sound with the given name and prints a Warning if it wasn't found.
     /// </summary>
-    /// <param name="name">Name of the Song.</param>
+    /// <param name="name">Name of the sound.</param>
     public void Play(string name) {
         AudioSource source = GetSource(name);
 
@@ -54,10 +54,10 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Plays the song with the given name and prints a Warning if it wasn't found.
+    /// Plays the sound with the given name and prints a Warning if it wasn't found.
     /// </summary>
-    /// <param name="name">Name of the Song.</param>
-    /// <param name="startTime">Time we want to start playing the song at.</param>
+    /// <param name="name">Name of the sound.</param>
+    /// <param name="startTime">Time we want to start playing the sound at.</param>
     public void PlayAtTimeStamp(string name, float startTime) {
         AudioSource source = GetSource(name);
 
@@ -72,10 +72,10 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Gets the current playback position of the given song in seconds.
+    /// Gets the current playback position of the given sound in seconds.
     /// </summary>
-    /// <param name="name">Name of the Song.</param>
-    /// <returns>Amount of seconds we are in the current Song loop.</returns>
+    /// <param name="name">Name of the sound.</param>
+    /// <returns>Amount of seconds we are in the current sound loop.</returns>
     public float GetPlaybackPosition(string name) {
         AudioSource source = GetSource(name);
 
@@ -88,9 +88,9 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Plays the song with the given name and prints a Warning if it wasn't found.
+    /// Plays the sound with the given name and prints a Warning if it wasn't found.
     /// </summary>
-    /// <param name="name">Name of the Song.</param>
+    /// <param name="name">Name of the sound.</param>
     /// <param name="position">Position we want to place our Sound at.</param>
     /// <param name="minDistance">Distance that sound will not get louder at.</param>
     /// <param name="maxDistance">Distance that sound will still be hearable at.</param>
@@ -114,9 +114,9 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Plays the song with the given name and prints a Warning if it wasn't found.
+    /// Plays the sound with the given name and prints a Warning if it wasn't found.
     /// </summary>
-    /// <param name="name">Name of the Song.</param>
+    /// <param name="name">Name of the sound.</param>
     /// <param name="gameObject">GameObject we want to attach our Sound too.</param>
     /// <param name="minDistance">Distance that sound will not get louder at.</param>
     /// <param name="maxDistance">Distance that sound will still be hearable at.</param>
@@ -160,10 +160,10 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Plays the song with the given name and prints a Warning if it wasn't found after the given delay time.
+    /// Plays the sound with the given name and prints a Warning if it wasn't found after the given delay time.
     /// </summary>
-    /// <param name="name">Name of the Song.</param>
-    /// <param name="delay">Delay until Song is played.</param>
+    /// <param name="name">Name of the sound.</param>
+    /// <param name="delay">Delay until sound is played.</param>
     public void PlayDelayed(string name, float delay) {
         AudioSource source = GetSource(name);
 
@@ -176,9 +176,9 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Plays the song with the given name once and prints a Warning if it wasn't found.
+    /// Plays the sound with the given name once and prints a Warning if it wasn't found.
     /// </summary>
-    /// <param name="name">Name of the Song.</param>
+    /// <param name="name">Name of the sound.</param>
     public void PlayOneShot(string name) {
         AudioSource source = GetSource(name);
 
@@ -191,11 +191,11 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Plays the song with the given name and prints a Warning if it wasn't found after the given delay time.
+    /// Plays the sound with the given name and prints a Warning if it wasn't found after the given delay time.
     /// Additionally buffer time is added to the waitTime to prepare the playback and fetch it from media.
     /// </summary>
-    /// <param name="name">Name of the Song.</param>
-    /// <param name="time">Delay until Song is played.</param>
+    /// <param name="name">Name of the sound.</param>
+    /// <param name="time">Delay until sound is played.</param>
     public void PlayScheduled(string name, double time) {
         AudioSource source = GetSource(name);
 
@@ -208,9 +208,9 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Stops the song with the given name and prints a Warning if it wasn't found.
+    /// Stops the sound with the given name and prints a Warning if it wasn't found.
     /// </summary>
-    /// <param name="name">Name of the Song.</param>
+    /// <param name="name">Name of the sound.</param>
     public void Stop(string name) {
         AudioSource source = GetSource(name);
 
@@ -223,9 +223,9 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Mutes or Unmutes the song with the given name and prints a Warning if it wasn't found.
+    /// Mutes or Unmutes the sound with the given name and prints a Warning if it wasn't found.
     /// </summary>
-    /// <param name="name">Name of the Song.</param>
+    /// <param name="name">Name of the sound.</param>
     public void ToggleMute(string name) {
         AudioSource source = GetSource(name);
 
@@ -238,10 +238,10 @@ public class AudioManager : MonoBehaviour {
     }
     
     /// <summary>
-    /// Returns the progress of the song with the given name from 0 to 1 where 1 is fully completed.
+    /// Returns the progress of the sound with the given name from 0 to 1 where 1 is fully completed.
     /// </summary>
-    /// <param name="name">Name of the Song.</param>
-    /// <returns>Progress of the given Song (0 to 1).</returns>
+    /// <param name="name">Name of the sound.</param>
+    /// <returns>Progress of the given sound (0 to 1).</returns>
     public float Progress(string name) {
         float progress = 0f;
         AudioSource source = GetSource(name);
@@ -256,10 +256,10 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Gets the corresponding Source to the song with the given name and prints a Warning if it wasn't found or if we found multiple.
+    /// Gets the corresponding Source to the sound with the given name and prints a Warning if it wasn't found or if we found multiple.
     /// </summary>
-    /// <param name="name">Name of the Song.</param>
-    /// <returns>AudioSource of the given Song.</returns>
+    /// <param name="name">Name of the sound.</param>
+    /// <returns>AudioSource of the given sound.</returns>
     public AudioSource GetSource(string name) {
         // Find Sound with the corresponding given Name
         List<Sound> s = sounds.Where(sound => string.Equals(sound.name, name)).ToList();
@@ -279,7 +279,7 @@ public class AudioManager : MonoBehaviour {
     /// <summary>
     /// Changes the pitch over the given amount of time to the given endValue.
     /// </summary>
-    /// <param name="name">Name of the Song.</param>
+    /// <param name="name">Name of the sound.</param>
     /// <param name="endValue">Value we wan't to have at the end.</param>
     /// <param name="waitTime">Total time needed to reach the given endValue.</param>
     /// <param name="granularity">Amount of steps that will be taken to decrease to the endValue (Setting to high is not advised).</param>
@@ -300,7 +300,7 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Changes the Pitch of the given Song with a certain waitTime after each de -or increase.
+    /// Changes the Pitch of the given sound with a certain waitTime after each de -or increase.
     /// </summary>
     /// <param name="source">Source of the AudioFile.</param>
     /// <param name="stepValue">How much we want to de -or increase the value by each step .</param>
@@ -317,7 +317,7 @@ public class AudioManager : MonoBehaviour {
     /// <summary>
     /// Changes the volume over the given amount of time to the given endValue.
     /// </summary>
-    /// <param name="name">Name of the Song.</param>
+    /// <param name="name">Name of the sound.</param>
     /// <param name="endValue">Value we wan't to have at the end.</param>
     /// <param name="waitTime">Total time needed to reach the given endValue.</param>
     /// <param name="granularity">Amount of steps that will be taken to decrease to the endValue (Setting to high is not advised).</param>
@@ -338,7 +338,7 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Changes the Volume of the given Song with a certain waitTime after each de -or increase.
+    /// Changes the Volume of the given sound with a certain waitTime after each de -or increase.
     /// </summary>
     /// <param name="source">Source of the AudioFile.</param>
     /// <param name="stepValue">How much we want to de -or increase the value by each step .</param>
