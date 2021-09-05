@@ -64,7 +64,7 @@ If you prefer the first method, you can simply install the shown Unity version a
 To simply use the Audio Manager in your own project without downloading the Unity project get the two files in the **Example Project/Assets/Scritps/** called ```AudioManager.CS``` and ```Sound.CS``` or alternatively get them from the newest release (may not include the newest changes) and save them in your own project. Then create a new empty ```gameObject``` and attach the ```AudioManager.CS``` script to it. Now you can easily add sounds like shown in [Adding a new sound](#adding-a-new-sound).
 
 # Documentation
-This documentation strives to explain how to start using the Audio Manager in your project and explains how to call and how to use it's publicly accesible methods correctly.
+This documentation strives to explain how to start using the Audio Manager in your project and explains how to call and how to use its publicly accesible methods correctly.
 
 ## Reference to Audio Manager Script
 To use the Audio Manager to start playing sounds outside of itself you need to reference it. As the Audio Manager is a [Singelton](https://stackoverflow.com/questions/2155688/what-is-a-singleton-in-c) this can be done easily when we get the instance and save it as a private variable in the script that uses the Audio Manager.
