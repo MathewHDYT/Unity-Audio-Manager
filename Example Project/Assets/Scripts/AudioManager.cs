@@ -245,6 +245,27 @@ public class AudioManager : MonoBehaviour {
     }
     
     /// <summary>
+    /// Pauses or Unpauses the sound with the given name and prints a Warning if it wasn't found.
+    /// </summary>
+    /// <param name="name">Name of the sound.</param>
+    public void TogglePause(string name) {
+        AudioSource source = GetSource(name);
+
+        // Couldn't find source.
+        if (source == default) {
+            return;
+        }
+
+        // Check if the sound is playing right now.
+        if (source.isPlaying()) {
+            source.Pause();
+        }
+        else {
+            source.Unpause();
+        }
+    }
+    
+    /// <summary>
     /// Returns the progress of the sound with the given name from 0 to 1 where 1 is fully completed.
     /// </summary>
     /// <param name="name">Name of the sound.</param>
