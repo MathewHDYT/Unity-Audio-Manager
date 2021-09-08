@@ -37,8 +37,8 @@ public class AudioManager : MonoBehaviour {
     private void Start() {
         Play("Theme");
     }
-
-    /// <summary>
+	
+	/// <summary>
     /// Adds the sound to the given list of possible playable options.
     /// </summary>
     /// <param name="name">Name the new sound should have.</param>
