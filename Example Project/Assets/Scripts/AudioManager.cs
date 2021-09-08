@@ -50,7 +50,7 @@ public class AudioManager : MonoBehaviour {
     public void AddSoundFromPath(string name, string path, float volume = 1f, float pitch = 1f, bool loop = false, AudioSource source = null) {
 	    // Load sound clip from the Resource folder on the given path.
 	    var clip = Resources.Load<AudioClip>(path);
-	
+
 	    // Check if the clip couldn't be loaded correctly.
 	    if (clip == null) {
 		    Debug.LogWarning("Sound couldn't be added because path: " + path + " to the clip was wrong");
@@ -61,15 +61,15 @@ public class AudioManager : MonoBehaviour {
 		    Debug.LogWarning("There already exists a sound with the name: " + name);
 	    	return;
 	    }
-	
+
 	    // Check if a source was passed already or if we need to create a new one.
 	    if (source == null) {
-	    	AudioSource source = gameObject.AddComponent<AudioSource>();
+			AudioSource source = gameObject.AddComponent<AudioSource>();
 	    }
 	    Sound sound = new Sound(name, clip, volume, pitch, loop, source);
 	    sounds.Add(sound);
     }
-    
+
     /// <summary>
     /// Plays the sound with the given name.
     /// </summary>
