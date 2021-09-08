@@ -48,27 +48,27 @@ public class AudioManager : MonoBehaviour {
     /// <param name="loop">Decides wheter we want to repeat the sound after completing it or not.</param>
     /// <param name="source">Source we want to add to the new sound.</param>
     public void AddSoundFromPath(string name, string path, float volume = 1f, float pitch = 1f, bool loop = false, AudioSource source = null) {
-	    // Load sound clip from the Resource folder on the given path.
-	    var clip = Resources.Load<AudioClip>(path);
+		// Load sound clip from the Resource folder on the given path.
+		var clip = Resources.Load<AudioClip>(path);
+		
+		// Check if the clip couldn't be loaded correctly.
+		if (clip == null) {
+			Debug.LogWarning("Sound couldn't be added because path: " + path + " to the clip was wrong");
+			return;
+		}
+		// Check if the list already contains a sound with the given name.
+		else if(sounds.Any(s => s.name == name)) {
+			Debug.LogWarning("There already exists a sound with the name: " + name);
+			return;
+		}
 
-	    // Check if the clip couldn't be loaded correctly.
-	    if (clip == null) {
-		    Debug.LogWarning("Sound couldn't be added because path: " + path + " to the clip was wrong");
-		    return;
-	    }
-	    // Check if the list already contains a sound with the given name.
-	    else if(sounds.Any(s => s.name == name)) {
-		    Debug.LogWarning("There already exists a sound with the name: " + name);
-	    	return;
-	    }
-
-	    // Check if a source was passed already or if we need to create a new one.
-	    if (source == null) {
+		// Check if a source was passed already or if we need to create a new one.
+		if (source == null) {
 			AudioSource source = gameObject.AddComponent<AudioSource>();
-	    }
-	    Sound sound = new Sound(name, clip, volume, pitch, loop, source);
-	    sounds.Add(sound);
-    }
+		}
+		Sound sound = new Sound(name, clip, volume, pitch, loop, source);
+		sounds.Add(sound);
+	}
 
     /// <summary>
     /// Plays the sound with the given name.
