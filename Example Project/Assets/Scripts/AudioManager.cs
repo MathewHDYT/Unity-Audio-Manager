@@ -39,7 +39,7 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Plays the sound with the given name and prints a Warning if it wasn't found.
+    /// Plays the sound with the given name.
     /// </summary>
     /// <param name="name">Name of the sound.</param>
     public void Play(string name) {
@@ -55,7 +55,7 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Plays the sound with the given name and prints a Warning if it wasn't found.
+    /// Plays the sound with the given name.
     /// </summary>
     /// <param name="name">Name of the sound.</param>
     /// <param name="startTime">Time we want to start playing the sound at.</param>
@@ -89,7 +89,7 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Plays the sound with the given name and prints a Warning if it wasn't found.
+    /// Plays the sound with the given name.
     /// </summary>
     /// <param name="name">Name of the sound.</param>
     /// <param name="position">Position we want to place our Sound at.</param>
@@ -116,7 +116,7 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Plays the sound with the given name and prints a Warning if it wasn't found.
+    /// Plays the sound with the given name.
     /// </summary>
     /// <param name="name">Name of the sound.</param>
     /// <param name="gameObject">GameObject we want to attach our Sound too.</param>
@@ -163,7 +163,7 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Plays the sound with the given name and prints a Warning if it wasn't found after the given delay time.
+    /// Plays the sound with the given name after the given delay time.
     /// </summary>
     /// <param name="name">Name of the sound.</param>
     /// <param name="delay">Delay until sound is played.</param>
@@ -180,7 +180,7 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Plays the sound with the given name once and prints a Warning if it wasn't found.
+    /// Plays the sound with the given name once.
     /// Multiple instances of the same sound can be run with this function.
     /// </summary>
     /// <param name="name">Name of the sound.</param>
@@ -197,7 +197,7 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Plays the sound with the given name and prints a Warning if it wasn't found after the given delay time.
+    /// Plays the sound with the given name after the given delay time.
     /// Additionally buffer time is added to the waitTime to prepare the playback and fetch it from media.
     /// </summary>
     /// <param name="name">Name of the sound.</param>
@@ -215,7 +215,7 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Stops the sound with the given name and prints a Warning if it wasn't found.
+    /// Stops the sound with the given name.
     /// </summary>
     /// <param name="name">Name of the sound.</param>
     public void Stop(string name) {
@@ -230,7 +230,7 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Mutes or Unmutes the sound with the given name and prints a Warning if it wasn't found.
+    /// Mutes or Unmutes the sound with the given name.
     /// </summary>
     /// <param name="name">Name of the sound.</param>
     public void ToggleMute(string name) {
@@ -245,7 +245,7 @@ public class AudioManager : MonoBehaviour {
     }
     
     /// <summary>
-    /// Pauses or Unpauses the sound with the given name and prints a Warning if it wasn't found.
+    /// Pauses or Unpauses the sound with the given name.
     /// </summary>
     /// <param name="name">Name of the sound.</param>
     public void TogglePause(string name) {
@@ -284,7 +284,7 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Gets the corresponding Source to the sound with the given name and prints a Warning if it wasn't found or if we found multiple.
+    /// Gets the corresponding Source to the sound with the given name or if we found multiple.
     /// </summary>
     /// <param name="name">Name of the sound.</param>
     /// <returns>AudioSource of the given sound.</returns>
