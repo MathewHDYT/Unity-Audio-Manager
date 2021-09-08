@@ -1,5 +1,3 @@
-using UnityEngine;
-
 [System.Serializable]
 public class Sound { // Creating Sound Class with Variables
     public string name;
@@ -11,4 +9,13 @@ public class Sound { // Creating Sound Class with Variables
     public bool loop;
     [HideInInspector]
     public AudioSource source;
+	
+	public Sound(string name, AudioClip clip, float volume, float pitch, bool loop, AudioSource source) {
+      this.name = name;
+	  this.clip = clip;
+	  this.volume = volume;
+	  this.pitch = pitch;
+	  this.loop = loop;
+	  this.source = source;
+	}
 }
