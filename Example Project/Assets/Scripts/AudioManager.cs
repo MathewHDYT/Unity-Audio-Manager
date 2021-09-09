@@ -39,13 +39,13 @@ public class AudioManager : MonoBehaviour {
     }
 	
     /// <summary>
-    /// Adds the sound to the given list of possible playable options.
+    /// Adds the given sound to the list of possible playable sounds.
     /// </summary>
     /// <param name="name">Name the new sound should have.</param>
-    /// <param name="path">Path to the clip we want to add to the new sound.</param>
-    /// <param name="volume">Volume we want to add to the new sound.</param>
-    /// <param name="pitch">Pitch we want to add to the new sound.</param>
-    /// <param name="loop">Decides wheter we want to repeat the sound after completing it or not.</param>
+    /// <param name="path">Path to the clip we want to add to the new sound in the Resource folder.</param>
+    /// <param name="volume">Volume we want the new sound to have.</param>
+    /// <param name="pitch">Pitch we want the new sound to have.</param>
+    /// <param name="loop">Defines wheter we want to repeat the new sound after completing it or not.</param>
     /// <param name="source">Source we want to add to the new sound.</param>
     public void AddSoundFromPath(string name, string path, float volume = 1f, float pitch = 1f, bool loop = false, AudioSource source = null) {
         // Load sound clip from the Resource folder on the given path.
