@@ -64,7 +64,7 @@ public class AudioManager : MonoBehaviour {
 
         // Check if a source was passed already or if we need to create a new one.
         if (source == null) {
-            AudioSource source = gameObject.AddComponent<AudioSource>();
+            source = gameObject.AddComponent<AudioSource>();
         }
         Sound sound = new Sound(name, clip, volume, pitch, loop, source);
         sounds.Add(sound);
@@ -289,11 +289,11 @@ public class AudioManager : MonoBehaviour {
         }
 
         // Check if the sound is playing right now.
-        if (source.isPlaying()) {
+        if (source.isPlaying) {
             source.Pause();
         }
         else {
-            source.Unpause();
+            source.UnPause();
         }
     }
     

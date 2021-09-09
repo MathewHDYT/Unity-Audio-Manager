@@ -159,6 +159,17 @@ public class MethodCalls : MonoBehaviour {
         }
     }
 
+    public void TogglePauseClicked() {
+        string methodName = "TogglePause";
+        string tempSoundName = "";
+
+        if (GetSoundName(ref tempSoundName)) {
+            am.TogglePause(tempSoundName);
+            SetTextColor(Color.green);
+            errorField.text = SUCCESS + methodName;
+        }
+    }
+
     public void GetSourceClicked() {
         string methodName = "GetSource";
         string tempSoundName = "";
