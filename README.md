@@ -17,6 +17,7 @@ Used to play/change/stop/mute/... sounds at certain circumstances or events in 2
   - [Reference to Audio Manager Script](#reference-to-audio-manager-script)
   - [Adding a new sound](#adding-a-new-sound)
   - [Public accesible methods](#public-accesible-methods)
+  	- [Add Sound From Path method](#add-sound-from-path-method)
   	- [Play method](#play-method)
 	- [Play At Time Stamp method](#play-at-time-stamp-method)
 	- [Get Playback Position method](#get-playback-position-method)
@@ -37,6 +38,7 @@ Used to play/change/stop/mute/... sounds at certain circumstances or events in 2
 Nearly all games need music and soundeffects and this small and easily integrated Audio Manager can help you play sounds in Unity for your game quick and easily.
 
 **Unity Audio Manager implements the following methods consisting of a way to:**
+- Add a new possible sound to play at runtime (see [Add Sound From Path method](#add-sound-from-path-method))
 - Simply play a sound (see [Play method](#play-method))
 - Start playing a sound at a given time in the sound (see [Play At Time Stamp method](#play-at-time-stamp-method))
 - Get the amount of time a sound has been played (see [Get Playback Position method](#get-playback-position-method))
@@ -101,6 +103,37 @@ void Start() {
 
 ## Public accesible methods
 This section explains all public accesible methods, especially what they do, how to call them and when using them might be advantageous instead of other methods. We always assume AudioManager instance has been already referenced in the script. If you haven't done that already see [Reference to Audio Manager Script](#reference-to-audiomanager-script).
+
+### Add Sound From Path method
+**What it does:**
+Adds the given sound to the list of possible playable sounds.
+
+**How to call it:**
+- ```SoundName``` is the ```name``` the new sound should have
+- ```Path``` is the path to the ```AudioClip``` we want to add to the new sound in the Resource folder
+- ```Volume``` is the volume we want the new sound to have
+- ```Pitch``` is the pitch we want the new sound to have
+- ```Loop``` defines wheter we want to repeat the new sound after completing it or not
+- ```Source``` is the ```AudioSource``` object we want to add to the new sound
+
+```csharp
+string path = "Audio/audioClip01"
+float volume = 1f;
+float pitch = 1f;
+bool loop = false;
+AudioSource source = null;
+am.AddSoundFromPath("SoundName", path, volume, pitch, loop, source);
+```
+
+Alternatively you can call the methods with less paramters as some of them have default arguments.
+
+```csharp
+string path = "Audio/audioClip01"
+am.AddSoundFromPath("SoundName", path);
+```
+
+**When to use it:**
+When you want to add a new sound at runtime, could be useful if you need to add a lot of songs and don't want to add them manually to the Audio Manager.
 
 ### Play method
 **What it does:**
