@@ -34,6 +34,14 @@ public class AudioManager : MonoBehaviour {
     }
     #endregion
 
+    public enum AudioError {
+        OK,
+        DOES_NOT_EXIST,
+        FOUND_MULTIPLE,
+        ALREADY_EXISTS,
+        INVALID_PATH
+    }
+
     private void Start() {
         Play("Theme");
     }
@@ -47,19 +55,21 @@ public class AudioManager : MonoBehaviour {
     /// <param name="pitch">Pitch we want the new sound to have.</param>
     /// <param name="loop">Defines wheter we want to repeat the new sound after completing it or not.</param>
     /// <param name="source">Source we want to add to the new sound.</param>
-    public void AddSoundFromPath(string name, string path, float volume = 1f, float pitch = 1f, bool loop = false, AudioSource source = null) {
+    /// <returns>AudioError, showing wheter and how adding a sound from the given path with the given settings failed.</returns>
+    public AudioError AddSoundFromPath(string name, string path, float volume = 1f, float pitch = 1f, bool loop = false, AudioSource source = null) {
+        AudioError err = AudioError.OK;
         // Load sound clip from the Resource folder on the given path.
         var clip = Resources.Load<AudioClip>(path);
 		
         // Check if the clip couldn't be loaded correctly.
         if (clip == null) {
-            Debug.LogWarning("Sound couldn't be added because path: " + path + " to the clip was wrong");
-            return;
+            err = AudioError.INVALID_PATH;
+            return err;
         }
         // Check if the list already contains a sound with the given name.
         else if(sounds.Any(s => s.name == name)) {
-            Debug.LogWarning("There already exists a sound with the name: " + name);
-            return;
+            err = AudioError.ALREADY_EXISTS;
+            return err;
         }
 
         // Check if a source was passed already or if we need to create a new one.
@@ -68,6 +78,7 @@ public class AudioManager : MonoBehaviour {
         }
         Sound sound = new Sound(name, clip, volume, pitch, loop, source);
         sounds.Add(sound);
+        return err;
     }
 
     /// <summary>
@@ -316,27 +327,29 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Gets the corresponding Source to the sound with the given name or if we found multiple.
+    /// Gets the corresponding source to the sound with the given name or if we found multiple.
     /// </summary>
     /// <param name="name">Name of the sound.</param>
-    /// <returns>AudioSource of the given sound.</returns>
-    public AudioSource GetSource(string name) {
-        AudioSource source = default;
+    /// <param name="source">Variale source should be copied into.</param>
+    /// <returns>AudioError, showing wheter and how getting the source of the given sound failed.</returns>
+    public AudioError TryGetSource(string name, out AudioSource source) {
+        AudioError err = AudioError.OK;
+        source = default;
 
         // Find Sound with the corresponding given Name
         List<Sound> s = sounds.Where(sound => string.Equals(sound.name, name)).ToList();
         // If we found no sound print a Warning in the Console and return default value
         if (s.Count == 0) {
-            Debug.LogWarning("Sound: " + name + " not found");
-            return source;
+            err = AudioError.DOES_NOT_EXIST;
+            return err;
         }
         // If we found more than one sound print a Warning in the Console and return default value
         else if (s.Count > 1) {
-            Debug.LogWarning("Multiple Instances of Sound: " + name + " found");
+            err = AudioError.FOUND_MULTIPLE;
         }
 
         source = s.FirstOrDefault().source;
-        return source;
+        return err;
     }
 
     /// <summary>
