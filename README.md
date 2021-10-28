@@ -15,6 +15,7 @@ Used to play/change/stop/mute/... sounds at certain circumstances or events in 2
   - [Installation](#installation)
 - [Documentation](#documentation)
   - [Reference to Audio Manager Script](#reference-to-audio-manager-script)
+  - [Possible Errors](#possible-errors)
   - [Adding a new sound](#adding-a-new-sound)
   - [Public accesible methods](#public-accesible-methods)
   	- [Add Sound From Path method](#add-sound-from-path-method)
@@ -30,7 +31,7 @@ Used to play/change/stop/mute/... sounds at certain circumstances or events in 2
 	- [Toggle Mute method](#toggle-mute-method)
 	- [Toggle Pause method](#toggle-pause-method)
 	- [Get Progress method](#get-progress-method)
-	- [Get Source method](#get-source-method)
+	- [Try Get Source method](#try-get-source-method)
 	- [Change Pitch method](#change-pitch-method)
 	- [Change Volume method](#change-volume-method)
 
@@ -51,7 +52,7 @@ Nearly all games need music and soundeffects and this small and easily integrate
 - Mute or unmute a sound (see [Toggle Mute method](#toggle-mute-method))
 - Pause or unpause a sound (see [Toggle Pause method](#toggle-pause-method)
 - Get the progress of a sound (see [Get Progress method](#get-progress-method))
-- Get the source of a sound (see [Get Source method](#get-source-method))
+- Try to get the source of a sound (see [Try Get Source method](#try-get-source-method))
 - Change the pitch of a sound (see [Change Pitch method](#change-pitch-method))
 - Change the volume of a sound (see [Change Volume method](#change-volume-method))
 
@@ -91,6 +92,16 @@ void Start() {
 }
 ```
 
+## Possible Errors
+
+| **ID** | **CONSTANT**                  | **MEANING**                                                                                    |
+| -------| ------------------------------| -----------------------------------------------------------------------------------------------|
+| 0      | OK                            | Method succesfully executed                                                                    |
+| 1      | DOES_NOT_EXIST                | Sound has not been registered with the AudioManager                                            |
+| 2      | FOUND_MULTIPLE                | Multiple instances with the same name found. First will be played                              |
+| 3      | ALREADY_EXISTS                | Can't add sound as there already exists a sound with that name                                 |
+| 4      | INVALID_PATH                  | Can't add sound because the path does not lead to a valid audio clip                           |
+
 ## Adding a new sound
 **To add a new sound you simply have to create a new element in the Sounds array with the properties:**
 - ```Name``` (This is used to reference the sound in the Audio Manager so ensure it's unique)
@@ -106,7 +117,7 @@ This section explains all public accesible methods, especially what they do, how
 
 ### Add Sound From Path method
 **What it does:**
-Adds the given sound to the list of possible playable sounds.
+Adds the given sound to the list of possible playable sounds, as well as an AudioError (see [Possible Errors](#possible-errors)), showing wheter and how adding the sound from the given path failed.
 
 **How to call it:**
 - ```SoundName``` is the ```name``` the new sound should have
@@ -122,14 +133,26 @@ float volume = 1f;
 float pitch = 1f;
 bool loop = false;
 AudioSource source = null;
-am.AddSoundFromPath("SoundName", path, volume, pitch, loop, source);
+AudioManager.AudioError err = am.AddSoundFromPath("SoundName", path, volume, pitch, loop, source);
+if (err != AudioManager.AudioError.OK) {
+    Debug.Log("Adding the sound from the given path failed with error id: ", err);
+}
+else {
+    Debug.Log("Adding the sound from the given path succesfull");
+}
 ```
 
 Alternatively you can call the methods with less paramters as some of them have default arguments.
 
 ```csharp
 string path = "Audio/audioClip01"
-am.AddSoundFromPath("SoundName", path);
+AudioManager.AudioError err = am.AddSoundFromPath("SoundName", path);
+if (err != AudioManager.AudioError.OK) {
+    Debug.Log("Adding sound from path failed with error id: ", err);
+}
+else {
+    Debug.Log("Adding sound from path succesfull");
+}
 ```
 
 **When to use it:**
@@ -370,17 +393,24 @@ Debug.Log("Current progress in the sound: " + (progress * 100f) + "% completed")
 **When to use it:**
 When you want to get the progress of a sound for an animation or to track once it's finished to start a new sound.
 
-### Get Source method
+### Try Get Source method
 **What it does:**
-Returns the ```source``` of the given sound.
+Returns the ```source``` of the given sound, as well as an AudioError (see [Possible Errors](#possible-errors)), showing wheter and how getting the source of the given sound failed.
 
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to get the source from
 
 ```csharp
-AudioSource source = am.GetSource("SoundName");
-source.pitch = 0.8f;
-source.volume = 0.5f;
+AudioSource source = default;
+AudioManager.AudioError err = am.TryGetSource("SoundName", out source);
+if (err != AudioManager.AudioError.OK) {
+    Debug.Log("Getting the source of the given sound failed with error id: ", err);
+}
+else {
+    Debug.Log("Getting the source of the given sound succesfull");
+    source.pitch = 0.8f;
+    source.volume = 0.5f;
+}
 ```
 
 **When to use it:**
