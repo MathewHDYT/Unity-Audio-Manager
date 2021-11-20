@@ -15,7 +15,7 @@ public class MethodCalls : MonoBehaviour {
 
     [Header("Output:")]
     [SerializeField]
-    private Text errorField;
+    private Text outputText;
 
     [Header("Objects:")]
     [SerializeField]
@@ -23,330 +23,247 @@ public class MethodCalls : MonoBehaviour {
 
     private AudioManager am;
 
-    private const string MISSING_INPUT = "Missing input in the textfield: ";
-    private const string WRONG_INPUT = "Wrong or nonexistent input given the in texfield: ";
     private const string NOT_A_NUMBER = "Input is not a valid number in the textfield: ";
-    private const string SUCCESS = "Succesfully executed the function with the given values for the method: ";
 
     private void Start() {
         am = AudioManager.instance;
     }
 
-    public void ResetAllInputFieldColors(string name) {
-        switch (name) {
-            case "SoundName":
-                ResetInputFieldColor(soundNameInput);
-                break;
-            case "Time":
-                ResetInputFieldColor(timeInput);
-                break;
-            case "EndValue":
-                ResetInputFieldColor(endValueInput);
-                break;
-            case "Granularity":
-                ResetInputFieldColor(granularityInput);
-                break;
-            default:
-                break;
+    public void PlayClicked() {
+        AudioManager.AudioError err = am.Play(soundNameInput.text);
+        if (err != AudioManager.AudioError.OK) {
+            SetTextAndColor("Playing sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage(err), Color.red);
+        }
+        else {
+            SetTextAndColor("Playing sound called: " + soundNameInput.text + " succesfull", Color.green);
         }
     }
 
     public void PlayAtTimeStampClicked() {
-        string methodName = "PlayAtTimeStamp";
-        string tempSoundName = "";
-        float tempTime = 0f;
+        if (!float.TryParse(timeInput.text, out float timeStamp)) {
+            SetTextAndColor(NOT_A_NUMBER + "Time", Color.red);
+            return;
+        }
 
-        if (GetSoundName(ref tempSoundName) && GetTime(ref tempTime)) {
-            am.PlayAtTimeStamp(tempSoundName, tempTime);
-            SetTextColor(Color.green);
-            errorField.text = SUCCESS + methodName;
+        AudioManager.AudioError err = am.PlayAtTimeStamp(soundNameInput.text, timeStamp);
+        if (err != AudioManager.AudioError.OK) {
+            SetTextAndColor("Playing sound called: " + soundNameInput.text + " at timestamp: " + timeStamp.ToString("0.00") + " failed with error message: " + ErrorToMessage(err), Color.red);
+        }
+        else {
+            SetTextAndColor("Playing sound called: " + soundNameInput.text + " at timestamp: " + timeStamp.ToString("0.00") + " succesfull", Color.green);
         }
     }
 
     public void GetPlayBackPositionClicked() {
-        string methodName = "GetPlayBackPosition";
-        string tempSoundName = "";
-
-        if (GetSoundName(ref tempSoundName)) {
-            // Get number of seconds in float and round it to 2 decimal places.
-            string timeStamp = am.GetPlaybackPosition(tempSoundName).ToString("0.00");
-            SetTextColor(Color.green);
-            errorField.text = SUCCESS + methodName + " with the output " + timeStamp + " seconds";
+        ValueDataError<float> valueDataError = am.GetPlaybackPosition(soundNameInput.text);
+        if (valueDataError.Error != (int)AudioManager.AudioError.OK) {
+            SetTextAndColor("Getting playBackPosition of the sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage((AudioManager.AudioError)valueDataError.Error), Color.red);
+        }
+        else {
+            SetTextAndColor("Getting playBackPosition of the sound called: " + soundNameInput.text + " with the position being: " + valueDataError.Value.ToString("0.00") + " succesfull", Color.green);
         }
     }
 
     public void PlayAt3DPositionClicked() {
-        string methodName = "PlayAt3DPosition";
-        string tempSoundName = "";
         float randomXPos = Random.Range(-15f, 15f);
         float randomYPos = Random.Range(-7.5f, 10f);
+        var worldPosition = new Vector3(randomXPos, randomYPos, 5f);
 
-        if (GetSoundName(ref tempSoundName)) {
-            am.PlayAt3DPosition(tempSoundName, new Vector3(randomXPos, randomYPos, 5f), 10f, 20f);
-            SetTextColor(Color.green);
-            errorField.text = SUCCESS + methodName + " at the position x " + randomXPos.ToString("0.00") + " and y " + randomYPos.ToString("0.00");
+        AudioManager.AudioError err = am.PlayAt3DPosition(soundNameInput.text, worldPosition, 10f, 20f);
+        if (err != AudioManager.AudioError.OK) {
+            SetTextAndColor("Playing sound called: " + soundNameInput.text + " at the position x " + worldPosition.x.ToString("0.00") + " and y " + worldPosition.y.ToString("0.00") + " failed with error message: " + ErrorToMessage(err), Color.red);
+        }
+        else {
+            SetTextAndColor("Playing sound called: " + soundNameInput.text + " at the position x " + worldPosition.x.ToString("0.00") + " and y " + worldPosition.y.ToString("0.00") + " succesfull", Color.green);
         }
     }
 
     public void PlayAttachedToGameObjectClicked() {
-        string methodName = "PlayAttachedToGameObject";
-        string tempSoundName = "";
         float randomXPos = Random.Range(-15f, 15f);
         float randomYPos = Random.Range(-7.5f, 10f);
+        Vector3 worldPosition = new Vector3(randomXPos, randomYPos, 5f);
 
-        if (GetSoundName(ref tempSoundName)) {
-            radio.transform.position = new Vector3(randomXPos, randomYPos, 5f);
-            am.PlayAttachedToGameObject(tempSoundName, radio, 10f, 20f);
-            SetTextColor(Color.green);
-            errorField.text = SUCCESS + methodName + " attached to the cube";
+        AudioManager.AudioError err = am.PlayAttachedToGameObject(soundNameInput.text, radio, 5f, 15f);
+        if (err != AudioManager.AudioError.OK) {
+            SetTextAndColor("Playing sound called: " + soundNameInput.text + " attached to: " + radio.name + " failed with error message: " + ErrorToMessage(err), Color.red);
+        }
+        else {
+            radio.transform.position = worldPosition;
+            SetTextAndColor("Playing sound called: " + soundNameInput.text + " attached to: " + radio.name + " succesfull", Color.green);
         }
     }
 
     public void PlayDelayedClicked() {
-        string methodName = "PlayDelayed";
-        string tempSoundName = "";
-        float tempTime = 0f;
+        if (!float.TryParse(timeInput.text, out float delay)) {
+            SetTextAndColor(NOT_A_NUMBER + "Time", Color.red);
+            return;
+        }
 
-        if (GetSoundName(ref tempSoundName) && GetTime(ref tempTime)) {
-            am.PlayDelayed(tempSoundName, tempTime);
-            SetTextColor(Color.green);
-            errorField.text = SUCCESS + methodName + " playing in " + tempTime.ToString("0.00") + " seconds";
+        AudioManager.AudioError err = am.PlayDelayed(soundNameInput.text, delay);
+        if (err != AudioManager.AudioError.OK) {
+            SetTextAndColor("Playing sound called: " + soundNameInput.text + " after " + delay.ToString("0.00") + " seconds failed with error message: " + ErrorToMessage(err), Color.red);
+        }
+        else {
+            SetTextAndColor("Playing sound called: " + soundNameInput.text + " after " + delay.ToString("0.00") + " seconds succesfull", Color.green);
         }
     }
 
     public void PlayOneShotClicked() {
-        string methodName = "PlayOneShot";
-        string tempSoundName = "";
-
-        if (GetSoundName(ref tempSoundName)) {
-            am.PlayOneShot(tempSoundName);
-            SetTextColor(Color.green);
-            errorField.text = SUCCESS + methodName;
+        AudioManager.AudioError err = am.PlayOneShot(soundNameInput.text);
+        if (err != AudioManager.AudioError.OK) {
+            SetTextAndColor("Playing sound called: " + soundNameInput.text + " once failed with error message: " + ErrorToMessage(err), Color.red);
+        }
+        else {
+            SetTextAndColor("Playing sound called: " + soundNameInput.text + " once succesfull", Color.red);
         }
     }
 
     public void PlayScheduledClicked() {
-        string methodName = "PlayScheduled";
-        string tempSoundName = "";
-        float tempTime = 0f;
+        if (!double.TryParse(timeInput.text, out double delay)) {
+            SetTextAndColor(NOT_A_NUMBER + "Time", Color.red);
+            return;
+        }
 
-        if (GetSoundName(ref tempSoundName) && GetTime(ref tempTime)) {
-            am.PlayDelayed(tempSoundName, tempTime);
-            SetTextColor(Color.green);
-            errorField.text = SUCCESS + methodName + " playing at " + tempTime.ToString("0.00") + " seconds in our time line";
+        AudioManager.AudioError err = am.PlayScheduled(soundNameInput.text, delay);
+        if (err != AudioManager.AudioError.OK) {
+            SetTextAndColor("Playing sound called: " + soundNameInput.text + " after " + delay.ToString("0.00") + " failed with error message: " + ErrorToMessage(err), Color.red);
+        }
+        else {
+            SetTextAndColor("Playing sound called: " + soundNameInput.text + " after " + delay.ToString("0.00") + " seconds succesfull", Color.green);
         }
     }
 
     public void StopClicked() {
-        string methodName = "Stop";
-        string tempSoundName = "";
-
-        if (GetSoundName(ref tempSoundName)) {
-            am.Stop(tempSoundName);
-            SetTextColor(Color.green);
-            errorField.text = SUCCESS + methodName;
+        AudioManager.AudioError err = am.Stop(soundNameInput.text);
+        if (err != AudioManager.AudioError.OK) {
+            SetTextAndColor("Stopping sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage(err), Color.red);
+        }
+        else {
+            SetTextAndColor("Stopping sound called: " + soundNameInput.text + " succesfull", Color.green);
         }
     }
 
     public void ToggleMuteClicked() {
-        string methodName = "ToggleMute";
-        string tempSoundName = "";
-
-        if (GetSoundName(ref tempSoundName)) {
-            am.ToggleMute(tempSoundName);
-            SetTextColor(Color.green);
-            errorField.text = SUCCESS + methodName;
+        AudioManager.AudioError err = am.ToggleMute(soundNameInput.text);
+        if (err != AudioManager.AudioError.OK) {
+            SetTextAndColor("Muting or unmuting sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage(err), Color.red);
+        }
+        else {
+            SetTextAndColor("Muting or unmuting sound called: " + soundNameInput.text + " succesfull", Color.green);
         }
     }
 
     public void TogglePauseClicked() {
-        string methodName = "TogglePause";
-        string tempSoundName = "";
-
-        if (GetSoundName(ref tempSoundName)) {
-            am.TogglePause(tempSoundName);
-            SetTextColor(Color.green);
-            errorField.text = SUCCESS + methodName;
+        AudioManager.AudioError err = am.TogglePause(soundNameInput.text);
+        if (err != AudioManager.AudioError.OK) {
+            SetTextAndColor("Pausing or unpausing sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage(err), Color.red);
         }
-    }
-
-    public void GetSourceClicked() {
-        string methodName = "GetSource";
-        string tempSoundName = "";
-
-        if (GetSoundName(ref tempSoundName)) {
-            SetTextColor(Color.green);
-            errorField.text = SUCCESS + methodName;
-        }
-    }
-
-    public void ChangePitchClicked() {
-        string methodName = "ChangePitch";
-        string tempSoundName = "";
-        float tempEndValue = 0f;
-        float tempTime = 1f;
-        float tempGranularity = 5f;
-
-        if (GetSoundName(ref tempSoundName) && GetTime(ref tempTime) && GetEndValue(ref tempEndValue) && GetGranularity(ref tempGranularity)) {
-            am.ChangePitch(tempSoundName, tempEndValue, tempTime, tempGranularity);
-            SetTextColor(Color.green);
-            errorField.text = SUCCESS + methodName + " in the time " + tempTime.ToString("0.00") + " with the endValue " + tempEndValue.ToString("0.00") + " and the stepValue " + tempGranularity.ToString("0.00");
-        }
-    }
-
-    public void ChangeVolumeClicked() {
-        string methodName = "ChangeVolume";
-        string tempSoundName = "";
-        float tempEndValue = 0f;
-        float tempTime = 1f;
-        float tempGranularity = 5f;
-
-        if (GetSoundName(ref tempSoundName) && GetTime(ref tempTime) && GetEndValue(ref tempEndValue) && GetGranularity(ref tempGranularity)) {
-            am.ChangeVolume(tempSoundName, tempEndValue, tempTime, tempGranularity);
-            SetTextColor(Color.green);
-            errorField.text = SUCCESS + methodName + " in the time " + tempTime.ToString("0.00") + " with the endValue " + tempEndValue.ToString("0.00") + " and the granularity " + tempGranularity.ToString("0.00");
-        }
-    }
-
-    public void PlayClicked() {
-        string methodName = "Play";
-        string tempSoundName = "";
-
-        if (GetSoundName(ref tempSoundName)) {
-            am.Play(tempSoundName);
-            SetTextColor(Color.green);
-            errorField.text = SUCCESS + methodName;
+        else {
+            SetTextAndColor("Pausing or unpausing sound called: " + soundNameInput.text + " succesfull", Color.green);
         }
     }
 
     public void GetProgressClicked() {
-        string methodName = "Progress";
-        string tempSoundName = "";
-
-        if (GetSoundName(ref tempSoundName)) {
-            // Get current progress as float from 0 to 1.
-            float progress = am.GetProgress(tempSoundName);
-            SetTextColor(Color.green);
-            errorField.text = SUCCESS + methodName + " with the output " + (progress * 100).ToString("0.00") + " % of the sound completed";
+        ValueDataError<float> valueDataError = am.GetProgress(soundNameInput.text);
+        if (valueDataError.Error != (int)AudioManager.AudioError.OK) {
+            SetTextAndColor("Getting progress of the sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage((AudioManager.AudioError)valueDataError.Error), Color.red);
+        }
+        else {
+            SetTextAndColor("Getting progress of the sound called: " + soundNameInput.text + " with the progress being: " + (valueDataError.Value * 100).ToString("0.00") + "% succesfull", Color.green);
         }
     }
 
-    private bool GetSoundName(ref string soundName) {
-        string inputField = "Sound Name";
-
-        // Check if we received any input.
-        if (string.IsNullOrWhiteSpace(soundNameInput.textComponent.text)) {
-            SetTextColor(Color.red);
-            SetInputFieldColor(soundNameInput, Color.red);
-            errorField.text = MISSING_INPUT + inputField;
-            return false;
+    public void GetSourceClicked() {
+        AudioManager.AudioError err = am.TryGetSource(soundNameInput.text, out _);
+        if (err != AudioManager.AudioError.OK) {
+            SetTextAndColor("Getting source of the sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage(err), Color.red);
         }
-
-        // Check if the input is equal to an actual sound.
-        AudioSource source = am.GetSource(soundNameInput.textComponent.text);
-        if (source == default) {
-            SetTextColor(Color.red);
-            SetInputFieldColor(soundNameInput, Color.red);
-            errorField.text = WRONG_INPUT + inputField;
-            return false;
+        else {
+            SetTextAndColor("Getting source of the sound called: " + soundNameInput.text + " succesfull", Color.green);
         }
-
-        soundName = soundNameInput.text;
-        return true;
     }
 
-    private bool GetTime(ref float timeStamp) {
-        string inputField = "Time";
-
-        // Check if we received any input.
-        if (string.IsNullOrWhiteSpace(timeInput.textComponent.text)) {
-            SetTextColor(Color.red);
-            SetInputFieldColor(timeInput, Color.red);
-            errorField.text = MISSING_INPUT + inputField;
-            return false;
+    public void ChangePitchClicked() {
+        if (!float.TryParse(endValueInput.text, out float endValue)) {
+            SetTextAndColor(NOT_A_NUMBER + "End Value", Color.red);
+            return;
+        }
+        if (!float.TryParse(timeInput.text, out float time)) {
+            SetTextAndColor(NOT_A_NUMBER + "Time", Color.red);
+            return;
+        }
+        if (!float.TryParse(granularityInput.text, out float granularity)) {
+            SetTextAndColor(NOT_A_NUMBER + "Granularity", Color.red);
+            return;
         }
 
-        // Check if input is a valid number.
-        bool success = float.TryParse(timeInput.textComponent.text, out timeStamp);
-        if (!success) {
-            SetTextColor(Color.red);
-            SetInputFieldColor(timeInput, Color.red);
-            errorField.text = NOT_A_NUMBER + inputField;
-            return false;
+        AudioManager.AudioError err = am.ChangePitch(soundNameInput.text, endValue, time, granularity);
+        if (err != AudioManager.AudioError.OK) {
+            SetTextAndColor("Changing pitch of the sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage(err), Color.red);
         }
-
-        return true;
+        else {
+            SetTextAndColor("Changing pitch of the sound called: " + soundNameInput.text + " in the time: " + time.ToString("0.00") + "seconds with the endValue: " + endValue.ToString("0.00") + " and the granularity: " + granularity.ToString("0.00") + " succesfull", Color.green);
+        }
     }
 
-    private bool GetEndValue(ref float endValue) {
-        string inputField = "End Value";
-
-        // Check if we received any input.
-        if (string.IsNullOrWhiteSpace(endValueInput.textComponent.text)) {
-            SetTextColor(Color.red);
-            SetInputFieldColor(endValueInput, Color.red);
-            errorField.text = MISSING_INPUT + inputField;
-            return false;
+    public void ChangeVolumeClicked() {
+        if (!float.TryParse(endValueInput.text, out float endValue)) {
+            SetTextAndColor(NOT_A_NUMBER + "End Value", Color.red);
+            return;
+        }
+        if (!float.TryParse(timeInput.text, out float time)) {
+            SetTextAndColor(NOT_A_NUMBER + "Time", Color.red);
+            return;
+        }
+        if (!float.TryParse(granularityInput.text, out float granularity)) {
+            SetTextAndColor(NOT_A_NUMBER + "Granularity", Color.red);
+            return;
         }
 
-        // Check if input is a valid number.
-        if (!float.TryParse(endValueInput.textComponent.text, out endValue)) {
-            SetTextColor(Color.red);
-            SetInputFieldColor(endValueInput, Color.red);
-            errorField.text = NOT_A_NUMBER + inputField;
-            return false;
+        AudioManager.AudioError err = am.ChangeVolume(soundNameInput.text, endValue, time, granularity);
+        if (err != AudioManager.AudioError.OK) {
+            SetTextAndColor("Changing volume of the sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage(err), Color.red);
+        }
+        else {
+            SetTextAndColor("Changing volume of the sound called: " + soundNameInput.text + "in the time: " + time.ToString("0.00") + "seconds with the endValue: " + endValue.ToString("0.00") + " and the granularity: " + granularity.ToString("0.00") + " succesfull", Color.green);
+        }
+    }
+
+    private string ErrorToMessage(AudioManager.AudioError err) {
+        string message = "";
+
+        switch (err) {
+            case AudioManager.AudioError.OK:
+                message = "Method succesfully executed";
+                break;
+            case AudioManager.AudioError.DOES_NOT_EXIST:
+                message = "Sound has not been registered with the AudioManager";
+                break;
+            case AudioManager.AudioError.FOUND_MULTIPLE:
+                message = "Multiple instances with the same name found. First will be played";
+                break;
+            case AudioManager.AudioError.ALREADY_EXISTS:
+                message = "Can't add sound as there already exists a sound with that name";
+                break;
+            case AudioManager.AudioError.INVALID_PATH:
+                message = "Can't add sound because the path does not lead to a valid audio clip";
+                break;
+            case AudioManager.AudioError.SAME_AS_CURRENT:
+                message = "The given endValue is already the same as the current value";
+                break;
+            case AudioManager.AudioError.TOO_SMALL:
+                message = "The given granularity is too small, has to be higher than or equal to 1";
+                break;
+            default:
+                // Invalid AudioManager.AudioError argument.
+                break;
         }
 
-        return true;
+        return message;
     }
 
-    private bool GetGranularity(ref float granularity) {
-        string inputField = "Granularity";
-
-        // Check if we received any input.
-        if (string.IsNullOrWhiteSpace(granularityInput.textComponent.text)) {
-            SetTextColor(Color.red);
-            SetInputFieldColor(granularityInput, Color.red);
-            errorField.text = MISSING_INPUT + inputField;
-            return false;
-        }
-
-        // Check if input is a valid number.
-        if (!float.TryParse(granularityInput.textComponent.text, out granularity)) {
-            SetTextColor(Color.red);
-            SetInputFieldColor(granularityInput, Color.red);
-            errorField.text = NOT_A_NUMBER + inputField;
-            return false;
-        }
-
-        return true;
-    }
-
-    private void SetTextColor(Color color) {
-        errorField.color = color;
-    }
-
-    private void SetInputFieldColor(InputField inputField, Color color) {
-        ColorBlock colorVar = inputField.colors;
-
-        // Set RGB values of the inputFields color normally.
-        colorVar.normalColor = color;
-        inputField.colors = colorVar;
-
-        // Set RGB values of the inputFields color when it's hovered over.
-        colorVar.highlightedColor = color;
-        inputField.colors = colorVar;
-    }
-
-    private void ResetInputFieldColor(InputField inputField) {
-        ColorBlock colorVar = inputField.colors;
-
-        // Reset RGB values of the inputFields color normally.
-        colorVar.normalColor = new Color(255f, 255f, 255f);
-        inputField.colors = colorVar;
-
-        // Reset RGB values of the inputFields color when it's hovered over.
-        colorVar.highlightedColor = new Color(245f, 245f, 245f);
-        inputField.colors = colorVar;
+    private void SetTextAndColor(string text, Color color) {
+        outputText.text = text;
+        outputText.color = color;
     }
 }

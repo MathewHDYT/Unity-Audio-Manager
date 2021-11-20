@@ -51,13 +51,13 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 1478}
+      Script: {instanceID: 1440}
     - Class: 114
-      Script: {instanceID: 1884}
+      Script: {instanceID: 1480}
     - Class: 114
-      Script: {instanceID: 1950}
+      Script: {instanceID: 1886}
     - Class: 114
-      Script: {instanceID: 1954}
+      Script: {instanceID: 1952}
     - Class: 114
       Script: {instanceID: 2230}
     - Class: 114
@@ -67,9 +67,9 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 2520}
     - Class: 114
-      Script: {instanceID: 2658}
+      Script: {instanceID: 2660}
     - Class: 114
-      Script: {instanceID: 2736}
+      Script: {instanceID: 2738}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -87,6 +87,12 @@ ScriptsOnlyBuild:
     - Class: 224
       Script: {instanceID: 0}
   scriptHashData:
+  - hash:
+      serializedVersion: 2
+      Hash: 699619b86d9359741a4f58540298c80b
+    assemblyName: UnityEngine.UI.dll
+    namespaceName: UnityEngine.UI
+    className: Text
   - hash:
       serializedVersion: 2
       Hash: 5ab533713adae59372fb3e10a585c186
@@ -155,7 +161,7 @@ ScriptsOnlyBuild:
     className: TMP_FontAsset
   - hash:
       serializedVersion: 2
-      Hash: d8d8a46bed224e90472e7e3d4c2772e8
+      Hash: 31874fd7bdc934c41c822e753f3d0181
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: MethodCalls
@@ -179,13 +185,7 @@ ScriptsOnlyBuild:
     className: AudioManager
   - hash:
       serializedVersion: 2
-      Hash: 699619b86d9359741a4f58540298c80b
-    assemblyName: UnityEngine.UI.dll
-    namespaceName: UnityEngine.UI
-    className: Text
-  - hash:
-      serializedVersion: 2
-      Hash: f1d735cc1a21c3704ab52568f4fbfcf8
+      Hash: 91d258529db2b5060a913f2afcea1a21
     assemblyName: UnityEngine.TestRunner.dll
     namespaceName: UnityEngine.TestTools.TestRunner
     className: PlaymodeTestsController

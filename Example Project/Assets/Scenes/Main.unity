@@ -2815,7 +2815,7 @@ MonoBehaviour:
   timeInput: {fileID: 1867950718}
   endValueInput: {fileID: 1233983078}
   granularityInput: {fileID: 1850403882}
-  errorField: {fileID: 99784998}
+  outputText: {fileID: 99784998}
   radio: {fileID: 1674870884}
 --- !u!1 &833735611
 GameObject:
