@@ -3,3 +3,4 @@ Cmd: initializeCompiler
 
 Cmd: initializeCompiler
 
+Cmd: shutdown
