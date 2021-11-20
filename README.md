@@ -20,20 +20,20 @@ Used to play/change/stop/mute/... sounds at certain circumstances or events in 2
   - [Public accesible methods](#public-accesible-methods)
   	- [Add Sound From Path method](#add-sound-from-path-method)
   	- [Play method](#play-method)
-	- [Play At Time Stamp method](#play-at-time-stamp-method)
-	- [Get Playback Position method](#get-playback-position-method)
-	- [Play At 3D Position method](#play-at-3d-position-method)
-	- [Play Attached To GameObject method](#play-attached-to-gameobject-method)
-	- [Play Delayed method](#play-delayed-method)
-	- [Play OneShot method](#play-oneshot-method)
-	- [Play Scheduled method](#play-scheduled-method)
-	- [Stop method](#stop-method)
-	- [Toggle Mute method](#toggle-mute-method)
-	- [Toggle Pause method](#toggle-pause-method)
-	- [Get Progress method](#get-progress-method)
-	- [Try Get Source method](#try-get-source-method)
-	- [Change Pitch method](#change-pitch-method)
-	- [Change Volume method](#change-volume-method)
+  	- [Play At Time Stamp method](#play-at-time-stamp-method)
+  	- [Get Playback Position method](#get-playback-position-method)
+  	- [Play At 3D Position method](#play-at-3d-position-method)
+  	- [Play Attached To GameObject method](#play-attached-to-gameobject-method)
+  	- [Play Delayed method](#play-delayed-method)
+  	- [Play OneShot method](#play-oneshot-method)
+  	- [Play Scheduled method](#play-scheduled-method)
+  	- [Stop method](#stop-method)
+  	- [Toggle Mute method](#toggle-mute-method)
+  	- [Toggle Pause method](#toggle-pause-method)
+  	- [Get Progress method](#get-progress-method)
+  	- [Try Get Source method](#try-get-source-method)
+  	- [Change Pitch method](#change-pitch-method)
+  	- [Change Volume method](#change-volume-method)
 
 ## Introduction
 Nearly all games need music and soundeffects and this small and easily integrated Audio Manager can help you play sounds in Unity for your game quick and easily.
@@ -101,6 +101,8 @@ void Start() {
 | 2      | FOUND_MULTIPLE                | Multiple instances with the same name found. First will be played                              |
 | 3      | ALREADY_EXISTS                | Can't add sound as there already exists a sound with that name                                 |
 | 4      | INVALID_PATH                  | Can't add sound because the path does not lead to a valid audio clip                           |
+| 5      | SAME_AS_CURRENT               | The given endValue is already the same as the current value                                    |
+| 6      | TOO_SMALL                     | The given granularity is too small, has to be higher than or equal to 1                        |
 
 ## Adding a new sound
 **To add a new sound you simply have to create a new element in the Sounds array with the properties:**
@@ -117,7 +119,7 @@ This section explains all public accesible methods, especially what they do, how
 
 ### Add Sound From Path method
 **What it does:**
-Adds the given sound to the list of possible playable sounds, as well as an AudioError (see [Possible Errors](#possible-errors)), showing wheter and how adding the sound from the given path failed.
+Adds the given sound to the list of possible playable sounds and returns an AudioError (see [Possible Errors](#possible-errors)), showing wheter and how adding the sound from the given path failed.
 
 **How to call it:**
 - ```SoundName``` is the ```name``` the new sound should have
@@ -128,30 +130,34 @@ Adds the given sound to the list of possible playable sounds, as well as an Audi
 - ```Source``` is the ```AudioSource``` object we want to add to the new sound
 
 ```csharp
-string path = "Audio/audioClip01"
+string soundName = "SoundName";
+string path = "Audio/audioClip01";
 float volume = 1f;
 float pitch = 1f;
 bool loop = false;
 AudioSource source = null;
-AudioManager.AudioError err = am.AddSoundFromPath("SoundName", path, volume, pitch, loop, source);
+
+AudioManager.AudioError err = am.AddSoundFromPath(soundName, path, volume, pitch, loop, source);
 if (err != AudioManager.AudioError.OK) {
-    Debug.Log("Adding the sound from the given path failed with error id: ", err);
+    Debug.Log("Adding the sound called: " + soundName + " from the given path failed with error id: " + err);
 }
 else {
-    Debug.Log("Adding the sound from the given path succesfull");
+    Debug.Log("Adding the sound called: " + soundName + " from the given path succesfull");
 }
 ```
 
 Alternatively you can call the methods with less paramters as some of them have default arguments.
 
 ```csharp
-string path = "Audio/audioClip01"
-AudioManager.AudioError err = am.AddSoundFromPath("SoundName", path);
+string soundName = "SoundName";
+string path = "Audio/audioClip01";
+
+AudioManager.AudioError err = am.AddSoundFromPath(soundName, path);
 if (err != AudioManager.AudioError.OK) {
-    Debug.Log("Adding sound from path failed with error id: ", err);
+    Debug.Log("Adding the sound called: " + soundName + " from the given path failed with error id: " + err);
 }
 else {
-    Debug.Log("Adding sound from path succesfull");
+    Debug.Log("Adding the sound called: " + soundName + " from the given path succesfull");
 }
 ```
 
@@ -160,13 +166,21 @@ When you want to add a new sound at runtime, could be useful if you need to add 
 
 ### Play method
 **What it does:**
-Starts playing the choosen sound.
+Starts playing the choosen sound and returns an AudioError (see [Possible Errors](#possible-errors)), showing wheter and how playing the sound failed.
 
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to play
 
 ```csharp
-am.Play("SoundName");
+string soundName = "SoundName";
+
+AudioManager.AudioError err = am.Play(soundName);
+if (err != AudioManager.AudioError.OK) {
+    Debug.Log("Playing sound called: " + soundName + " failed with error id: " + err);
+}
+else {
+    Debug.Log("Playing sound called: " + soundName + " succesfull");
+}
 ```
 
 **When to use it:**
@@ -178,15 +192,23 @@ See [```AudioSource.Play```](https://docs.unity3d.com/2021.2/Documentation/Scrip
 
 ### Play At Time Stamp method
 **What it does:**
-Start playing the choosen sound at the given ```startTime```.
+Start playing the choosen sound at the given ```startTime``` and returns an AudioError (see [Possible Errors](#possible-errors)), showing wheter and how playing the sound from the given ```startTime``` failed.
 
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to play
 - ```StartTime``` is the moment we want to play the sound at so instead of starting at 0 seconds we start at 10 seconds
 
 ```csharp
+string soundName = "SoundName";
 float startTime = 10f;
-am.PlayAtTimeStamp("SoundName", startTime);
+
+AudioManager.AudioError err = am.PlayAtTimeStamp(soundName, startTime);
+if (err != AudioManager.AudioError.OK) {
+    Debug.Log("Playing sound called: " + soundName + " at startTime: " + startTime.ToString("0.00") + " failed with error id: " + err);
+}
+else {
+    Debug.Log("Playing sound called: " + soundName + " at startTime: " + startTime.ToString("0.00") + " succesfull");
+}
 ```
 
 **When to use it:**
@@ -194,14 +216,21 @@ When you want to play a sound but skip a portion at the start. Could be used if 
 
 ### Get Playback Position method
 **What it does:**
-Returns the current playback position of the given sound in seconds.
+Returns an instance of the ValueDataError class, where the value (gettable with ```Value```), is the current playback position of the given sound in seconds and where the error (gettable with ```Error```) is an integer representing the AudioError Enum (see [Possible Errors](#possible-errors)), showing wheter and how getting the current playback position of the sound failed.
 
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to get the playback position of
 
 ```csharp
-float timeStamp = am.GetPlaybackPosition("SoundName");
-Debug.Log("Current time in the sound: " + timeStamp);
+string soundName = "SoundName";
+
+ValueDataError<float> valueDataError = am.GetPlaybackPosition(soundName);
+if (valueDataError.Error != (int)AudioManager.AudioError.OK) {
+    Debug.Log("Getting playBackPosition of the sound called: " + soundName + " failed with error id: " + valueDataError.Error);
+}
+else {
+    Debug.Log("Getting playBackPosition of the sound called: " + soundName + " with the position being: " + valueDataError.Value.ToString("0.00") + " succesfull");
+}
 ```
 
 **When to use it:**
@@ -209,7 +238,7 @@ When yu want to get the time the current amount of time the sound has been playi
 
 ### Play At 3D Position method
 **What it does:**
-Starts playing the choosen sound at a given 3D position.
+Starts playing the choosen sound at a given 3D position and returns an AudioError (see [Possible Errors](#possible-errors)), showing wheter and how playing the sound at the given position failed.
 
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to play
@@ -222,6 +251,7 @@ Starts playing the choosen sound at a given 3D position.
 - ```RolloffMode``` defines how the sound should decline in ```volume``` between the min and max distance
 
 ```csharp
+string soundName = "SoundName";
 Vector3 worldPosition = new Vector3(10f, 10f, 0f);
 float minDistance = 5f;
 float maxDistance = 15f;
@@ -229,16 +259,31 @@ float spread = 0f;
 float spatialBlend = 1f;
 float dopplerLevel = 1f;
 AudioRolloffMode rolloffMode = AudioRolloffMode.Linear;
-am.PlayAt3DPosition("SoundName", worldPosition, minDistance, maxDistance, spread, spatialBlend, dopplerLevel, rolloffMode);
+
+AudioManager.AudioError err = am.PlayAt3DPosition(soundName, worldPosition, minDistance, maxDistance, spread, spatialBlend, dopplerLevel, rolloffMode);
+if (err != AudioManager.AudioError.OK) {
+    Debug.Log("Playing sound called: " + soundName + " at the position x " + worldPosition.x.ToString("0.00") + " and y " + worldPosition.y.ToString("0.00") + " failed with error id: " + err);
+}
+else {
+    Debug.Log("Playing sound called: " + soundName + " at the position x " + worldPosition.x.ToString("0.00") + " and y " + worldPosition.y.ToString("0.00") + " succesfull");
+}
 ```
 
 Alternatively you can call the methods with less paramters as some of them have default arguments.
 
 ```csharp
+string soundName = "SoundName";
 Vector3 worldPosition = new Vector3(10f, 10f, 0f);
 float minDistance = 5f;
 float maxDistance = 15f;
-am.PlayAt3DPosition("SoundName", worldPosition, minDistance, maxDistance);
+
+AudioManager.AudioError err = am.PlayAt3DPosition(soundName, worldPosition, minDistance, maxDistance);
+if (err != AudioManager.AudioError.OK) {
+    Debug.Log("Playing sound called: " + soundName + " at the position x " + worldPosition.x.ToString("0.00") + " and y " + worldPosition.y.ToString("0.00") + " failed with error id: " + err);
+}
+else {
+    Debug.Log("Playing sound called: " + soundName + " at the position x " + worldPosition.x.ToString("0.00") + " and y " + worldPosition.y.ToString("0.00") + " succesfull");
+}
 ```
 
 **When to use it:**
@@ -246,7 +291,7 @@ When you want to play a sound directly from a 3D position and make the ```volume
 
 ### Play Attached To GameObject method
 **What it does:**
-Starts playing the choosen sound attached to a ```gameObject```.
+Starts playing the choosen sound attached to a ```gameObject``` and returns an AudioError (see [Possible Errors](#possible-errors)), showing wheter and how playing the sound attached to the given gameobject failed.
 
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to play
@@ -259,21 +304,39 @@ Starts playing the choosen sound attached to a ```gameObject```.
 - ```RolloffMode``` defines how the sound should decline in ```volume``` between the min and max distance
 
 ```csharp
+string soundName = "SoundName";
+GameObject gameObject = this.gameObject;
 float minDistance = 5f;
 float maxDistance = 15f;
 float spread = 0f;
 float spatialBlend = 1f;
 float dopplerLevel = 1f;
 AudioRolloffMode rolloffMode = AudioRolloffMode.Linear;
-am.PlayAttachedToGameObject("SoundName", this.gameObject, minDistance, maxDistance, spread, spatialBlend, dopplerLevel, rolloffMode);
+
+AudioManager.AudioError err = am.PlayAttachedToGameObject(soundName, gameObject, minDistance, maxDistance, spread, spatialBlend, dopplerLevel, rolloffMode);
+if (err != AudioManager.AudioError.OK) {
+    Debug.Log("Playing sound called: " + soundName + " attached to: " + gameObject.name + " failed with error id: " + err);
+}
+else {
+    Debug.Log("Playing sound called: " + soundName + " attached to: " + gameObject.name + " succesfull");
+}
 ```
 
 Alternatively you can call the methods with less paramters as some of them have default arguments.
 
 ```csharp
+string soundName = "SoundName";
+GameObject gameObject = this.gameObject;
 float minDistance = 5f;
 float maxDistance = 15f;
-am.PlayAttachedToGameObject("SoundName", this.gameObject, minDistance, maxDistance);
+
+AudioManager.AudioError err = am.PlayAttachedToGameObject(soundName, gameObject, minDistance, maxDistance);
+if (err != AudioManager.AudioError.OK) {
+    Debug.Log("Playing sound called: " + soundName + " attached to: " + gameObject.name + " failed with error id: " + err);
+}
+else {
+    Debug.Log("Playing sound called: " + soundName + " attached to: " + gameObject.name + " succesfull");
+}
 ```
 
 **When to use it:**
@@ -281,16 +344,23 @@ When you want to play a sound directly from a object and make the ```volume``` b
 
 ### Play Delayed method
 **What it does:**
-Starts playing the choosen sound after the given amount of time.
+Starts playing the choosen sound after the given amount of time and returns an AudioError (see [Possible Errors](#possible-errors)), showing wheter and how playing the sound after the given amount of time failed.
 
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to play after the given amount of time which would be the 5 seconds we've defined
-
-```Delay``` is the time after which we want to start playing the sound.
+- ```Delay``` is the time after which we want to start playing the sound.
 
 ```csharp
+string soundName = "SoundName";
 float delay = 5f;
-am.PlayDelayed("SoundName", delay);
+
+AudioManager.AudioError err = am.PlayDelayed(soundName, delay);
+if (err != AudioManager.AudioError.OK) {
+    Debug.Log("Playing sound called: " + soundName + " after " + delay.ToString("0.00") + " seconds failed with error id: " + err);
+}
+else {
+    Debug.Log("Playing sound called: " + soundName + " after " + delay.ToString("0.00") + " seconds succesfull");
+}
 ```
 
 **When to use it:**
@@ -300,31 +370,47 @@ See [```AudioSource.PlayDelayed```](https://docs.unity3d.com/2021.2/Documentatio
 
 ### Play OneShot method
 **What it does:**
-Starts playing the choosen sound once.
+Starts playing the choosen sound once and returns an AudioError (see [Possible Errors](#possible-errors)), showing wheter and how playing the sound once failed.
 
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to play once
 
 ```csharp
-am.PlayOneShot("SoundName");
+string soundName = "SoundName";
+
+AudioManager.AudioError err = am.PlayOneShot(soundName);
+if (err != AudioManager.AudioError.OK) {
+    Debug.Log("Playing sound called: " + soundName + " once failed with error id: " + err);
+}
+else {
+    Debug.Log("Playing sound called: " + soundName + " once succesfull");
+}
 ```
 
 **When to use it:**
-When you want to only play a sound once.
+When you want to only play a sound once. Having multiple instances of the same sound running at the same time is only possible with this method.
 
 See [```AudioSource.PlayOneShot```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/AudioSource.PlayOneShot.html) for more details on what play oneshot does.
 
 ### Play Scheduled method
 **What it does:**
-Starts playing the sound after the given amount of time with additional buffer time to fetch the data from media.
+Starts playing the sound after the given amount of time with additional buffer time to fetch the data from media and returns an AudioError (see [Possible Errors](#possible-errors)), showing wheter and how playing the sound after the given amount of time failed.
 
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to play after the given amount of time which would be the 10 seconds we've defined
 - ```Delay``` is the time after which we want to start playing the sound
 
 ```csharp
+string soundName = "SoundName";
 double delay = 10d;
-am.PlayScheduled("SoundName", delay);
+
+AudioManager.AudioError err = am.PlayScheduled(soundName, delay);
+if (err != AudioManager.AudioError.OK) {
+    Debug.Log("Playing sound called: " + soundName + " after " + delay.ToString("0.00") + " failed with error id: " + err);
+}
+else {
+    Debug.Log("Playing sound called: " + soundName + " after " + delay.ToString("0.00") + " seconds succesfull");
+}
 ```
 
 **When to use it:**
@@ -334,13 +420,21 @@ See [```AudioSource.PlayScheduled```](https://docs.unity3d.com/2021.2/Documentat
 
 ### Stop method
 **What it does:**
-Stops the sound if it is currently playing.
+Stops the sound if it is currently playing and returns an AudioError (see [Possible Errors](#possible-errors)), showing wheter and how stopping the sound failed.
 
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to stop
 
 ```csharp
-am.Stop("SoundName");
+string soundName = "SoundName";
+
+AudioManager.AudioError err = am.Stop(soundName);
+if (err != AudioManager.AudioError.OK) {
+    Debug.Log("Stopping sound called: " + soundName + " failed with error id: " + err);
+}
+else {
+    Debug.Log("Stopping sound called: " + soundName + " succesfull");
+}
 ```
 
 **When to use it:**
@@ -350,13 +444,21 @@ See [```AudioSource.Stop```](https://docs.unity3d.com/2021.2/Documentation/Scrip
 
 ### Toggle Mute method
 **What it does:**
-Sets the ```volume``` of the sound to 0 and resets it to it's initally value if toggled again.
+Sets the ```volume``` of the sound to 0 and resets it to it's initally value if called again and returns an AudioError (see [Possible Errors](#possible-errors)), showing wheter and how muting or unmuting the sound failed.
 
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to toggle mute on / off
 
 ```csharp
-am.ToggleMute("SoundName");
+string soundName = "SoundName";
+
+AudioManager.AudioError err = am.ToggleMute(soundName);
+if (err != AudioManager.AudioError.OK) {
+    Debug.Log("Muting or unmuting sound called: " + soundName + " failed with error id: " + err);
+}
+else {
+    Debug.Log("Muting or unmuting sound called: " + soundName + " succesfull");
+}
 ```
 
 **When to use it:**
@@ -364,13 +466,21 @@ When you want to completly silence a sound and still keep it playing in the back
 
 ### Toggle Pause method
 **What it does:**
-Completly pauses or unpauses playback of the given sound until it is toggled again.
+Completly pauses or unpauses playback of the given sound until it is toggled again and returns an AudioError (see [Possible Errors](#possible-errors)), showing wheter and how pausing or unpausing the sound failed.
 
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to toggle pause on / off
 
 ```csharp
-am.TogglePause("SoundName");
+string soundName = "SoundName";
+
+AudioManager.AudioError err = am.TogglePause(soundName);
+if (err != AudioManager.AudioError.OK) {
+    Debug.Log("Pausing or unpausing sound called: " + soundName + " failed with error id: " + err);
+}
+else {
+    Debug.Log("Pausing or unpausing sound called: " + soundName + " succesfull");
+}
 ```
 
 **When to use it:**
@@ -380,14 +490,21 @@ See [```AudioSource.UnPause```](https://docs.unity3d.com/2021.2/Documentation/Sc
 
 ### Get Progress method
 **What it does:**
-Returns the ```progress``` of the given sound, which is a float from 0 to 1.
+Returns an instance of the ValueDataError class, where the value (gettable with ```Value```), is the ```progress``` of the given sound, which is a float from 0 to 1 and where the error (gettable with ```Error```) is an integer representing the AudioError Enum (see [Possible Errors](#possible-errors)), showing wheter and how getting the current  of ```progress``` of the sound failed.
 
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to get the progress from
 
 ```csharp
-float progress = am.Progress("SoundName");
-Debug.Log("Current progress in the sound: " + (progress * 100f) + "% completed");
+string soundName = "SoundName";
+
+ValueDataError<float> valueDataError = am.GetProgress(soundName);
+if (valueDataError.Error != (int)AudioManager.AudioError.OK) {
+    Debug.Log("Getting progress of the sound called: " + soundName + " failed with error id: " + valueDataError.Error);
+}
+else {
+    Debug.Log("Getting progress of the sound called: " + soundName + " with the progress being: " + (valueDataError.Value * 100).ToString("0.00") + "% succesfull");
+}
 ```
 
 **When to use it:**
@@ -401,15 +518,15 @@ Returns the ```source``` of the given sound, as well as an AudioError (see [Poss
 - ```SoundName``` is the ```name``` we have given the sound we want to get the source from
 
 ```csharp
+string soundName = "SoundName";
 AudioSource source = default;
-AudioManager.AudioError err = am.TryGetSource("SoundName", out source);
+
+AudioManager.AudioError err = am.TryGetSource(soundName, out source);
 if (err != AudioManager.AudioError.OK) {
-    Debug.Log("Getting the source of the given sound failed with error id: ", err);
+    Debug.Log("Getting source of the sound called: " + soundName + " failed with error id: " + err);
 }
 else {
-    Debug.Log("Getting the source of the given sound succesfull");
-    source.pitch = 0.8f;
-    source.volume = 0.5f;
+    Debug.Log("Getting source of the sound called: " + soundName + " succesfull");
 }
 ```
 
@@ -418,7 +535,7 @@ When you want to directly change the values of the given sound yourself and affe
 
 ### Change Pitch method
 **What it does:**
-Changes the ```pitch``` of a sound over a given amount of time.
+Changes the ```pitch``` of a sound over a given amount of time and returns an AudioError (see [Possible Errors](#possible-errors)), showing wheter and how changing the pitch of the given sound failed.
 
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to change the pitch from
@@ -427,17 +544,33 @@ Changes the ```pitch``` of a sound over a given amount of time.
 - ```Granularity``` is the amount of steps in which we decrease the volume to the ```endValue```
 
 ```csharp
+string soundName = "SoundName";
 float endValue = 0.8f;
 float waitTime = 1f;
 float granularity = 2f;
-am.ChangePitch("SoundName", endValue, waitTime, granularity);
+
+AudioManager.AudioError err = am.ChangePitch(soundName, endValue, waitTime, granularity);
+if (err != AudioManager.AudioError.OK) {
+    Debug.Log("Changing pitch of the sound called: " + soundName + " failed with error id: " + err);
+}
+else {
+    Debug.Log("Changing pitch of the sound called: " + soundName + " in the time: " + waitTime.ToString("0.00") + "seconds with the endValue: " + endValue.ToString("0.00") + " and the granularity: " + granularity.ToString("0.00") + " succesfull");
+}
 ```
 
 Alternatively you can call the methods with less paramters as some of them have default arguments.
 
 ```csharp
+string soundName = "SoundName";
 float endValue = 0.8f;
-am.ChangePitch("SoundName", endValue);
+
+AudioManager.AudioError err = am.ChangePitch(soundName, endValue);
+if (err != AudioManager.AudioError.OK) {
+    Debug.Log("Changing pitch of the sound called: " + soundName + " failed with error id: " + err);
+}
+else {
+    Debug.Log("Changing pitch of the sound called: " + soundName + " to the endValue: " + endValue.ToString("0.00") + " succesfull");
+}
 ```
 
 **When to use it:**
@@ -445,7 +578,7 @@ When you want to decrease -or increase the ```pitch``` over a given amount of ti
 
 ### Change Volume method
 **What it does:**
-Changes the ```volume``` of a given sound over a given amount of time.
+Changes the ```volume``` of a given sound over a given amount of time and returns an AudioError (see [Possible Errors](#possible-errors)), showing wheter and how changing the volume of the given sound failed.
 
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to change the volume from
@@ -454,17 +587,33 @@ Changes the ```volume``` of a given sound over a given amount of time.
 - ```Granularity``` is the amount of steps in which we decrease the volume to the ```endValue```
 
 ```csharp
+string soundName = "SoundName";
 float endValue = 0.8f;
 float waitTime = 1f;
 float granularity = 2f;
-am.ChangeVolume("SoundName", endValue, waitTime, granularity);
+
+AudioManager.AudioError err = am.ChangeVolume(soundName, endValue, waitTime, granularity);
+if (err != AudioManager.AudioError.OK) {
+    Debug.Log("Changing volume of the sound called: " + soundName + " failed with error id: " + err);
+}
+else {
+    Debug.Log("Changing volume of the sound called: " + soundName + " in the time: " + waitTime.ToString("0.00") + "seconds with the endValue: " + endValue.ToString("0.00") + " and the granularity: " + granularity.ToString("0.00") + " succesfull");
+}
 ```
 
 Alternatively you can call the methods with less paramters as some of them have default arguments.
 
 ```csharp
+string soundName = "SoundName";
 float endValue = 0.8f;
-am.ChangeVolume("SoundName", endValue);
+
+AudioManager.AudioError err = am.ChangeVolume(soundName, endValue);
+if (err != AudioManager.AudioError.OK) {
+    Debug.Log("Changing volume of the sound called: " + soundName + " failed with error id: " + err);
+}
+else {
+    Debug.Log("Changing volume of the sound called: " + soundName + " to the endValue: " + endValue.ToString("0.00") + " succesfull");
+}
 ```
 
 **When to use it:**
