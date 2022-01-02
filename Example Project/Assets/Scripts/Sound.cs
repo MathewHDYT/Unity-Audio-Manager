@@ -1,8 +1,10 @@
 using UnityEngine;
+using UnityEngine.Audio;
 
 [System.Serializable]
 public class Sound { // Creating Sound Class with Variables
     public string name;
+    public AudioMixerGroup mixerGroup;
     public AudioClip clip;
     [Range(0f, 1f)]
     public float volume;
@@ -12,12 +14,13 @@ public class Sound { // Creating Sound Class with Variables
     [HideInInspector]
     public AudioSource source;
 
-    public Sound(string name, AudioClip clip, float volume, float pitch, bool loop, AudioSource source) {
+    public Sound(string name, AudioClip clip, float volume, float pitch, bool loop, AudioSource source, AudioMixerGroup mixerGroup) {
         this.name = name;
         this.clip = clip;
         this.volume = volume;
         this.pitch = pitch;
         this.loop = loop;
         this.source = source;
+        this.mixerGroup = mixerGroup;
     }
 }

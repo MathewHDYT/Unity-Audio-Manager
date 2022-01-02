@@ -5,6 +5,13 @@ ScriptsOnlyBuild:
     - MethodCalls
     Unity.Rider.Editor.dll:
     - Packages.Rider.Editor.UnitTesting.CallbackData
+    Unity.TextMeshPro.dll:
+    - TMPro.TMP_FontAsset
+    - TMPro.TMP_InputField
+    - TMPro.TMP_Settings
+    - TMPro.TMP_SpriteAsset
+    - TMPro.TMP_StyleSheet
+    - TMPro.TextMeshProUGUI
     UnityEditor.TestRunner.dll:
     - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
     - UnityEditor.TestTools.TestRunner.TestListCacheData
@@ -16,8 +23,8 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.CanvasScaler
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.Image
-    - UnityEngine.UI.InputField
-    - UnityEngine.UI.Text
+    - UnityEngine.UI.LayoutElement
+    - UnityEngine.UI.RectMask2D
   sceneClasses:
     Assets/Scenes/Main.unity:
     - Class: 1
@@ -38,6 +45,8 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 48
       Script: {instanceID: 0}
+    - Class: 49
+      Script: {instanceID: 0}
     - Class: 65
       Script: {instanceID: 0}
     - Class: 81
@@ -51,25 +60,37 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 1440}
+      Script: {instanceID: 1504}
     - Class: 114
-      Script: {instanceID: 1480}
+      Script: {instanceID: 1524}
     - Class: 114
-      Script: {instanceID: 1886}
+      Script: {instanceID: 1604}
     - Class: 114
-      Script: {instanceID: 1952}
+      Script: {instanceID: 1716}
     - Class: 114
-      Script: {instanceID: 2230}
+      Script: {instanceID: 1910}
     - Class: 114
-      Script: {instanceID: 2332}
+      Script: {instanceID: 1968}
     - Class: 114
-      Script: {instanceID: 2478}
+      Script: {instanceID: 1976}
     - Class: 114
-      Script: {instanceID: 2520}
+      Script: {instanceID: 2256}
     - Class: 114
-      Script: {instanceID: 2660}
+      Script: {instanceID: 2358}
     - Class: 114
-      Script: {instanceID: 2738}
+      Script: {instanceID: 2398}
+    - Class: 114
+      Script: {instanceID: 2506}
+    - Class: 114
+      Script: {instanceID: 2688}
+    - Class: 114
+      Script: {instanceID: 2766}
+    - Class: 114
+      Script: {instanceID: 3618}
+    - Class: 114
+      Script: {instanceID: 3634}
+    - Class: 114
+      Script: {instanceID: 3874}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -86,13 +107,13 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 224
       Script: {instanceID: 0}
+    - Class: 241
+      Script: {instanceID: 0}
+    - Class: 243
+      Script: {instanceID: 0}
+    - Class: 245
+      Script: {instanceID: 0}
   scriptHashData:
-  - hash:
-      serializedVersion: 2
-      Hash: 699619b86d9359741a4f58540298c80b
-    assemblyName: UnityEngine.UI.dll
-    namespaceName: UnityEngine.UI
-    className: Text
   - hash:
       serializedVersion: 2
       Hash: 5ab533713adae59372fb3e10a585c186
@@ -161,7 +182,7 @@ ScriptsOnlyBuild:
     className: TMP_FontAsset
   - hash:
       serializedVersion: 2
-      Hash: 31874fd7bdc934c41c822e753f3d0181
+      Hash: e03b73258c8db08ed3a2af9c3a7ca52b
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: MethodCalls
@@ -179,10 +200,16 @@ ScriptsOnlyBuild:
     className: TMP_StyleSheet
   - hash:
       serializedVersion: 2
-      Hash: 66056c2209ff8e6b238f8b056c7eb331
+      Hash: 193967ef08af55858c9e9340c6280291
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: AudioManager
+  - hash:
+      serializedVersion: 2
+      Hash: 699619b86d9359741a4f58540298c80b
+    assemblyName: UnityEngine.UI.dll
+    namespaceName: UnityEngine.UI
+    className: Text
   - hash:
       serializedVersion: 2
       Hash: 91d258529db2b5060a913f2afcea1a21
