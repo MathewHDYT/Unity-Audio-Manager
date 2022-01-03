@@ -16,6 +16,7 @@ Used to play/change/stop/mute/... sounds at certain circumstances or events in 2
 - [Documentation](#documentation)
   - [Reference to Audio Manager Script](#reference-to-audio-manager-script)
   - [Possible Errors](#possible-errors)
+  - [AudioMixer support](#audiomixer-support)
   - [Adding a new sound](#adding-a-new-sound)
   - [Public accesible methods](#public-accesible-methods)
   	- [Add Sound From Path method](#add-sound-from-path-method)
@@ -32,8 +33,12 @@ Used to play/change/stop/mute/... sounds at certain circumstances or events in 2
   	- [Toggle Pause method](#toggle-pause-method)
   	- [Get Progress method](#get-progress-method)
   	- [Try Get Source method](#try-get-source-method)
-  	- [Change Pitch method](#change-pitch-method)
-  	- [Change Volume method](#change-volume-method)
+  	- [Lerp Pitch method](#lerp-pitch-method)
+  	- [Lerp Volume method](#lerp-volume-method)
+  	- [Change Group Value method](#change-group-value-method)
+  	- [Get Group Value method](#get-group-value-method)
+  	- [Reset Group Value method](#reset-group-value-method)
+  	- [Lerp Group Value method](#lerp-group-value-method)
 
 ## Introduction
 Nearly all games need music and soundeffects and this small and easily integrated Audio Manager can help you play sounds in Unity for your game quick and easily.
@@ -53,8 +58,12 @@ Nearly all games need music and soundeffects and this small and easily integrate
 - Pause or unpause a sound (see [Toggle Pause method](#toggle-pause-method)
 - Get the progress of a sound (see [Get Progress method](#get-progress-method))
 - Try to get the source of a sound (see [Try Get Source method](#try-get-source-method))
-- Change the pitch of a sound (see [Change Pitch method](#change-pitch-method))
-- Change the volume of a sound (see [Change Volume method](#change-volume-method))
+- Lerp the pitch of a sound over a given time (see [Lerp Pitch method](#lerp-pitch-method))
+- Lerp the volume of a sound over a given time (see [Lerp Volume method](#lerp-volume-method))
+- Change the value of the given exposed parameter of a given sound to the given newValue (see [Change Group Value method](#change-group-value-method))
+- Get the value of the given exposed parameter of a given sound (see [Get Group Value method](#get-group-value-method))
+- Reset the value of the given exposed parameter of a given sound (see [Reset Group Value method](#reset-group-value-method))
+- Lerp the value of the given exposed parameter of a given sound over a given time (see [Lerp Group Value method](#lerp-group-value-method))
 
 For each method there is a description on how to call it and how to use it correctly for your game in the given section.
 
@@ -103,16 +112,27 @@ void Start() {
 | 4      | INVALID_PATH                  | Can't add sound because the path does not lead to a valid audio clip                           |
 | 5      | SAME_AS_CURRENT               | The given endValue is already the same as the current value                                    |
 | 6      | TOO_SMALL                     | The given granularity is too small, has to be higher than or equal to 1                        |
+| 7      | NOT_EXPOSED                   | The given parameter in the AudioMixer is not exposed or does not exist                         |
+| 8      | MISSING_SOURCE                | Sound does not have an AudioSource component on the GameObject the AudioManager resides on     |
+| 9      | MISSING_MIXER_GROUP           | Group methods may only be called with a sound that has a set AudioMixerGroup                   |
+
+## AudioMixer support
+Starting from ```v1.3``` see ([GitHub release](https://github.com/MathewHDYT/Unity-Audio-Manager-UAM/releases/)), the AudioManager now supports the [```AudioMixer```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/Audio.AudioMixer.html), meaning sounds can be assigned an [```AudioMixerGroup```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/Audio.AudioMixerGroup.html) which will make it possible to decrease the volume of multiple sounds with one call as long as they are in the same [```AudioMixerGroup```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/Audio.AudioMixerGroup.html).
+
+Additonaly the [```AudioMixer```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/Audio.AudioMixer.html), even makes it possible to add distortion or other effects to the sounds.
+
+See [Audio Tutorial for Unity AudioMixer](https://www.raywenderlich.com/532-audio-tutorial-for-unity-the-audio-mixer#toc-anchor-010) on how to expose parameters so that they can be changed with the AudioManager.
 
 ## Adding a new sound
 **To add a new sound you simply have to create a new element in the Sounds array with the properties:**
 - ```Name``` (This is used to reference the sound in the Audio Manager so ensure it's unique)
+- ```Mixer Group``` ([```AudioMixerGroup```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/Audio.AudioMixerGroup.html) the sound is connected to)
 - ```Clip``` (Audio that should be played when starting to play the sound, simply add a audio file that is saved in your Unity Project)
 - ```Volume``` (How loud the sound is)
 - ```Pitch``` (Distortion of the sound effect, set it to 1 if you wan't to ensure that it sounds like intended)
 - ```Loop``` (Determines if the sound should be repeated automatically after finishing --> Usefull for a theme sound)
 
-![Image of AudioManager Script](https://image.prntscr.com/image/hty8-QfaT9aya-SAmJ-dMA.png)
+![Image of AudioManager Script](https://image.prntscr.com/image/X9_38TspTDGMwruRz1LCHA.png)
 
 ## Public accesible methods
 This section explains all public accesible methods, especially what they do, how to call them and when using them might be advantageous instead of other methods. We always assume AudioManager instance has been already referenced in the script. If you haven't done that already see [Reference to Audio Manager Script](#reference-to-audio-manager-script).
@@ -128,6 +148,7 @@ Adds the given sound to the list of possible playable sounds and returns an Audi
 - ```Pitch``` is the pitch we want the new sound to have
 - ```Loop``` defines wheter we want to repeat the new sound after completing it or not
 - ```Source``` is the ```AudioSource``` object we want to add to the new sound
+- ```MixerGroup``` is the [```AudioMixerGroup```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/Audio.AudioMixerGroup.html) the sound is connected to
 
 ```csharp
 string soundName = "SoundName";
@@ -136,8 +157,9 @@ float volume = 1f;
 float pitch = 1f;
 bool loop = false;
 AudioSource source = null;
+AudioMixerGroup mixerGroup = null;
 
-AudioManager.AudioError err = am.AddSoundFromPath(soundName, path, volume, pitch, loop, source);
+AudioManager.AudioError err = am.AddSoundFromPath(soundName, path, volume, pitch, loop, source, mixerGroup);
 if (err != AudioManager.AudioError.OK) {
     Debug.Log("Adding the sound called: " + soundName + " from the given path failed with error id: " + err);
 }
@@ -145,7 +167,6 @@ else {
     Debug.Log("Adding the sound called: " + soundName + " from the given path succesfull");
 }
 ```
-
 Alternatively you can call the methods with less paramters as some of them have default arguments.
 
 ```csharp
@@ -162,7 +183,7 @@ else {
 ```
 
 **When to use it:**
-When you want to add a new sound at runtime, could be useful if you need to add a lot of songs and don't want to add them manually to the Audio Manager.
+When you want to add a new sound at runtime, could be useful if you need to add a lot of songs and don't want to add them manually through the GameObject the Audio Manager script resides on.
 
 ### Play method
 **What it does:**
@@ -533,9 +554,9 @@ else {
 **When to use it:**
 When you want to directly change the values of the given sound yourself and affect it while it's playing.
 
-### Change Pitch method
+### Lerp Pitch method
 **What it does:**
-Changes the ```pitch``` of a sound over a given amount of time and returns an AudioError (see [Possible Errors](#possible-errors)), showing wheter and how changing the pitch of the given sound failed.
+Lerps the ```pitch``` of a sound over a given amount of time and returns an AudioError (see [Possible Errors](#possible-errors)), showing wheter and how lerping the pitch of the given sound failed.
 
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to change the pitch from
@@ -549,12 +570,12 @@ float endValue = 0.8f;
 float waitTime = 1f;
 float granularity = 2f;
 
-AudioManager.AudioError err = am.ChangePitch(soundName, endValue, waitTime, granularity);
+AudioManager.AudioError err = am.LerpPitch(soundName, endValue, waitTime, granularity);
 if (err != AudioManager.AudioError.OK) {
-    Debug.Log("Changing pitch of the sound called: " + soundName + " failed with error id: " + err);
+    Debug.Log("Lerping pitch of the sound called: " + soundName + " failed with error id: " + err);
 }
 else {
-    Debug.Log("Changing pitch of the sound called: " + soundName + " in the time: " + waitTime.ToString("0.00") + "seconds with the endValue: " + endValue.ToString("0.00") + " and the granularity: " + granularity.ToString("0.00") + " succesfull");
+    Debug.Log("Lerping pitch of the sound called: " + soundName + " in the time: " + waitTime.ToString("0.00") + " seconds with the endValue: " + endValue.ToString("0.00") + " and the granularity: " + granularity.ToString("0.00") + " succesfull");
 }
 ```
 
@@ -564,21 +585,21 @@ Alternatively you can call the methods with less paramters as some of them have 
 string soundName = "SoundName";
 float endValue = 0.8f;
 
-AudioManager.AudioError err = am.ChangePitch(soundName, endValue);
+AudioManager.AudioError err = am.LerpPitch(soundName, endValue);
 if (err != AudioManager.AudioError.OK) {
-    Debug.Log("Changing pitch of the sound called: " + soundName + " failed with error id: " + err);
+    Debug.Log("Lerping pitch of the sound called: " + soundName + " failed with error id: " + err);
 }
 else {
-    Debug.Log("Changing pitch of the sound called: " + soundName + " to the endValue: " + endValue.ToString("0.00") + " succesfull");
+    Debug.Log("Lerping pitch of the sound called: " + soundName + " to the endValue: " + endValue.ToString("0.00") + " succesfull");
 }
 ```
 
 **When to use it:**
 When you want to decrease -or increase the ```pitch``` over a given amount of time.
 
-### Change Volume method
+### Lerp Volume method
 **What it does:**
-Changes the ```volume``` of a given sound over a given amount of time and returns an AudioError (see [Possible Errors](#possible-errors)), showing wheter and how changing the volume of the given sound failed.
+Lerps the ```volume``` of a given sound over a given amount of time and returns an AudioError (see [Possible Errors](#possible-errors)), showing wheter and how lerping the volume of the given sound failed.
 
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to change the volume from
@@ -592,12 +613,12 @@ float endValue = 0.8f;
 float waitTime = 1f;
 float granularity = 2f;
 
-AudioManager.AudioError err = am.ChangeVolume(soundName, endValue, waitTime, granularity);
+AudioManager.AudioError err = am.LerpVolume(soundName, endValue, waitTime, granularity);
 if (err != AudioManager.AudioError.OK) {
-    Debug.Log("Changing volume of the sound called: " + soundName + " failed with error id: " + err);
+    Debug.Log("Lerping volume of the sound called: " + soundName + " failed with error id: " + err);
 }
 else {
-    Debug.Log("Changing volume of the sound called: " + soundName + " in the time: " + waitTime.ToString("0.00") + "seconds with the endValue: " + endValue.ToString("0.00") + " and the granularity: " + granularity.ToString("0.00") + " succesfull");
+    Debug.Log("Lerping volume of the sound called: " + soundName + " in the time: " + waitTime.ToString("0.00") + " seconds with the endValue: " + endValue.ToString("0.00") + " and the granularity: " + granularity.ToString("0.00") + " succesfull");
 }
 ```
 
@@ -607,14 +628,134 @@ Alternatively you can call the methods with less paramters as some of them have 
 string soundName = "SoundName";
 float endValue = 0.8f;
 
-AudioManager.AudioError err = am.ChangeVolume(soundName, endValue);
+AudioManager.AudioError err = am.LerpVolume(soundName, endValue);
 if (err != AudioManager.AudioError.OK) {
-    Debug.Log("Changing volume of the sound called: " + soundName + " failed with error id: " + err);
+    Debug.Log("Lerping volume of the sound called: " + soundName + " failed with error id: " + err);
 }
 else {
-    Debug.Log("Changing volume of the sound called: " + soundName + " to the endValue: " + endValue.ToString("0.00") + " succesfull");
+    Debug.Log("Lerping volume of the sound called: " + soundName + " to the endValue: " + endValue.ToString("0.00") + " succesfull");
 }
 ```
 
 **When to use it:**
 When you want to decrease -or increase the ```volume``` over a given amount of time.
+
+### Change Group Value method
+**What it does:**
+Changes the value of the given exposed parameter for the complete [```AudioMixerGroup```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/Audio.AudioMixerGroup.html) of a given sound to the given newValue and returns an AudioError (see [Possible Errors](#possible-errors)), showing wheter and how changing the value of the given exposed parameter failed.
+
+**How to call it:**
+- ```SoundName``` is the ```name``` we have given the sound we want to change the [```AudioMixerGroup```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/Audio.AudioMixerGroup.html) parameter on
+- ```ExposedParameterName``` is the name we have given the exposed parameter on the [```AudioMixer```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/Audio.AudioMixer.html)
+- ```NewValue``` is the value we want to set the exposed parameter to
+
+```csharp
+string soundName = "SoundName";
+string exposedParameterName = "Volume";
+float newValue = -80f;
+
+AudioManager.AudioError error = am.ChangeGroupValue(soundName, exposedParameterName, newValue);
+if (error != AudioManager.AudioError.OK) {
+    Debug.Log("Changing AudioMixerGroup exposed parameter with the name " + exposedParameterName + " on the sound called: " + soundName + " failed with error id: " + err);
+}
+else {
+    Debug.Log("Changing AudioMixerGroup exposed parameter with the name " + exposedParameterName + " on the sound called: " + soundName + " with the endValue: " + endValue.ToString("0.00") + " succesfull");
+}
+```
+
+**When to use it:**
+When you want to change an exposed parameter (for example the volume or pitch) for the complete [```AudioMixerGroup```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/Audio.AudioMixerGroup.html) the sound is connected to.
+
+### Get Group Value method
+**What it does:**
+Returns an instance of the ValueDataError class, where the value (gettable with ```Value```), is the current value of the given exposed parameter and where the error (gettable with ```Error```) is an integer representing the AudioError Enum (see [Possible Errors](#possible-errors)), showing wheter and how getting the value of the given exposed parameter failed.
+
+**How to call it:**
+- ```SoundName``` is the ```name``` we have given the sound we want to get the [```AudioMixerGroup```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/Audio.AudioMixerGroup.html) parameter on
+- ```ExposedParameterName``` is the name we have given the exposed parameter on the [```AudioMixer```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/Audio.AudioMixer.html)
+
+```csharp
+string soundName = "SoundName";
+string exposedParameterName = "Volume";
+
+ValueDataError<float> valueDataError = am.GetGroupValue(soundName, exposedParameterName);
+if (valueDataError.Error != (int)AudioManager.AudioError.OK) {
+    Debug.Log("Getting AudioMixerGroup volume of the sound called: " + soundName + " failed with error id: " + valueDataError.Error);
+}
+else {
+    Debug.Log("Getting AudioMixerGroup exposed parameter with the name " + exposedParameterName + " on the sound called: " + soundName + " with the current value being: " + valueDataError.Value.ToString("0.00") + " succesfull");
+}
+```
+
+**When to use it:**
+When you want to get an exposed parameter (for example the volume or pitch) for the complete [```AudioMixerGroup```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/Audio.AudioMixerGroup.html) the sound is connected to.
+
+### Reset Group Value method
+**What it does:**
+Reset the value of the given exposed parameter for the complete [```AudioMixerGroup```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/Audio.AudioMixerGroup.html) of a given sound to the default value and returns an AudioError (see [Possible Errors](#possible-errors)), showing wheter and how resetting the value of the given exposed parameter failed.
+
+**How to call it:**
+- ```SoundName``` is the ```name``` we have given the sound we want to reset the [```AudioMixerGroup```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/Audio.AudioMixerGroup.html) parameter on
+- ```ExposedParameterName``` is the name we have given the exposed parameter on the [```AudioMixer```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/Audio.AudioMixer.html)
+
+```csharp
+string soundName = "SoundName";
+string exposedParameterName = "Volume";
+
+AudioManager.AudioError error = am.ResetGroupValue(soundName, exposedParameterName);
+if (error != AudioManager.AudioError.OK) {
+    Debug.Log("Resetting AudioMixerGroup exposed parameter with the name " + exposedParameterName + " on the sound called: " + soundName + " failed with error id: " + err);
+}
+else {
+    Debug.Log("Resetting AudioMixerGroup exposed parameter with the name " + exposedParameterName + " on the sound called: " + soundName + " succesfull");
+}
+```
+
+**When to use it:**
+When you want to reset an exposed parameter (for example the volume or pitch) for the complete [```AudioMixerGroup```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/Audio.AudioMixerGroup.html) the sound is connected to.
+
+### Lerp Group Value method
+**What it does:**
+Lerps the value of the given exposed parameter for the complete [```AudioMixerGroup```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/Audio.AudioMixerGroup.html) of a given sound over a given amount of time and returns an AudioError (see [Possible Errors](#possible-errors)), showing wheter and how lerping the value of the given exposed parameter failed.
+
+**How to call it:**
+- ```SoundName``` is the ```name``` we have given the sound we want to reset the [```AudioMixerGroup```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/Audio.AudioMixerGroup.html) parameter on
+- ```ExposedParameterName``` is the name we have given the exposed parameter on the [```AudioMixer```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/Audio.AudioMixer.html)
+- ```EndValue``` is the value the exposed parameter should have at the end
+- ```WaitTime``` defines the total amount of time needed to achieve the given ```endValue```
+- ```Granularity``` is the amount of steps in which we decrease the volume to the ```endValue```
+
+```csharp
+string soundName = "SoundName";
+string exposedParameterName = "Volume";
+float endValue = -80f;
+float waitTime = 1f;
+float granularity = 2f;
+
+AudioManager.AudioError err = am.LerpGroupValue(soundName, exposedParameterName, endValue, waitTime, granularity);
+if (error != AudioManager.AudioError.OK) {
+    Debug.Log("Lerping AudioMixerGroup exposed parameter with the name " + exposedParameterName + " on the sound called: " + soundName + " failed with error id: " + err);
+}
+else {
+    Debug.Log("Lerping AudioMixerGroup exposed parameter with the name " + exposedParameterName + " on the sound called: " + soundName + " in the time: " + waitTime.ToString("0.00") + " seconds with the endValue: " + endValue.ToString("0.00") + " and the granularity: " + granularity.ToString("0.00") + " succesfull");
+}
+```
+
+Alternatively you can call the methods with less paramters as some of them have default arguments.
+
+```csharp
+string soundName = "SoundName";
+string exposedParameterName = "Volume";
+float endValue = -80f;
+
+AudioManager.AudioError err = am.LerpGroupValue(soundName, exposedParameterName, endValue);
+if (err != AudioManager.AudioError.OK) {
+    Debug.Log("Lerping AudioMixerGroup exposed parameter with the name " + exposedParameterName + " on the sound called: " + soundName + " failed with error id: " + err);
+}
+else {
+    Debug.Log("Lerping AudioMixerGroup exposed parameter with the name " + exposedParameterName + " on the sound called: " + soundName + " to the endValue: " + endValue.ToString("0.00") + " succesfull");
+}
+```
+
+**When to use it:**
+When you want to lerp an exposed parameter (for example the volume or pitch) for the complete [```AudioMixerGroup```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/Audio.AudioMixerGroup.html) the sound is connected to.
