@@ -316,7 +316,7 @@ public class MethodCalls : MonoBehaviour {
                 message = "The given granularity is too small, has to be higher than or equal to 1";
                 break;
             case AudioManager.AudioError.NOT_EXPOSED:
-                message = "The given parameter in the AudioMixer is not exposed.";
+                message = "The given parameter in the AudioMixer is not exposed or does not exist.";
                 break;
             case AudioManager.AudioError.MISSING_SOURCE:
                 message = "Sound does not have an AudioSource component on the GameObject the AudioManager resides on.";
