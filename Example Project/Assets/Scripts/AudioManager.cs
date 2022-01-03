@@ -77,22 +77,6 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Appends the given sounds AudioSource components to the dictionary.
-    /// </summary>
-    /// <param name="sounds">Sounds we want to append to the dictionary.</param>
-    /// <returns>AudioError, showing wheter and how adding a sound failed.</returns>
-    public AudioError AddSound(Sound sound) {
-        AudioError error = AudioError.OK;
-        // Ensure there is not already a sound with the given name in our dictionary.
-        if (soundDictionary.ContainsKey(sound.name)) {
-            error = AudioError.ALREADY_EXISTS;
-            return error;
-        }
-        soundDictionary.Add(sound.name, sound.source);
-        return error;
-    }
-
-    /// <summary>
     /// Plays the sound with the given name.
     /// </summary>
     /// <param name="name">Name of the sound.</param>
@@ -643,6 +627,22 @@ public class AudioManager : MonoBehaviour {
         sound.source.volume = sound.volume;
         sound.source.pitch = sound.pitch;
         sound.source.loop = sound.loop;
+    }
+
+    /// <summary>
+    /// Appends the given sounds AudioSource components to the dictionary.
+    /// </summary>
+    /// <param name="sounds">Sounds we want to append to the dictionary.</param>
+    /// <returns>AudioError, showing wheter and how adding a sound failed.</returns>
+    private AudioError AddSound(Sound sound) {
+        AudioError error = AudioError.OK;
+        // Ensure there is not already a sound with the given name in our dictionary.
+        if (soundDictionary.ContainsKey(sound.name)) {
+            error = AudioError.ALREADY_EXISTS;
+            return error;
+        }
+        soundDictionary.Add(sound.name, sound.source);
+        return error;
     }
 
     /// <summary>
