@@ -5,7 +5,7 @@ parent: Documentation
 nav_order: 2
 ---
 
-### Play At Time Stamp
+## Play At Time Stamp
 **What it does:**
 Adds the given sound to the list of possible playable sounds and returns an AudioError (see [Possible Errors](#possible-errors)), showing wheter and how adding the sound from the given path failed.
 
