@@ -1,8 +1,6 @@
 title: Unity Audio Manager
 email: noreply@users.github.com
-description: Used to play/change/stop/mute/… sounds at certain circumstances or events in 2D and 3D simply via. code.
 logo: /logo.png
-github_username: MathewHDYT
 color_scheme: dark
 
 # Build settings
