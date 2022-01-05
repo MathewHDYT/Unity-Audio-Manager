@@ -2,12 +2,11 @@
 layout: default
 title: Add Sound From Path
 parent: Documentation
-nav_order: 2
 ---
 
 ## Play At Time Stamp
 **What it does:**
-Adds the given sound to the list of possible playable sounds and returns an AudioError (see [Possible Errors](#possible-errors)), showing wheter and how adding the sound from the given path failed.
+Adds the given sound to the list of possible playable sounds and returns an AudioError (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/#possible-errors)), showing wheter and how adding the sound from the given path failed.
 
 **How to call it:**
 - ```SoundName``` is the ```name``` the new sound should have
