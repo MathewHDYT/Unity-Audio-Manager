@@ -2,10 +2,10 @@
 layout: default
 title: Play At Time Stamp
 parent: Documentation
-nav_order: 2
+nav_order: 3
 ---
 
-### Play At Time Stamp
+## Play At Time Stamp
 **What it does:**
 Start playing the choosen sound at the given ```startTime``` and returns an AudioError (see [Possible Errors](#possible-errors)), showing wheter and how playing the sound from the given ```startTime``` failed.
 
