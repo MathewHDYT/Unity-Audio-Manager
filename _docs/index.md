@@ -1,8 +1,7 @@
 ---
 layout: default
-title: Unity Audio Manager
+title: Home
 nav_order: 1
-description: "Used to play/change/stop/mute/... sounds at certain circumstances or events in 2D and 3D simply via. code."
 permalink: /
 ---
 
