@@ -2,12 +2,11 @@
 layout: default
 title: Get Playback Position
 parent: Documentation
-nav_order: 4
 ---
 
 ## Get Playback Position
 **What it does:**
-Returns an instance of the ValueDataError class, where the value (gettable with ```Value```), is the current playback position of the given sound in seconds and where the error (gettable with ```Error```) is an integer representing the AudioError Enum (see [Possible Errors](#possible-errors)), showing wheter and how getting the current playback position of the sound failed.
+Returns an instance of the ValueDataError class, where the value (gettable with ```Value```), is the current playback position of the given sound in seconds and where the error (gettable with ```Error```) is an integer representing the AudioError Enum (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/#possible-errors)), showing wheter and how getting the current playback position of the sound failed.
 
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to get the playback position of
