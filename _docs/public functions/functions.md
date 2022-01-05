@@ -3,7 +3,7 @@ layout: default
 title: AudioSource
 nav_order: 1
 description: "Used to play/change/stop/mute/... sounds at certain circumstances or events in 2D and 3D simply via. code."
-permalink: /public-functions
+permalink: /public functions-functions
 parent: Public Functions
 ---
 
