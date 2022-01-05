@@ -5,7 +5,7 @@ parent: Documentation
 nav_order: 3
 ---
 
-### Play
+## Play
 **What it does:**
 Starts playing the choosen sound and returns an AudioError (see [Possible Errors](#possible-errors)), showing wheter and how playing the sound failed.
 
