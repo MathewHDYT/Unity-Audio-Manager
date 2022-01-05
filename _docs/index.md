@@ -2,8 +2,10 @@
 layout: default
 title: Home
 nav_order: 1
-permalink: /
 ---
+
+#Unity Audio Manager (UAM)
+Used to play/change/stop/mute/... sounds at certain circumstances or events in 2D and 3D simply via. code.
 
 ## Reference to Audio Manager Script
 To use the Audio Manager to start playing sounds outside of itself you need to reference it. As the Audio Manager is a [Singelton](https://stackoverflow.com/questions/2155688/what-is-a-singleton-in-c) this can be done easily when we get the instance and save it as a private variable in the script that uses the Audio Manager.
