@@ -2,12 +2,11 @@
 layout: default
 title: Play At Time Stamp
 parent: Documentation
-nav_order: 3
 ---
 
 ## Play At Time Stamp
 **What it does:**
-Start playing the choosen sound at the given ```startTime``` and returns an AudioError (see [Possible Errors](#possible-errors)), showing wheter and how playing the sound from the given ```startTime``` failed.
+Start playing the choosen sound at the given ```startTime``` and returns an AudioError (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/#possible-errors)), showing wheter and how playing the sound from the given ```startTime``` failed.
 
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to play
