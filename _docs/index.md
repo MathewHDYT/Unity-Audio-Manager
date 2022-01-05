@@ -4,7 +4,7 @@ title: Home
 nav_order: 1
 ---
 
-#Unity Audio Manager (UAM)
+# Unity Audio Manager (UAM)
 Used to play/change/stop/mute/... sounds at certain circumstances or events in 2D and 3D simply via. code.
 
 ## Reference to Audio Manager Script
