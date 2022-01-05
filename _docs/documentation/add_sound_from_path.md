@@ -1,13 +1,10 @@
 ---
 layout: default
-title: AudioSource
-nav_order: 1
-description: "Used to play/change/stop/mute/... sounds at certain circumstances or events in 2D and 3D simply via. code."
-permalink: /documentation-functions
+title: Add Sound From Path
 parent: Documentation
+nav_order: 2
 ---
 
-### Add Sound From Path method
 **What it does:**
 Adds the given sound to the list of possible playable sounds and returns an AudioError (see [Possible Errors](#possible-errors)), showing wheter and how adding the sound from the given path failed.
 
