@@ -2,6 +2,7 @@
 layout: default
 title: Reset Group Value
 parent: AudioMixer
+grand_parent: Documentation
 ---
 
 ## Reset Group Value
