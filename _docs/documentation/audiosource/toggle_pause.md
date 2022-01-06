@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Toggle Pause
-parent: Documentation
+parent: AudioSource
 ---
 
 ## Toggle Pause
