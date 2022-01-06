@@ -1,12 +1,12 @@
 ---
 layout: default
 title: Lerp Volume
-parent: Documentation
+parent: AudioSource
 ---
 
 ## Lerp Volume
 **What it does:**
-Lerps the ```volume``` of a given sound over a given amount of time and returns an AudioError (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/#possible-errors)), showing wheter and how lerping the volume of the given sound failed.
+Lerps the ```volume``` of a given sound over a given amount of time and returns an AudioError (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)), showing wheter and how lerping the volume of the given sound failed.
 
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to change the volume from
