@@ -2,6 +2,7 @@
 layout: default
 title: Lerp Pitch
 parent: AudioSource
+grand_parent: Documentation
 ---
 
 ## Lerp Pitch
