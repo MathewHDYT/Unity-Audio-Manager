@@ -1,12 +1,12 @@
 ---
 layout: default
 title: Reset Group Value
-parent: Documentation
+parent: AudioMixer
 ---
 
 ## Reset Group Value
 **What it does:**
-Reset the value of the given exposed parameter for the complete [```AudioMixerGroup```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/Audio.AudioMixerGroup.html) of a given sound to the default value and returns an AudioError (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/#possible-errors)), showing wheter and how resetting the value of the given exposed parameter failed.
+Reset the value of the given exposed parameter for the complete [```AudioMixerGroup```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/Audio.AudioMixerGroup.html) of a given sound to the default value and returns an AudioError (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)), showing wheter and how resetting the value of the given exposed parameter failed.
 
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to reset the [```AudioMixerGroup```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/Audio.AudioMixerGroup.html) parameter on
@@ -27,3 +27,5 @@ else {
 
 **When to use it:**
 When you want to reset an exposed parameter (for example the volume or pitch) for the complete [```AudioMixerGroup```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/Audio.AudioMixerGroup.html) the sound is connected to.
+
+See [```AudioMixer.ClearFloat```](https://docs.unity3d.com/2019.1/Documentation/ScriptReference/Audio.AudioMixer.ClearFloat.html) for more details on what reset group value does.
