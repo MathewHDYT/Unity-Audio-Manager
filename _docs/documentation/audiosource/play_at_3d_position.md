@@ -1,12 +1,12 @@
 ---
 layout: default
 title: Play At 3D Position
-parent: Documentation
+parent: AudioSource
 ---
 
 ## Play At 3D Position
 **What it does:**
-Starts playing the choosen sound at a given 3D position and returns an AudioError (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/#possible-errors)), showing wheter and how playing the sound at the given position failed.
+Starts playing the choosen sound at a given 3D position and returns an AudioError (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)), showing wheter and how playing the sound at the given position failed.
 
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to play
