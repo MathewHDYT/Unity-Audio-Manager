@@ -6,7 +6,7 @@ parent: Documentation
 
 ## Toggle Pause
 **What it does:**
-Completly pauses or unpauses playback of the given sound until it is toggled again and returns an AudioError (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/#possible-errors)), showing wheter and how pausing or unpausing the sound failed.
+Completly pauses or unpauses playback of the given sound until it is toggled again and returns an AudioError (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)), showing wheter and how pausing or unpausing the sound failed.
 
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to toggle pause on / off
