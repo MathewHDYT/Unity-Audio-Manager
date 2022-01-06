@@ -2,6 +2,7 @@
 layout: default
 title: Toggle Mute
 parent: AudioSource
+grand_parent: Documentation
 ---
 
 ## Toggle Mute
