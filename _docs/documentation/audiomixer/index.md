@@ -1,6 +1,7 @@
 ---
 layout: default
 title: AudioMixer
+parent: Documentation
 has_children: true
 ---
 
