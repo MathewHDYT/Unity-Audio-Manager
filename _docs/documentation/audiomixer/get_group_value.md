@@ -1,12 +1,12 @@
 ---
 layout: default
 title: Get Group Value
-parent: Documentation
+parent: AudioMixer
 ---
 
 ## Get Group Value
 **What it does:**
-Returns an instance of the ValueDataError class, where the value (gettable with ```Value```), is the current value of the given exposed parameter and where the error (gettable with ```Error```) is an integer representing the AudioError Enum (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/#possible-errors)), showing wheter and how getting the value of the given exposed parameter failed.
+Returns an instance of the ValueDataError class, where the value (gettable with ```Value```), is the current value of the given exposed parameter and where the error (gettable with ```Error```) is an integer representing the AudioError Enum (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)), showing wheter and how getting the value of the given exposed parameter failed.
 
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to get the [```AudioMixerGroup```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/Audio.AudioMixerGroup.html) parameter on
@@ -27,3 +27,5 @@ else {
 
 **When to use it:**
 When you want to get an exposed parameter (for example the volume or pitch) for the complete [```AudioMixerGroup```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/Audio.AudioMixerGroup.html) the sound is connected to.
+
+See [```AudioMixer.GetFloat```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/Audio.AudioMixer.GetFloat.html) for more details on what get group value does.
