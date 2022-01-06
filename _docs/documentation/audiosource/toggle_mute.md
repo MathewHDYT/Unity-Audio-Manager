@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Toggle Mute
-parent: Documentation
+parent: AudioSource
 ---
 
 ## Toggle Mute
