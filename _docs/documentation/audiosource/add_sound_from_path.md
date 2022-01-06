@@ -2,6 +2,7 @@
 layout: default
 title: Add Sound From Path
 parent: AudioSource
+grand_parent: Documentation
 ---
 
 ## Play At Time Stamp
