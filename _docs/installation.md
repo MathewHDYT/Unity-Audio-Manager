@@ -2,6 +2,7 @@
 layout: default
 title: Installation
 nav_order: 3
+permalink: /installation
 ---
 
 ## Reference to Audio Manager Script
