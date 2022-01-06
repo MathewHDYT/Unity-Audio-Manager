@@ -2,6 +2,7 @@
 layout: default
 title: Change Group Value
 parent: AudioMixer
+grand_parent: Documentation
 ---
 
 ## Change Group Value
