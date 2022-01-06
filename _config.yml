@@ -9,6 +9,11 @@ remote_theme: pmarsceill/just-the-docs
 # Supports true (default) or false
 search_enabled: true
 
+search:
+  # Split pages into sections that can be searched individually
+  # Supports 1 - 6, default: 2
+  heading_level: 3
+
 aux_links:
   "Unity Audio Manager on GitHub":
     - "//github.com/MathewHDYT/Unity-Audio-Manager"
