@@ -29,3 +29,5 @@ else {
 
 **When to use it:**
 When you want to change an exposed parameter (for example the volume or pitch) for the complete [```AudioMixerGroup```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/Audio.AudioMixerGroup.html) the sound is connected to.
+
+See [```AudioMixer.SetFloat```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/Audio.AudioMixer.SetFloat.html) for more details on what change group value does.
