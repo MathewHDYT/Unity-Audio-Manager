@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Lerp Group Value
-parent: AudioSource
+parent: AudioMixer
 grand_parent: Documentation
 ---
 
