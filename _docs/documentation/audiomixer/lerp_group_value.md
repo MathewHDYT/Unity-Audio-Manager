@@ -2,6 +2,7 @@
 layout: default
 title: Lerp Group Value
 parent: Documentation
+grand_parent: Documentation
 ---
 
 ## Lerp Group Value
