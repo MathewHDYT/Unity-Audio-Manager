@@ -2,6 +2,7 @@
 layout: default
 title: Get Group Value
 parent: AudioMixer
+grand_parent: Documentation
 ---
 
 ## Get Group Value
