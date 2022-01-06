@@ -2,6 +2,7 @@
 layout: default
 title: Play Attached To GameObject
 parent: AudioSource
+grand_parent: Documentation
 ---
 
 ### Play Attached To GameObject
