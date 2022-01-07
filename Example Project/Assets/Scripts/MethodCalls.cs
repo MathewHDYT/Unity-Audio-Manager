@@ -1,21 +1,21 @@
 using UnityEngine;
-using TMPro;
+using UnityEngine.UI;
 
 public class MethodCalls : MonoBehaviour {
 
     [Header("Input:")]
     [SerializeField]
-    private TMP_InputField soundNameInput;
+    private InputField soundNameInput;
     [SerializeField]
-    private TMP_InputField timeInput;
+    private InputField timeInput;
     [SerializeField]
-    private TMP_InputField endValueInput;
+    private InputField endValueInput;
     [SerializeField]
-    private TMP_InputField granularityInput;
+    private InputField granularityInput;
 
     [Header("Output:")]
     [SerializeField]
-    private TMP_Text outputText;
+    private Text outputText;
 
     [Header("Objects:")]
     [SerializeField]
