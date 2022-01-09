@@ -51,4 +51,7 @@ else {
 ```
 
 **When to use it:**
-When you want to add a new 2D sound at runtime, could be useful if you need to add a lot of songs and don't want to add them manually through the GameObject the Audio Manager script resides on. If 3D functionality and settings want to be added, additionaly call the [```Set3DAudioOptions```](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/audiosource/set_3d_audio_options/) method.
+When you want to add a new 2D sound at runtime, could be useful if you need to add a lot of songs and don't want to add them manually through the GameObject the Audio Manager script resides on.
+
+**Remarks:**
+If 3D functionality and settings want to be added, additionaly call the [```Set3DAudioOptions```](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/audiosource/set_3d_audio_options/) method.
