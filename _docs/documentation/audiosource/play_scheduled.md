@@ -29,4 +29,5 @@ else {
 **When to use it:**
 When you want to switch smoothly between sounds, because the method it is independent of the frame rate and gives the audio system enough time to prepare the playback of the sound to fetch it from media, where the opening and buffering takes a lot of time (streams) without causing sudden CPU spikes.
 
+**Remarks:**
 See [```AudioSource.PlayScheduled```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/AudioSource.PlayScheduled.html) for more details on what play scheduled does.
