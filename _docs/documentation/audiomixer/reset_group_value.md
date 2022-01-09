@@ -29,4 +29,5 @@ else {
 **When to use it:**
 When you want to reset an exposed parameter (for example the volume or pitch) for the complete [```AudioMixerGroup```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/Audio.AudioMixerGroup.html) the sound is connected to.
 
+**Remarks:**
 See [```AudioMixer.ClearFloat```](https://docs.unity3d.com/2019.1/Documentation/ScriptReference/Audio.AudioMixer.ClearFloat.html) for more details on what reset group value does.
