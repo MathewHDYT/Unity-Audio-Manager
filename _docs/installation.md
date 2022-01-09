@@ -34,6 +34,26 @@ Additonaly the [```AudioMixer```](https://docs.unity3d.com/2021.2/Documentation/
 See [Audio Tutorial for Unity AudioMixer](https://www.raywenderlich.com/532-audio-tutorial-for-unity-the-audio-mixer#toc-anchor-010) on how to expose parameters so that they can be changed with the AudioManager.
 
 ## Adding a new sound
+Starting from ```v1.4``` see ([GitHub release](https://github.com/MathewHDYT/Unity-Audio-Manager-UAM/releases/)), the AudioManager now relies on ```ScriptableObjects``` called ```AudioSourceSetting``` with custom UnityEditor code to initaly create a sound. For that you simply create as many ```AudioSourceSetting``` as you want too.
+
+This can be done in any folder in the Assets, simply **Right-Click --> Create --> AudioManager --> AudioSourceSettings**. You can now give your ```ScriptableObject``` a name and set its values.
+
+To remark is that the inital state of the ```AudioSourceSetting``` is only 2D functionality.
+
+To enable 3D functionality you have to increase the ```Spatial Blend``` setting to more than 0, because this signals how much your sound should be treated as 3D. Where 0 is effectively 2D. Therefore when you increase this to more than 0 additional settings for 3D functionality appear.
+
+Image of 2D ```AudioSourceSettings```                                                                   |   Image of 3D ```AudioSourceSettings```
+:-------------------------:                                                                             |   :-------------------------:
+![Image of 2D ```AudioSourceSettings```](https://image.prntscr.com/image/70krCDO2RzWhy0gzllOPzg.png)    |   ![Image of 3D ```AudioSourceSettings```](https://image.prntscr.com/image/xKTNULIoQxaHD1osU7K2AA.png)
+
+Lastly the ```ScriptableObjects``` then have to be dragged into the list on the ```AudioManager.CS``` script.
+![Image of 2D ```AudioSourceSettings```](https://image.prntscr.com/image/Hr_3keQ0SHaKo7MwZ19d5g.png)
+
+<details>
+    <summary>
+        Old Way to add new sounds before v1.4
+    </summary>
+
 **To add a new sound you simply have to create a new element in the Sounds array with the properties:**
 - ```Name``` (This is used to reference the sound in the Audio Manager so ensure it's unique)
 - ```Mixer Group``` ([```AudioMixerGroup```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/Audio.AudioMixerGroup.html) the sound is connected to)
@@ -43,6 +63,7 @@ See [Audio Tutorial for Unity AudioMixer](https://www.raywenderlich.com/532-audi
 - ```Loop``` (Determines if the sound should be repeated automatically after finishing --> Usefull for a theme sound)
 
 ![Image of AudioManager Script](https://image.prntscr.com/image/X9_38TspTDGMwruRz1LCHA.png)
+</details>
 
 ## Required Software
 - [Unity](https://unity3d.com/get-unity/download) Ver. 2020.3.17f1
