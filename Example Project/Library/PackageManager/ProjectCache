@@ -5,16 +5,16 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637771829894431708
-    m_Hash: 1102500802
+      ticks: 637771852417729653
+    m_Hash: 2605812462
   m_LockFileStatus:
     m_FilePath: C:/Users/mathe/AudioManager/Example Project/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637771829894989741
-    m_Hash: 2747509809
+      ticks: 637771852418376054
+    m_Hash: 901214009
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_PackageAssets:
@@ -232,7 +232,7 @@ m_PackageAssets:
         version: 1.1.1
       resolvedDependencies:
       - name: com.unity.test-framework
-        version: 1.1.27
+        version: 1.1.30
       - name: com.unity.ext.nunit
         version: 1.0.6
       - name: com.unity.modules.imgui
@@ -260,12 +260,12 @@ m_PackageAssets:
         url: https://github.cds.internal.unity3d.com/unity/com.unity.ide.rider.git
         revision: abb44f053e9a41d2e00e149e32a19bcec76e98b4
         path: 
-    - packageId: com.unity.ide.visualstudio@2.0.11
+    - packageId: com.unity.ide.visualstudio@2.0.12
       testable: 0
       isDirectDependency: 1
-      version: 2.0.11
+      version: 2.0.12
       source: 1
-      resolvedPath: C:\Users\mathe\AudioManager\Example Project\Library\PackageCache\com.unity.ide.visualstudio@2.0.11
+      resolvedPath: C:\Users\mathe\AudioManager\Example Project\Library\PackageCache\com.unity.ide.visualstudio@2.0.12
       assetPath: Packages/com.unity.ide.visualstudio
       name: com.unity.ide.visualstudio
       displayName: Visual Studio Editor
@@ -321,7 +321,7 @@ m_PackageAssets:
         version: 1.1.9
       resolvedDependencies:
       - name: com.unity.test-framework
-        version: 1.1.27
+        version: 1.1.30
       - name: com.unity.ext.nunit
         version: 1.0.6
       - name: com.unity.modules.imgui
@@ -341,20 +341,20 @@ m_PackageAssets:
       entitlements:
         isAllowed: 1
       isAssetStorePackage: 0
-      datePublishedTicks: 637613656180000000
+      datePublishedTicks: 637720564750000000
       documentationUrl: 
       hasRepository: 1
       repository:
         type: git
         url: https://github.cds.internal.unity3d.com/unity/com.unity.ide.visualstudio.git
-        revision: 680e06d94ffca728223ae2cb14bb919cd354e2c1
+        revision: 8d436ff053b9c59677b5e9799208143553cd02d9
         path: 
-    - packageId: com.unity.ide.vscode@1.2.3
+    - packageId: com.unity.ide.vscode@1.2.4
       testable: 0
       isDirectDependency: 1
-      version: 1.2.3
+      version: 1.2.4
       source: 1
-      resolvedPath: C:\Users\mathe\AudioManager\Example Project\Library\PackageCache\com.unity.ide.vscode@1.2.3
+      resolvedPath: C:\Users\mathe\AudioManager\Example Project\Library\PackageCache\com.unity.ide.vscode@1.2.4
       assetPath: Packages/com.unity.ide.vscode
       name: com.unity.ide.vscode
       displayName: Visual Studio Code Editor
@@ -412,20 +412,20 @@ m_PackageAssets:
       entitlements:
         isAllowed: 1
       isAssetStorePackage: 0
-      datePublishedTicks: 637394922300000000
+      datePublishedTicks: 637660806170000000
       documentationUrl: 
       hasRepository: 1
       repository:
         type: git
-        url: https://github.cds.internal.unity3d.com/unity/com.unity.ide.vscode.git
-        revision: b5ec9b38109e52b1b26597d521e4df75e042ebb9
+        url: git+https://github.com/Unity-Technologies/com.unity.ide.vscode.git
+        revision: 1f4f605d5c988cb610c372b5c5216c46cc8f5d30
         path: 
-    - packageId: com.unity.test-framework@1.1.27
+    - packageId: com.unity.test-framework@1.1.30
       testable: 0
       isDirectDependency: 1
-      version: 1.1.27
+      version: 1.1.30
       source: 1
-      resolvedPath: C:\Users\mathe\AudioManager\Example Project\Library\PackageCache\com.unity.test-framework@1.1.27
+      resolvedPath: C:\Users\mathe\AudioManager\Example Project\Library\PackageCache\com.unity.test-framework@1.1.30
       assetPath: Packages/com.unity.test-framework
       name: com.unity.test-framework
       displayName: Test Framework
@@ -506,13 +506,13 @@ m_PackageAssets:
       entitlements:
         isAllowed: 1
       isAssetStorePackage: 0
-      datePublishedTicks: 637594751620000000
+      datePublishedTicks: 637702469360000000
       documentationUrl: 
       hasRepository: 1
       repository:
         type: git
-        url: git+https://github.com/Unity-Technologies/com.unity.test-framework.git
-        revision: c2f2cc9b7ea61d42964257363595dff5e8c47c42
+        url: https://github.com/Unity-Technologies/com.unity.test-framework.git
+        revision: 4a3f541cb46e2f6875b3a938daba8c7113020873
         path: 
     - packageId: com.unity.timeline@1.4.8
       testable: 0

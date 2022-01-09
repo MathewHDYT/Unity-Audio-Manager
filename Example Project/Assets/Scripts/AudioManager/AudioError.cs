@@ -1,0 +1,14 @@
+public enum AudioError {
+    OK,
+    DOES_NOT_EXIST,
+    FOUND_MULTIPLE,
+    ALREADY_EXISTS,
+    INVALID_PATH,
+    SAME_AS_CURRENT,
+    TOO_SMALL,
+    TOO_BIG,
+    NOT_EXPOSED,
+    MISSING_SOURCE,
+    MISSING_MIXER_GROUP,
+    CAN_NOT_BE_3D
+}

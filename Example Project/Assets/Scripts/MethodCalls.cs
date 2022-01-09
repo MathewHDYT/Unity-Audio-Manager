@@ -22,19 +22,19 @@ public class MethodCalls : MonoBehaviour {
     private GameObject radio;
 
     private AudioManager am;
+    private Color32 successColor = new Color32(75, 181, 67, 255);
+    private Color32 failureColor = new Color32(237, 67, 55, 255);
 
     private const string NOT_A_NUMBER = "Input is not a valid number in the textfield: ";
     private const string exposedVolumeName = "Volume";
-    private Color32 successColor = new Color32(75, 181, 67, 255);
-    private Color32 failureColor = new Color32(237, 67, 55, 255);
 
     private void Start() {
         am = AudioManager.instance;
     }
 
     public void PlayClicked() {
-        AudioManager.AudioError error = am.Play(soundNameInput.text);
-        if (error != AudioManager.AudioError.OK) {
+        AudioError error = am.Play(soundNameInput.text);
+        if (error != AudioError.OK) {
             SetTextAndColor("Playing sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage(error), failureColor);
         }
         else {
@@ -48,8 +48,8 @@ public class MethodCalls : MonoBehaviour {
             return;
         }
 
-        AudioManager.AudioError error = am.PlayAtTimeStamp(soundNameInput.text, timeStamp);
-        if (error != AudioManager.AudioError.OK) {
+        AudioError error = am.PlayAtTimeStamp(soundNameInput.text, timeStamp);
+        if (error != AudioError.OK) {
             SetTextAndColor("Playing sound called: " + soundNameInput.text + " at timestamp: " + timeStamp.ToString("0.00") + " failed with error message: " + ErrorToMessage(error), failureColor);
         }
         else {
@@ -59,8 +59,8 @@ public class MethodCalls : MonoBehaviour {
 
     public void GetPlayBackPositionClicked() {
         ValueDataError<float> valueDataError = am.GetPlaybackPosition(soundNameInput.text);
-        if (valueDataError.Error != (int)AudioManager.AudioError.OK) {
-            SetTextAndColor("Getting playBackPosition of the sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage((AudioManager.AudioError)valueDataError.Error), failureColor);
+        if (valueDataError.Error != (int)AudioError.OK) {
+            SetTextAndColor("Getting playBackPosition of the sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage((AudioError)valueDataError.Error), failureColor);
         }
         else {
             SetTextAndColor("Getting playBackPosition of the sound called: " + soundNameInput.text + " with the position being: " + valueDataError.Value.ToString("0.00") + " succesfull", successColor);
@@ -72,8 +72,8 @@ public class MethodCalls : MonoBehaviour {
         float randomYPos = Random.Range(-7.5f, 10f);
         var worldPosition = new Vector3(randomXPos, randomYPos, 5f);
 
-        AudioManager.AudioError error = am.PlayAt3DPosition(soundNameInput.text, worldPosition, 10f, 20f);
-        if (error != AudioManager.AudioError.OK) {
+        AudioError error = am.PlayAt3DPosition(soundNameInput.text, worldPosition);
+        if (error != AudioError.OK) {
             SetTextAndColor("Playing sound called: " + soundNameInput.text + " at the position x " + worldPosition.x.ToString("0.00") + " and y " + worldPosition.y.ToString("0.00") + " failed with error message: " + ErrorToMessage(error), failureColor);
         }
         else {
@@ -86,8 +86,8 @@ public class MethodCalls : MonoBehaviour {
         float randomYPos = Random.Range(-7.5f, 10f);
         Vector3 worldPosition = new Vector3(randomXPos, randomYPos, 5f);
 
-        AudioManager.AudioError error = am.PlayAttachedToGameObject(soundNameInput.text, radio, 5f, 15f);
-        if (error != AudioManager.AudioError.OK) {
+        AudioError error = am.PlayAttachedToGameObject(soundNameInput.text, radio);
+        if (error != AudioError.OK) {
             SetTextAndColor("Playing sound called: " + soundNameInput.text + " attached to: " + radio.name + " failed with error message: " + ErrorToMessage(error), failureColor);
         }
         else {
@@ -102,8 +102,8 @@ public class MethodCalls : MonoBehaviour {
             return;
         }
 
-        AudioManager.AudioError error = am.PlayDelayed(soundNameInput.text, delay);
-        if (error != AudioManager.AudioError.OK) {
+        AudioError error = am.PlayDelayed(soundNameInput.text, delay);
+        if (error != AudioError.OK) {
             SetTextAndColor("Playing sound called: " + soundNameInput.text + " after " + delay.ToString("0.00") + " seconds failed with error message: " + ErrorToMessage(error), failureColor);
         }
         else {
@@ -112,12 +112,12 @@ public class MethodCalls : MonoBehaviour {
     }
 
     public void PlayOneShotClicked() {
-        AudioManager.AudioError error = am.PlayOneShot(soundNameInput.text);
-        if (error != AudioManager.AudioError.OK) {
+        AudioError error = am.PlayOneShot(soundNameInput.text);
+        if (error != AudioError.OK) {
             SetTextAndColor("Playing sound called: " + soundNameInput.text + " once failed with error message: " + ErrorToMessage(error), failureColor);
         }
         else {
-            SetTextAndColor("Playing sound called: " + soundNameInput.text + " once succesfull", failureColor);
+            SetTextAndColor("Playing sound called: " + soundNameInput.text + " once succesfull", successColor);
         }
     }
 
@@ -127,8 +127,8 @@ public class MethodCalls : MonoBehaviour {
             return;
         }
 
-        AudioManager.AudioError error = am.PlayScheduled(soundNameInput.text, delay);
-        if (error != AudioManager.AudioError.OK) {
+        AudioError error = am.PlayScheduled(soundNameInput.text, delay);
+        if (error != AudioError.OK) {
             SetTextAndColor("Playing sound called: " + soundNameInput.text + " after " + delay.ToString("0.00") + " failed with error message: " + ErrorToMessage(error), failureColor);
         }
         else {
@@ -137,8 +137,8 @@ public class MethodCalls : MonoBehaviour {
     }
 
     public void StopClicked() {
-        AudioManager.AudioError error = am.Stop(soundNameInput.text);
-        if (error != AudioManager.AudioError.OK) {
+        AudioError error = am.Stop(soundNameInput.text);
+        if (error != AudioError.OK) {
             SetTextAndColor("Stopping sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage(error), failureColor);
         }
         else {
@@ -147,8 +147,8 @@ public class MethodCalls : MonoBehaviour {
     }
 
     public void ToggleMuteClicked() {
-        AudioManager.AudioError error = am.ToggleMute(soundNameInput.text);
-        if (error != AudioManager.AudioError.OK) {
+        AudioError error = am.ToggleMute(soundNameInput.text);
+        if (error != AudioError.OK) {
             SetTextAndColor("Muting or unmuting sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage(error), failureColor);
         }
         else {
@@ -157,8 +157,8 @@ public class MethodCalls : MonoBehaviour {
     }
 
     public void TogglePauseClicked() {
-        AudioManager.AudioError error = am.TogglePause(soundNameInput.text);
-        if (error != AudioManager.AudioError.OK) {
+        AudioError error = am.TogglePause(soundNameInput.text);
+        if (error != AudioError.OK) {
             SetTextAndColor("Pausing or unpausing sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage(error), failureColor);
         }
         else {
@@ -168,8 +168,8 @@ public class MethodCalls : MonoBehaviour {
 
     public void GetProgressClicked() {
         ValueDataError<float> valueDataError = am.GetProgress(soundNameInput.text);
-        if (valueDataError.Error != (int)AudioManager.AudioError.OK) {
-            SetTextAndColor("Getting progress of the sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage((AudioManager.AudioError)valueDataError.Error), failureColor);
+        if (valueDataError.Error != (int)AudioError.OK) {
+            SetTextAndColor("Getting progress of the sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage((AudioError)valueDataError.Error), failureColor);
         }
         else {
             SetTextAndColor("Getting progress of the sound called: " + soundNameInput.text + " with the progress being: " + (valueDataError.Value * 100).ToString("0.00") + "% succesfull", successColor);
@@ -177,8 +177,8 @@ public class MethodCalls : MonoBehaviour {
     }
 
     public void GetSourceClicked() {
-        AudioManager.AudioError error = am.TryGetSource(soundNameInput.text, out _);
-        if (error != AudioManager.AudioError.OK) {
+        AudioError error = am.TryGetSource(soundNameInput.text, out _);
+        if (error != AudioError.OK) {
             SetTextAndColor("Getting source of the sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage(error), failureColor);
         }
         else {
@@ -200,8 +200,8 @@ public class MethodCalls : MonoBehaviour {
             return;
         }
 
-        AudioManager.AudioError error = am.LerpPitch(soundNameInput.text, endValue, time, granularity);
-        if (error != AudioManager.AudioError.OK) {
+        AudioError error = am.LerpPitch(soundNameInput.text, endValue, time, granularity);
+        if (error != AudioError.OK) {
             SetTextAndColor("Lerping pitch of the sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage(error), failureColor);
         }
         else {
@@ -223,8 +223,8 @@ public class MethodCalls : MonoBehaviour {
             return;
         }
 
-        AudioManager.AudioError error = am.LerpVolume(soundNameInput.text, endValue, time, granularity);
-        if (error != AudioManager.AudioError.OK) {
+        AudioError error = am.LerpVolume(soundNameInput.text, endValue, time, granularity);
+        if (error != AudioError.OK) {
             SetTextAndColor("Lerping volume of the sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage(error), failureColor);
         }
         else {
@@ -238,8 +238,8 @@ public class MethodCalls : MonoBehaviour {
             return;
         }
 
-        AudioManager.AudioError error = am.ChangeGroupValue(soundNameInput.text, exposedVolumeName, endValue);
-        if (error != AudioManager.AudioError.OK) {
+        AudioError error = am.ChangeGroupValue(soundNameInput.text, exposedVolumeName, endValue);
+        if (error != AudioError.OK) {
             SetTextAndColor("Changing AudioMixerGroup volume of the sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage(error), failureColor);
         }
         else {
@@ -249,8 +249,8 @@ public class MethodCalls : MonoBehaviour {
 
     public void GetGroupValueClicked() {
         ValueDataError<float> valueDataError = am.GetGroupValue(soundNameInput.text, exposedVolumeName);
-        if (valueDataError.Error != (int)AudioManager.AudioError.OK) {
-            SetTextAndColor("Getting AudioMixerGroup volume of the sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage((AudioManager.AudioError)valueDataError.Error), failureColor);
+        if (valueDataError.Error != (int)AudioError.OK) {
+            SetTextAndColor("Getting AudioMixerGroup volume of the sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage((AudioError)valueDataError.Error), failureColor);
         }
         else {
             SetTextAndColor("Getting AudioMixerGroup volume of the sound called: " + soundNameInput.text + " with the current value being: " + valueDataError.Value.ToString("0.00") + " succesfull", successColor);
@@ -258,8 +258,8 @@ public class MethodCalls : MonoBehaviour {
     }
 
     public void ResetGroupValueClicked() {
-        AudioManager.AudioError error = am.ResetGroupValue(soundNameInput.text, exposedVolumeName);
-        if (error != AudioManager.AudioError.OK) {
+        AudioError error = am.ResetGroupValue(soundNameInput.text, exposedVolumeName);
+        if (error != AudioError.OK) {
             SetTextAndColor("Reseting AudioMixerGroup volume to its default value of the sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage(error), failureColor);
         }
         else {
@@ -281,8 +281,8 @@ public class MethodCalls : MonoBehaviour {
             return;
         }
 
-        AudioManager.AudioError error = am.LerpGroupValue(soundNameInput.text, exposedVolumeName, endValue, time, granularity);
-        if (error != AudioManager.AudioError.OK) {
+        AudioError error = am.LerpGroupValue(soundNameInput.text, exposedVolumeName, endValue, time, granularity);
+        if (error != AudioError.OK) {
             SetTextAndColor("Lerping AudioMixerGroup volume of the sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage(error), failureColor);
         }
         else {
@@ -290,42 +290,63 @@ public class MethodCalls : MonoBehaviour {
         }
     }
 
-    private string ErrorToMessage(AudioManager.AudioError error) {
+    public void SetStartTimeClicked() {
+        if (!float.TryParse(timeInput.text, out float time)) {
+            SetTextAndColor(NOT_A_NUMBER + "Time", failureColor);
+            return;
+        }
+
+        AudioError error = am.SetStartTime(soundNameInput.text, time);
+        if (error != AudioError.OK) {
+            SetTextAndColor("Setting start time of the sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage(error), failureColor);
+        }
+        else {
+            SetTextAndColor("Setting start time of the sound called: " + soundNameInput.text + " with the time: " + time.ToString("0.00") + " seconds succesfull", successColor);
+        }
+    }
+
+    private string ErrorToMessage(AudioError error) {
         string message = "";
 
         switch (error) {
-            case AudioManager.AudioError.OK:
+            case AudioError.OK:
                 message = "Method succesfully executed";
                 break;
-            case AudioManager.AudioError.DOES_NOT_EXIST:
+            case AudioError.DOES_NOT_EXIST:
                 message = "Sound has not been registered with the AudioManager";
                 break;
-            case AudioManager.AudioError.FOUND_MULTIPLE:
+            case AudioError.FOUND_MULTIPLE:
                 message = "Multiple instances with the same name found. First will be played";
                 break;
-            case AudioManager.AudioError.ALREADY_EXISTS:
+            case AudioError.ALREADY_EXISTS:
                 message = "Can't add sound as there already exists a sound with that name";
                 break;
-            case AudioManager.AudioError.INVALID_PATH:
+            case AudioError.INVALID_PATH:
                 message = "Can't add sound because the path does not lead to a valid audio clip";
                 break;
-            case AudioManager.AudioError.SAME_AS_CURRENT:
+            case AudioError.SAME_AS_CURRENT:
                 message = "The given endValue is already the same as the current value";
                 break;
-            case AudioManager.AudioError.TOO_SMALL:
+            case AudioError.TOO_SMALL:
                 message = "The given granularity is too small, has to be higher than or equal to 1";
                 break;
-            case AudioManager.AudioError.NOT_EXPOSED:
+            case AudioError.TOO_BIG:
+                message = "The given startTime exceeds the actual length of the clip.";
+                break;
+            case AudioError.NOT_EXPOSED:
                 message = "The given parameter in the AudioMixer is not exposed or does not exist.";
                 break;
-            case AudioManager.AudioError.MISSING_SOURCE:
+            case AudioError.MISSING_SOURCE:
                 message = "Sound does not have an AudioSource component on the GameObject the AudioManager resides on.";
                 break;
-            case AudioManager.AudioError.MISSING_MIXER_GROUP:
+            case AudioError.MISSING_MIXER_GROUP:
                 message = "Group methods may only be called with a sound that has a set AudioMixerGroup.";
                 break;
+            case AudioError.CAN_NOT_BE_3D:
+                message = "The sound can not be 3D, because spatialBlend is set to be 2D instead of 3D.";
+                break;
             default:
-                // Invalid AudioManager.AudioError argument.
+                // Invalid AudioError argument.
                 break;
         }
 
