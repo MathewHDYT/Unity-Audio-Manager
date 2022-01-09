@@ -20,6 +20,8 @@ Shows all the possible AudioError Enum values that can be returned by the AudioM
 | 4      | INVALID_PATH                  | Can't add sound because the path does not lead to a valid audio clip                           |
 | 5      | SAME_AS_CURRENT               | The given endValue is already the same as the current value                                    |
 | 6      | TOO_SMALL                     | The given granularity is too small, has to be higher than or equal to 1                        |
-| 7      | NOT_EXPOSED                   | The given parameter in the AudioMixer is not exposed or does not exist                         |
-| 8      | MISSING_SOURCE                | Sound does not have an AudioSource component on the GameObject the AudioManager resides on     |
-| 9      | MISSING_MIXER_GROUP           | Group methods may only be called with a sound that has a set AudioMixerGroup                   |
+| 7      | TOO_BIG                       | The given startTime exceeds the actual length of the clip                                      |
+| 8      | NOT_EXPOSED                   | The given parameter in the AudioMixer is not exposed or does not exist                         |
+| 9      | MISSING_SOURCE                | Sound does not have an AudioSource component on the GameObject the AudioManager resides on     |
+| 10     | MISSING_MIXER_GROUP           | Group methods may only be called with a sound that has a set AudioMixerGroup                   |
+| 11     | CAN_NOT_BE_3D                 | The sound can not be 3D, because spatialBlend is set to be 2D instead of 3D                    |
