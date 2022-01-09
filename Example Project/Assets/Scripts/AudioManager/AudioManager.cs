@@ -598,7 +598,7 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Enables and sets the possible 3D Audio Options.
+    /// Enables and sets the possible 3D audio options.
     /// </summary>
     /// <param name="name">Name of the sound.</param>
     /// <param name="minDistance">Distance that sound will not get louder at.</param>
@@ -607,7 +607,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="spatialBlend">Defines how much the Audio Source is affected by 3D space. (0f = 2D, 1f = 3D)</param>
     /// <param name="dopplerLevel">Defines Doppler Scale for the Audio Source. (0f - 5f)</param>
     /// <param name="rolloffMode">Sets how the Volume will be lowered over distance.</param>
-    /// <returns>AudioError, showing wheter and how adding the AudioMixerGroup failed.</returns>
+    /// <returns>AudioError, showing wheter and how setting the 3D audio options failed.</returns>
     public AudioError Set3DAudioOptions(string name, float minDistance = 1f, float maxDistance = 500f, float spatialBlend = 1f, float spread = 0f, float dopplerLevel = 1f, AudioRolloffMode rolloffMode = AudioRolloffMode.Logarithmic) {
         AudioError error = TryGetSource(name, out AudioSource source);
 
