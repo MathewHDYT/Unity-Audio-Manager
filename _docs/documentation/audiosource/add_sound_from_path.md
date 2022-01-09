@@ -5,9 +5,9 @@ parent: AudioSource
 grand_parent: Documentation
 ---
 
-## Play At Time Stamp
+## Add Sound From Path
 **What it does:**
-Adds the given sound to the list of possible playable sounds and returns an AudioError (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)), showing wheter and how adding the sound from the given path failed.
+Adds the given 2D sound to the list of possible playable sounds and returns an AudioError (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)), showing wheter and how adding the sound from the given path failed.
 
 **How to call it:**
 - ```SoundName``` is the ```name``` the new sound should have
@@ -51,4 +51,4 @@ else {
 ```
 
 **When to use it:**
-When you want to add a new sound at runtime, could be useful if you need to add a lot of songs and don't want to add them manually through the GameObject the Audio Manager script resides on.
+When you want to add a new 2D sound at runtime, could be useful if you need to add a lot of songs and don't want to add them manually through the GameObject the Audio Manager script resides on. If 3D functionality and settings want to be added, additionaly call the [```Set3DAudioOptions```](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/audiosource/set_3d_audio_options/) method.
