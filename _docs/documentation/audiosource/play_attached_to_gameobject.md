@@ -12,41 +12,12 @@ Starts playing the choosen sound attached to a ```gameObject``` and returns an A
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to play
 - ```GameObject``` is the object the sound is emitting from
-- ```MinDistance``` is the distance the sound will not get louder at
-- ```MaxDistance``` is the distance the sound will still be hearable at
-- ```Spread``` is the angle the sound will be emitted at in degrees
-- ```SpatialBlend``` defines how much the sound is affected by 3D (0f = 2D, 1f = 3D)
-- ```DopplerLevel``` defines the doppler scale for our sound
-- ```RolloffMode``` defines how the sound should decline in ```volume``` between the min and max distance
 
 ```csharp
 string soundName = "SoundName";
 GameObject gameObject = this.gameObject;
-float minDistance = 5f;
-float maxDistance = 15f;
-float spread = 0f;
-float spatialBlend = 1f;
-float dopplerLevel = 1f;
-AudioRolloffMode rolloffMode = AudioRolloffMode.Linear;
 
-AudioManager.AudioError err = am.PlayAttachedToGameObject(soundName, gameObject, minDistance, maxDistance, spread, spatialBlend, dopplerLevel, rolloffMode);
-if (err != AudioManager.AudioError.OK) {
-    Debug.Log("Playing sound called: " + soundName + " attached to: " + gameObject.name + " failed with error id: " + err);
-}
-else {
-    Debug.Log("Playing sound called: " + soundName + " attached to: " + gameObject.name + " succesfull");
-}
-```
-
-Alternatively you can call the methods with less paramters as some of them have default arguments.
-
-```csharp
-string soundName = "SoundName";
-GameObject gameObject = this.gameObject;
-float minDistance = 5f;
-float maxDistance = 15f;
-
-AudioManager.AudioError err = am.PlayAttachedToGameObject(soundName, gameObject, minDistance, maxDistance);
+AudioManager.AudioError err = am.PlayAttachedToGameObject(soundName, gameObject);
 if (err != AudioManager.AudioError.OK) {
     Debug.Log("Playing sound called: " + soundName + " attached to: " + gameObject.name + " failed with error id: " + err);
 }
@@ -57,3 +28,6 @@ else {
 
 **When to use it:**
 When you want to play a sound directly from a object and make the ```volume``` be influenced by the distance the player has from that object.
+
+**Remarks:**
+To use either [```PlayAt3DPosition```](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/audiosource/play_at_3d_position/) or [```PlayAttachedToGameObject```](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/audiosource/play_attached_to_gameobject/) the sound we want to play with it has to have 3D enabled. Either use [```Set3DAudioOptions```](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/audiosource/set_3d_audio_options/) to set the needed settings via. code or make the sound 3D capable with the ```Spatial Blend``` parameter on the ```AudioSourceSetting```.
