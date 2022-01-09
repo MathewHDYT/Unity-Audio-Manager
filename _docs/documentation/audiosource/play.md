@@ -27,6 +27,5 @@ else {
 **When to use it:**
 When you want to play a sound directly without changing its initally properties.
 
-If you want to enable looping for a sound (see [Adding a new sound](https://mathewhdyt.github.io/Unity-Audio-Manager/installation#adding-a-new-sound)) for more information.
-
-See [```AudioSource.Play```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/AudioSource.Play.html) for more details on what play does.
+**Remarks:**
+If you want to enable looping for a sound (see [Adding a new sound](https://mathewhdyt.github.io/Unity-Audio-Manager/installation#adding-a-new-sound)) for more information. See [```AudioSource.Play```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/AudioSource.Play.html) for more details on what play does.
