@@ -27,4 +27,5 @@ else {
 **When to use it:**
 When you want to stop the given sound, if you restart it later the sound will start anew. So to really only pause it use the [Toggle Pause method](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/audiosource/toggle_pause/).
 
+**Remarks:**
 See [```AudioSource.Stop```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/AudioSource.Stop.html) for more details on what stop does.
