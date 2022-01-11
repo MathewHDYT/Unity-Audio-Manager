@@ -10,6 +10,20 @@ public class AudioManager : MonoBehaviour {
 
     private Dictionary<string, AudioSource> soundDictionary = new Dictionary<string, AudioSource>();
 
+    // Max. progress of the sound still detactable in an IEnumerator.
+    private const float MAX_PROGRESS = 0.99f;
+    // Max. spatial blend value that still counts as 2D.
+    private const float SPATIAL_BLEND_2D = 0f;
+    // Min. granularity value that is still valid.
+    private const float MIN_GRANULARITY = 1f;
+
+    // Default values for method parameters.
+    private const float DEFAULT_VOLUME = 1f;
+    private const float DEFAULT_PITCH = 1f;
+    private const bool DEFAULT_LOOP = false;
+    private const float DEFAULT_WAIT_TIME = 1f;
+    private const float DEFAULT_GRANULARITY = 5f;
+
     #region Singelton
     public static AudioManager instance;
 
@@ -42,7 +56,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="source">Source we want to add to the new sound.</param>
     /// <param name="mixerGroup">Mixer group the sound is influenced by.</param>
     /// <returns>AudioError, showing wheter and how adding a 2D sound from the given path with the given settings failed.</returns>
-    public AudioError AddSoundFromPath(string name, string path, float volume = 1f, float pitch = 1f, bool loop = false, AudioSource source = null, AudioMixerGroup mixerGroup = null) {
+    public AudioError AddSoundFromPath(string name, string path, float volume = DEFAULT_VOLUME, float pitch = DEFAULT_PITCH, bool loop = DEFAULT_LOOP, AudioSource source = null, AudioMixerGroup mixerGroup = null) {
         AudioError error = AudioError.OK;
         // Load sound clip from the Resource folder on the given path.
         var clip = Resources.Load<AudioClip>(path);
@@ -85,10 +99,7 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Plays the sound with the given name.
-    /// AudioSource.isPlaying will return false when AudioSource.Pause is called.
-    /// Therefore if this method is used and the sound is paused, then unpausing will start the sound anew.
-    /// Use the SetStartTime method and reset the startTime via. the TryGetSource method yourself. If you want to circumvent this.
+    /// Plays the sound with the given name starting at the given startTime in the sound.
     /// </summary>
     /// <param name="name">Name of the sound.</param>
     /// <param name="startTime">Time we want to start playing the sound at in seconds.</param>
@@ -102,7 +113,11 @@ public class AudioManager : MonoBehaviour {
         }
 
         // Sets the start playback position to the given startTime in seconds.
-        SetStartTime(name, startTime);
+        error = SetStartTime(name, startTime);
+        if (error != AudioError.OK) {
+            return error;
+        }
+
         source.Play();
         // Resets the startTime back to 0 as soon as the song is finished.
         StartCoroutine(DelayedResetStartTime(name));
@@ -145,7 +160,7 @@ public class AudioManager : MonoBehaviour {
             return error;
         }
         // Checks if 3D was even enabled in the spatialBlend.
-        else if (source.spatialBlend <= 0f) {
+        else if (source.spatialBlend <= SPATIAL_BLEND_2D) {
             error = AudioError.CAN_NOT_BE_3D;
             return error;
         }
@@ -170,7 +185,7 @@ public class AudioManager : MonoBehaviour {
             return error;
         }
         // Checks if 3D was even enabled in the spatialBlend.
-        else if (source.spatialBlend <= 0f) {
+        else if (source.spatialBlend <= SPATIAL_BLEND_2D) {
             error = AudioError.CAN_NOT_BE_3D;
             return error;
         }
@@ -362,7 +377,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="waitTime">Total time needed to reach the given endValue.</param>
     /// <param name="granularity">Amount of steps that will be taken to decrease to the endValue (Setting to high is not advised).</param>
     /// <returns>AudioError, showing wheter and how changing the pitch of the given sound failed.</returns>
-    public AudioError LerpPitch(string name, float endValue, float waitTime = 1f, float granularity = 5f) {
+    public AudioError LerpPitch(string name, float endValue, float waitTime = DEFAULT_WAIT_TIME, float granularity = DEFAULT_GRANULARITY) {
         AudioError error = TryGetSource(name, out AudioSource source);
 
         // Couldn't find source.
@@ -373,7 +388,7 @@ public class AudioManager : MonoBehaviour {
             error = AudioError.SAME_AS_CURRENT;
             return error;
         }
-        else if (granularity < 1f) {
+        else if (granularity < MIN_GRANULARITY) {
             error = AudioError.TOO_SMALL;
             return error;
         }
@@ -395,7 +410,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="waitTime">Total time needed to reach the given endValue.</param>
     /// <param name="granularity">Amount of steps that will be taken to decrease to the endValue (Setting to high is not advised).</param>
     /// <returns>AudioError, showing wheter and how changing the volume of the given sound failed.</returns>
-    public AudioError LerpVolume(string name, float endValue, float waitTime = 1f, float granularity = 5f) {
+    public AudioError LerpVolume(string name, float endValue, float waitTime = DEFAULT_WAIT_TIME, float granularity = DEFAULT_GRANULARITY) {
         AudioError error = TryGetSource(name, out AudioSource source);
 
         // Couldn't find source.
@@ -406,7 +421,7 @@ public class AudioManager : MonoBehaviour {
             error = AudioError.SAME_AS_CURRENT;
             return error;
         }
-        else if (granularity < 1f) {
+        else if (granularity < MIN_GRANULARITY) {
             error = AudioError.TOO_SMALL;
             return error;
         }
@@ -512,7 +527,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="waitTime">Total time needed to reach the given endValue.</param>
     /// <param name="granularity">Amount of steps that will be taken to decrease to the endValue (Setting to high is not advised).</param>
     /// <returns>AudioError, showing wheter and how changing the given exposed parameter for the complete AudioMixerGroup of the given sound failed.</returns>
-    public AudioError LerpGroupValue(string name, string exposedParameterName, float endValue, float waitTime = 1f, float granularity = 5f) {
+    public AudioError LerpGroupValue(string name, string exposedParameterName, float endValue, float waitTime = DEFAULT_WAIT_TIME, float granularity = DEFAULT_GRANULARITY) {
         AudioError error = TryGetSource(name, out AudioSource source);
         float startValue = float.NaN;
 
@@ -534,7 +549,7 @@ public class AudioManager : MonoBehaviour {
             error = AudioError.SAME_AS_CURRENT;
             return error;
         }
-        else if (granularity < 1f) {
+        else if (granularity < MIN_GRANULARITY) {
             error = AudioError.TOO_SMALL;
             return error;
         }
@@ -616,7 +631,7 @@ public class AudioManager : MonoBehaviour {
             return error;
         }
         // Checks if 3D was even enabled in the spatialBlend.
-        else if (spatialBlend <= 0f) {
+        else if (spatialBlend <= SPATIAL_BLEND_2D) {
             error = AudioError.CAN_NOT_BE_3D;
             return error;
         }
@@ -626,7 +641,7 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Sets the startTime in seconds of the given sound.
+    /// Sets the startTime of the given sound.
     /// Does not get reset when playing the sound again use PlayAtTimeStamp for that.
     /// </summary>
     /// <param name="name">Name of the sound.</param>
@@ -749,17 +764,31 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Resets the startTime for the given sound after we wait for the end of the frame,
+    /// Resets the startTime for the given sound after we wait for the end of it,
     /// to ensure the Play() method has already started playing the sound,
     /// because if we don't, we reset the startTime before playing
-    /// and therefore still start at 0 instead of the given startTime.
+    /// and therefore start at 0 instead of the given startTime.
     /// </summary>
-    /// <param name="mixer">AudioMixer our exposed parameter resides in.</param>
-    /// <param name="exposedParameterName">Name of the exposed parameter we want to change.</param>
+    /// <param name="name">Name of the song we want to reset.</param>
     private IEnumerator DelayedResetStartTime(string name) {
         TryGetSource(name, out AudioSource source);
-        yield return new WaitWhile(() => source.isPlaying);
+        yield return new WaitUntil(() => SoundFinished(source));
+        // Stop the sound if it isn't set to looping,
+        // this is done to ensure the sound doesn't replay,
+        // when it is not set to looping.
+        if (!source.loop) {
+            Stop(name);
+        }
         SetStartTime(name, 0f);
+    }
+
+    /// <summary>
+    /// Detects if a source is nearly finished meaning the MAX_PROGRESS passed.
+    /// </summary>
+    /// <param name="source">Source we want to check.</param>
+    /// <returns>Wheter the source should have finished or not.</returns>
+    private bool SoundFinished(AudioSource source) {
+        return source.isPlaying && ((float)source.timeSamples / (float)source.clip.samples >= MAX_PROGRESS);
     }
 
     /// <summary>
@@ -772,7 +801,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="volume">Overall volume of the sound.</param>
     /// <param name="pitch">Frequency of the sound. Use this to slow down or speed up the sounds.</param>
     /// <returns>AudioError, showing wheter and how setting the 2D audio source options failed.</returns>
-    public AudioError Set2DAudioOptions(AudioSource source, AudioClip clip, AudioMixerGroup mixerGroup, bool loop, float volume, float pitch) {
+    private AudioError Set2DAudioOptions(AudioSource source, AudioClip clip, AudioMixerGroup mixerGroup, bool loop, float volume, float pitch) {
         AudioError error = AudioError.OK;
 
         if (!source) {
@@ -793,7 +822,7 @@ public class AudioManager : MonoBehaviour {
     /// </summary>
     /// <param name="setting">Object containing all settings needed to set the AudioSource options.</param>
     /// <returns>AudioError, showing wheter and how setting the 2D audio source options failed.</returns>
-    public AudioError Set2DAudioOptions(AudioSourceSetting setting) {
+    private AudioError Set2DAudioOptions(AudioSourceSetting setting) {
         AudioError error = AudioError.OK;
 
         if (!setting.source) {
@@ -820,7 +849,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="minDistance">Distance that sound will not get louder at.</param>
     /// <param name="maxDistance">Distance that sound will still be hearable at.</param>
     /// <returns>AudioError, showing wheter and how setting the 3D audio source options failed.</returns>
-    public AudioError Set3DAudioOptions(AudioSource source, float spatialBlend, float dopplerLevel, float spread, AudioRolloffMode rolloffMode, float minDistance, float maxDistance) {
+    private AudioError Set3DAudioOptions(AudioSource source, float spatialBlend, float dopplerLevel, float spread, AudioRolloffMode rolloffMode, float minDistance, float maxDistance) {
         AudioError error = AudioError.OK;
 
         // Check if source is null.
@@ -829,7 +858,7 @@ public class AudioManager : MonoBehaviour {
             return error;
         }
         // Checks if 3D was even enabled in the spatialBlend.
-        else if (spatialBlend <= 0f) {
+        else if (spatialBlend <= SPATIAL_BLEND_2D) {
             error = AudioError.CAN_NOT_BE_3D;
             return error;
         }
@@ -849,7 +878,7 @@ public class AudioManager : MonoBehaviour {
     /// </summary>
     /// <param name="setting">Object containing all settings needed to set the AudioSource options.</param>
     /// <returns>AudioError, showing wheter and how setting the 3D audio source options failed.</returns>
-    public AudioError Set3DAudioOptions(AudioSourceSetting setting) {
+    private AudioError Set3DAudioOptions(AudioSourceSetting setting) {
         AudioError error = AudioError.OK;
 
         // Check if source is null.
@@ -858,7 +887,7 @@ public class AudioManager : MonoBehaviour {
             return error;
         }
         // Checks if 3D was even enabled in the spatialBlend.
-        else if (setting.spatialBlend <= 0f) {
+        else if (setting.spatialBlend <= SPATIAL_BLEND_2D) {
             error = AudioError.CAN_NOT_BE_3D;
             return error;
         }
