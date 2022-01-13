@@ -42,12 +42,12 @@ To remark is that the inital state of the ```AudioSourceSetting``` is only 2D fu
 
 To enable 3D functionality you have to increase the ```Spatial Blend``` setting to more than 0, because this signals how much your sound should be treated as 3D. Where 0 is effectively 2D. Therefore when you increase this to more than 0 additional settings for 3D functionality appear.
 
-Image of 2D ```AudioSourceSettings```                                                                   |   Image of 3D ```AudioSourceSettings```
-:-------------------------:                                                                             |   :-------------------------:
-![Image of 2D ```AudioSourceSettings```](https://image.prntscr.com/image/70krCDO2RzWhy0gzllOPzg.png)    |   ![Image of 3D ```AudioSourceSettings```](https://image.prntscr.com/image/xKTNULIoQxaHD1osU7K2AA.png)
+Image of 2D ```AudioSourceSettings```                                                                                                          |   Image of 3D ```AudioSourceSettings```
+:-------------------------:                                                                                                                    |   :-------------------------:
+![Image of 2D ```AudioSourceSettings```](https://github.com/MathewHDYT/Unity-Audio-Manager/blob/gh-pages/_images/2d_audiosourcesetting.png)    |   ![Image of 3D ```AudioSourceSettings```](https://github.com/MathewHDYT/Unity-Audio-Manager/blob/gh-pages/_images/3d_audiosourcesetting.png)
 
 Lastly the ```ScriptableObjects``` then have to be dragged into the list on the ```AudioManager.CS``` script.
-![Image of 2D ```AudioSourceSettings```](https://image.prntscr.com/image/Hr_3keQ0SHaKo7MwZ19d5g.png)
+![Image of 2D ```AudioSourceSettings```](https://github.com/MathewHDYT/Unity-Audio-Manager/blob/gh-pages/_images/AudioManager.png)
 
 <details>
     <summary>
@@ -61,8 +61,7 @@ Lastly the ```ScriptableObjects``` then have to be dragged into the list on the 
 - ```Volume``` (How loud the sound is)
 - ```Pitch``` (Distortion of the sound effect, set it to 1 if you wan't to ensure that it sounds like intended)
 - ```Loop``` (Determines if the sound should be repeated automatically after finishing --> Usefull for a theme sound)
-
-![Image of AudioManager Script](https://image.prntscr.com/image/X9_38TspTDGMwruRz1LCHA.png)
+![Image of AudioManager Script](https://github.com/MathewHDYT/Unity-Audio-Manager/blob/gh-pages/_images/old_audiomanager.png)
 </details>
 
 ## Required Software
