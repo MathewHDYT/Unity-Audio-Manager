@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Audio;
+using System;
 
 public class AudioManager : MonoBehaviour {
     [SerializeField]
@@ -9,6 +10,7 @@ public class AudioManager : MonoBehaviour {
     private AudioSourceSetting[] settings;
 
     private Dictionary<string, AudioSource> soundDictionary = new Dictionary<string, AudioSource>();
+    private Action<string, float> soundFinishedCallback = new Action<string, float>(ResetStartTime);
 
     // Max. progress of the sound still detactable in an IEnumerator.
     private const float MAX_PROGRESS = 0.99f;
@@ -119,8 +121,8 @@ public class AudioManager : MonoBehaviour {
         }
 
         source.Play();
-        // Resets the startTime back to 0 as soon as the song is finished.
-        StartCoroutine(DelayedResetStartTime(name));
+        // Calls the given callback as soon as the song is finished.
+        StartCoroutine(DetectCurrentProgress(name, MAX_PROGRESS, soundFinishedCallback));
         return error;
     }
 
@@ -247,7 +249,7 @@ public class AudioManager : MonoBehaviour {
             return error;
         }
 
-        source.pitch = Random.Range(minPitch, maxPitch);
+        source.pitch = UnityEngine.Random.Range(minPitch, maxPitch);
         return error;
     }
 
@@ -328,6 +330,46 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
+    /// Subscribes the given callback, so that it will be called with the given name and remaining time as a parameter,
+    /// as soon as the sound only has the given remainingTime left to play until it finishes.
+    /// </summary>
+    /// <param name="name">Name of the sound.</param>
+    /// <param name="remainingTime">Amount of remaining playback time in seconds, we want to call the callback at.</param>
+    /// <param name="callback">Callback that should be called, once the sound only has the given amount of time left.</param>
+    /// <returns>AudioError, showing wheter and how subscribing the callback failed.</returns>
+    public AudioError SubscribeAudioFinished(string name, float remainingTime, Action<string, float> callback) {
+        AudioError error = TryGetSource(name, out AudioSource source);
+
+        // Couldn't find source.
+        if (error != AudioError.OK) {
+            return error;
+        }
+        // Check if the given remainingTime exceeds the actual clip length.
+        else if (remainingTime > source.clip.length) {
+            error = AudioError.INVALID_TIME;
+            return error;
+        }
+
+        // Calculate the progress we need to call the callback at.
+        // Consists of our given time divided by the clips actual length,
+        // this will give us a value from (0 - 1),
+        // but because we get the remainingTime
+        // and not the time in the song we want to call the callback at,
+        // we need to switch the value so for example from 0.3 to 0.7.
+        float progress = -(remainingTime / source.clip.length) + 1;
+
+        // Check if the progress is to high.
+        if (progress > MAX_PROGRESS) {
+            error = AudioError.INVALID_PROGRESS;
+            return error;
+        }
+
+        // Calls the given callback as soon as the song has only the given remainingTime left to play.
+        StartCoroutine(DetectCurrentProgress(name, progress, callback));
+        return error;
+    }
+
+    /// <summary>
     /// Returns the progress of the sound with the given name from 0 to 1 where 1 is fully completed.
     /// </summary>
     /// <param name="name">Name of the sound.</param>
@@ -385,11 +427,11 @@ public class AudioManager : MonoBehaviour {
             return error;
         }
         else if (source.pitch == endValue) {
-            error = AudioError.SAME_AS_CURRENT;
+            error = AudioError.INVALID_END_VALUE;
             return error;
         }
         else if (granularity < MIN_GRANULARITY) {
-            error = AudioError.TOO_SMALL;
+            error = AudioError.INVALID_GRANULARITY;
             return error;
         }
 
@@ -418,11 +460,11 @@ public class AudioManager : MonoBehaviour {
             return error;
         }
         else if (source.volume == endValue) {
-            error = AudioError.SAME_AS_CURRENT;
+            error = AudioError.INVALID_END_VALUE;
             return error;
         }
         else if (granularity < MIN_GRANULARITY) {
-            error = AudioError.TOO_SMALL;
+            error = AudioError.INVALID_GRANULARITY;
             return error;
         }
 
@@ -456,7 +498,7 @@ public class AudioManager : MonoBehaviour {
         }
         // Check if the AudioMixer parameter is exposed.
         else if (!source.outputAudioMixerGroup.audioMixer.SetFloat(exposedParameterName, newValue)) {
-            error = AudioError.NOT_EXPOSED;
+            error = AudioError.MIXER_NOT_EXPOSED;
         }
         return error;
     }
@@ -487,7 +529,7 @@ public class AudioManager : MonoBehaviour {
         }
         // Check if the AudioMixer parameter is exposed.
         else if (!source.outputAudioMixerGroup.audioMixer.GetFloat(exposedParameterName, out currentValue)) {
-            valueDataError.Error = (int)AudioError.NOT_EXPOSED;
+            valueDataError.Error = (int)AudioError.MIXER_NOT_EXPOSED;
         }
         valueDataError.Value = currentValue;
         return valueDataError;
@@ -513,7 +555,7 @@ public class AudioManager : MonoBehaviour {
         }
         // Check if the AudioMixer parameter is exposed.
         else if (!source.outputAudioMixerGroup.audioMixer.ClearFloat(exposedParameterName)) {
-            error = AudioError.NOT_EXPOSED;
+            error = AudioError.MIXER_NOT_EXPOSED;
         }
         return error;
     }
@@ -542,15 +584,15 @@ public class AudioManager : MonoBehaviour {
         }
         // Check if the AudioMixer parameter is exposed.
         else if (!source.outputAudioMixerGroup.audioMixer.GetFloat(exposedParameterName, out startValue)) {
-            error = AudioError.NOT_EXPOSED;
+            error = AudioError.MIXER_NOT_EXPOSED;
             return error;
         }
         else if (startValue == endValue) {
-            error = AudioError.SAME_AS_CURRENT;
+            error = AudioError.INVALID_END_VALUE;
             return error;
         }
         else if (granularity < MIN_GRANULARITY) {
-            error = AudioError.TOO_SMALL;
+            error = AudioError.INVALID_GRANULARITY;
             return error;
         }
 
@@ -654,9 +696,9 @@ public class AudioManager : MonoBehaviour {
         if (error != AudioError.OK) {
             return error;
         }
-        // Check if the given startTime exceed the actual clip length.
+        // Check if the given startTime exceeds the actual clip length.
         else if (startTime > source.clip.length) {
-            error = AudioError.TOO_BIG;
+            error = AudioError.INVALID_TIME;
             return error;
         }
 
@@ -764,31 +806,34 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Resets the startTime for the given sound after we wait for the end of it,
-    /// to ensure the Play() method has already started playing the sound,
-    /// because if we don't, we reset the startTime before playing
-    /// and therefore start at 0 instead of the given startTime.
+    /// Detects the current time of the song and checks if the song only has the given amount of time left until it finished or not.
     /// </summary>
     /// <param name="name">Name of the song we want to reset.</param>
-    private IEnumerator DelayedResetStartTime(string name) {
+    /// <param name="progress">Amount of progress, we want to call the callback at. (0 - 1)</param>
+    /// <param name="callback">Callback that will be called once the given progress passed.</param>
+    private IEnumerator DetectCurrentProgress(string name, float progress, Action<string, float> callback) {
         TryGetSource(name, out AudioSource source);
-        yield return new WaitUntil(() => SoundFinished(source));
-        // Stop the sound if it isn't set to looping,
-        // this is done to ensure the sound doesn't replay,
-        // when it is not set to looping.
-        if (!source.loop) {
-            Stop(name);
-        }
-        SetStartTime(name, 0f);
+        yield return new WaitUntil(() => SoundFinished(source, progress));
+        // Recalculate the initally given remainingTime.
+        // Consists of our progress (0 - 1) multiplied by the clips actual length,
+        // this will give us a value in the clip length range,
+        // but because we want to get the remainingTime
+        // and not the current time in the song,
+        // we need to switch the value so for example from 20s to 10s.
+        float remainingTime = source.clip.length - (progress * source.clip.length);
+        // Invoke the callback with the given parameters as long as it isn't null.
+        callback?.Invoke(name, remainingTime);
     }
 
     /// <summary>
-    /// Detects if a source is nearly finished meaning the MAX_PROGRESS passed.
+    /// Detects if a source has finished to the given amount of progress.
     /// </summary>
     /// <param name="source">Source we want to check.</param>
-    /// <returns>Wheter the source should have finished or not.</returns>
-    private bool SoundFinished(AudioSource source) {
-        return source.isPlaying && ((float)source.timeSamples / (float)source.clip.samples >= MAX_PROGRESS);
+    /// <param name="progress">Amount of progress, we want to call the callback at. (0 - 1)</param>
+    /// <returns>Wheter the source has passed.</returns>
+    private bool SoundFinished(AudioSource source, float progress) {
+        bool result = source.isPlaying && ((float)source.timeSamples / (float)source.clip.samples >= progress);
+        return result;
     }
 
     /// <summary>
@@ -900,5 +945,24 @@ public class AudioManager : MonoBehaviour {
         setting.source.minDistance = setting.minDistance;
         setting.source.maxDistance = setting.maxDistance;
         return error;
+    }
+
+    /// <summary>
+    /// Resets the startTime for the given sound after we wait for the end of it,
+    /// to ensure the Play() method has already started playing the sound,
+    /// because if we don't, we reset the startTime before playing
+    /// and therefore start at 0 instead of the given startTime.
+    /// </summary>
+    /// <param name="name">Name of the sound.</param>
+    /// <param name="remainingTime">Only needed for Action callback, ignored in this case.</param>
+    private static void ResetStartTime(string name, float remainingTime) {
+        instance.TryGetSource(name, out AudioSource source);
+        // Stop the sound if it isn't set to looping,
+        // this is done to ensure the sound doesn't replay,
+        // when it is not set to looping.
+        if (!source.loop) {
+            instance.Stop(name);
+        }
+        instance.SetStartTime(name, 0f);
     }
 }

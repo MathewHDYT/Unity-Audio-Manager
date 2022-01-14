@@ -315,35 +315,35 @@ public class MethodCalls : MonoBehaviour {
             case AudioError.DOES_NOT_EXIST:
                 message = "Sound has not been registered with the AudioManager";
                 break;
-            case AudioError.FOUND_MULTIPLE:
-                message = "Multiple instances with the same name found. First will be played";
-                break;
             case AudioError.ALREADY_EXISTS:
                 message = "Can't add sound as there already exists a sound with that name";
                 break;
             case AudioError.INVALID_PATH:
                 message = "Can't add sound because the path does not lead to a valid audio clip";
                 break;
-            case AudioError.SAME_AS_CURRENT:
+            case AudioError.INVALID_END_VALUE:
                 message = "The given endValue is already the same as the current value";
                 break;
-            case AudioError.TOO_SMALL:
+            case AudioError.INVALID_GRANULARITY:
                 message = "The given granularity is too small, has to be higher than or equal to 1";
                 break;
-            case AudioError.TOO_BIG:
-                message = "The given startTime exceeds the actual length of the clip.";
+            case AudioError.INVALID_TIME:
+                message = "The given time exceeds the actual length of the clip";
                 break;
-            case AudioError.NOT_EXPOSED:
-                message = "The given parameter in the AudioMixer is not exposed or does not exist.";
+            case AudioError.INVALID_PROGRESS:
+                message = "The given value is to close to the end of the actual clip length, therefore the given value can not be detected, because playing audio is frame rate independent.";
+                break;
+            case AudioError.MIXER_NOT_EXPOSED:
+                message = "The given parameter in the AudioMixer is not exposed or does not exist";
                 break;
             case AudioError.MISSING_SOURCE:
-                message = "Sound does not have an AudioSource component on the GameObject the AudioManager resides on.";
+                message = "Sound does not have an AudioSource component on the GameObject the AudioManager resides on";
                 break;
             case AudioError.MISSING_MIXER_GROUP:
-                message = "Group methods may only be called with a sound that has a set AudioMixerGroup.";
+                message = "Group methods may only be called with a sound that has a set AudioMixerGroup";
                 break;
             case AudioError.CAN_NOT_BE_3D:
-                message = "The sound can not be 3D, because spatialBlend is set to be 2D instead of 3D.";
+                message = "The sound can not be 3D, because spatialBlend is set to be 2D instead of 3D";
                 break;
             default:
                 // Invalid AudioError argument.
