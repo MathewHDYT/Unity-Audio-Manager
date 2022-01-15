@@ -17,7 +17,7 @@ Starts playing the sound after the given amount of time with additional buffer t
 string soundName = "SoundName";
 double delay = 10d;
 
-AudioManager.AudioError err = am.PlayScheduled(soundName, delay);
+AudioError err = am.PlayScheduled(soundName, delay);
 if (err != AudioManager.AudioError.OK) {
     Debug.Log("Playing sound called: " + soundName + " after " + delay.ToString("0.00") + " failed with error id: " + err);
 }
