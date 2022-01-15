@@ -15,7 +15,7 @@ Starts playing the choosen sound and returns an AudioError (see [Possible Errors
 ```csharp
 string soundName = "SoundName";
 
-AudioManager.AudioError err = am.Play(soundName);
+AudioError err = am.Play(soundName);
 if (err != AudioManager.AudioError.OK) {
     Debug.Log("Playing sound called: " + soundName + " failed with error id: " + err);
 }
