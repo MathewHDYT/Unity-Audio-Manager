@@ -27,7 +27,7 @@ bool loop = false;
 AudioSource source = null;
 AudioMixerGroup mixerGroup = null;
 
-AudioManager.AudioError err = am.AddSoundFromPath(soundName, path, volume, pitch, loop, source, mixerGroup);
+AudioError err = am.AddSoundFromPath(soundName, path, volume, pitch, loop, source, mixerGroup);
 if (err != AudioManager.AudioError.OK) {
     Debug.Log("Adding the sound called: " + soundName + " from the given path failed with error id: " + err);
 }
@@ -41,7 +41,7 @@ Alternatively you can call the methods with less paramters as some of them have 
 string soundName = "SoundName";
 string path = "Audio/audioClip01";
 
-AudioManager.AudioError err = am.AddSoundFromPath(soundName, path);
+AudioError err = am.AddSoundFromPath(soundName, path);
 if (err != AudioManager.AudioError.OK) {
     Debug.Log("Adding the sound called: " + soundName + " from the given path failed with error id: " + err);
 }
