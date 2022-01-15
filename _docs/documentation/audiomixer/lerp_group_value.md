@@ -23,7 +23,7 @@ float endValue = -80f;
 float waitTime = 1f;
 float granularity = 2f;
 
-AudioManager.AudioError err = am.LerpGroupValue(soundName, exposedParameterName, endValue, waitTime, granularity);
+AudioError err = am.LerpGroupValue(soundName, exposedParameterName, endValue, waitTime, granularity);
 if (error != AudioManager.AudioError.OK) {
     Debug.Log("Lerping AudioMixerGroup exposed parameter with the name " + exposedParameterName + " on the sound called: " + soundName + " failed with error id: " + err);
 }
@@ -39,7 +39,7 @@ string soundName = "SoundName";
 string exposedParameterName = "Volume";
 float endValue = -80f;
 
-AudioManager.AudioError err = am.LerpGroupValue(soundName, exposedParameterName, endValue);
+AudioError err = am.LerpGroupValue(soundName, exposedParameterName, endValue);
 if (err != AudioManager.AudioError.OK) {
     Debug.Log("Lerping AudioMixerGroup exposed parameter with the name " + exposedParameterName + " on the sound called: " + soundName + " failed with error id: " + err);
 }
