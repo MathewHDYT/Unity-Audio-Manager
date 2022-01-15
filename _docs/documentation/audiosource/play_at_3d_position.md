@@ -17,7 +17,7 @@ Starts playing the choosen sound at a given 3D position and returns an AudioErro
 string soundName = "SoundName";
 Vector3 worldPosition = new Vector3(10f, 10f, 0f);
 
-AudioManager.AudioError err = am.PlayAt3DPosition(soundName, worldPosition);
+AudioError err = am.PlayAt3DPosition(soundName, worldPosition);
 if (err != AudioManager.AudioError.OK) {
     Debug.Log("Playing sound called: " + soundName + " at the position x " + worldPosition.x.ToString("0.00") + " and y " + worldPosition.y.ToString("0.00") + " failed with error id: " + err);
 }
