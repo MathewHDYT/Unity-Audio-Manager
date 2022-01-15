@@ -15,7 +15,7 @@ Stops the sound if it is currently playing and returns an AudioError (see [Possi
 ```csharp
 string soundName = "SoundName";
 
-AudioManager.AudioError err = am.Stop(soundName);
+AudioError err = am.Stop(soundName);
 if (err != AudioManager.AudioError.OK) {
     Debug.Log("Stopping sound called: " + soundName + " failed with error id: " + err);
 }
