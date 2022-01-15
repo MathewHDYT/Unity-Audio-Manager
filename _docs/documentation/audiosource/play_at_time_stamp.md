@@ -17,7 +17,7 @@ Start playing the choosen sound at the given ```startTime``` and returns an Audi
 string soundName = "SoundName";
 float startTime = 10f;
 
-AudioManager.AudioError err = am.PlayAtTimeStamp(soundName, startTime);
+AudioError err = am.PlayAtTimeStamp(soundName, startTime);
 if (err != AudioManager.AudioError.OK) {
     Debug.Log("Playing sound called: " + soundName + " at startTime: " + startTime.ToString("0.00") + " failed with error id: " + err);
 }
