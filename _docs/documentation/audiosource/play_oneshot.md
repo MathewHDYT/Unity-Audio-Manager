@@ -15,7 +15,7 @@ Starts playing the choosen sound once and returns an AudioError (see [Possible E
 ```csharp
 string soundName = "SoundName";
 
-AudioManager.AudioError err = am.PlayOneShot(soundName);
+AudioError err = am.PlayOneShot(soundName);
 if (err != AudioManager.AudioError.OK) {
     Debug.Log("Playing sound called: " + soundName + " once failed with error id: " + err);
 }
