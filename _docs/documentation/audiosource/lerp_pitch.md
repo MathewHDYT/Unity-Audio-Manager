@@ -21,7 +21,7 @@ float endValue = 0.8f;
 float waitTime = 1f;
 float granularity = 2f;
 
-AudioManager.AudioError err = am.LerpPitch(soundName, endValue, waitTime, granularity);
+AudioError err = am.LerpPitch(soundName, endValue, waitTime, granularity);
 if (err != AudioManager.AudioError.OK) {
     Debug.Log("Lerping pitch of the sound called: " + soundName + " failed with error id: " + err);
 }
@@ -36,7 +36,7 @@ Alternatively you can call the methods with less paramters as some of them have 
 string soundName = "SoundName";
 float endValue = 0.8f;
 
-AudioManager.AudioError err = am.LerpPitch(soundName, endValue);
+AudioError err = am.LerpPitch(soundName, endValue);
 if (err != AudioManager.AudioError.OK) {
     Debug.Log("Lerping pitch of the sound called: " + soundName + " failed with error id: " + err);
 }
