@@ -17,7 +17,7 @@ Starts playing the choosen sound after the given amount of time and returns an A
 string soundName = "SoundName";
 float delay = 5f;
 
-AudioManager.AudioError err = am.PlayDelayed(soundName, delay);
+AudioError err = am.PlayDelayed(soundName, delay);
 if (err != AudioManager.AudioError.OK) {
     Debug.Log("Playing sound called: " + soundName + " after " + delay.ToString("0.00") + " seconds failed with error id: " + err);
 }
