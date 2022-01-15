@@ -15,7 +15,7 @@ Sets the ```volume``` of the sound to 0 and resets it to it's initally value if 
 ```csharp
 string soundName = "SoundName";
 
-AudioManager.AudioError err = am.ToggleMute(soundName);
+AudioError err = am.ToggleMute(soundName);
 if (err != AudioManager.AudioError.OK) {
     Debug.Log("Muting or unmuting sound called: " + soundName + " failed with error id: " + err);
 }
