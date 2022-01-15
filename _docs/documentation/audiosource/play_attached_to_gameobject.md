@@ -17,7 +17,7 @@ Starts playing the choosen sound attached to a ```gameObject``` and returns an A
 string soundName = "SoundName";
 GameObject gameObject = this.gameObject;
 
-AudioManager.AudioError err = am.PlayAttachedToGameObject(soundName, gameObject);
+AudioError err = am.PlayAttachedToGameObject(soundName, gameObject);
 if (err != AudioManager.AudioError.OK) {
     Debug.Log("Playing sound called: " + soundName + " attached to: " + gameObject.name + " failed with error id: " + err);
 }
