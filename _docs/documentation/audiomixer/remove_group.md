@@ -15,7 +15,7 @@ Remove the [```AudioMixerGroup```](https://docs.unity3d.com/2021.2/Documentation
 ```csharp
 string soundName = "SoundName";
 
-AudioManager.AudioError error = am.RemoveGroup(soundName);
+AudioError error = am.RemoveGroup(soundName);
 if (error != AudioManager.AudioError.OK) {
     Debug.Log("Removing AudioMixerGroup on the sound called: " + soundName + " failed with error id: " + err);
 }
