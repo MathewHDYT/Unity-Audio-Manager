@@ -17,7 +17,7 @@ Adds the given [```AudioMixerGroup```](https://docs.unity3d.com/2021.2/Documenta
 string soundName = "SoundName";
 AudioMixerGroup mixerGroup = null;
 
-AudioManager.AudioError error = am.AddGroup(soundName, mixerGroup);
+AudioError error = am.AddGroup(soundName, mixerGroup);
 if (error != AudioManager.AudioError.OK) {
     Debug.Log("Adding AudioMixerGroup on the sound called: " + soundName + " failed with error id: " + err);
 }
