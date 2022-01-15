@@ -19,7 +19,7 @@ string soundName = "SoundName";
 float minPitch = 0.9f;
 float maxPitch = 1.1f;
 
-AudioManager.AudioError err = am.ChangePitch(soundName, minPitch, maxPitch);
+AudioError err = am.ChangePitch(soundName, minPitch, maxPitch);
 if (err != AudioManager.AudioError.OK) {
     Debug.Log("Changing pitch for the sound called: " + soundName + " failed with error id: " + err);
 }
