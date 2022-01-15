@@ -16,7 +16,7 @@ Returns the ```source``` of the given sound, as well as an AudioError (see [Poss
 string soundName = "SoundName";
 AudioSource source = default;
 
-AudioManager.AudioError err = am.TryGetSource(soundName, out source);
+AudioError err = am.TryGetSource(soundName, out source);
 if (err != AudioManager.AudioError.OK) {
     Debug.Log("Getting source of the sound called: " + soundName + " failed with error id: " + err);
 }
