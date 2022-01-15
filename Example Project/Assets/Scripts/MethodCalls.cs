@@ -331,7 +331,7 @@ public class MethodCalls : MonoBehaviour {
                 message = "The given time exceeds the actual length of the clip";
                 break;
             case AudioError.INVALID_PROGRESS:
-                message = "The given value is to close to the end of the actual clip length, therefore the given value can not be detected, because playing audio is frame rate independent.";
+                message = "The given value is to close to the end of the actual clip length, therefore the given value can not be detected, because playing audio is frame rate independent";
                 break;
             case AudioError.MIXER_NOT_EXPOSED:
                 message = "The given parameter in the AudioMixer is not exposed or does not exist";
