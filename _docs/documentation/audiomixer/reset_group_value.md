@@ -17,7 +17,7 @@ Reset the value of the given exposed parameter for the complete [```AudioMixerGr
 string soundName = "SoundName";
 string exposedParameterName = "Volume";
 
-AudioManager.AudioError error = am.ResetGroupValue(soundName, exposedParameterName);
+AudioError error = am.ResetGroupValue(soundName, exposedParameterName);
 if (error != AudioManager.AudioError.OK) {
     Debug.Log("Resetting AudioMixerGroup exposed parameter with the name " + exposedParameterName + " on the sound called: " + soundName + " failed with error id: " + err);
 }
