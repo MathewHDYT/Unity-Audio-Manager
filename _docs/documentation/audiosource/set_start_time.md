@@ -17,7 +17,7 @@ Sets the ```startTime``` in seconds of the given sound and returns an AudioError
 string soundName = "SoundName";
 float startTime = 10f;
 
-AudioManager.AudioError err = am.SetStartTime(soundName, startTime);
+AudioError err = am.SetStartTime(soundName, startTime);
 if (err != AudioManager.AudioError.OK) {
     Debug.Log("Setting startTime for the sound called: " + soundName + " to the value: " + startTime.ToString("0.00") + " failed with error id: " + err);
 }
