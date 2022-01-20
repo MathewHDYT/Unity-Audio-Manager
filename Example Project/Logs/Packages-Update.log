@@ -84,3 +84,11 @@ Update Mode: resetToDefaultDependencies
 
 The following packages were updated:
   com.unity.ide.visualstudio from version 2.0.12 to 2.0.11
+
+=== Thu Jan 20 21:48:56 2022
+
+Packages were changed.
+Update Mode: resetToDefaultDependencies
+
+The following packages were added:
+  com.unity.test-framework@1.1.27
