@@ -1,0 +1,16 @@
+{
+    "name": "MathewHDYT.AudioManager",
+    "rootNamespace": "",
+    "references": [
+        "GUID:34990e97e6a79f641835b0fb3c23e245"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

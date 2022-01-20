@@ -1,0 +1,28 @@
+{
+  "name": "com.mathewhdyt.audiomanager",
+  "version": "1.5.0",
+  "displayName": "Audio Manager",
+  "description": "Used to play/change/stop/mute/... sounds at certain circumstances or events in 2D and 3D simply via. code.",
+  "unity": "2018.1",
+  "documentationUrl": "https://mathewhdyt.github.io/Unity-Audio-Manager/",
+  "changelogUrl": "https://mathewhdyt.github.io/Unity-Audio-Manager/changelog",
+  "licensesUrl": "https://github.com/MathewHDYT/Unity-Audio-Manager/blob/main/LICENSE",
+  "samples": {
+    "displayName": "Example Scene",
+    "description": "Shows game screen with buttons for most of the AudioManagers publicly accesible methods.",
+    "path": "Samples~/ExampleScene"
+  },
+ "keywords": [
+    "Manager",
+    "AudioManager",
+    "Audio",
+    "Audio Manager",
+    "SoundManager",
+    "Sound",
+    "Sound Manager"
+  ],
+  "author": {
+    "name": "MathewHDYT",
+    "url": "https://github.com/MathewHDYT/Unity-Audio-Manager/"
+  }
+}
