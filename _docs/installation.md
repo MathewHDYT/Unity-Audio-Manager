@@ -79,6 +79,7 @@ Lastly the ```ScriptableObjects``` then have to be dragged into the list on the 
 - ```Volume``` (How loud the sound is)
 - ```Pitch``` (Distortion of the sound effect, set it to 1 if you wan't to ensure that it sounds like intended)
 - ```Loop``` (Determines if the sound should be repeated automatically after finishing --> Usefull for a theme sound)
+
 ![Image of AudioManager Script](https://raw.githubusercontent.com/MathewHDYT/Unity-Audio-Manager/gh-pages/_images/old_audiomanager.png)
 
 
@@ -89,7 +90,6 @@ Lastly the ```ScriptableObjects``` then have to be dragged into the list on the 
 
 ### Certain parts of this library need different versions:
 
-```Ver. 2018.1``` --> Because the integration of the package ui was in ```Ver. 2018.1```, so before that you can't install custom packages.
-```Ver. 5.2``` --> Because the AudioManager code itself relies only on min. ```Ver. 5.2```, because this was when support for both [AudioMixer](https://docs.unity3d.com/520/Documentation/Manual/AudioMixer.html) and [AudioSource](https://docs.unity3d.com/520/Documentation/Manual/class-AudioSource.html) were first added.
-```Ver. 2020.3.17f1```--> Because the Example project was made in that version and downgrading to a later version is not possible.
-
+- ```Ver. 2020.3.17f1```--> Because the Example project was made in that version and downgrading to a later version is not possible.
+- ```Ver. 2018.1``` --> Because the integration of the package ui was in ```Ver. 2018.1```, so before that you can't install custom packages.
+- ```Ver. 5.2``` --> Because the AudioManager code itself relies only on min. ```Ver. 5.2```, because this was when support for both [AudioMixer](https://docs.unity3d.com/520/Documentation/Manual/AudioMixer.html) and [AudioSource](https://docs.unity3d.com/520/Documentation/Manual/class-AudioSource.html) were first added.
