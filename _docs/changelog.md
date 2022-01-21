@@ -13,13 +13,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Released]
 
-## [1.5.0] - 2021-01-21
+## [1.5.0](https://github.com/MathewHDYT/Unity-Audio-Manager/releases/tag/v1.5.0) - 2021-01-21
 
 ### Changed
 - AudioManager is now included via. the package manager as a package instead of as single scripts
 
 
-## [1.4.0] - 2022-01-09
+## [1.4.0](https://github.com/MathewHDYT/Unity-Audio-Manager/releases/tag/v1.4.0) - 2022-01-09
 
 ### Added
 - AudioSourceSetting scriptable objects, which have a seperate new section wich is hidden per default for 3D audio settings
@@ -30,19 +30,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Adjusted methods that use 3D sound to now use the given settings and not have to take the settings every time from the method call
 
 
-## [1.3.0] - 2022-01-03
+## [1.3.0](https://github.com/MathewHDYT/Unity-Audio-Manager/releases/tag/v1.3.0) - 2022-01-03
 
 ### Added
 - Multiple methods to support the AudioMixer and AudioMixerGroups
 
 
-## [1.2.0] - 2021-11-20
+## [1.2.0](https://github.com/MathewHDYT/Unity-Audio-Manager/releases/tag/v1.2.0) - 2021-11-20
 
 ### Changed
 - AudioError integration (all methods now return an AudioError enum value instead of a boolean, showing more explicitly how the method failed)
 
 
-## [1.1.0] - 2021-09-10
+## [1.1.0](https://github.com/MathewHDYT/Unity-Audio-Manager/releases/tag/v1.1.0) - 2021-09-10
 
 ### Added
 - Pausing sound
@@ -53,7 +53,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Improved documentation
 - Added documentation for new methods
 
-## [1.0.0] - 2021-09-04
+## [1.0.0](https://github.com/MathewHDYT/Unity-Audio-Manager/releases/tag/v1.0.0) - 2021-09-04
 
 ### Added
 - Inital release (Playing sound and changing the volume/pitch over time)
