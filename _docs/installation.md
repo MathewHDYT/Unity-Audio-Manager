@@ -21,7 +21,7 @@ Starting from ```v1.5.0``` see ([GitHub release](https://github.com/MathewHDYT/U
 
 In older version copy all files included in the release into your ```Assets``` folder.
 
-#### [Git package url](https://github.com/MathewHDYT/Unity-Audio-Manager.git#package)
+### [Git package url](https://github.com/MathewHDYT/Unity-Audio-Manager.git?path=/com.mathewhdyt.audiomanager#package)
 
 Once you've completed this step you can now you can easily add sounds like shown in [Adding a new sound](https://mathewhdyt.github.io/Unity-Audio-Manager/installation#adding-a-new-sound).
 
