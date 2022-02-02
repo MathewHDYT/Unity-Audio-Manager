@@ -1,10 +1,11 @@
 {
   "dependencies": {
     "com.mathewhdyt.audiomanager": {
-      "version": "file:C:/Users/Mathew/Downloads/com.mathewhdyt.audiomanager",
+      "version": "https://github.com/MathewHDYT/Unity-Audio-Manager.git?path=/com.mathewhdyt.audiomanager#package",
       "depth": 0,
-      "source": "local",
-      "dependencies": {}
+      "source": "git",
+      "dependencies": {},
+      "hash": "0c85d0e90b0609f96e8d9f88d70425f3d9467e8f"
     },
     "com.unity.collab-proxy": {
       "version": "1.7.1",
@@ -32,7 +33,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.visualstudio": {
-      "version": "2.0.11",
+      "version": "2.0.14",
       "depth": 0,
       "source": "registry",
       "dependencies": {
@@ -41,7 +42,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.ide.vscode": {
-      "version": "1.2.3",
+      "version": "1.2.4",
       "depth": 0,
       "source": "registry",
       "dependencies": {},
@@ -55,7 +56,7 @@
       "url": "https://packages.unity.com"
     },
     "com.unity.test-framework": {
-      "version": "1.1.27",
+      "version": "1.1.30",
       "depth": 0,
       "source": "registry",
       "dependencies": {

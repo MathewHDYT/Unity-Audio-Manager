@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Scenes/Main.unity
+- path: Assets/Samples/Audio Manager/1.5.0/Example Scene/Main.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
