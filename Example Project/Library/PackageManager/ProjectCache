@@ -5,21 +5,74 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637783797085403256
-    m_Hash: 1057299360
+      ticks: 637794271870743118
+    m_Hash: 1718695089
   m_LockFileStatus:
     m_FilePath: C:/Users/Mathew/Unity-Audio-Manager/Example Project/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637783797099623661
-    m_Hash: 1016591461
+      ticks: 637794271870812763
+    m_Hash: 1680792190
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_PackageAssets:
   m_Packages:
     m_ResolvedPackages:
+    - packageId: com.mathewhdyt.audiomanager@file:C:\Users\Mathew\Downloads\com.mathewhdyt.audiomanager
+      testable: 0
+      isDirectDependency: 1
+      version: 1.5.0
+      source: 4
+      resolvedPath: C:\Users\Mathew\Downloads\com.mathewhdyt.audiomanager
+      assetPath: Packages/com.mathewhdyt.audiomanager
+      name: com.mathewhdyt.audiomanager
+      displayName: Audio Manager
+      author:
+        name: MathewHDYT
+        email: 
+        url: https://github.com/MathewHDYT/Unity-Audio-Manager/
+      category: 
+      type: 
+      description: Used to play/change/stop/mute/... sounds at certain circumstances
+        or events in 2D and 3D simply via. code.
+      status: 4
+      errors: []
+      versions:
+        all: []
+        compatible: []
+        verified: 
+      dependencies: []
+      resolvedDependencies: []
+      keywords:
+      - Manager
+      - AudioManager
+      - Audio
+      - Audio Manager
+      - SoundManager
+      - Sound
+      - Sound Manager
+      registry:
+        id: 
+        name: 
+        url: 
+        scopes: []
+        isDefault: 0
+        capabilities: 0
+      hasRegistry: 0
+      hideInEditor: 1
+      entitlements:
+        isAllowed: 1
+      isAssetStorePackage: 0
+      datePublishedTicks: 0
+      documentationUrl: https://mathewhdyt.github.io/Unity-Audio-Manager/
+      hasRepository: 0
+      repository:
+        type: 
+        url: 
+        revision: 
+        path: 
     - packageId: com.unity.collab-proxy@1.7.1
       testable: 0
       isDirectDependency: 1
@@ -74,10 +127,12 @@ m_PackageAssets:
         - 1.14.4
         - 1.14.7
         - 1.14.9
+        - 1.14.12
         - 1.15.1
         - 1.15.4
         - 1.15.7
         - 1.15.9
+        - 1.15.12
         - 2.0.0-preview.6
         - 2.0.0-preview.8
         - 2.0.0-preview.15
@@ -100,10 +155,12 @@ m_PackageAssets:
         - 1.14.4
         - 1.14.7
         - 1.14.9
+        - 1.14.12
         - 1.15.1
         - 1.15.4
         - 1.15.7
         - 1.15.9
+        - 1.15.12
         - 2.0.0-preview.6
         - 2.0.0-preview.8
         - 2.0.0-preview.15
@@ -204,6 +261,7 @@ m_PackageAssets:
         - 3.0.7
         - 3.0.9
         - 3.0.10
+        - 3.0.12
         compatible:
         - 1.0.2
         - 1.0.6
@@ -232,6 +290,7 @@ m_PackageAssets:
         - 3.0.7
         - 3.0.9
         - 3.0.10
+        - 3.0.12
         verified: 2.0.7
       dependencies:
       - name: com.unity.test-framework
@@ -481,11 +540,13 @@ m_PackageAssets:
         - 1.1.29
         - 1.1.30
         - 2.0.1-pre.12
+        - 2.0.1-pre.18
         compatible:
         - 1.1.27
         - 1.1.29
         - 1.1.30
         - 2.0.1-pre.12
+        - 2.0.1-pre.18
         verified: 1.1.30
       dependencies:
       - name: com.unity.ext.nunit
@@ -775,7 +836,9 @@ m_PackageAssets:
         - 1.6.1
         - 1.6.2
         - 1.6.3
+        - 1.6.4
         - 1.7.0-pre.1
+        - 1.7.0-pre.2
         compatible:
         - 1.4.8
         - 1.5.0-pre.2
@@ -799,7 +862,9 @@ m_PackageAssets:
         - 1.6.1
         - 1.6.2
         - 1.6.3
+        - 1.6.4
         - 1.7.0-pre.1
+        - 1.7.0-pre.2
         verified: 1.4.8
       dependencies:
       - name: com.unity.modules.director
@@ -2790,6 +2855,20 @@ m_PackageAssets:
         revision: d2fd6ed876261bbd82f59199ad711e7667bf633a
         path: 
   m_LocalPackages:
-    m_LocalFileStatus: []
+    m_LocalFileStatus:
+    - m_FilePath: C:\Users\Mathew\Downloads\com.mathewhdyt.audiomanager/package.json
+      m_PathExists: 1
+      m_ContentTrackingEnabled: 1
+      m_ModificationDate:
+        serializedVersion: 2
+        ticks: 637794247437264588
+      m_Hash: 3232677660
+    - m_FilePath: C:\Users\Mathew\Downloads\com.mathewhdyt.audiomanager
+      m_PathExists: 1
+      m_ContentTrackingEnabled: 1
+      m_ModificationDate:
+        serializedVersion: 2
+        ticks: 0
+      m_Hash: 0
 m_ProjectPath: C:/Users/Mathew/Unity-Audio-Manager/Example Project/Packages
 m_EditorVersion: 2020.3.17f1 (a4537701e4ab)

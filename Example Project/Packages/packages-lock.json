@@ -1,5 +1,11 @@
 {
   "dependencies": {
+    "com.mathewhdyt.audiomanager": {
+      "version": "file:C:/Users/Mathew/Downloads/com.mathewhdyt.audiomanager",
+      "depth": 0,
+      "source": "local",
+      "dependencies": {}
+    },
     "com.unity.collab-proxy": {
       "version": "1.7.1",
       "depth": 0,

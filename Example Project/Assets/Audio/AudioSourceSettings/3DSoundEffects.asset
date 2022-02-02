@@ -9,19 +9,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 395d27ea16e777049aa502fd2ee2bed5, type: 3}
-  m_Name: 3DSoundEffect
+  m_Script: {fileID: 11500000, guid: f15745fc88e4f0e48afb1d5a23ed5de1, type: 3}
+  m_Name: 3DSoundEffects
   m_EditorClassIdentifier: 
-  soundName: 3DSoundEffect
+  soundName: 3DSoundEffects
   audioClip: {fileID: 8300000, guid: 410c0415385508a4f944941e84a91705, type: 3}
-  mixerGroup: {fileID: 0}
+  mixerGroup: {fileID: 7089786455754941964, guid: 5d344aa093ce48f4c9c2af9abc47b1c6, type: 2}
   loop: 0
-  volume: 0.8
+  volume: 1
   pitch: 1
   spatialBlend: 1
   dopplerLevel: 1
   spread: 0
   volumeRolloff: 0
-  minDistance: 5
-  maxDistance: 15
+  minDistance: 20
+  maxDistance: 40
   source: {fileID: 0}

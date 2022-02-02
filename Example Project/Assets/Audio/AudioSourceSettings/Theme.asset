@@ -9,14 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 395d27ea16e777049aa502fd2ee2bed5, type: 3}
+  m_Script: {fileID: 11500000, guid: f15745fc88e4f0e48afb1d5a23ed5de1, type: 3}
   m_Name: Theme
   m_EditorClassIdentifier: 
   soundName: Theme
   audioClip: {fileID: 8300000, guid: c4017ddc31ed00241b02dbe8d2a32ca2, type: 3}
   mixerGroup: {fileID: 0}
   loop: 1
-  volume: 0.5
+  volume: 0.6
   pitch: 1
   spatialBlend: 0
   dopplerLevel: 1
