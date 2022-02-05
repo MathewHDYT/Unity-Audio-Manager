@@ -3,14 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Audio;
 using System;
+using System.Runtime.CompilerServices;
 
 public class AudioManager : MonoBehaviour {
     [SerializeField]
     [Tooltip("Inital sounds that should be registered on Awake with the AudioManager and the given settings.")]
     private AudioSourceSetting[] settings;
 
+    private Dictionary<AudioSource, Dictionary<string, AudioSource>> parentChildDictionary = new Dictionary<AudioSource, Dictionary<string, AudioSource>>();
     private Dictionary<string, AudioSource> soundDictionary = new Dictionary<string, AudioSource>();
-    private Action<string, float> soundFinishedCallback = new Action<string, float>(ResetStartTime);
+    private Action<string, float> resetStartTimeCallback = new Action<string, float>(ResetStartTime);
 
     // Max. progress of the sound still detactable in an IEnumerator.
     private const float MAX_PROGRESS = 0.99f;
@@ -122,7 +124,7 @@ public class AudioManager : MonoBehaviour {
 
         source.Play();
         // Calls the given callback as soon as the song is finished.
-        StartCoroutine(DetectCurrentProgress(name, MAX_PROGRESS, soundFinishedCallback));
+        StartCoroutine(DetectCurrentProgress(name, MAX_PROGRESS, resetStartTimeCallback));
         return error;
     }
 
@@ -152,25 +154,45 @@ public class AudioManager : MonoBehaviour {
     /// Plays the sound with the given name at a 3D position in space.
     /// </summary>
     /// <param name="name">Name of the sound.</param>
-    /// <param name="position">Position we want to place our sound at.</param>
+    /// <param name="position">Position we want to create an empty gameObject and play the given sound at.</param>
     /// <returns>AudioError, showing wheter and how playing the sound at the given position failed.</returns>
-    public AudioError PlayAt3DPosition(string name, Vector3 position) {
-        AudioError error = TryGetSource(name, out AudioSource source);
+    public AudioError PlayAt3DPosition(string name, Vector3 position, [CallerMemberName] string memberName = "") {
+        AudioError error = TryGetSource(name, out AudioSource parentSource);
 
         // Couldn't find source.
         if (error != AudioError.OK) {
             return error;
         }
         // Checks if 3D was even enabled in the spatialBlend.
-        else if (source.spatialBlend <= SPATIAL_BLEND_2D) {
+        else if (parentSource.spatialBlend <= SPATIAL_BLEND_2D) {
             error = AudioError.CAN_NOT_BE_3D;
             return error;
         }
 
-        // Set position of our AudioSource.
-        source.transform.position = position;
-        source.Play();
-        return error;
+        return PlayAt3DPosition(parentSource, position, false);
+    }
+
+    /// <summary>
+    /// Plays the sound with the given name once at a 3D position in space.
+    /// Multiple instances of the same sound can be run at the same time with this method.
+    /// </summary>
+    /// <param name="name">Name of the sound.</param>
+    /// <param name="position">Position we want to create an empty gameObject and play the given sound at.</param>
+    /// <returns>AudioError, showing wheter and how playing the sound at the given position once failed.</returns>
+    public AudioError PlayOneShotAt3DPosition(string name, Vector3 position, [CallerMemberName] string memberName = "") {
+        AudioError error = TryGetSource(name, out AudioSource parentSource);
+
+        // Couldn't find source.
+        if (error != AudioError.OK) {
+            return error;
+        }
+        // Checks if 3D was even enabled in the spatialBlend.
+        else if (parentSource.spatialBlend <= SPATIAL_BLEND_2D) {
+            error = AudioError.CAN_NOT_BE_3D;
+            return error;
+        }
+
+        return PlayAt3DPosition(parentSource, position, true);
     }
 
     /// <summary>
@@ -178,24 +200,44 @@ public class AudioManager : MonoBehaviour {
     /// </summary>
     /// <param name="name">Name of the sound.</param>
     /// <param name="gameObject">GameObject we want to attach our sound too.</param>
-    /// <returns>AudioError, showing wheter and how playing the sound attached to the given gameobject failed.</returns>
+    /// <returns>AudioError, showing wheter and how playing the sound attached to the given gameobject once failed.</returns>
     public AudioError PlayAttachedToGameObject(string name, GameObject gameObject) {
-        AudioError error = TryGetSource(name, out AudioSource source);
+        AudioError error = TryGetSource(name, out AudioSource parentSource);
 
         // Couldn't find source.
         if (error != AudioError.OK) {
             return error;
         }
         // Checks if 3D was even enabled in the spatialBlend.
-        else if (source.spatialBlend <= SPATIAL_BLEND_2D) {
+        else if (parentSource.spatialBlend <= SPATIAL_BLEND_2D) {
             error = AudioError.CAN_NOT_BE_3D;
             return error;
         }
 
-        // Set parent of AudioSource to the given gameObject.
-        source.transform.SetParent(gameObject.transform);
-        source.Play();
-        return error;
+        return PlayAttachedToGameObject(parentSource, gameObject, false);
+    }
+
+    /// <summary>
+    /// Plays the sound with the given name attached to a GameObject.
+    /// Multiple instances of the same sound can be run at the same time with this method.
+    /// </summary>
+    /// <param name="name">Name of the sound.</param>
+    /// <param name="gameObject">GameObject we want to attach our sound too.</param>
+    /// <returns>AudioError, showing wheter and how playing the sound attached to the given gameobject failed.</returns>
+    public AudioError PlayOneShotAttachedToGameObject(string name, GameObject gameObject, [CallerMemberName] string memberName = "") {
+        AudioError error = TryGetSource(name, out AudioSource parentSource);
+
+        // Couldn't find source.
+        if (error != AudioError.OK) {
+            return error;
+        }
+        // Checks if 3D was even enabled in the spatialBlend.
+        else if (parentSource.spatialBlend <= SPATIAL_BLEND_2D) {
+            error = AudioError.CAN_NOT_BE_3D;
+            return error;
+        }
+
+        return PlayAttachedToGameObject(parentSource, gameObject, true);
     }
 
     /// <summary>
@@ -721,7 +763,7 @@ public class AudioManager : MonoBehaviour {
             // Create AudioSource object for the AudioSourceSetting scriptable object.
             setting.source = gameObject.AddComponent<AudioSource>();
             // Add the name and it's AudioSource to our dictionary.
-            AddSound(setting.name, setting.source);
+            AddSound(setting.soundName, setting.source);
             // Set the 2D values of the AudioSourceSetting attached AudioSource object.
             Set2DAudioOptions(setting);
             // Set 3D options if given of the AudioSourceSetting attached AudioSource object.
@@ -837,6 +879,20 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
+    /// Copys all the given settings from the given AudioSource object to another.
+    /// </summary>
+    /// <param name="copyTo">Object we want to copy the settings to.</param>
+    /// <param name="copyFrom">Object we want to copy the settings from.</param>
+    /// <returns>AudioError, showing wheter and how copying the 2D and 3D options from one audioSource to another failed.</returns>
+    private AudioError CopyAudioSourceSettings(AudioSource copyTo, AudioSource copyFrom) {
+        AudioError error = Set2DAudioOptions(copyTo, copyFrom.clip, copyFrom.outputAudioMixerGroup, copyFrom.loop, copyFrom.volume, copyFrom.pitch);
+        if (error != AudioError.OK) {
+            return error;
+        }
+        return Set3DAudioOptions(copyTo, copyFrom.spatialBlend, copyFrom.dopplerLevel, copyFrom.spread, copyFrom.rolloffMode, copyFrom.minDistance, copyFrom.maxDistance);
+    }
+
+    /// <summary>
     /// Sets the possible given 2D parameters in the AudioSource object.
     /// </summary>
     /// <param name="source">AudioSource we want to play.</param>
@@ -945,6 +1001,135 @@ public class AudioManager : MonoBehaviour {
         setting.source.minDistance = setting.minDistance;
         setting.source.maxDistance = setting.maxDistance;
         return error;
+    }
+
+    /// <summary>
+    /// Creates a new empty gameObject with a copy of the given AudioSource component attached to it.
+    /// </summary>
+    /// <param name="name">Name of the newly created gameObject.</param>
+    /// <param name="position">Position the newly created gameObject should be created at.</param>
+    /// <param name="parentSource">Parent AudioSource the settings should be copied from.</param>
+    /// <param name="newSource">New child AudioSource that should be created and the settings copied into.</param>
+    /// <returns>AudioError, showing wheter and how creating a new empty gameObject failed.</returns>
+    private AudioError CreateEmptyGameObject(string name, Vector3 position, AudioSource parentSource, out AudioSource newSource) {
+        // Create new empty gameObject, at the given position.
+        var newGameObject = new GameObject(name);
+        // Set the parent of the newly created gameObject to the AudioManager.
+        newGameObject.transform.SetParent(this.transform);
+        // Set the position of the newly created gameObject to the given position.
+        newGameObject.transform.position = position;
+        return AttachAudioSourceCopy(parentSource, out newSource, newGameObject);
+    }
+
+    /// <summary>
+    /// Creates a new empty audioSource which is a copy of the given parentSource and attaches it to the given gameObject.
+    /// </summary>
+    /// <param name="parentSource">Parent AudioSource the settings should be copied from.</param>
+    /// <param name="newSource">New child AudioSource that should be created and the settings copied into.</param>
+    /// <param name="newSource">GameObject the new audioSource should be attached too..</param>
+    /// <returns>AudioError, showing wheter and how attching a audioSource to the given gameobject failed.</returns>
+    private AudioError AttachAudioSourceCopy(AudioSource parentSource, out AudioSource newSource, GameObject newGameObject) {
+        // Add audioSource component to the newly created gameObject.
+        newSource = newGameObject.AddComponent<AudioSource>();
+        // Copy the values of our respective parent audioSource into the just created child audioSource object.
+        return CopyAudioSourceSettings(newSource, parentSource);
+    }
+
+    /// <summary>
+    /// Plays the sound with the given name once at a 3D position in space.
+    /// </summary>
+    /// <param name="parentSource">Parent source that the copied childSource was created from or should be created from.</param>
+    /// <param name="position">Position we want to create an empty gameObject and play the given sound at.</param>
+    /// <param name="oneShot">Wheter the AudioSource.PlayOneShot or AudioSource.PlayOneShot should be called.</param>
+    /// <returns>AudioError, showing wheter and how playing the sound at the given position once failed.</returns>
+    private AudioError PlayAt3DPosition(AudioSource parentSource, Vector3 position, bool oneShot, [CallerMemberName] string memberName = "") {
+        AudioError error = AudioError.OK;
+        // Check if the parentChildDirectory has already created a dictionary with the key being the given parentSource.
+        if (parentChildDictionary.TryGetValue(parentSource, out var childDictionary)) {
+            // Check if the given childDictionary contains a key value pair that was created in the method with the given name.
+            if (childDictionary.TryGetValue(memberName, out var childSource)) {
+                // If it was, simply update the AudioSource component parent position, which is the previously created empty gameObject.
+                error = CopyAudioSourceSettings(childSource, parentSource);
+                childSource.transform.position = position;
+                PlayOrPlayOneShot(childSource, oneShot);
+            }
+            else {
+                // If it wasn't, create a new empty gameobject and attach a copy of the parentSource object to it.
+                error = CreateEmptyGameObject(name, position, parentSource, out AudioSource newChildSource);
+                // Then add that to our already existing dictionary with the key being the name of the method that called this method.
+                childDictionary.Add(memberName, newChildSource);
+                PlayOrPlayOneShot(newChildSource, oneShot);
+            }
+            return error;
+        }
+
+        error = CreateEmptyGameObject(name, position, parentSource, out AudioSource newSource);
+        // Check if copying settings was successfull.
+        if (error != AudioError.OK) {
+            return error;
+        }
+        // Create a new childDictionary with the key being the name of the method that called this method and
+        // the value being the newSource that contains the copied settings of the parentSource object.
+        var newChildDictionary = new Dictionary<string, AudioSource>() { { memberName, newSource } };
+        // Add the newly created audioSource to our parentChildDictionary.
+        parentChildDictionary.Add(parentSource, newChildDictionary);
+        PlayOrPlayOneShot(newSource, oneShot);
+        return error;
+    }
+
+    /// <summary>
+    /// Plays the sound with the given name attached to a GameObject.
+    /// </summary>
+    /// <param name="parentSource">Parent source that the copied childSource was created from or should be created from.</param>
+    /// <param name="gameObject">GameObject we want to attach our sound too.</param>
+    /// <param name="oneShot">Wheter the AudioSource.PlayOneShot or AudioSource.PlayOneShot should be called.</param>
+    /// <returns>AudioError, showing wheter and how playing the sound attached to the given gameobject failed.</returns>
+    private AudioError PlayAttachedToGameObject(AudioSource parentSource, GameObject gameObject, bool oneShot, [CallerMemberName] string memberName = "") {
+        AudioError error = AudioError.OK;
+        // Check if the parentChildDirectory has already created a dictionary with the key being the given parentSource.
+        if (parentChildDictionary.TryGetValue(parentSource, out Dictionary<string, AudioSource> childDictionary)) {
+            // Check if the given childDictionary contains a key value pair that was created in the method with the given name and
+            // if it was, check if the gameObject is still the same or if we need to copy to another gameObject.
+            if (childDictionary.TryGetValue(memberName, out AudioSource childSource) && gameObject == childSource.gameObject) {
+                error = CopyAudioSourceSettings(childSource, parentSource);
+                PlayOrPlayOneShot(childSource, oneShot);
+            }
+            else {
+                // If it wasn't, create a new empty gameobject and attach a copy of the parentSource object to it.
+                error = AttachAudioSourceCopy(parentSource, out AudioSource newChildSource, gameObject);
+                // Then add that to our already existing dictionary with the key being the name of the method that called this method.
+                childDictionary.Add(memberName, newChildSource);
+                PlayOrPlayOneShot(newChildSource, oneShot);
+            }
+            return error;
+        }
+
+        error = AttachAudioSourceCopy(parentSource, out AudioSource newSource, gameObject);
+        // Check if copying settings was successfull.
+        if (error != AudioError.OK) {
+            return error;
+        }
+        // Create a new childDictionary with the key being the name of the method that called this method and
+        // the value being the newSource that contains the copied settings of the parentSource object.
+        var newChildDictionary = new Dictionary<string, AudioSource>() { { memberName, newSource } };
+        // Add the newly created audioSource to our parentChildDictionary.
+        parentChildDictionary.Add(parentSource, newChildDictionary);
+        PlayOrPlayOneShot(newSource, oneShot);
+        return error;
+    }
+
+    /// <summary>
+    /// Calls either AudioSource.PlayOneShot or AudioSource.Play.
+    /// </summary>
+    /// <param name="childSource">ÂudioSource that we want to start playing.</param>
+    /// <param name="oneShot">Wheter the AudioSource.PlayOneShot or AudioSource.PlayOneShot should be called.</param>
+    private void PlayOrPlayOneShot(AudioSource childSource, bool oneShot) {
+        if (oneShot) {
+            childSource.PlayOneShot(childSource.clip);
+        }
+        else {
+            childSource.Play();
+        }
     }
 
     /// <summary>

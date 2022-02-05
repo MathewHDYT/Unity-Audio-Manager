@@ -5,16 +5,16 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637794304759672111
-    m_Hash: 4112786950
+      ticks: 637795086759902189
+    m_Hash: 4245091936
   m_LockFileStatus:
     m_FilePath: C:/Users/Mathew/Unity-Audio-Manager/Example Project/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637794304759720505
-    m_Hash: 78323326
+      ticks: 637795086760029465
+    m_Hash: 2779917773
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_PackageAssets:
@@ -244,7 +244,7 @@ m_PackageAssets:
         version: 1.1.1
       resolvedDependencies:
       - name: com.unity.test-framework
-        version: 1.1.27
+        version: 1.1.30
       - name: com.unity.ext.nunit
         version: 1.0.6
       - name: com.unity.modules.imgui
@@ -271,6 +271,104 @@ m_PackageAssets:
         type: git
         url: https://github.cds.internal.unity3d.com/unity/com.unity.ide.rider.git
         revision: abb44f053e9a41d2e00e149e32a19bcec76e98b4
+        path: 
+    - packageId: com.unity.test-framework@1.1.30
+      testable: 0
+      isDirectDependency: 1
+      version: 1.1.30
+      source: 1
+      resolvedPath: C:\Users\Mathew\Unity-Audio-Manager\Example Project\Library\PackageCache\com.unity.test-framework@1.1.30
+      assetPath: Packages/com.unity.test-framework
+      name: com.unity.test-framework
+      displayName: Test Framework
+      author:
+        name: 
+        email: 
+        url: 
+      category: Unity Test Framework
+      type: 
+      description: Test framework for running Edit mode and Play mode tests in Unity.
+      status: 4
+      errors: []
+      versions:
+        all:
+        - 0.0.4-preview
+        - 0.0.29-preview
+        - 1.0.0
+        - 1.0.7
+        - 1.0.9
+        - 1.0.11
+        - 1.0.12
+        - 1.0.13
+        - 1.0.14
+        - 1.0.16
+        - 1.0.17
+        - 1.0.18
+        - 1.1.0
+        - 1.1.1
+        - 1.1.2
+        - 1.1.3
+        - 1.1.5
+        - 1.1.8
+        - 1.1.9
+        - 1.1.11
+        - 1.1.13
+        - 1.1.14
+        - 1.1.16
+        - 1.1.18
+        - 1.1.19
+        - 1.1.20
+        - 1.1.22
+        - 1.1.24
+        - 1.1.26
+        - 1.1.27
+        - 1.1.29
+        - 1.1.30
+        - 2.0.1-pre.12
+        - 2.0.1-pre.18
+        compatible:
+        - 1.1.27
+        - 1.1.29
+        - 1.1.30
+        - 2.0.1-pre.12
+        - 2.0.1-pre.18
+        verified: 1.1.30
+      dependencies:
+      - name: com.unity.ext.nunit
+        version: 1.0.6
+      - name: com.unity.modules.imgui
+        version: 1.0.0
+      - name: com.unity.modules.jsonserialize
+        version: 1.0.0
+      resolvedDependencies:
+      - name: com.unity.ext.nunit
+        version: 1.0.6
+      - name: com.unity.modules.imgui
+        version: 1.0.0
+      - name: com.unity.modules.jsonserialize
+        version: 1.0.0
+      keywords:
+      - Test
+      - TestFramework
+      registry:
+        id: main
+        name: 
+        url: https://packages.unity.com
+        scopes: []
+        isDefault: 1
+        capabilities: 7
+      hasRegistry: 1
+      hideInEditor: 1
+      entitlements:
+        isAllowed: 1
+      isAssetStorePackage: 0
+      datePublishedTicks: 637702469360000000
+      documentationUrl: 
+      hasRepository: 1
+      repository:
+        type: git
+        url: https://github.com/Unity-Technologies/com.unity.test-framework.git
+        revision: 4a3f541cb46e2f6875b3a938daba8c7113020873
         path: 
     - packageId: com.unity.textmeshpro@3.0.6
       testable: 0
@@ -2402,84 +2500,49 @@ m_PackageAssets:
         url: 
         revision: 
         path: 
-    - packageId: com.unity.test-framework@1.1.27
+    - packageId: com.unity.ext.nunit@1.0.6
       testable: 0
       isDirectDependency: 0
-      version: 1.1.27
+      version: 1.0.6
       source: 1
-      resolvedPath: C:\Users\Mathew\Unity-Audio-Manager\Example Project\Library\PackageCache\com.unity.test-framework@1.1.27
-      assetPath: Packages/com.unity.test-framework
-      name: com.unity.test-framework
-      displayName: Test Framework
+      resolvedPath: C:\Users\Mathew\Unity-Audio-Manager\Example Project\Library\PackageCache\com.unity.ext.nunit@1.0.6
+      assetPath: Packages/com.unity.ext.nunit
+      name: com.unity.ext.nunit
+      displayName: Custom NUnit
       author:
         name: 
         email: 
         url: 
-      category: Unity Test Framework
+      category: Libraries
       type: 
-      description: Test framework for running Edit mode and Play mode tests in Unity.
+      description: Custom version of the nunit package build to work with Unity.
+        Used by the Unity Test Framework.
       status: 4
       errors: []
       versions:
         all:
-        - 0.0.4-preview
-        - 0.0.29-preview
+        - 0.1.5-preview
+        - 0.1.6-preview
+        - 0.1.9-preview
         - 1.0.0
-        - 1.0.7
-        - 1.0.9
-        - 1.0.11
-        - 1.0.12
-        - 1.0.13
-        - 1.0.14
-        - 1.0.16
-        - 1.0.17
-        - 1.0.18
-        - 1.1.0
-        - 1.1.1
-        - 1.1.2
-        - 1.1.3
-        - 1.1.5
-        - 1.1.8
-        - 1.1.9
-        - 1.1.11
-        - 1.1.13
-        - 1.1.14
-        - 1.1.16
-        - 1.1.18
-        - 1.1.19
-        - 1.1.20
-        - 1.1.22
-        - 1.1.24
-        - 1.1.26
-        - 1.1.27
-        - 1.1.29
-        - 1.1.30
-        - 2.0.1-pre.12
-        - 2.0.1-pre.18
+        - 1.0.5
+        - 1.0.6
+        - 2.0.2
         compatible:
-        - 1.1.27
-        - 1.1.29
-        - 1.1.30
-        - 2.0.1-pre.12
-        - 2.0.1-pre.18
-        verified: 1.1.30
-      dependencies:
-      - name: com.unity.ext.nunit
-        version: 1.0.6
-      - name: com.unity.modules.imgui
-        version: 1.0.0
-      - name: com.unity.modules.jsonserialize
-        version: 1.0.0
-      resolvedDependencies:
-      - name: com.unity.ext.nunit
-        version: 1.0.6
-      - name: com.unity.modules.imgui
-        version: 1.0.0
-      - name: com.unity.modules.jsonserialize
-        version: 1.0.0
+        - 0.1.5-preview
+        - 0.1.6-preview
+        - 0.1.9-preview
+        - 1.0.0
+        - 1.0.5
+        - 1.0.6
+        - 2.0.2
+        verified: 1.0.6
+      dependencies: []
+      resolvedDependencies: []
       keywords:
-      - Test
-      - TestFramework
+      - nunit
+      - unittest
+      - test
       registry:
         id: main
         name: 
@@ -2492,13 +2555,13 @@ m_PackageAssets:
       entitlements:
         isAllowed: 1
       isAssetStorePackage: 0
-      datePublishedTicks: 637594751620000000
+      datePublishedTicks: 637429759280000000
       documentationUrl: 
       hasRepository: 1
       repository:
         type: git
-        url: git+https://github.com/Unity-Technologies/com.unity.test-framework.git
-        revision: c2f2cc9b7ea61d42964257363595dff5e8c47c42
+        url: https://github.cds.internal.unity3d.com/unity/com.unity.ext.nunit.git
+        revision: 29ea4d6504a5f58fb3a6934db839aa80ae6d9d88
         path: 
     - packageId: com.unity.nuget.newtonsoft-json@2.0.0
       testable: 0
@@ -2575,69 +2638,6 @@ m_PackageAssets:
         type: git
         url: https://github.cds.internal.unity3d.com/unity/com.unity.nuget.newtonsoft-json.git
         revision: d2fd6ed876261bbd82f59199ad711e7667bf633a
-        path: 
-    - packageId: com.unity.ext.nunit@1.0.6
-      testable: 0
-      isDirectDependency: 0
-      version: 1.0.6
-      source: 1
-      resolvedPath: C:\Users\Mathew\Unity-Audio-Manager\Example Project\Library\PackageCache\com.unity.ext.nunit@1.0.6
-      assetPath: Packages/com.unity.ext.nunit
-      name: com.unity.ext.nunit
-      displayName: Custom NUnit
-      author:
-        name: 
-        email: 
-        url: 
-      category: Libraries
-      type: 
-      description: Custom version of the nunit package build to work with Unity.
-        Used by the Unity Test Framework.
-      status: 4
-      errors: []
-      versions:
-        all:
-        - 0.1.5-preview
-        - 0.1.6-preview
-        - 0.1.9-preview
-        - 1.0.0
-        - 1.0.5
-        - 1.0.6
-        - 2.0.2
-        compatible:
-        - 0.1.5-preview
-        - 0.1.6-preview
-        - 0.1.9-preview
-        - 1.0.0
-        - 1.0.5
-        - 1.0.6
-        - 2.0.2
-        verified: 1.0.6
-      dependencies: []
-      resolvedDependencies: []
-      keywords:
-      - nunit
-      - unittest
-      - test
-      registry:
-        id: main
-        name: 
-        url: https://packages.unity.com
-        scopes: []
-        isDefault: 1
-        capabilities: 7
-      hasRegistry: 1
-      hideInEditor: 1
-      entitlements:
-        isAllowed: 1
-      isAssetStorePackage: 0
-      datePublishedTicks: 637429759280000000
-      documentationUrl: 
-      hasRepository: 1
-      repository:
-        type: git
-        url: https://github.cds.internal.unity3d.com/unity/com.unity.ext.nunit.git
-        revision: 29ea4d6504a5f58fb3a6934db839aa80ae6d9d88
         path: 
   m_LocalPackages:
     m_LocalFileStatus: []
