@@ -7,12 +7,18 @@ using System.Runtime.CompilerServices;
 
 public class AudioManager : MonoBehaviour {
     [SerializeField]
+    [Header("Logger Settings:")]
+    private LoggingLevel loggingLevel;
+
+    [SerializeField]
+    [Header("Sound Settings:")]
     [Tooltip("Inital sounds that should be registered on Awake with the AudioManager and the given settings.")]
     private AudioSourceSetting[] settings;
 
     private Dictionary<AudioSource, Dictionary<string, AudioSource>> parentChildDictionary = new Dictionary<AudioSource, Dictionary<string, AudioSource>>();
     private Dictionary<string, AudioSource> soundDictionary = new Dictionary<string, AudioSource>();
     private Action<string, float> resetStartTimeCallback = new Action<string, float>(ResetStartTime);
+    private Logger logger;
 
     // Max. progress of the sound still detactable in an IEnumerator.
     private const float MAX_PROGRESS = 0.99f;
@@ -42,6 +48,7 @@ public class AudioManager : MonoBehaviour {
         instance = this;
         DontDestroyOnLoad(gameObject);
 
+        logger = new Logger(loggingLevel);
         SetupSounds();
     }
     #endregion
@@ -61,16 +68,20 @@ public class AudioManager : MonoBehaviour {
     /// <param name="mixerGroup">Mixer group the sound is influenced by.</param>
     /// <returns>AudioError, showing wheter and how adding a 2D sound from the given path with the given settings failed.</returns>
     public AudioError AddSoundFromPath(string name, string path, float volume = DEFAULT_VOLUME, float pitch = DEFAULT_PITCH, bool loop = DEFAULT_LOOP, AudioSource source = null, AudioMixerGroup mixerGroup = null) {
+        logger.Log("Attempting to register new AudioSource entry with the name: " + name, LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = AudioError.OK;
         // Load sound clip from the Resource folder on the given path.
+        logger.Log("Attempting to load AudioClip from the given path: " + path, LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         var clip = Resources.Load<AudioClip>(path);
 
         // Check if the clip couldn't be loaded correctly.
         if (!clip) {
+            logger.Log("Can't register new AudioSource entry because the path: " + path + " does not lead to a valid audio clip", LoggingLevel.INTERMEDIATE, LoggingType.WARNING, this);
             error = AudioError.INVALID_PATH;
             return error;
         }
         else if (!source) {
+            logger.Log("No AudioSource passed with the given method, adding a new one to the AudioManager", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
             source = gameObject.AddComponent<AudioSource>();
         }
 
@@ -78,6 +89,7 @@ public class AudioManager : MonoBehaviour {
 
         // Check if the clip could be added correctly.
         if (error != AudioError.OK) {
+            logger.Log("Registering new AudioSource entry with the AudioManager failed", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
             return error;
         }
 
@@ -91,6 +103,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="name">Name of the sound.</param>
     /// <returns>AudioError, showing wheter and how playing the sound failed.</returns>
     public AudioError Play(string name) {
+        logger.Log("Attempting to play the registered AudioSource entry with the name: " + name, LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = TryGetSource(name, out AudioSource source);
 
         // Couldn't find source.
@@ -98,6 +111,7 @@ public class AudioManager : MonoBehaviour {
             return error;
         }
 
+        logger.Log("Starting to play the given registered AudioSource entry", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         source.Play();
         return error;
     }
@@ -109,6 +123,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="startTime">Time we want to start playing the sound at in seconds.</param>
     /// <returns>AudioError, showing wheter and how playing the sound from the given startTime failed.</returns>
     public AudioError PlayAtTimeStamp(string name, float startTime) {
+        logger.Log("Attempting to play the registered AudioSource entry at the given timeStamp with the name: " + name, LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = TryGetSource(name, out AudioSource source);
 
         // Couldn't find source.
@@ -122,6 +137,7 @@ public class AudioManager : MonoBehaviour {
             return error;
         }
 
+        logger.Log("Starting to play the given registered AudioSource entry", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         source.Play();
         // Calls the given callback as soon as the song is finished.
         StartCoroutine(DetectCurrentProgress(name, MAX_PROGRESS, resetStartTimeCallback));
@@ -138,6 +154,7 @@ public class AudioManager : MonoBehaviour {
     /// showing wheter and how getting the current playback position of the sound failed.
     /// </returns>
     public ValueDataError<float> GetPlaybackPosition(string name) {
+        logger.Log("Attempting to get playBackPosition of the registered AudioSource entry with the name: " + name, LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = TryGetSource(name, out AudioSource source);
         ValueDataError<float> valueDataError = new ValueDataError<float>(float.NaN, (int)error);
 
@@ -146,6 +163,7 @@ public class AudioManager : MonoBehaviour {
             return valueDataError;
         }
 
+        logger.Log("Reading playBackPosition from the given registered AudioSource entry", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         valueDataError.Value = source.time;
         return valueDataError;
     }
@@ -156,7 +174,8 @@ public class AudioManager : MonoBehaviour {
     /// <param name="name">Name of the sound.</param>
     /// <param name="position">Position we want to create an empty gameObject and play the given sound at.</param>
     /// <returns>AudioError, showing wheter and how playing the sound at the given position failed.</returns>
-    public AudioError PlayAt3DPosition(string name, Vector3 position, [CallerMemberName] string memberName = "") {
+    public AudioError PlayAt3DPosition(string name, Vector3 position) {
+        logger.Log("Attempting to play the registered AudioSource entry at the given 3D position in space with the name: " + name, LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = TryGetSource(name, out AudioSource parentSource);
 
         // Couldn't find source.
@@ -165,6 +184,7 @@ public class AudioManager : MonoBehaviour {
         }
         // Checks if 3D was even enabled in the spatialBlend.
         else if (parentSource.spatialBlend <= SPATIAL_BLEND_2D) {
+            logger.Log("The sound can not be 3D, because spatialBlend is set to be 2D instead of 3D", LoggingLevel.INTERMEDIATE, LoggingType.WARNING, this);
             error = AudioError.CAN_NOT_BE_3D;
             return error;
         }
@@ -179,7 +199,8 @@ public class AudioManager : MonoBehaviour {
     /// <param name="name">Name of the sound.</param>
     /// <param name="position">Position we want to create an empty gameObject and play the given sound at.</param>
     /// <returns>AudioError, showing wheter and how playing the sound at the given position once failed.</returns>
-    public AudioError PlayOneShotAt3DPosition(string name, Vector3 position, [CallerMemberName] string memberName = "") {
+    public AudioError PlayOneShotAt3DPosition(string name, Vector3 position) {
+        logger.Log("Attempting to play the registered AudioSource entry once at the given 3D position in space with the name: " + name, LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = TryGetSource(name, out AudioSource parentSource);
 
         // Couldn't find source.
@@ -188,6 +209,7 @@ public class AudioManager : MonoBehaviour {
         }
         // Checks if 3D was even enabled in the spatialBlend.
         else if (parentSource.spatialBlend <= SPATIAL_BLEND_2D) {
+            logger.Log("The sound can not be 3D, because spatialBlend is set to be 2D instead of 3D", LoggingLevel.INTERMEDIATE, LoggingType.WARNING, this);
             error = AudioError.CAN_NOT_BE_3D;
             return error;
         }
@@ -202,6 +224,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="gameObject">GameObject we want to attach our sound too.</param>
     /// <returns>AudioError, showing wheter and how playing the sound attached to the given gameobject once failed.</returns>
     public AudioError PlayAttachedToGameObject(string name, GameObject gameObject) {
+        logger.Log("Attempting to play the registered AudioSource entry attached to the given gameObject with the name: " + name, LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = TryGetSource(name, out AudioSource parentSource);
 
         // Couldn't find source.
@@ -210,6 +233,7 @@ public class AudioManager : MonoBehaviour {
         }
         // Checks if 3D was even enabled in the spatialBlend.
         else if (parentSource.spatialBlend <= SPATIAL_BLEND_2D) {
+            logger.Log("The sound can not be 3D, because spatialBlend is set to be 2D instead of 3D", LoggingLevel.INTERMEDIATE, LoggingType.WARNING, this);
             error = AudioError.CAN_NOT_BE_3D;
             return error;
         }
@@ -224,7 +248,8 @@ public class AudioManager : MonoBehaviour {
     /// <param name="name">Name of the sound.</param>
     /// <param name="gameObject">GameObject we want to attach our sound too.</param>
     /// <returns>AudioError, showing wheter and how playing the sound attached to the given gameobject failed.</returns>
-    public AudioError PlayOneShotAttachedToGameObject(string name, GameObject gameObject, [CallerMemberName] string memberName = "") {
+    public AudioError PlayOneShotAttachedToGameObject(string name, GameObject gameObject) {
+        logger.Log("Attempting to play the registered AudioSource entry once attached to the given gameObject with the name: " + name, LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = TryGetSource(name, out AudioSource parentSource);
 
         // Couldn't find source.
@@ -233,6 +258,7 @@ public class AudioManager : MonoBehaviour {
         }
         // Checks if 3D was even enabled in the spatialBlend.
         else if (parentSource.spatialBlend <= SPATIAL_BLEND_2D) {
+            logger.Log("The sound can not be 3D, because spatialBlend is set to be 2D instead of 3D", LoggingLevel.INTERMEDIATE, LoggingType.WARNING, this);
             error = AudioError.CAN_NOT_BE_3D;
             return error;
         }
@@ -247,6 +273,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="delay">Delay until sound is played.</param>
     /// <returns>AudioError, showing wheter and how playing the sound after the given amount of time failed.</returns>
     public AudioError PlayDelayed(string name, float delay) {
+        logger.Log("Attempting to play the registered AudioSource entry delayed with the name: " + name, LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = TryGetSource(name, out AudioSource source);
 
         // Couldn't find source.
@@ -254,6 +281,7 @@ public class AudioManager : MonoBehaviour {
             return error;
         }
 
+        logger.Log("Starting to play the given registered AudioSource entry delayed", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         source.PlayDelayed(delay);
         return error;
     }
@@ -265,6 +293,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="name">Name of the sound.</param>
     /// <returns>AudioError, showing wheter and how playing the sound once failed.</returns>
     public AudioError PlayOneShot(string name) {
+        logger.Log("Attempting to play the registered AudioSource entry once with the name: " + name, LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = TryGetSource(name, out AudioSource source);
 
         // Couldn't find source.
@@ -272,6 +301,7 @@ public class AudioManager : MonoBehaviour {
             return error;
         }
 
+        logger.Log("Starting to play the given registered AudioSource entry once", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         source.PlayOneShot(source.clip);
         return error;
     }
@@ -284,6 +314,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="minPitch">Maximum amount of pitch the sound can be played at.</param>
     /// <returns>AudioError, showing wheter and how chaging the pitch failed.</returns>
     public AudioError ChangePitch(string name, float minPitch, float maxPitch) {
+        logger.Log("Attempting to randomly change pitch of the registered AudioSource entry with the name: " + name, LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = TryGetSource(name, out AudioSource source);
 
         // Couldn't find source.
@@ -291,6 +322,7 @@ public class AudioManager : MonoBehaviour {
             return error;
         }
 
+        logger.Log("Changing pitch of the given registered AudioSource entry to random value between the given min and max value", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         source.pitch = UnityEngine.Random.Range(minPitch, maxPitch);
         return error;
     }
@@ -303,6 +335,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="time">Delay until sound is played.</param>
     /// <returns>AudioError, showing wheter and how playing the sound after the given amount of time failed.</returns>
     public AudioError PlayScheduled(string name, double time) {
+        logger.Log("Attempting to play the registered AudioSource entry scheduled with the name: " + name, LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = TryGetSource(name, out AudioSource source);
 
         // Couldn't find source.
@@ -310,6 +343,7 @@ public class AudioManager : MonoBehaviour {
             return error;
         }
 
+        logger.Log("Starting to play the given registered AudioSource entry scheduled", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         source.PlayScheduled(time);
         return error;
     }
@@ -320,6 +354,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="name">Name of the sound.</param>
     /// <returns>AudioError, showing wheter and how stopping the sound failed.</returns>
     public AudioError Stop(string name) {
+        logger.Log("Attempting to stop the registered AudioSource entry with the name: " + name, LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = TryGetSource(name, out AudioSource source);
 
         // Couldn't find source.
@@ -327,6 +362,7 @@ public class AudioManager : MonoBehaviour {
             return error;
         }
 
+        logger.Log("Stopping the given registered AudioSource entry", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         source.Stop();
         return error;
     }
@@ -337,6 +373,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="name">Name of the sound.</param>
     /// <returns>AudioError, showing wheter and how muting or unmuting the sound failed.</returns>
     public AudioError ToggleMute(string name) {
+        logger.Log("Attempting to toggle mute the registered AudioSource entry with the name: " + name, LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = TryGetSource(name, out AudioSource source);
 
         // Couldn't find source.
@@ -344,6 +381,7 @@ public class AudioManager : MonoBehaviour {
             return error;
         }
 
+        logger.Log("Muting the given registered AudioSource entry", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         source.mute = !source.mute;
         return error;
     }
@@ -354,6 +392,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="name">Name of the sound.</param>
     /// <returns>AudioError, showing wheter and how pausing or unpausing the sound failed.</returns>
     public AudioError TogglePause(string name) {
+        logger.Log("Attempting to toggle pause the registered AudioSource entry with the name: " + name, LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = TryGetSource(name, out AudioSource source);
 
         // Couldn't find source.
@@ -363,11 +402,13 @@ public class AudioManager : MonoBehaviour {
 
         // Check if the sound is playing right now.
         if (source.isPlaying) {
+            logger.Log("Paused the given registered AudioSource entry", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
             source.Pause();
+            return error;
         }
-        else {
-            source.UnPause();
-        }
+
+        logger.Log("Unpaused the given registered AudioSource entry", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
+        source.UnPause();
         return error;
     }
 
@@ -380,6 +421,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="callback">Callback that should be called, once the sound only has the given amount of time left.</param>
     /// <returns>AudioError, showing wheter and how subscribing the callback failed.</returns>
     public AudioError SubscribeAudioFinished(string name, float remainingTime, Action<string, float> callback) {
+        logger.Log("Attempting to subscribe to the registered AudioSource entry finishing to the given remainingTime with the name: " + name, LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = TryGetSource(name, out AudioSource source);
 
         // Couldn't find source.
@@ -388,6 +430,7 @@ public class AudioManager : MonoBehaviour {
         }
         // Check if the given remainingTime exceeds the actual clip length.
         else if (remainingTime > source.clip.length) {
+            logger.Log("The given time exceeds the actual length of the clip", LoggingLevel.INTERMEDIATE, LoggingType.WARNING, this);
             error = AudioError.INVALID_TIME;
             return error;
         }
@@ -398,10 +441,12 @@ public class AudioManager : MonoBehaviour {
         // but because we get the remainingTime
         // and not the time in the song we want to call the callback at,
         // we need to switch the value so for example from 0.3 to 0.7.
+        logger.Log("Calculating progress we want to subscribe to", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         float progress = -(remainingTime / source.clip.length) + 1;
 
         // Check if the progress is to high.
         if (progress > MAX_PROGRESS) {
+            logger.Log("The given value is to close to the end of the actual clip length, therefore the given value can not be detected, because playing audio is frame rate independent", LoggingLevel.INTERMEDIATE, LoggingType.WARNING, this);
             error = AudioError.INVALID_PROGRESS;
             return error;
         }
@@ -421,6 +466,7 @@ public class AudioManager : MonoBehaviour {
     /// showing wheter and how getting the current playback position of the sound failed.
     /// </returns>
     public ValueDataError<float> GetProgress(string name) {
+        logger.Log("Attempting to get the progress from the registered AudioSource entry with the name: " + name, LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = TryGetSource(name, out AudioSource source);
         ValueDataError<float> valueDataError = new ValueDataError<float>(float.NaN, (int)error);
 
@@ -429,6 +475,7 @@ public class AudioManager : MonoBehaviour {
             return valueDataError;
         }
 
+        logger.Log("Calculating the current progress of the given registered AudioSource entry", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         valueDataError.Value = (float)source.timeSamples / (float)source.clip.samples;
         return valueDataError;
     }
@@ -440,14 +487,18 @@ public class AudioManager : MonoBehaviour {
     /// <param name="source">Variale source should be copied into.</param>
     /// <returns>AudioError, showing wheter and how getting the source of the given sound failed.</returns>
     public AudioError TryGetSource(string name, out AudioSource source) {
+        logger.Log("Attempting to get registered AudioSource entry with the given name: " + name, LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = AudioError.OK;
 
+        logger.Log("Checking if AudioSource entry with the given name: " + name + " has been registered with the AudioManager", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         // Check if the given sound name is in our soundDictionary.
         if (!soundDictionary.TryGetValue(name, out source)) {
+            logger.Log("Sound with the given name: " + name + " has not been registerd with the AudioManager", LoggingLevel.INTERMEDIATE, LoggingType.WARNING, this);
             error = AudioError.DOES_NOT_EXIST;
         }
         // Check if the source is set.
         else if (!source) {
+            logger.Log("Sound with the given name: " + name + " does not have an AudioSource component on the GameObject the AudioManager resides on", LoggingLevel.INTERMEDIATE, LoggingType.WARNING, this);
             error = AudioError.MISSING_SOURCE;
         }
         return error;
@@ -462,6 +513,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="granularity">Amount of steps that will be taken to decrease to the endValue (Setting to high is not advised).</param>
     /// <returns>AudioError, showing wheter and how changing the pitch of the given sound failed.</returns>
     public AudioError LerpPitch(string name, float endValue, float waitTime = DEFAULT_WAIT_TIME, float granularity = DEFAULT_GRANULARITY) {
+        logger.Log("Attempting to lerp pitch of the registered AudioSource entry with the given name: " + name, LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = TryGetSource(name, out AudioSource source);
 
         // Couldn't find source.
@@ -469,14 +521,17 @@ public class AudioManager : MonoBehaviour {
             return error;
         }
         else if (source.pitch == endValue) {
+            logger.Log("The given endValue is already the same as the current value", LoggingLevel.INTERMEDIATE, LoggingType.WARNING, this);
             error = AudioError.INVALID_END_VALUE;
             return error;
         }
         else if (granularity < MIN_GRANULARITY) {
+            logger.Log("The given granularity is too small, has to be higher than or equal to 1", LoggingLevel.INTERMEDIATE, LoggingType.WARNING, this);
             error = AudioError.INVALID_GRANULARITY;
             return error;
         }
 
+        logger.Log("Calculate difference / stepValue and stepTime from wanted and current pitch divided by granularity", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         // Calculate what we need to remove or add to the pitch to achieve the endValue.
         float difference = endValue - source.pitch;
         float stepValue = difference / granularity;
@@ -495,6 +550,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="granularity">Amount of steps that will be taken to decrease to the endValue (Setting to high is not advised).</param>
     /// <returns>AudioError, showing wheter and how changing the volume of the given sound failed.</returns>
     public AudioError LerpVolume(string name, float endValue, float waitTime = DEFAULT_WAIT_TIME, float granularity = DEFAULT_GRANULARITY) {
+        logger.Log("Attempting to lerp volume of the registered AudioSource entry with the given name: " + name, LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = TryGetSource(name, out AudioSource source);
 
         // Couldn't find source.
@@ -502,14 +558,17 @@ public class AudioManager : MonoBehaviour {
             return error;
         }
         else if (source.volume == endValue) {
+            logger.Log("The given endValue is already the same as the current value", LoggingLevel.INTERMEDIATE, LoggingType.WARNING, this);
             error = AudioError.INVALID_END_VALUE;
             return error;
         }
         else if (granularity < MIN_GRANULARITY) {
+            logger.Log("The given granularity is too small, has to be higher than or equal to 1", LoggingLevel.INTERMEDIATE, LoggingType.WARNING, this);
             error = AudioError.INVALID_GRANULARITY;
             return error;
         }
 
+        logger.Log("Calculate difference / stepValue and stepTime from wanted and current pitch divided by granularity", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         // Calculate what we need to remove or add to the pitch to achieve the endValue.
         float difference = endValue - source.volume;
         float stepValue = difference / granularity;
@@ -527,6 +586,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="newValue">Value we want to set the exposed parameter to.</param>
     /// <returns>AudioError, showing wheter and how changing the given exposed parameter for the complete AudioMixerGroup of the given sound failed.</returns>
     public AudioError ChangeGroupValue(string name, string exposedParameterName, float newValue) {
+        logger.Log("Attempting to change group value with the name: " + exposedParameterName + " of the registered AudioSource entry with the given name: " + name, LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = TryGetSource(name, out AudioSource source);
 
         // Couldn't find source.
@@ -535,11 +595,13 @@ public class AudioManager : MonoBehaviour {
         }
         // Check if the outputAudioGroup value is not null.
         else if (!source.outputAudioMixerGroup) {
+            logger.Log("Group methods may only be called with a sound that has a set AudioMixerGroup", LoggingLevel.INTERMEDIATE, LoggingType.WARNING, this);
             error = AudioError.MISSING_MIXER_GROUP;
             return error;
         }
         // Check if the AudioMixer parameter is exposed.
         else if (!source.outputAudioMixerGroup.audioMixer.SetFloat(exposedParameterName, newValue)) {
+            logger.Log("The given parameter with the name: " + exposedParameterName + " in the AudioMixer is not exposed or does not exist", LoggingLevel.INTERMEDIATE, LoggingType.WARNING, this);
             error = AudioError.MIXER_NOT_EXPOSED;
         }
         return error;
@@ -556,6 +618,7 @@ public class AudioManager : MonoBehaviour {
     /// showing wheter and how getting the current exposed parameter value failed.
     /// </returns>
     public ValueDataError<float> GetGroupValue(string name, string exposedParameterName) {
+        logger.Log("Attempting to get group value with the name: " + exposedParameterName + " of the registered AudioSource entry with the given name: " + name, LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = TryGetSource(name, out AudioSource source);
         float currentValue = float.NaN;
         ValueDataError<float> valueDataError = new ValueDataError<float>(currentValue, (int)error);
@@ -566,11 +629,13 @@ public class AudioManager : MonoBehaviour {
         }
         // Check if the outputAudioGroup value is not null.
         else if (!source.outputAudioMixerGroup) {
+            logger.Log("Group methods may only be called with a sound that has a set AudioMixerGroup", LoggingLevel.INTERMEDIATE, LoggingType.WARNING, this);
             valueDataError.Error = (int)AudioError.MISSING_MIXER_GROUP;
             return valueDataError;
         }
         // Check if the AudioMixer parameter is exposed.
         else if (!source.outputAudioMixerGroup.audioMixer.GetFloat(exposedParameterName, out currentValue)) {
+            logger.Log("The given parameter with the name: " + exposedParameterName + " in the AudioMixer is not exposed or does not exist", LoggingLevel.INTERMEDIATE, LoggingType.WARNING, this);
             valueDataError.Error = (int)AudioError.MIXER_NOT_EXPOSED;
         }
         valueDataError.Value = currentValue;
@@ -584,6 +649,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="exposedParameterName">Name of the exposed parameter we want to reset.</param>
     /// <returns>AudioError, showing wheter and how reseting the given exposed parameter for the complete AudioMixerGroup of the given sound failed.</returns>
     public AudioError ResetGroupValue(string name, string exposedParameterName) {
+        logger.Log("Attempting to reset group value with the name: " + exposedParameterName + " of the registered AudioSource entry with the given name: " + name, LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = TryGetSource(name, out AudioSource source);
 
         // Couldn't find source.
@@ -592,11 +658,13 @@ public class AudioManager : MonoBehaviour {
         }
         // Check if the outputAudioGroup value is not null.
         else if (!source.outputAudioMixerGroup) {
+            logger.Log("Group methods may only be called with a sound that has a set AudioMixerGroup", LoggingLevel.INTERMEDIATE, LoggingType.WARNING, this);
             error = AudioError.MISSING_MIXER_GROUP;
             return error;
         }
         // Check if the AudioMixer parameter is exposed.
         else if (!source.outputAudioMixerGroup.audioMixer.ClearFloat(exposedParameterName)) {
+            logger.Log("The given parameter with the name: " + exposedParameterName + " in the AudioMixer is not exposed or does not exist", LoggingLevel.INTERMEDIATE, LoggingType.WARNING, this);
             error = AudioError.MIXER_NOT_EXPOSED;
         }
         return error;
@@ -612,6 +680,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="granularity">Amount of steps that will be taken to decrease to the endValue (Setting to high is not advised).</param>
     /// <returns>AudioError, showing wheter and how changing the given exposed parameter for the complete AudioMixerGroup of the given sound failed.</returns>
     public AudioError LerpGroupValue(string name, string exposedParameterName, float endValue, float waitTime = DEFAULT_WAIT_TIME, float granularity = DEFAULT_GRANULARITY) {
+        logger.Log("Attempting to reset group value with the name: " + exposedParameterName + " of the registered AudioSource entry with the given name: " + name, LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = TryGetSource(name, out AudioSource source);
         float startValue = float.NaN;
 
@@ -621,23 +690,28 @@ public class AudioManager : MonoBehaviour {
         }
         // Check if the outputAudioGroup value is not null.
         else if (!source.outputAudioMixerGroup) {
+            logger.Log("Group methods may only be called with a sound that has a set AudioMixerGroup", LoggingLevel.INTERMEDIATE, LoggingType.WARNING, this);
             error = AudioError.MISSING_MIXER_GROUP;
             return error;
         }
         // Check if the AudioMixer parameter is exposed.
         else if (!source.outputAudioMixerGroup.audioMixer.GetFloat(exposedParameterName, out startValue)) {
+            logger.Log("The given parameter with the name: " + exposedParameterName + " in the AudioMixer is not exposed or does not exist", LoggingLevel.INTERMEDIATE, LoggingType.WARNING, this);
             error = AudioError.MIXER_NOT_EXPOSED;
             return error;
         }
         else if (startValue == endValue) {
+            logger.Log("The given endValue is already the same as the current value", LoggingLevel.INTERMEDIATE, LoggingType.WARNING, this);
             error = AudioError.INVALID_END_VALUE;
             return error;
         }
         else if (granularity < MIN_GRANULARITY) {
+            logger.Log("The given granularity is too small, has to be higher than or equal to 1", LoggingLevel.INTERMEDIATE, LoggingType.WARNING, this);
             error = AudioError.INVALID_GRANULARITY;
             return error;
         }
 
+        logger.Log("Calculate difference / stepValue and stepTime from wanted and current pitch divided by granularity", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         // Calculate what we need to remove or add to the exposed parameter to achieve the endValue.
         float difference = endValue - startValue;
         float stepValue = difference / granularity;
@@ -654,12 +728,15 @@ public class AudioManager : MonoBehaviour {
     /// <param name="name">Name of the sound.</param>
     /// <returns>AudioError, showing wheter and how removing the AudioMixerGroup failed.</returns>
     public AudioError RemoveGroup(string name) {
+        logger.Log("Attempting to remove group from the registered AudioSource entry with the given name: " + name, LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = TryGetSource(name, out AudioSource source);
 
         // Couldn't find source.
         if (error != AudioError.OK) {
             return error;
         }
+
+        logger.Log("Resetting outputAudioMixerGroup property of the given registered AudioSource entry", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         source.outputAudioMixerGroup = null;
         return error;
     }
@@ -671,12 +748,15 @@ public class AudioManager : MonoBehaviour {
     /// <param name="name">Name of the sound.</param>
     /// <returns>AudioError, showing wheter and how adding the AudioMixerGroup failed.</returns>
     public AudioError AddGroup(string name, AudioMixerGroup mixerGroup) {
+        logger.Log("Attempting to add group from the registered AudioSource entry with the given name: " + name, LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = TryGetSource(name, out AudioSource source);
 
         // Couldn't find source.
         if (error != AudioError.OK) {
             return error;
         }
+
+        logger.Log("Setting outputAudioMixerGroup property of the given registered AudioSource entry to the given AudioMixerGroup", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         source.outputAudioMixerGroup = mixerGroup;
         return error;
     }
@@ -687,10 +767,12 @@ public class AudioManager : MonoBehaviour {
     /// <param name="name">Name of the sound.</param>
     /// <returns>AudioError, showing wheter and how removing the sound failed.</returns>
     public AudioError RemoveSound(string name) {
+        logger.Log("Attempting to remove registered AudioSource entry with the given name: " + name, LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = AudioError.OK;
 
         // Check if the given sound name is in our soundDictionary.
         if (!soundDictionary.Remove(name)) {
+            logger.Log("Sound with the given name: " + name + " has not been registerd with the AudioManager", LoggingLevel.INTERMEDIATE, LoggingType.WARNING, this);
             error = AudioError.DOES_NOT_EXIST;
         }
         return error;
@@ -708,6 +790,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="rolloffMode">Sets how the Volume will be lowered over distance.</param>
     /// <returns>AudioError, showing wheter and how setting the 3D audio options failed.</returns>
     public AudioError Set3DAudioOptions(string name, float minDistance = 1f, float maxDistance = 500f, float spatialBlend = 1f, float spread = 0f, float dopplerLevel = 1f, AudioRolloffMode rolloffMode = AudioRolloffMode.Logarithmic) {
+        logger.Log("Attempting to set 3D audio options of the registered AudioSource entry with the name: " + name, LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = TryGetSource(name, out AudioSource source);
 
         // Couldn't find source.
@@ -716,6 +799,7 @@ public class AudioManager : MonoBehaviour {
         }
         // Checks if 3D was even enabled in the spatialBlend.
         else if (spatialBlend <= SPATIAL_BLEND_2D) {
+            logger.Log("The sound can not be 3D, because spatialBlend is set to be 2D instead of 3D", LoggingLevel.INTERMEDIATE, LoggingType.WARNING, this);
             error = AudioError.CAN_NOT_BE_3D;
             return error;
         }
@@ -732,6 +816,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="startTime">Moment in the sound we want to start playing at in seconds.</param>
     /// <returns>AudioError, showing wheter and how setting the start time failed.</returns>
     public AudioError SetStartTime(string name, float startTime) {
+        logger.Log("Attempting to set start time of the registered AudioSource entry with the name: " + name, LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = TryGetSource(name, out AudioSource source);
 
         // Couldn't find source.
@@ -740,10 +825,12 @@ public class AudioManager : MonoBehaviour {
         }
         // Check if the given startTime exceeds the actual clip length.
         else if (startTime > source.clip.length) {
+            logger.Log("Given start time execceds actual clip length", LoggingLevel.INTERMEDIATE, LoggingType.WARNING, this);
             error = AudioError.INVALID_TIME;
             return error;
         }
 
+        logger.Log("Setting startTime of the given registered AudioSource entry", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         source.time = startTime;
         return error;
     }
@@ -759,7 +846,9 @@ public class AudioManager : MonoBehaviour {
     /// because AudioManager is a DontDestroyOnLoad Singelton.
     /// </summary>
     private void SetupSounds() {
+        logger.Log("Attempting to register given AudioSourceSettings on startup", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         foreach (var setting in settings) {
+            logger.Log("Attaching empty AudioSource for the given AudioSourceSetting with the name: " + setting.name, LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
             // Create AudioSource object for the AudioSourceSetting scriptable object.
             setting.source = gameObject.AddComponent<AudioSource>();
             // Add the name and it's AudioSource to our dictionary.
@@ -778,16 +867,21 @@ public class AudioManager : MonoBehaviour {
     /// <param name="source">AudioSource that contains the settings we want the sound to have.</param>
     /// <returns>AudioError, showing wheter and how adding a sound failed.</returns>
     private AudioError AddSound(string name, AudioSource source) {
+        logger.Log("Attempting to add new AudioSource entry with the name: " + name, LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = AudioError.OK;
         // Ensure there is not already a sound with the given name in our dictionary.
+        logger.Log("Checking if new AudioSource entry with the given key: " + name + " is valid", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         if (soundDictionary.ContainsKey(name)) {
+            logger.Log("Can't add new AudioSource entry as there already exists a AudioSource entry with that name", LoggingLevel.INTERMEDIATE, LoggingType.WARNING, this);
             error = AudioError.ALREADY_EXISTS;
             return error;
         }
         else if (!source) {
+            logger.Log("Sound with the given name: " + name + " does not have an AudioSource component on the GameObject the AudioManager resides on", LoggingLevel.INTERMEDIATE, LoggingType.WARNING, this);
             error = AudioError.MISSING_SOURCE;
             return error;
         }
+        logger.Log("Registering new valid AudioSource entry with the AudioManager", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         soundDictionary.Add(name, source);
         return error;
     }
@@ -800,6 +894,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="stepTime">Delay we want to have after each de -or increase.</param>
     /// <param name="steps">Amount of steps that will be taken to decrease to the endValue.</param>
     private IEnumerator PitchChanger(AudioSource source, float stepValue, float stepTime, float steps) {
+        logger.Log("Lerping pitch over the given time", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         // De -or increases the given pitch with the given amount of steps.
         for (; steps > 0; steps--) {
             source.pitch += stepValue;
@@ -817,6 +912,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="stepTime">Delay we want to have after each de -or increase.</param>
     /// <param name="steps">Amount of steps that will be taken to decrease to the endValue.</param>
     private IEnumerator VolumeChanger(AudioSource source, float stepValue, float stepTime, float steps) {
+        logger.Log("Lerping volume over the given time", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         // De -or increases the given pitch with the given amount of steps.
         for (; steps > 0; steps--) {
             source.volume += stepValue;
@@ -835,6 +931,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="stepTime">Delay we want to have after each de -or increase.</param>
     /// <param name="steps">Amount of steps that will be taken to decrease to the endValue.</param>
     private IEnumerator ExposedParameterChanger(AudioMixer mixer, string exposedParameterName, float stepValue, float stepTime, float steps) {
+        logger.Log("Lerping exposed parameter over the given time", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         mixer.GetFloat(exposedParameterName, out float currentValue);
         // De -or increases the given pitch with the given amount of steps.
         for (; steps > 0; steps--) {
@@ -854,6 +951,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="progress">Amount of progress, we want to call the callback at. (0 - 1)</param>
     /// <param name="callback">Callback that will be called once the given progress passed.</param>
     private IEnumerator DetectCurrentProgress(string name, float progress, Action<string, float> callback) {
+        logger.Log("Starting coroutine that dectects when the given registered AudioSource entry with the name: " + name + " has completed to the given degree: " + (progress * 100).ToString("0.00") + "%", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         TryGetSource(name, out AudioSource source);
         yield return new WaitUntil(() => SoundFinished(source, progress));
         // Recalculate the initally given remainingTime.
@@ -863,6 +961,7 @@ public class AudioManager : MonoBehaviour {
         // and not the current time in the song,
         // we need to switch the value so for example from 20s to 10s.
         float remainingTime = source.clip.length - (progress * source.clip.length);
+        logger.Log("Calling given callback with the remainingTime left to play for the registered AudioSource entry being " + remainingTime.ToString("0.00") + " seconds", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         // Invoke the callback with the given parameters as long as it isn't null.
         callback?.Invoke(name, remainingTime);
     }
@@ -879,12 +978,13 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Copys all the given settings from the given AudioSource object to another.
+    /// Copys all the given settings from the given registered AudioSource entry object to another.
     /// </summary>
     /// <param name="copyTo">Object we want to copy the settings to.</param>
     /// <param name="copyFrom">Object we want to copy the settings from.</param>
     /// <returns>AudioError, showing wheter and how copying the 2D and 3D options from one audioSource to another failed.</returns>
     private AudioError CopyAudioSourceSettings(AudioSource copyTo, AudioSource copyFrom) {
+        logger.Log("Attempting to copy 2D and 3D settings from given registered AudioSource entry to another AudioSource", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = Set2DAudioOptions(copyTo, copyFrom.clip, copyFrom.outputAudioMixerGroup, copyFrom.loop, copyFrom.volume, copyFrom.pitch);
         if (error != AudioError.OK) {
             return error;
@@ -903,17 +1003,25 @@ public class AudioManager : MonoBehaviour {
     /// <param name="pitch">Frequency of the sound. Use this to slow down or speed up the sounds.</param>
     /// <returns>AudioError, showing wheter and how setting the 2D audio source options failed.</returns>
     private AudioError Set2DAudioOptions(AudioSource source, AudioClip clip, AudioMixerGroup mixerGroup, bool loop, float volume, float pitch) {
+        logger.Log("Attempting to set 2D audio options of the given registered AudioSource entry", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = AudioError.OK;
 
+        logger.Log("Checking if passed AudioSource has an AudioSource component on the GameObject the AudioManager resides on", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         if (!source) {
+            logger.Log("Sound does not have an AudioSource component on the GameObject the AudioManager resides on", LoggingLevel.INTERMEDIATE, LoggingType.WARNING, this);
             error = AudioError.MISSING_SOURCE;
             return error;
         }
 
+        logger.Log("Setting clip property of our given registered AudioSource entry", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         source.clip = clip;
+        logger.Log("Setting outputAudioMixerGroup property of our given registered AudioSource entry", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         source.outputAudioMixerGroup = mixerGroup;
+        logger.Log("Setting loop property of our given registered AudioSource entry", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         source.loop = loop;
+        logger.Log("Setting volume property of our given registered AudioSource entry", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         source.volume = volume;
+        logger.Log("Setting pitch property of our given registered AudioSource entry", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         source.pitch = pitch;
         return error;
     }
@@ -924,17 +1032,25 @@ public class AudioManager : MonoBehaviour {
     /// <param name="setting">Object containing all settings needed to set the AudioSource options.</param>
     /// <returns>AudioError, showing wheter and how setting the 2D audio source options failed.</returns>
     private AudioError Set2DAudioOptions(AudioSourceSetting setting) {
+        logger.Log("Attempting to set 2D audio options from the given AudioSourceSetting", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = AudioError.OK;
 
+        logger.Log("Checking if passed AudioSource has an AudioSource component on the GameObject the AudioManager resides on", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         if (!setting.source) {
+            logger.Log("Sound does not have an AudioSource component on the GameObject the AudioManager resides on", LoggingLevel.INTERMEDIATE, LoggingType.WARNING, this);
             error = AudioError.MISSING_SOURCE;
             return error;
         }
 
+        logger.Log("Setting clip property of our given registered AudioSource entry from AudioSourceSetting", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         setting.source.clip = setting.audioClip;
+        logger.Log("Setting outputAudioMixerGroup property of our given registered AudioSource entry from AudioSourceSetting", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         setting.source.outputAudioMixerGroup = setting.mixerGroup;
+        logger.Log("Setting loop property of our given registered AudioSource entry from AudioSourceSetting", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         setting.source.loop = setting.loop;
+        logger.Log("Setting volume property of our given registered AudioSource entry from AudioSourceSettin.", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         setting.source.volume = setting.volume;
+        logger.Log("Setting pitch property of our given registered AudioSource entry from AudioSourceSetting", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         setting.source.pitch = setting.pitch;
         return error;
     }
@@ -951,25 +1067,36 @@ public class AudioManager : MonoBehaviour {
     /// <param name="maxDistance">Distance that sound will still be hearable at.</param>
     /// <returns>AudioError, showing wheter and how setting the 3D audio source options failed.</returns>
     private AudioError Set3DAudioOptions(AudioSource source, float spatialBlend, float dopplerLevel, float spread, AudioRolloffMode rolloffMode, float minDistance, float maxDistance) {
+        logger.Log("Attempting to set 3D audio options of the given registered AudioSource entry", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = AudioError.OK;
 
+        logger.Log("Checking if passed AudioSource has an AudioSource component on the GameObject the AudioManager resides on", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         // Check if source is null.
         if (!source) {
+            logger.Log("Sound does not have an AudioSource component on the GameObject the AudioManager resides on", LoggingLevel.INTERMEDIATE, LoggingType.WARNING, this);
             error = AudioError.MISSING_SOURCE;
             return error;
         }
         // Checks if 3D was even enabled in the spatialBlend.
         else if (spatialBlend <= SPATIAL_BLEND_2D) {
+            logger.Log("The sound can not be 3D, because spatialBlend is set to be 2D instead of 3D", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
             error = AudioError.CAN_NOT_BE_3D;
             return error;
         }
 
+        logger.Log("Setting spatialize property of our given registered AudioSource entry", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         source.spatialize = true;
+        logger.Log("Setting spatialBlend property of our given registered AudioSource entry", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         source.spatialBlend = spatialBlend;
+        logger.Log("Setting dopplerLevel property of our given registered AudioSource entry", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         source.dopplerLevel = dopplerLevel;
+        logger.Log("Setting spread property of our given registered AudioSource entry", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         source.spread = spread;
+        logger.Log("Setting rolloffMode property of our given registered AudioSource entry", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         source.rolloffMode = rolloffMode;
+        logger.Log("Setting minDistance property of our given registered AudioSource entry", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         source.minDistance = minDistance;
+        logger.Log("Setting maxDistance property of our given registered AudioSource entry", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         source.maxDistance = maxDistance;
         return error;
     }
@@ -980,31 +1107,42 @@ public class AudioManager : MonoBehaviour {
     /// <param name="setting">Object containing all settings needed to set the AudioSource options.</param>
     /// <returns>AudioError, showing wheter and how setting the 3D audio source options failed.</returns>
     private AudioError Set3DAudioOptions(AudioSourceSetting setting) {
+        logger.Log("Attempting to set 3D audio options from the given AudioSourceSetting", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = AudioError.OK;
 
+        logger.Log("Checking if passed AudioSource has an AudioSource component on the GameObject the AudioManager resides on", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         // Check if source is null.
         if (!setting.source) {
+            logger.Log("Sound does not have an AudioSource component on the GameObject the AudioManager resides on", LoggingLevel.INTERMEDIATE, LoggingType.WARNING, this);
             error = AudioError.MISSING_SOURCE;
             return error;
         }
         // Checks if 3D was even enabled in the spatialBlend.
         else if (setting.spatialBlend <= SPATIAL_BLEND_2D) {
+            logger.Log("The sound can not be 3D, because spatialBlend is set to be 2D instead of 3D", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
             error = AudioError.CAN_NOT_BE_3D;
             return error;
         }
 
+        logger.Log("Setting spatialize property of our given registered AudioSource entry", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         setting.source.spatialize = true;
+        logger.Log("Setting spatialBlend property of our given registered AudioSource entry", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         setting.source.spatialBlend = setting.spatialBlend;
+        logger.Log("Setting dopplerLevel property of our given registered AudioSource entry", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         setting.source.dopplerLevel = setting.dopplerLevel;
+        logger.Log("Setting spread property of our given registered AudioSource entry", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         setting.source.spread = setting.spread;
+        logger.Log("Setting rolloffMode property of our given registered AudioSource entry", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         setting.source.rolloffMode = setting.volumeRolloff;
+        logger.Log("Setting minDistance property of our given registered AudioSource entry", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         setting.source.minDistance = setting.minDistance;
+        logger.Log("Setting maxDistance property of our given registered AudioSource entry", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         setting.source.maxDistance = setting.maxDistance;
         return error;
     }
 
     /// <summary>
-    /// Creates a new empty gameObject with a copy of the given AudioSource component attached to it.
+    /// Creates a new empty gameObject with a copy of the given registered AudioSource entry component attached to it.
     /// </summary>
     /// <param name="name">Name of the newly created gameObject.</param>
     /// <param name="position">Position the newly created gameObject should be created at.</param>
@@ -1012,10 +1150,13 @@ public class AudioManager : MonoBehaviour {
     /// <param name="newSource">New child AudioSource that should be created and the settings copied into.</param>
     /// <returns>AudioError, showing wheter and how creating a new empty gameObject failed.</returns>
     private AudioError CreateEmptyGameObject(string name, Vector3 position, AudioSource parentSource, out AudioSource newSource) {
+        logger.Log("Attempting to create empty GameObject", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         // Create new empty gameObject, at the given position.
         var newGameObject = new GameObject(name);
+        logger.Log("Parent empty GameObject to the GameObject the AudioManager resides on", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         // Set the parent of the newly created gameObject to the AudioManager.
         newGameObject.transform.SetParent(this.transform);
+        logger.Log("Setting position of the newly created GameObject to the given position", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         // Set the position of the newly created gameObject to the given position.
         newGameObject.transform.position = position;
         return AttachAudioSourceCopy(parentSource, out newSource, newGameObject);
@@ -1029,6 +1170,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="newSource">GameObject the new audioSource should be attached too..</param>
     /// <returns>AudioError, showing wheter and how attching a audioSource to the given gameobject failed.</returns>
     private AudioError AttachAudioSourceCopy(AudioSource parentSource, out AudioSource newSource, GameObject newGameObject) {
+        logger.Log("Attempting to attach a new AudioSource to the given GameObject", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         // Add audioSource component to the newly created gameObject.
         newSource = newGameObject.AddComponent<AudioSource>();
         // Copy the values of our respective parent audioSource into the just created child audioSource object.
@@ -1043,34 +1185,41 @@ public class AudioManager : MonoBehaviour {
     /// <param name="oneShot">Wheter the AudioSource.PlayOneShot or AudioSource.PlayOneShot should be called.</param>
     /// <returns>AudioError, showing wheter and how playing the sound at the given position once failed.</returns>
     private AudioError PlayAt3DPosition(AudioSource parentSource, Vector3 position, bool oneShot, [CallerMemberName] string memberName = "") {
+        logger.Log("Attempting to play given registered AudioSource entry at a 3D position", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = AudioError.OK;
+        logger.Log("Checking if a 3D method was called previously with the given registered AudioSource", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         // Check if the parentChildDirectory has already created a dictionary with the key being the given parentSource.
         if (parentChildDictionary.TryGetValue(parentSource, out var childDictionary)) {
+            logger.Log("Checking if this 3D method was called previously", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
             // Check if the given childDictionary contains a key value pair that was created in the method with the given name.
             if (childDictionary.TryGetValue(memberName, out var childSource)) {
                 // If it was, simply update the AudioSource component parent position, which is the previously created empty gameObject.
                 error = CopyAudioSourceSettings(childSource, parentSource);
+                logger.Log("Setting position of empty gameObject created previously containing our childSource", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
                 childSource.transform.position = position;
                 PlayOrPlayOneShot(childSource, oneShot);
+                return error;
             }
-            else {
-                // If it wasn't, create a new empty gameobject and attach a copy of the parentSource object to it.
-                error = CreateEmptyGameObject(name, position, parentSource, out AudioSource newChildSource);
-                // Then add that to our already existing dictionary with the key being the name of the method that called this method.
-                childDictionary.Add(memberName, newChildSource);
-                PlayOrPlayOneShot(newChildSource, oneShot);
-            }
+
+            // If it wasn't, create a new empty gameobject and attach a copy of the parentSource object to it.
+            error = CreateEmptyGameObject(memberName, position, parentSource, out AudioSource newChildSource);
+            logger.Log("Register newly created empty gameObject with the AudioManager", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
+            // Then add that to our already existing dictionary with the key being the name of the method that called this method.
+            childDictionary.Add(memberName, newChildSource);
+            PlayOrPlayOneShot(newChildSource, oneShot);
             return error;
         }
 
-        error = CreateEmptyGameObject(name, position, parentSource, out AudioSource newSource);
+        error = CreateEmptyGameObject(memberName, position, parentSource, out AudioSource newSource);
         // Check if copying settings was successfull.
         if (error != AudioError.OK) {
             return error;
         }
+        logger.Log("Create new registry containing our newly created empty gameObject", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         // Create a new childDictionary with the key being the name of the method that called this method and
         // the value being the newSource that contains the copied settings of the parentSource object.
         var newChildDictionary = new Dictionary<string, AudioSource>() { { memberName, newSource } };
+        logger.Log("Register newly created registry with the AudioManager", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         // Add the newly created audioSource to our parentChildDictionary.
         parentChildDictionary.Add(parentSource, newChildDictionary);
         PlayOrPlayOneShot(newSource, oneShot);
@@ -1085,7 +1234,9 @@ public class AudioManager : MonoBehaviour {
     /// <param name="oneShot">Wheter the AudioSource.PlayOneShot or AudioSource.PlayOneShot should be called.</param>
     /// <returns>AudioError, showing wheter and how playing the sound attached to the given gameobject failed.</returns>
     private AudioError PlayAttachedToGameObject(AudioSource parentSource, GameObject gameObject, bool oneShot, [CallerMemberName] string memberName = "") {
+        logger.Log("Attempting to play given registered AudioSource entry attached to a GameObject", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         AudioError error = AudioError.OK;
+        logger.Log("Checking if a 3D method was called previously with the given registered AudioSource", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         // Check if the parentChildDirectory has already created a dictionary with the key being the given parentSource.
         if (parentChildDictionary.TryGetValue(parentSource, out Dictionary<string, AudioSource> childDictionary)) {
             // Check if the given childDictionary contains a key value pair that was created in the method with the given name and
@@ -1093,14 +1244,15 @@ public class AudioManager : MonoBehaviour {
             if (childDictionary.TryGetValue(memberName, out AudioSource childSource) && gameObject == childSource.gameObject) {
                 error = CopyAudioSourceSettings(childSource, parentSource);
                 PlayOrPlayOneShot(childSource, oneShot);
+                return error;
             }
-            else {
-                // If it wasn't, create a new empty gameobject and attach a copy of the parentSource object to it.
-                error = AttachAudioSourceCopy(parentSource, out AudioSource newChildSource, gameObject);
-                // Then add that to our already existing dictionary with the key being the name of the method that called this method.
-                childDictionary.Add(memberName, newChildSource);
-                PlayOrPlayOneShot(newChildSource, oneShot);
-            }
+
+            // If it wasn't, create a new empty gameobject and attach a copy of the parentSource object to it.
+            error = AttachAudioSourceCopy(parentSource, out AudioSource newChildSource, gameObject);
+            logger.Log("Register newly created AudioSource copy with the AudioManager", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
+            // Then add that to our already existing dictionary with the key being the name of the method that called this method.
+            childDictionary.Add(memberName, newChildSource);
+            PlayOrPlayOneShot(newChildSource, oneShot);
             return error;
         }
 
@@ -1109,9 +1261,11 @@ public class AudioManager : MonoBehaviour {
         if (error != AudioError.OK) {
             return error;
         }
+        logger.Log("Create new registry containing our newly created AudioSource copy", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         // Create a new childDictionary with the key being the name of the method that called this method and
         // the value being the newSource that contains the copied settings of the parentSource object.
         var newChildDictionary = new Dictionary<string, AudioSource>() { { memberName, newSource } };
+        logger.Log("Register newly created registry with the AudioManager", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
         // Add the newly created audioSource to our parentChildDictionary.
         parentChildDictionary.Add(parentSource, newChildDictionary);
         PlayOrPlayOneShot(newSource, oneShot);
@@ -1125,11 +1279,13 @@ public class AudioManager : MonoBehaviour {
     /// <param name="oneShot">Wheter the AudioSource.PlayOneShot or AudioSource.PlayOneShot should be called.</param>
     private void PlayOrPlayOneShot(AudioSource childSource, bool oneShot) {
         if (oneShot) {
+            logger.Log("Starting to play the given registered AudioSource entry once", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
             childSource.PlayOneShot(childSource.clip);
+            return;
         }
-        else {
-            childSource.Play();
-        }
+
+        logger.Log("Starting to play the given registered AudioSource entry", LoggingLevel.VERBOSE, LoggingType.NORMAL, this);
+        childSource.Play();
     }
 
     /// <summary>

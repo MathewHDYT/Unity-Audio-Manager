@@ -1504,6 +1504,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7749e7e8d837294fa8324c2a3372dc8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  loggingLevel: 1
   settings:
   - {fileID: 11400000, guid: 8dc3e386dc3a16945857363072276555, type: 2}
   - {fileID: 11400000, guid: 722aa8d3c51851c4892d82871cabea89, type: 2}
