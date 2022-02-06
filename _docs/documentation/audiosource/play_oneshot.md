@@ -5,7 +5,7 @@ parent: AudioSource
 grand_parent: Documentation
 ---
 
-### Play OneShot
+## Play OneShot
 **What it does:**
 Starts playing the choosen sound once and returns an AudioError (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)), showing wheter and how playing the sound once failed.
 
