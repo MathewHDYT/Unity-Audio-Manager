@@ -5,7 +5,7 @@ parent: AudioSource
 grand_parent: Documentation
 ---
 
-### Play Attached To GameObject
+## Play Attached To GameObject
 **What it does:**
 Starts playing the choosen sound attached to a ```gameObject``` and returns an AudioError (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)), showing wheter and how playing the sound attached to the given gameobject failed.
 
