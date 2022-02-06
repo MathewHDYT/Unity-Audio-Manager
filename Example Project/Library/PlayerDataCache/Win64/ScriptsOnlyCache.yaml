@@ -54,25 +54,25 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 1538}
     - Class: 114
-      Script: {instanceID: 2420}
+      Script: {instanceID: 2424}
     - Class: 114
-      Script: {instanceID: 2760}
+      Script: {instanceID: 2764}
     - Class: 114
       Script: {instanceID: 2932}
     - Class: 114
-      Script: {instanceID: 3144}
+      Script: {instanceID: 3142}
     - Class: 114
-      Script: {instanceID: 3444}
+      Script: {instanceID: 3442}
+    - Class: 114
+      Script: {instanceID: 3502}
     - Class: 114
       Script: {instanceID: 3522}
     - Class: 114
-      Script: {instanceID: 3808}
+      Script: {instanceID: 3716}
     - Class: 114
-      Script: {instanceID: 3962}
+      Script: {instanceID: 3816}
     - Class: 114
-      Script: {instanceID: 18312}
-    - Class: 114
-      Script: {instanceID: 18318}
+      Script: {instanceID: 3970}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -260,7 +260,7 @@ ScriptsOnlyBuild:
     className: SignalTrack
   - hash:
       serializedVersion: 2
-      Hash: f1d735cc1a21c3704ab52568f4fbfcf8
+      Hash: 91d258529db2b5060a913f2afcea1a21
     assemblyName: UnityEngine.TestRunner.dll
     namespaceName: UnityEngine.TestTools.TestRunner
     className: PlaymodeTestsController
@@ -362,10 +362,22 @@ ScriptsOnlyBuild:
     className: GraphicRaycaster
   - hash:
       serializedVersion: 2
+      Hash: 88e3869a86e49e924a011a17e48d243b
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: AudioManager
+  - hash:
+      serializedVersion: 2
       Hash: a306e12d896ddcca949923c805691027
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: InputField
+  - hash:
+      serializedVersion: 2
+      Hash: 474dc8897b3624081d749006d6b49043
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: AudioSourceSetting
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -432,18 +444,6 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
     className: ToggleGroup
-  - hash:
-      serializedVersion: 2
-      Hash: 39062700abfa460777f408243d61742a
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: AudioManager
-  - hash:
-      serializedVersion: 2
-      Hash: 474dc8897b3624081d749006d6b49043
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: AudioSourceSetting
   platform: 19
   scenePathNames:
   - Assets/Scenes/Main.unity
