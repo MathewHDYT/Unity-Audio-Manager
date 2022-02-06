@@ -1,11 +1,11 @@
 ---
 layout: default
-title: Play One Shot At 3D Position
+title: Play OneShot At 3D Position
 parent: AudioSource
 grand_parent: Documentation
 ---
 
-## Play One Shot At 3D Position
+## Play OneShot At 3D Position
 **What it does:**
 Starts playing the choosen sound at a given 3D position once and returns an AudioError (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)), showing wheter and how playing the sound at the given position once failed.
 
