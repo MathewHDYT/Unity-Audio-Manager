@@ -27,7 +27,7 @@ else {
 ```
 
 **When to use it:**
-When you want to play a sound directly from a object and make the ```volume``` be influenced by the distance the player has from that object.
+When you want to play a sound directly from a gameObject and make the ```volume``` be influenced by the distance the player has from that gameObject.
 
 **Remarks:**
 To use either [```PlayAt3DPosition```](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/audiosource/play_at_3d_position/) or [```PlayAttachedToGameObject```](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/audiosource/play_attached_to_gameobject/) the sound we want to play with it has to have 3D enabled. Either use [```Set3DAudioOptions```](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/audiosource/set_3d_audio_options/) to set the needed settings via. code or make the sound 3D capable with the ```Spatial Blend``` parameter on the ```AudioSourceSetting```.
