@@ -96,6 +96,35 @@ public class MethodCalls : MonoBehaviour {
         }
     }
 
+    public void PlayOneShotAt3DPositionClicked() {
+        float randomXPos = Random.Range(-15f, 15f);
+        float randomYPos = Random.Range(-7.5f, 10f);
+        var worldPosition = new Vector3(randomXPos, randomYPos, 5f);
+
+        AudioError error = am.PlayOneShotAt3DPosition(soundNameInput.text, worldPosition);
+        if (error != AudioError.OK) {
+            SetTextAndColor("Playing sound called: " + soundNameInput.text + " once at the position x " + worldPosition.x.ToString("0.00") + " and y " + worldPosition.y.ToString("0.00") + " failed with error message: " + ErrorToMessage(error), failureColor);
+        }
+        else {
+            SetTextAndColor("Playing sound called: " + soundNameInput.text + " once at the position x " + worldPosition.x.ToString("0.00") + " and y " + worldPosition.y.ToString("0.00") + " succesfull", successColor);
+        }
+    }
+
+    public void PlayOneShotAttachedToGameObjectClicked() {
+        float randomXPos = Random.Range(-15f, 15f);
+        float randomYPos = Random.Range(-7.5f, 10f);
+        Vector3 worldPosition = new Vector3(randomXPos, randomYPos, 5f);
+
+        AudioError error = am.PlayOneShotAttachedToGameObject(soundNameInput.text, radio);
+        if (error != AudioError.OK) {
+            SetTextAndColor("Playing sound called: " + soundNameInput.text + " once attached to: " + radio.name + " failed with error message: " + ErrorToMessage(error), failureColor);
+        }
+        else {
+            radio.transform.position = worldPosition;
+            SetTextAndColor("Playing sound called: " + soundNameInput.text + " once attached to: " + radio.name + " succesfull", successColor);
+        }
+    }
+
     public void PlayDelayedClicked() {
         if (!float.TryParse(timeInput.text, out float delay)) {
             SetTextAndColor(NOT_A_NUMBER + "Time", failureColor);
