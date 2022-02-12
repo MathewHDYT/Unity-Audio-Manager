@@ -10,5 +10,6 @@ public enum AudioError {
     MIXER_NOT_EXPOSED,
     MISSING_SOURCE,
     MISSING_MIXER_GROUP,
-    CAN_NOT_BE_3D
+    CAN_NOT_BE_3D,
+    NOT_INITIALIZED
 }

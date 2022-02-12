@@ -2,10 +2,9 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class MethodCalls : MonoBehaviour {
-
     [Header("Input:")]
     [SerializeField]
-    private InputField soundNameInput;
+    private Dropdown soundNameDropDown;
     [SerializeField]
     private InputField timeInput;
     [SerializeField]
@@ -21,7 +20,7 @@ public class MethodCalls : MonoBehaviour {
     [SerializeField]
     private GameObject radio;
 
-    private AudioManager am;
+    private IAudioManager am;
     private Color32 successColor = new Color32(75, 181, 67, 255);
     private Color32 failureColor = new Color32(237, 67, 55, 255);
 
@@ -29,16 +28,16 @@ public class MethodCalls : MonoBehaviour {
     private const string exposedVolumeName = "Volume";
 
     private void Start() {
-        am = AudioManager.instance;
+        am = ServiceLocator.GetAudioManager();
     }
 
     public void PlayClicked() {
-        AudioError error = am.Play(soundNameInput.text);
+        AudioError error = am.Play(soundNameDropDown.options[soundNameDropDown.value].text);
         if (error != AudioError.OK) {
-            SetTextAndColor("Playing sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage(error), failureColor);
+            SetTextAndColor("Playing sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " failed with error message: " + ErrorToStringConvertor.ErrorToMessage(error), failureColor);
         }
         else {
-            SetTextAndColor("Playing sound called: " + soundNameInput.text + " succesfull", successColor);
+            SetTextAndColor("Playing sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " succesfull", successColor);
         }
     }
 
@@ -48,22 +47,22 @@ public class MethodCalls : MonoBehaviour {
             return;
         }
 
-        AudioError error = am.PlayAtTimeStamp(soundNameInput.text, timeStamp);
+        AudioError error = am.PlayAtTimeStamp(soundNameDropDown.options[soundNameDropDown.value].text, timeStamp);
         if (error != AudioError.OK) {
-            SetTextAndColor("Playing sound called: " + soundNameInput.text + " at timestamp: " + timeStamp.ToString("0.00") + " failed with error message: " + ErrorToMessage(error), failureColor);
+            SetTextAndColor("Playing sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " at timestamp: " + timeStamp.ToString("0.00") + " failed with error message: " + ErrorToStringConvertor.ErrorToMessage(error), failureColor);
         }
         else {
-            SetTextAndColor("Playing sound called: " + soundNameInput.text + " at timestamp: " + timeStamp.ToString("0.00") + " succesfull", successColor);
+            SetTextAndColor("Playing sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " at timestamp: " + timeStamp.ToString("0.00") + " succesfull", successColor);
         }
     }
 
     public void GetPlayBackPositionClicked() {
-        ValueDataError<float> valueDataError = am.GetPlaybackPosition(soundNameInput.text);
+        ValueDataError<float> valueDataError = am.GetPlaybackPosition(soundNameDropDown.options[soundNameDropDown.value].text);
         if (valueDataError.Error != (int)AudioError.OK) {
-            SetTextAndColor("Getting playBackPosition of the sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage((AudioError)valueDataError.Error), failureColor);
+            SetTextAndColor("Getting playBackPosition of the sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " failed with error message: " + ErrorToStringConvertor.ErrorToMessage((AudioError)valueDataError.Error), failureColor);
         }
         else {
-            SetTextAndColor("Getting playBackPosition of the sound called: " + soundNameInput.text + " with the position being: " + valueDataError.Value.ToString("0.00") + " succesfull", successColor);
+            SetTextAndColor("Getting playBackPosition of the sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " with the position being: " + valueDataError.Value.ToString("0.00") + " succesfull", successColor);
         }
     }
 
@@ -72,12 +71,12 @@ public class MethodCalls : MonoBehaviour {
         float randomYPos = Random.Range(-7.5f, 10f);
         var worldPosition = new Vector3(randomXPos, randomYPos, 5f);
 
-        AudioError error = am.PlayAt3DPosition(soundNameInput.text, worldPosition);
+        AudioError error = am.PlayAt3DPosition(soundNameDropDown.options[soundNameDropDown.value].text, worldPosition);
         if (error != AudioError.OK) {
-            SetTextAndColor("Playing sound called: " + soundNameInput.text + " at the position x " + worldPosition.x.ToString("0.00") + " and y " + worldPosition.y.ToString("0.00") + " failed with error message: " + ErrorToMessage(error), failureColor);
+            SetTextAndColor("Playing sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " at the position x " + worldPosition.x.ToString("0.00") + " and y " + worldPosition.y.ToString("0.00") + " failed with error message: " + ErrorToStringConvertor.ErrorToMessage(error), failureColor);
         }
         else {
-            SetTextAndColor("Playing sound called: " + soundNameInput.text + " at the position x " + worldPosition.x.ToString("0.00") + " and y " + worldPosition.y.ToString("0.00") + " succesfull", successColor);
+            SetTextAndColor("Playing sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " at the position x " + worldPosition.x.ToString("0.00") + " and y " + worldPosition.y.ToString("0.00") + " succesfull", successColor);
         }
     }
 
@@ -86,13 +85,13 @@ public class MethodCalls : MonoBehaviour {
         float randomYPos = Random.Range(-7.5f, 10f);
         Vector3 worldPosition = new Vector3(randomXPos, randomYPos, 5f);
 
-        AudioError error = am.PlayAttachedToGameObject(soundNameInput.text, radio);
+        AudioError error = am.PlayAttachedToGameObject(soundNameDropDown.options[soundNameDropDown.value].text, radio);
         if (error != AudioError.OK) {
-            SetTextAndColor("Playing sound called: " + soundNameInput.text + " attached to: " + radio.name + " failed with error message: " + ErrorToMessage(error), failureColor);
+            SetTextAndColor("Playing sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " attached to: " + radio.name + " failed with error message: " + ErrorToStringConvertor.ErrorToMessage(error), failureColor);
         }
         else {
             radio.transform.position = worldPosition;
-            SetTextAndColor("Playing sound called: " + soundNameInput.text + " attached to: " + radio.name + " succesfull", successColor);
+            SetTextAndColor("Playing sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " attached to: " + radio.name + " succesfull", successColor);
         }
     }
 
@@ -101,12 +100,12 @@ public class MethodCalls : MonoBehaviour {
         float randomYPos = Random.Range(-7.5f, 10f);
         var worldPosition = new Vector3(randomXPos, randomYPos, 5f);
 
-        AudioError error = am.PlayOneShotAt3DPosition(soundNameInput.text, worldPosition);
+        AudioError error = am.PlayOneShotAt3DPosition(soundNameDropDown.options[soundNameDropDown.value].text, worldPosition);
         if (error != AudioError.OK) {
-            SetTextAndColor("Playing sound called: " + soundNameInput.text + " once at the position x " + worldPosition.x.ToString("0.00") + " and y " + worldPosition.y.ToString("0.00") + " failed with error message: " + ErrorToMessage(error), failureColor);
+            SetTextAndColor("Playing sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " once at the position x " + worldPosition.x.ToString("0.00") + " and y " + worldPosition.y.ToString("0.00") + " failed with error message: " + ErrorToStringConvertor.ErrorToMessage(error), failureColor);
         }
         else {
-            SetTextAndColor("Playing sound called: " + soundNameInput.text + " once at the position x " + worldPosition.x.ToString("0.00") + " and y " + worldPosition.y.ToString("0.00") + " succesfull", successColor);
+            SetTextAndColor("Playing sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " once at the position x " + worldPosition.x.ToString("0.00") + " and y " + worldPosition.y.ToString("0.00") + " succesfull", successColor);
         }
     }
 
@@ -115,13 +114,13 @@ public class MethodCalls : MonoBehaviour {
         float randomYPos = Random.Range(-7.5f, 10f);
         Vector3 worldPosition = new Vector3(randomXPos, randomYPos, 5f);
 
-        AudioError error = am.PlayOneShotAttachedToGameObject(soundNameInput.text, radio);
+        AudioError error = am.PlayOneShotAttachedToGameObject(soundNameDropDown.options[soundNameDropDown.value].text, radio);
         if (error != AudioError.OK) {
-            SetTextAndColor("Playing sound called: " + soundNameInput.text + " once attached to: " + radio.name + " failed with error message: " + ErrorToMessage(error), failureColor);
+            SetTextAndColor("Playing sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " once attached to: " + radio.name + " failed with error message: " + ErrorToStringConvertor.ErrorToMessage(error), failureColor);
         }
         else {
             radio.transform.position = worldPosition;
-            SetTextAndColor("Playing sound called: " + soundNameInput.text + " once attached to: " + radio.name + " succesfull", successColor);
+            SetTextAndColor("Playing sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " once attached to: " + radio.name + " succesfull", successColor);
         }
     }
 
@@ -131,22 +130,22 @@ public class MethodCalls : MonoBehaviour {
             return;
         }
 
-        AudioError error = am.PlayDelayed(soundNameInput.text, delay);
+        AudioError error = am.PlayDelayed(soundNameDropDown.options[soundNameDropDown.value].text, delay);
         if (error != AudioError.OK) {
-            SetTextAndColor("Playing sound called: " + soundNameInput.text + " after " + delay.ToString("0.00") + " seconds failed with error message: " + ErrorToMessage(error), failureColor);
+            SetTextAndColor("Playing sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " after " + delay.ToString("0.00") + " seconds failed with error message: " + ErrorToStringConvertor.ErrorToMessage(error), failureColor);
         }
         else {
-            SetTextAndColor("Playing sound called: " + soundNameInput.text + " after " + delay.ToString("0.00") + " seconds succesfull", successColor);
+            SetTextAndColor("Playing sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " after " + delay.ToString("0.00") + " seconds succesfull", successColor);
         }
     }
 
     public void PlayOneShotClicked() {
-        AudioError error = am.PlayOneShot(soundNameInput.text);
+        AudioError error = am.PlayOneShot(soundNameDropDown.options[soundNameDropDown.value].text);
         if (error != AudioError.OK) {
-            SetTextAndColor("Playing sound called: " + soundNameInput.text + " once failed with error message: " + ErrorToMessage(error), failureColor);
+            SetTextAndColor("Playing sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " once failed with error message: " + ErrorToStringConvertor.ErrorToMessage(error), failureColor);
         }
         else {
-            SetTextAndColor("Playing sound called: " + soundNameInput.text + " once succesfull", successColor);
+            SetTextAndColor("Playing sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " once succesfull", successColor);
         }
     }
 
@@ -156,62 +155,62 @@ public class MethodCalls : MonoBehaviour {
             return;
         }
 
-        AudioError error = am.PlayScheduled(soundNameInput.text, delay);
+        AudioError error = am.PlayScheduled(soundNameDropDown.options[soundNameDropDown.value].text, delay);
         if (error != AudioError.OK) {
-            SetTextAndColor("Playing sound called: " + soundNameInput.text + " after " + delay.ToString("0.00") + " failed with error message: " + ErrorToMessage(error), failureColor);
+            SetTextAndColor("Playing sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " after " + delay.ToString("0.00") + " failed with error message: " + ErrorToStringConvertor.ErrorToMessage(error), failureColor);
         }
         else {
-            SetTextAndColor("Playing sound called: " + soundNameInput.text + " after " + delay.ToString("0.00") + " seconds succesfull", successColor);
+            SetTextAndColor("Playing sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " after " + delay.ToString("0.00") + " seconds succesfull", successColor);
         }
     }
 
     public void StopClicked() {
-        AudioError error = am.Stop(soundNameInput.text);
+        AudioError error = am.Stop(soundNameDropDown.options[soundNameDropDown.value].text);
         if (error != AudioError.OK) {
-            SetTextAndColor("Stopping sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage(error), failureColor);
+            SetTextAndColor("Stopping sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " failed with error message: " + ErrorToStringConvertor.ErrorToMessage(error), failureColor);
         }
         else {
-            SetTextAndColor("Stopping sound called: " + soundNameInput.text + " succesfull", successColor);
+            SetTextAndColor("Stopping sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " succesfull", successColor);
         }
     }
 
     public void ToggleMuteClicked() {
-        AudioError error = am.ToggleMute(soundNameInput.text);
+        AudioError error = am.ToggleMute(soundNameDropDown.options[soundNameDropDown.value].text);
         if (error != AudioError.OK) {
-            SetTextAndColor("Muting or unmuting sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage(error), failureColor);
+            SetTextAndColor("Muting or unmuting sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " failed with error message: " + ErrorToStringConvertor.ErrorToMessage(error), failureColor);
         }
         else {
-            SetTextAndColor("Muting or unmuting sound called: " + soundNameInput.text + " succesfull", successColor);
+            SetTextAndColor("Muting or unmuting sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " succesfull", successColor);
         }
     }
 
     public void TogglePauseClicked() {
-        AudioError error = am.TogglePause(soundNameInput.text);
+        AudioError error = am.TogglePause(soundNameDropDown.options[soundNameDropDown.value].text);
         if (error != AudioError.OK) {
-            SetTextAndColor("Pausing or unpausing sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage(error), failureColor);
+            SetTextAndColor("Pausing or unpausing sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " failed with error message: " + ErrorToStringConvertor.ErrorToMessage(error), failureColor);
         }
         else {
-            SetTextAndColor("Pausing or unpausing sound called: " + soundNameInput.text + " succesfull", successColor);
+            SetTextAndColor("Pausing or unpausing sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " succesfull", successColor);
         }
     }
 
     public void GetProgressClicked() {
-        ValueDataError<float> valueDataError = am.GetProgress(soundNameInput.text);
+        ValueDataError<float> valueDataError = am.GetProgress(soundNameDropDown.options[soundNameDropDown.value].text);
         if (valueDataError.Error != (int)AudioError.OK) {
-            SetTextAndColor("Getting progress of the sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage((AudioError)valueDataError.Error), failureColor);
+            SetTextAndColor("Getting progress of the sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " failed with error message: " + ErrorToStringConvertor.ErrorToMessage((AudioError)valueDataError.Error), failureColor);
         }
         else {
-            SetTextAndColor("Getting progress of the sound called: " + soundNameInput.text + " with the progress being: " + (valueDataError.Value * 100).ToString("0.00") + "% succesfull", successColor);
+            SetTextAndColor("Getting progress of the sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " with the progress being: " + (valueDataError.Value * 100).ToString("0.00") + "% succesfull", successColor);
         }
     }
 
     public void GetSourceClicked() {
-        AudioError error = am.TryGetSource(soundNameInput.text, out _);
+        AudioError error = am.TryGetSource(soundNameDropDown.options[soundNameDropDown.value].text, out _);
         if (error != AudioError.OK) {
-            SetTextAndColor("Getting source of the sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage(error), failureColor);
+            SetTextAndColor("Getting source of the sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " failed with error message: " + ErrorToStringConvertor.ErrorToMessage(error), failureColor);
         }
         else {
-            SetTextAndColor("Getting source of the sound called: " + soundNameInput.text + " succesfull", successColor);
+            SetTextAndColor("Getting source of the sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " succesfull", successColor);
         }
     }
 
@@ -229,12 +228,12 @@ public class MethodCalls : MonoBehaviour {
             return;
         }
 
-        AudioError error = am.LerpPitch(soundNameInput.text, endValue, time, granularity);
+        AudioError error = am.LerpPitch(soundNameDropDown.options[soundNameDropDown.value].text, endValue, time, granularity);
         if (error != AudioError.OK) {
-            SetTextAndColor("Lerping pitch of the sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage(error), failureColor);
+            SetTextAndColor("Lerping pitch of the sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " failed with error message: " + ErrorToStringConvertor.ErrorToMessage(error), failureColor);
         }
         else {
-            SetTextAndColor("Lerping pitch of the sound called: " + soundNameInput.text + " in the time: " + time.ToString("0.00") + " seconds with the endValue: " + endValue.ToString("0.00") + " and the granularity: " + granularity.ToString("0.00") + " succesfull", successColor);
+            SetTextAndColor("Lerping pitch of the sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " in the time: " + time.ToString("0.00") + " seconds with the endValue: " + endValue.ToString("0.00") + " and the granularity: " + granularity.ToString("0.00") + " succesfull", successColor);
         }
     }
 
@@ -252,12 +251,12 @@ public class MethodCalls : MonoBehaviour {
             return;
         }
 
-        AudioError error = am.LerpVolume(soundNameInput.text, endValue, time, granularity);
+        AudioError error = am.LerpVolume(soundNameDropDown.options[soundNameDropDown.value].text, endValue, time, granularity);
         if (error != AudioError.OK) {
-            SetTextAndColor("Lerping volume of the sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage(error), failureColor);
+            SetTextAndColor("Lerping volume of the sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " failed with error message: " + ErrorToStringConvertor.ErrorToMessage(error), failureColor);
         }
         else {
-            SetTextAndColor("Lerping volume of the sound called: " + soundNameInput.text + " in the time: " + time.ToString("0.00") + " seconds with the endValue: " + endValue.ToString("0.00") + " and the granularity: " + granularity.ToString("0.00") + " succesfull", successColor);
+            SetTextAndColor("Lerping volume of the sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " in the time: " + time.ToString("0.00") + " seconds with the endValue: " + endValue.ToString("0.00") + " and the granularity: " + granularity.ToString("0.00") + " succesfull", successColor);
         }
     }
 
@@ -267,32 +266,32 @@ public class MethodCalls : MonoBehaviour {
             return;
         }
 
-        AudioError error = am.ChangeGroupValue(soundNameInput.text, exposedVolumeName, endValue);
+        AudioError error = am.ChangeGroupValue(soundNameDropDown.options[soundNameDropDown.value].text, exposedVolumeName, endValue);
         if (error != AudioError.OK) {
-            SetTextAndColor("Changing AudioMixerGroup volume of the sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage(error), failureColor);
+            SetTextAndColor("Changing AudioMixerGroup volume of the sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " failed with error message: " + ErrorToStringConvertor.ErrorToMessage(error), failureColor);
         }
         else {
-            SetTextAndColor("Changing AudioMixerGroup volume of the sound called: " + soundNameInput.text + " with the endValue: " + endValue.ToString("0.00") + " succesfull", successColor);
+            SetTextAndColor("Changing AudioMixerGroup volume of the sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " with the endValue: " + endValue.ToString("0.00") + " succesfull", successColor);
         }
     }
 
     public void GetGroupValueClicked() {
-        ValueDataError<float> valueDataError = am.GetGroupValue(soundNameInput.text, exposedVolumeName);
+        ValueDataError<float> valueDataError = am.GetGroupValue(soundNameDropDown.options[soundNameDropDown.value].text, exposedVolumeName);
         if (valueDataError.Error != (int)AudioError.OK) {
-            SetTextAndColor("Getting AudioMixerGroup volume of the sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage((AudioError)valueDataError.Error), failureColor);
+            SetTextAndColor("Getting AudioMixerGroup volume of the sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " failed with error message: " + ErrorToStringConvertor.ErrorToMessage((AudioError)valueDataError.Error), failureColor);
         }
         else {
-            SetTextAndColor("Getting AudioMixerGroup volume of the sound called: " + soundNameInput.text + " with the current value being: " + valueDataError.Value.ToString("0.00") + " succesfull", successColor);
+            SetTextAndColor("Getting AudioMixerGroup volume of the sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " with the current value being: " + valueDataError.Value.ToString("0.00") + " succesfull", successColor);
         }
     }
 
     public void ResetGroupValueClicked() {
-        AudioError error = am.ResetGroupValue(soundNameInput.text, exposedVolumeName);
+        AudioError error = am.ResetGroupValue(soundNameDropDown.options[soundNameDropDown.value].text, exposedVolumeName);
         if (error != AudioError.OK) {
-            SetTextAndColor("Reseting AudioMixerGroup volume to its default value of the sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage(error), failureColor);
+            SetTextAndColor("Reseting AudioMixerGroup volume to its default value of the sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " failed with error message: " + ErrorToStringConvertor.ErrorToMessage(error), failureColor);
         }
         else {
-            SetTextAndColor("Reseting AudioMixerGroup volume to its default value of the sound called: " + soundNameInput.text + " succesfull", successColor);
+            SetTextAndColor("Reseting AudioMixerGroup volume to its default value of the sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " succesfull", successColor);
         }
     }
 
@@ -310,12 +309,12 @@ public class MethodCalls : MonoBehaviour {
             return;
         }
 
-        AudioError error = am.LerpGroupValue(soundNameInput.text, exposedVolumeName, endValue, time, granularity);
+        AudioError error = am.LerpGroupValue(soundNameDropDown.options[soundNameDropDown.value].text, exposedVolumeName, endValue, time, granularity);
         if (error != AudioError.OK) {
-            SetTextAndColor("Lerping AudioMixerGroup volume of the sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage(error), failureColor);
+            SetTextAndColor("Lerping AudioMixerGroup volume of the sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " failed with error message: " + ErrorToStringConvertor.ErrorToMessage(error), failureColor);
         }
         else {
-            SetTextAndColor("Lerping AudioMixerGroup volume of the sound called: " + soundNameInput.text + " in the time: " + time.ToString("0.00") + " seconds with the endValue: " + endValue.ToString("0.00") + " and the granularity: " + granularity.ToString("0.00") + " succesfull", successColor);
+            SetTextAndColor("Lerping AudioMixerGroup volume of the sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " in the time: " + time.ToString("0.00") + " seconds with the endValue: " + endValue.ToString("0.00") + " and the granularity: " + granularity.ToString("0.00") + " succesfull", successColor);
         }
     }
 
@@ -325,61 +324,13 @@ public class MethodCalls : MonoBehaviour {
             return;
         }
 
-        AudioError error = am.SetStartTime(soundNameInput.text, time);
+        AudioError error = am.SetStartTime(soundNameDropDown.options[soundNameDropDown.value].text, time);
         if (error != AudioError.OK) {
-            SetTextAndColor("Setting start time of the sound called: " + soundNameInput.text + " failed with error message: " + ErrorToMessage(error), failureColor);
+            SetTextAndColor("Setting start time of the sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " failed with error message: " + ErrorToStringConvertor.ErrorToMessage(error), failureColor);
         }
         else {
-            SetTextAndColor("Setting start time of the sound called: " + soundNameInput.text + " with the time: " + time.ToString("0.00") + " seconds succesfull", successColor);
+            SetTextAndColor("Setting start time of the sound called: " + soundNameDropDown.options[soundNameDropDown.value].text + " with the time: " + time.ToString("0.00") + " seconds succesfull", successColor);
         }
-    }
-
-    private string ErrorToMessage(AudioError error) {
-        string message = "";
-
-        switch (error) {
-            case AudioError.OK:
-                message = "Method succesfully executed";
-                break;
-            case AudioError.DOES_NOT_EXIST:
-                message = "Sound has not been registered with the AudioManager";
-                break;
-            case AudioError.ALREADY_EXISTS:
-                message = "Can't add sound as there already exists a sound with that name";
-                break;
-            case AudioError.INVALID_PATH:
-                message = "Can't add sound because the path does not lead to a valid audio clip";
-                break;
-            case AudioError.INVALID_END_VALUE:
-                message = "The given endValue is already the same as the current value";
-                break;
-            case AudioError.INVALID_GRANULARITY:
-                message = "The given granularity is too small, has to be higher than or equal to 1";
-                break;
-            case AudioError.INVALID_TIME:
-                message = "The given time exceeds the actual length of the clip";
-                break;
-            case AudioError.INVALID_PROGRESS:
-                message = "The given value is to close to the end of the actual clip length, therefore the given value can not be detected, because playing audio is frame rate independent";
-                break;
-            case AudioError.MIXER_NOT_EXPOSED:
-                message = "The given parameter in the AudioMixer is not exposed or does not exist";
-                break;
-            case AudioError.MISSING_SOURCE:
-                message = "Sound does not have an AudioSource component on the GameObject the AudioManager resides on";
-                break;
-            case AudioError.MISSING_MIXER_GROUP:
-                message = "Group methods may only be called with a sound that has a set AudioMixerGroup";
-                break;
-            case AudioError.CAN_NOT_BE_3D:
-                message = "The sound can not be 3D, because spatialBlend is set to be 2D instead of 3D";
-                break;
-            default:
-                // Invalid AudioError argument.
-                break;
-        }
-
-        return message;
     }
 
     private void SetTextAndColor(string text, Color32 color) {
