@@ -1,8 +1,8 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
-    - AudioManagerSettings
-    - AudioSourceSetting
+    - AudioManager.Audio.AudioManagerSettings
+    - AudioManager.Settings.AudioSourceSetting
     - MethodCalls
     UnityEngine.UI.dll:
     - UnityEngine.EventSystems.EventSystem
@@ -215,9 +215,9 @@ ScriptsOnlyBuild:
     className: AudioPlayableAsset
   - hash:
       serializedVersion: 2
-      Hash: 88e3869a86e49e924a011a17e48d243b
+      Hash: 715d4abe3ebad00642560fc1dfb506c3
     assemblyName: Assembly-CSharp.dll
-    namespaceName: 
+    namespaceName: AudioManager.Audio
     className: AudioManagerSettings
   - hash:
       serializedVersion: 2
@@ -355,7 +355,7 @@ ScriptsOnlyBuild:
       serializedVersion: 2
       Hash: 474dc8897b3624081d749006d6b49043
     assemblyName: Assembly-CSharp.dll
-    namespaceName: 
+    namespaceName: AudioManager.Settings
     className: AudioSourceSetting
   - hash:
       serializedVersion: 2
@@ -414,4 +414,4 @@ ScriptsOnlyBuild:
   platform: 19
   scenePathNames:
   - Assets/Scenes/Main.unity
-  playerPath: C:/Users/Mathew/Downloads/Build/Example Project.exe
+  playerPath: C:/Users/Mathew/Downloads/bUILD/Example Project.exe

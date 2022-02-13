@@ -1,10 +1,12 @@
-[System.Serializable]
-public class ValueDataError<T> {
-    public T Value { get; set; }
-    public int Error { get; set; }
+namespace AudioManager.Audio {
+    [System.Serializable]
+    public class ValueDataError<T> {
+        public T Value { get; set; }
+        public int Error { get; set; }
 
-    public ValueDataError(T value, int error) {
-        Value = value;
-        Error = error;
+        public ValueDataError(T value, int error) {
+            Value = value;
+            Error = error;
+        }
     }
 }

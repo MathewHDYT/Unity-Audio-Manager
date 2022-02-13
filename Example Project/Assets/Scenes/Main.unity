@@ -1796,6 +1796,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ae189cfaf9bd8f147967c5f1b466ca43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  customHideFlags: 3
   loggingLevel: 1
   settings:
   - {fileID: 11400000, guid: 8dc3e386dc3a16945857363072276555, type: 2}
