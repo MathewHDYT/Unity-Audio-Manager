@@ -1,8 +1,9 @@
+using AudioManager.Locator;
 using AudioManager.Logger;
 using AudioManager.Settings;
 using UnityEngine;
 
-namespace AudioManager.Audio {
+namespace AudioManager.Service {
     /// <summary>
     /// Holds the settings needed to register an IAudioManager with the ServiceLocator class.
     /// </summary>

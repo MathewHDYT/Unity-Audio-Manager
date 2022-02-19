@@ -1,4 +1,6 @@
-namespace AudioManager.Audio {
+using AudioManager.Service;
+
+namespace AudioManager.Locator {
     /// <summary>
     /// ServiceLocator that makes the currently active IAudioManager instance globally publicly accesible.
     /// </summary>

@@ -1,8 +1,9 @@
+using AudioManager.Service;
 using System;
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace AudioManager.Audio {
+namespace AudioManager.Locator {
     public interface IAudioManager {
         /// <summary>
         /// Adds given 2D sound with the given settings to the possible playable sounds,

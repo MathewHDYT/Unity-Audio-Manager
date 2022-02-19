@@ -1,4 +1,4 @@
-namespace AudioManager.Audio {
+namespace AudioManager.Locator {
     [System.Serializable]
     public class ValueDataError<T> {
         public T Value { get; set; }

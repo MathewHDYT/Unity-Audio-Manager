@@ -1,9 +1,25 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
+    - MethodCalls
+    Runtime.dll:
     - AudioManager.Audio.AudioManagerSettings
     - AudioManager.Settings.AudioSourceSetting
-    - MethodCalls
+    UnityEditor.TestRunner.dll:
+    - TestRunner.Callbacks.WindowResultUpdaterDataHolder
+    - UnityEditor.TestRunner.TestLaunchers.RemotePlayerLogController
+    - UnityEditor.TestTools.TestRunner.Api.CallbacksHolder
+    - UnityEditor.TestTools.TestRunner.CommandLineTest.RunData
+    - UnityEditor.TestTools.TestRunner.RerunCallbackData
+    - UnityEditor.TestTools.TestRunner.TestListCacheData
+    - UnityEditor.TestTools.TestRunner.TestRun.TestJobDataHolder
+    - UnityEditor.TestTools.TestRunner.TestRunnerWindow
+    UnityEngine.TestRunner.dll:
+    - UnityEngine.TestRunner.Utils.TestRunCallbackListener
+    - UnityEngine.TestTools.TestRunner.Callbacks.PlayModeRunnerCallback
+    - UnityEngine.TestTools.TestRunner.Callbacks.PlayerQuitHandler
+    - UnityEngine.TestTools.TestRunner.Callbacks.RemoteTestResultSender
+    - UnityEngine.TestTools.TestRunner.PlaymodeTestsController
     UnityEngine.UI.dll:
     - UnityEngine.EventSystems.EventSystem
     - UnityEngine.EventSystems.StandaloneInputModule
@@ -19,6 +35,35 @@ ScriptsOnlyBuild:
     - UnityEngine.UI.Text
     - UnityEngine.UI.Toggle
   sceneClasses:
+    Assets/InitTestScene637804732127966228.unity:
+    - Class: 1
+      Script: {instanceID: 0}
+    - Class: 4
+      Script: {instanceID: 0}
+    - Class: 21
+      Script: {instanceID: 0}
+    - Class: 28
+      Script: {instanceID: 0}
+    - Class: 48
+      Script: {instanceID: 0}
+    - Class: 104
+      Script: {instanceID: 0}
+    - Class: 114
+      Script: {instanceID: 16390}
+    - Class: 114
+      Script: {instanceID: 16596}
+    - Class: 114
+      Script: {instanceID: 16630}
+    - Class: 114
+      Script: {instanceID: 16748}
+    - Class: 114
+      Script: {instanceID: 16804}
+    - Class: 115
+      Script: {instanceID: 0}
+    - Class: 157
+      Script: {instanceID: 0}
+    - Class: 196
+      Script: {instanceID: 0}
     Assets/Scenes/Main.unity:
     - Class: 1
       Script: {instanceID: 0}
@@ -216,7 +261,7 @@ ScriptsOnlyBuild:
   - hash:
       serializedVersion: 2
       Hash: 715d4abe3ebad00642560fc1dfb506c3
-    assemblyName: Assembly-CSharp.dll
+    assemblyName: Runtime.dll
     namespaceName: AudioManager.Audio
     className: AudioManagerSettings
   - hash:
@@ -354,7 +399,7 @@ ScriptsOnlyBuild:
   - hash:
       serializedVersion: 2
       Hash: 474dc8897b3624081d749006d6b49043
-    assemblyName: Assembly-CSharp.dll
+    assemblyName: Runtime.dll
     namespaceName: AudioManager.Settings
     className: AudioSourceSetting
   - hash:
@@ -411,7 +456,50 @@ ScriptsOnlyBuild:
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.EventSystems
     className: TouchInputModule
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: UnityEngine.TestRunner.dll
+    namespaceName: UnityEngine.TestTools.TestRunner.Callbacks
+    className: RemoteTestResultSender
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: UnityEngine.TestRunner.dll
+    namespaceName: UnityEngine.TestTools.TestRunner.Callbacks
+    className: TestResultRendererCallback
+  - hash:
+      serializedVersion: 2
+      Hash: 91d258529db2b5060a913f2afcea1a21
+    assemblyName: UnityEngine.TestRunner.dll
+    namespaceName: UnityEngine.TestTools.TestRunner
+    className: PlaymodeTestsController
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: UnityEngine.TestRunner.dll
+    namespaceName: UnityEngine.TestTools.TestRunner.Callbacks
+    className: PlayerQuitHandler
+  - hash:
+      serializedVersion: 2
+      Hash: 8e6ceabfd38a184413d69b7db56c89cc
+    assemblyName: UnityEngine.TestRunner.dll
+    namespaceName: UnityEngine.TestTools
+    className: BeforeAfterTestCommandState
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: UnityEngine.TestRunner.dll
+    namespaceName: UnityEngine.TestTools.TestRunner.Callbacks
+    className: PlayModeRunnerCallback
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: UnityEngine.TestRunner.dll
+    namespaceName: UnityEngine.TestRunner.Utils
+    className: TestRunCallbackListener
   platform: 19
   scenePathNames:
+  - Assets/InitTestScene637804732127966228.unity
   - Assets/Scenes/Main.unity
-  playerPath: C:/Users/Mathew/Downloads/bUILD/Example Project.exe
+  playerPath: C:/Users/Mathew/Unity-Audio-Manager/Example Project/Temp/UnityTempFile-414d51c869d57bd4f837309f4631fdd5/PlayerWithTests/PlayerWithTests.exe

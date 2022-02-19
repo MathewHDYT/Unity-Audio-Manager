@@ -1,3 +1,4 @@
+using AudioManager.Locator;
 using AudioManager.Settings;
 using System;
 using System.Collections;
@@ -6,7 +7,7 @@ using System.Runtime.CompilerServices;
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace AudioManager.Audio {
+namespace AudioManager.Service {
     public class AudioManager : IAudioManager {
         private Dictionary<AudioSource, Dictionary<string, AudioSource>> parentChildDictionary = new Dictionary<AudioSource, Dictionary<string, AudioSource>>();
         private Dictionary<string, AudioSource> soundDictionary = new Dictionary<string, AudioSource>();

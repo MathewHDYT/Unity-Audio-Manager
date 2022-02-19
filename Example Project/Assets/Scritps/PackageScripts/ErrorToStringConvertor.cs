@@ -1,4 +1,4 @@
-using AudioManager.Audio;
+using AudioManager.Locator;
 
 namespace AudioManager.Helper {
     /// <summary>

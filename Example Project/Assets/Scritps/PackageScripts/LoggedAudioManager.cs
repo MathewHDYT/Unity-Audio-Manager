@@ -1,9 +1,10 @@
-using AudioManager.Logger;
 using AudioManager.Helper;
+using AudioManager.Locator;
+using AudioManager.Logger;
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace AudioManager.Audio {
+namespace AudioManager.Service {
     /// <summary>
     /// Logger instances of the IAudioManager interface, simply wraps the given IAudioManager instance, to seperate logging from the actual method implementations and to easily disable logging if needed.
     /// </summary>

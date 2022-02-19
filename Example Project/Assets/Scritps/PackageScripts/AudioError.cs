@@ -1,4 +1,4 @@
-namespace AudioManager.Audio {
+namespace AudioManager.Locator {
     public enum AudioError {
         OK,
         DOES_NOT_EXIST,

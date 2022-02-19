@@ -1,4 +1,4 @@
-using AudioManager.Audio;
+using AudioManager.Locator;
 using AudioManager.Helper;
 using UnityEngine;
 using UnityEngine.UI;

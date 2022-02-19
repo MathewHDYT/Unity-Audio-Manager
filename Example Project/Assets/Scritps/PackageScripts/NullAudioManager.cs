@@ -1,8 +1,9 @@
+using AudioManager.Locator;
 using System;
 using UnityEngine;
 using UnityEngine.Audio;
 
-namespace AudioManager.Audio {
+namespace AudioManager.Service {
     /// <summary>
     /// Null instances of the IAudioManager interface, simply returns the AudioError.NOT_INITALIZED error for all API methods.
     /// </summary>
