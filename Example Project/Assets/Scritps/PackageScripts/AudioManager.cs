@@ -1,5 +1,4 @@
 using AudioManager.Locator;
-using AudioManager.Settings;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -9,12 +8,13 @@ using UnityEngine.Audio;
 
 namespace AudioManager.Service {
     public class AudioManager : IAudioManager {
-        private Dictionary<AudioSource, Dictionary<string, AudioSource>> parentChildDictionary = new Dictionary<AudioSource, Dictionary<string, AudioSource>>();
-        private Dictionary<string, AudioSource> soundDictionary = new Dictionary<string, AudioSource>();
-        private Action<string, float> resetStartTimeCallback = new Action<string, float>(ResetStartTime);
-        private GameObject gameObject;
-        private MonoBehaviour monoBehaviour;
+        // Readonly private member variables.
+        private readonly GameObject m_parentGameObject;
+        private readonly MonoBehaviour m_parentBehaviour;
+        private readonly Transform m_parentTransform;
+        private readonly AudioFinishedCallback m_resetStartTimeCallback;
 
+        // Constant private member variables.
         // Max. progress of the sound still detactable in an IEnumerator.
         private const float MAX_PROGRESS = 0.99f;
         // Max. spatial blend value that still counts as 2D.
@@ -22,18 +22,28 @@ namespace AudioManager.Service {
         // Min. granularity value that is still valid.
         private const float MIN_GRANULARITY = 1f;
 
+        // Private member variables.
+        private Dictionary<AudioSource, Dictionary<string, AudioSource>> m_parentChildDictionary = new Dictionary<AudioSource, Dictionary<string, AudioSource>>();
+        private Dictionary<string, AudioSource> m_soundDictionary = new Dictionary<string, AudioSource>();
+
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="settings">Array of settings we want to register with the AudioManager.</param>
-        /// <param name="parentGameObject">Gameobject we want to parent new gameObject or AudioSource components to.</param>
-        public AudioManager(AudioSourceSetting[] settings, GameObject parentGameObject) {
+        /// <param name="sounds">Dictionary of the registered AudioSource entries with the given name.</param>
+        /// <param name="parentGameObject">Gameobject we want to parent new empty GameObject or AudioSource components to.</param>
+        public AudioManager(Dictionary<string, AudioSource> sounds, GameObject parentGameObject) {
             // Cache the parentGameObject so we can still parent new empty gameObjects and AudioSources to something.
-            gameObject = parentGameObject;
+            m_parentGameObject = parentGameObject;
             // Cache the MonoBehaviour of the given parentGameObject,
             // this is done so that we can still play coroutines even tough this class itself isn't a MonoBehaviour.
-            monoBehaviour = parentGameObject.GetComponent<MonoBehaviour>();
-            SetupSounds(settings);
+            m_parentBehaviour = parentGameObject.GetComponent<MonoBehaviour>();
+            // Cache the Transform of the given parentGameObject,
+            // this is done so that we can attach newly created gameObject to it.
+            m_parentTransform = parentGameObject.transform;
+            // Cache the given dictionary that contains all registered sounds so we can change their values and use them to play the acutal AudioSource.
+            m_soundDictionary = sounds;
+            // Initalize the callback called for PlayAtTimeStamp.
+            m_resetStartTimeCallback = ResetStartTime;
         }
 
         public AudioError AddSoundFromPath(string name, string path, float volume, float pitch, bool loop, AudioSource source, AudioMixerGroup mixerGroup) {
@@ -47,7 +57,7 @@ namespace AudioManager.Service {
                 return error;
             }
             else if (!source) {
-                source = gameObject.AddComponent<AudioSource>();
+                source = m_parentGameObject.AddComponent<AudioSource>();
             }
 
             error = AddSound(name, source);
@@ -88,7 +98,7 @@ namespace AudioManager.Service {
             }
 
             // Calls the given callback as soon as the song is finished.
-            monoBehaviour.StartCoroutine(DetectCurrentProgressCoroutine(name, MAX_PROGRESS, resetStartTimeCallback));
+            m_parentBehaviour.StartCoroutine(DetectCurrentProgressCoroutine(name, MAX_PROGRESS, m_resetStartTimeCallback));
             source.Play();
             return error;
         }
@@ -138,7 +148,7 @@ namespace AudioManager.Service {
             return PlayAt3DPosition(parentSource, position, true);
         }
 
-        public AudioError PlayAttachedToGameObject(string name, GameObject gameObject) {
+        public AudioError PlayAttachedToGameObject(string name, GameObject attachGameObject) {
             AudioError error = TryGetSource(name, out AudioSource parentSource);
 
             // Couldn't find source.
@@ -151,7 +161,7 @@ namespace AudioManager.Service {
                 return error;
             }
 
-            return PlayAttachedToGameObject(parentSource, gameObject, false);
+            return PlayAttachedToGameObject(parentSource, attachGameObject, false);
         }
 
         public AudioError PlayOneShotAttachedToGameObject(string name, GameObject gameObject) {
@@ -260,7 +270,7 @@ namespace AudioManager.Service {
             return error;
         }
 
-        public AudioError SubscribeAudioFinished(string name, float remainingTime, Action<string, float> callback) {
+        public AudioError SubscribeAudioFinished(string name, float remainingTime, AudioFinishedCallback callback) {
             AudioError error = TryGetSource(name, out AudioSource source);
 
             // Couldn't find source.
@@ -288,7 +298,7 @@ namespace AudioManager.Service {
             }
 
             // Calls the given callback as soon as the song has only the given remainingTime left to play.
-            monoBehaviour.StartCoroutine(DetectCurrentProgressCoroutine(name, progress, callback));
+            m_parentBehaviour.StartCoroutine(DetectCurrentProgressCoroutine(name, progress, callback));
             return error;
         }
 
@@ -308,8 +318,8 @@ namespace AudioManager.Service {
         public AudioError TryGetSource(string name, out AudioSource source) {
             AudioError error = AudioError.OK;
 
-            // Check if the given sound name is in our soundDictionary.
-            if (!soundDictionary.TryGetValue(name, out source)) {
+            // Check if the given sound name is in our m_soundDictionary.
+            if (!m_soundDictionary.TryGetValue(name, out source)) {
                 error = AudioError.DOES_NOT_EXIST;
             }
             // Check if the source is set.
@@ -340,7 +350,7 @@ namespace AudioManager.Service {
             float stepValue = difference / granularity;
             float stepTime = waitTime / granularity;
 
-            monoBehaviour.StartCoroutine(LerpPitchCoroutine(source, stepValue, stepTime, granularity));
+            m_parentBehaviour.StartCoroutine(LerpPitchCoroutine(source, stepValue, stepTime, granularity));
             return error;
         }
 
@@ -365,7 +375,7 @@ namespace AudioManager.Service {
             float stepValue = difference / granularity;
             float stepTime = waitTime / granularity;
 
-            monoBehaviour.StartCoroutine(LerpVolumeCoroutine(source, stepValue, stepTime, granularity));
+            m_parentBehaviour.StartCoroutine(LerpVolumeCoroutine(source, stepValue, stepTime, granularity));
             return error;
         }
 
@@ -461,7 +471,7 @@ namespace AudioManager.Service {
             float stepValue = difference / granularity;
             float stepTime = waitTime / granularity;
 
-            monoBehaviour.StartCoroutine(LerpExposedParameterCoroutine(source.outputAudioMixerGroup.audioMixer, exposedParameterName, stepValue, stepTime, granularity));
+            m_parentBehaviour.StartCoroutine(LerpExposedParameterCoroutine(source.outputAudioMixerGroup.audioMixer, exposedParameterName, stepValue, stepTime, granularity));
             return error;
         }
 
@@ -492,8 +502,8 @@ namespace AudioManager.Service {
         public AudioError RemoveSound(string name) {
             AudioError error = AudioError.OK;
 
-            // Check if the given sound name is in our soundDictionary.
-            if (!soundDictionary.Remove(name)) {
+            // Check if the given sound name is in our m_soundDictionary.
+            if (!m_soundDictionary.Remove(name)) {
                 error = AudioError.DOES_NOT_EXIST;
             }
             return error;
@@ -538,26 +548,6 @@ namespace AudioManager.Service {
         //************************************************************************************************************************
 
         /// <summary>
-        /// Setup sounds so that the user input in the AudioSourceSetting scriptable objects,
-        /// can be used to play the given sounds with the given values.
-        /// Called in Awake to ensure it is only done once,
-        /// because AudioManager is a DontDestroyOnLoad Singelton.
-        /// </summary>
-        /// <param name="settings">Array of settings we want to register with the AudioManager.</param>
-        private void SetupSounds(AudioSourceSetting[] settings) {
-            foreach (var setting in settings) {
-                // Create AudioSource object for the AudioSourceSetting scriptable object.
-                setting.source = gameObject.AddComponent<AudioSource>();
-                // Add the name and it's AudioSource to our dictionary.
-                AddSound(setting.soundName, setting.source);
-                // Set the 2D values of the AudioSourceSetting attached AudioSource object.
-                Set2DAudioOptions(setting);
-                // Set 3D options if given of the AudioSourceSetting attached AudioSource object.
-                Set3DAudioOptions(setting);
-            }
-        }
-
-        /// <summary>
         /// Appends the given sounds AudioSource components to the dictionary.
         /// </summary>
         /// <param name="name">Name of the sound we want to register with the AudioManager.</param>
@@ -566,7 +556,7 @@ namespace AudioManager.Service {
         private AudioError AddSound(string name, AudioSource source) {
             AudioError error = AudioError.OK;
             // Ensure there is not already a sound with the given name in our dictionary.
-            if (soundDictionary.ContainsKey(name)) {
+            if (m_soundDictionary.ContainsKey(name)) {
                 error = AudioError.ALREADY_EXISTS;
                 return error;
             }
@@ -574,7 +564,7 @@ namespace AudioManager.Service {
                 error = AudioError.MISSING_SOURCE;
                 return error;
             }
-            soundDictionary.Add(name, source);
+            m_soundDictionary.Add(name, source);
             return error;
         }
 
@@ -639,7 +629,7 @@ namespace AudioManager.Service {
         /// <param name="name">Name of the song we want to reset.</param>
         /// <param name="progress">Amount of progress, we want to call the callback at. (0 - 1)</param>
         /// <param name="callback">Callback that will be called once the given progress passed.</param>
-        private IEnumerator DetectCurrentProgressCoroutine(string name, float progress, Action<string, float> callback) {
+        private IEnumerator DetectCurrentProgressCoroutine(string name, float progress, AudioFinishedCallback callback) {
             TryGetSource(name, out AudioSource source);
             yield return new WaitUntil(() => SoundFinished(source, progress));
             // Recalculate the initally given remainingTime.
@@ -706,27 +696,6 @@ namespace AudioManager.Service {
         }
 
         /// <summary>
-        /// Sets the possible given 2D parameters in the AudioSource object from the AudioSourceSettings object.
-        /// </summary>
-        /// <param name="setting">Object containing all settings needed to set the AudioSource options.</param>
-        /// <returns>AudioError, showing wheter and how setting the 2D audio source options failed.</returns>
-        private AudioError Set2DAudioOptions(AudioSourceSetting setting) {
-            AudioError error = AudioError.OK;
-
-            if (!setting.source) {
-                error = AudioError.MISSING_SOURCE;
-                return error;
-            }
-
-            setting.source.clip = setting.audioClip;
-            setting.source.outputAudioMixerGroup = setting.mixerGroup;
-            setting.source.loop = setting.loop;
-            setting.source.volume = setting.volume;
-            setting.source.pitch = setting.pitch;
-            return error;
-        }
-
-        /// <summary>
         /// Sets the possible given 3D parameters in the AudioSource object.
         /// </summary>
         /// <param name="source">AudioSource we want to play.</param>
@@ -762,35 +731,6 @@ namespace AudioManager.Service {
         }
 
         /// <summary>
-        /// Sets the possible given 3D parameters in the AudioSource object from the AudioSourceSettings object.
-        /// </summary>
-        /// <param name="setting">Object containing all settings needed to set the AudioSource options.</param>
-        /// <returns>AudioError, showing wheter and how setting the 3D audio source options failed.</returns>
-        private AudioError Set3DAudioOptions(AudioSourceSetting setting) {
-            AudioError error = AudioError.OK;
-
-            // Check if source is null.
-            if (!setting.source) {
-                error = AudioError.MISSING_SOURCE;
-                return error;
-            }
-            // Checks if 3D was even enabled in the spatialBlend.
-            else if (setting.spatialBlend <= SPATIAL_BLEND_2D) {
-                error = AudioError.CAN_NOT_BE_3D;
-                return error;
-            }
-
-            setting.source.spatialize = true;
-            setting.source.spatialBlend = setting.spatialBlend;
-            setting.source.dopplerLevel = setting.dopplerLevel;
-            setting.source.spread = setting.spread;
-            setting.source.rolloffMode = setting.volumeRolloff;
-            setting.source.minDistance = setting.minDistance;
-            setting.source.maxDistance = setting.maxDistance;
-            return error;
-        }
-
-        /// <summary>
         /// Creates a new empty gameObject with a copy of the given registered AudioSource entry component attached to it.
         /// </summary>
         /// <param name="name">Name of the newly created gameObject.</param>
@@ -801,10 +741,11 @@ namespace AudioManager.Service {
         private AudioError CreateEmptyGameObject(string name, Vector3 position, AudioSource parentSource, out AudioSource newSource) {
             // Create new empty gameObject, at the given position.
             var newGameObject = new GameObject(name);
+            var newTransform = newGameObject.transform;
             // Set the parent of the newly created gameObject to the AudioManager.
-            newGameObject.transform.SetParent(gameObject.transform);
+            newTransform.SetParent(m_parentTransform);
             // Set the position of the newly created gameObject to the given position.
-            newGameObject.transform.position = position;
+            newTransform.position = position;
             return AttachAudioSourceCopy(parentSource, out newSource, newGameObject);
         }
 
@@ -832,7 +773,7 @@ namespace AudioManager.Service {
         private AudioError PlayAt3DPosition(AudioSource parentSource, Vector3 position, bool oneShot, [CallerMemberName] string memberName = "") {
             AudioError error = AudioError.OK;
             // Check if the parentChildDirectory has already created a dictionary with the key being the given parentSource.
-            if (parentChildDictionary.TryGetValue(parentSource, out var childDictionary)) {
+            if (m_parentChildDictionary.TryGetValue(parentSource, out var childDictionary)) {
                 // Check if the given childDictionary contains a key value pair that was created in the method with the given name.
                 if (childDictionary.TryGetValue(memberName, out var childSource)) {
                     // If it was, simply update the AudioSource component parent position, which is the previously created empty gameObject.
@@ -858,8 +799,8 @@ namespace AudioManager.Service {
             // Create a new childDictionary with the key being the name of the method that called this method and
             // the value being the newSource that contains the copied settings of the parentSource object.
             var newChildDictionary = new Dictionary<string, AudioSource>() { { memberName, newSource } };
-            // Add the newly created audioSource to our parentChildDictionary.
-            parentChildDictionary.Add(parentSource, newChildDictionary);
+            // Add the newly created audioSource to our m_parentChildDictionary.
+            m_parentChildDictionary.Add(parentSource, newChildDictionary);
             PlayOrPlayOneShot(newSource, oneShot);
             return error;
         }
@@ -874,7 +815,7 @@ namespace AudioManager.Service {
         private AudioError PlayAttachedToGameObject(AudioSource parentSource, GameObject gameObject, bool oneShot, [CallerMemberName] string memberName = "") {
             AudioError error = AudioError.OK;
             // Check if the parentChildDirectory has already created a dictionary with the key being the given parentSource.
-            if (parentChildDictionary.TryGetValue(parentSource, out Dictionary<string, AudioSource> childDictionary)) {
+            if (m_parentChildDictionary.TryGetValue(parentSource, out Dictionary<string, AudioSource> childDictionary)) {
                 // Check if the given childDictionary contains a key value pair that was created in the method with the given name and
                 // if it was, check if the gameObject is still the same or if we need to copy to another gameObject.
                 if (childDictionary.TryGetValue(memberName, out AudioSource childSource) && gameObject == childSource.gameObject) {
@@ -899,8 +840,8 @@ namespace AudioManager.Service {
             // Create a new childDictionary with the key being the name of the method that called this method and
             // the value being the newSource that contains the copied settings of the parentSource object.
             var newChildDictionary = new Dictionary<string, AudioSource>() { { memberName, newSource } };
-            // Add the newly created audioSource to our parentChildDictionary.
-            parentChildDictionary.Add(parentSource, newChildDictionary);
+            // Add the newly created audioSource to our m_parentChildDictionary.
+            m_parentChildDictionary.Add(parentSource, newChildDictionary);
             PlayOrPlayOneShot(newSource, oneShot);
             return error;
         }
@@ -927,15 +868,15 @@ namespace AudioManager.Service {
         /// </summary>
         /// <param name="name">Name of the sound.</param>
         /// <param name="remainingTime">Only needed for Action callback, ignored in this case.</param>
-        private static void ResetStartTime(string name, float remainingTime) {
-            ServiceLocator.GetAudioManager().TryGetSource(name, out AudioSource source);
+        private void ResetStartTime(string name, float remainingTime) {
+            TryGetSource(name, out AudioSource source);
             // Stop the sound if it isn't set to looping,
             // this is done to ensure the sound doesn't replay,
             // when it is not set to looping.
             if (!source.loop) {
-                ServiceLocator.GetAudioManager().Stop(name);
+                Stop(name);
             }
-            ServiceLocator.GetAudioManager().SetStartTime(name, 0f);
+            SetStartTime(name, 0f);
         }
     }
 }

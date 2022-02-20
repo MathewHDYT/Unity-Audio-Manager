@@ -9,26 +9,29 @@ namespace AudioManager.Service {
     /// Logger instances of the IAudioManager interface, simply wraps the given IAudioManager instance, to seperate logging from the actual method implementations and to easily disable logging if needed.
     /// </summary>
     public class LoggedAudioManager : IAudioManager {
+        // Readonly private member variables.
         // Class used for logging.
-        private Logger.Logger logger;
+        private readonly Logger.ILogger m_logger;
         // Class used for logging.
-        private Object logContext;
+        private readonly Object m_logContext;
         // Instance we wrap for logs.
-        private IAudioManager wrappedInstance;
+        private readonly IAudioManager m_wrappedInstance;
+
+        // Private member variables.
         // Float that holds the time, when a method is executed and exited.
         // Needed to calculate the time needed for a method execution.
-        private float enterMethodTime;
+        private float m_enterMethodTime;
 
         /// <summary>
         /// Constructor.
         /// </summary>
-        /// <param name="minloggingLevel">Minimum logging level to still print to the console for the logger.</param>
-        /// <param name="context">Context MonoBehaviour that has instantiated this class.</param>
+        /// <param name="logger">Logger that implements the given log methods in the ILogger interface.</param>
         /// <param name="audioManager">IAudioManager instance that should be wrapped with logging.</param>
-        public LoggedAudioManager(LoggingLevel minloggingLevel, Object context, IAudioManager audioManager) {
-            logContext = context;
-            wrappedInstance = audioManager;
-            logger = new Logger.Logger(minloggingLevel);
+        /// <param name="context">Context MonoBehaviour that has instantiated this class.</param>
+        public LoggedAudioManager(Logger.ILogger logger, IAudioManager audioManager, Object context) {
+            m_logContext = context;
+            m_wrappedInstance = audioManager;
+            m_logger = logger;
         }
 
         public AudioError AddSoundFromPath(string name, string path, float volume, float pitch, bool loop, AudioSource source, AudioMixerGroup mixerGroup) {
@@ -36,7 +39,7 @@ namespace AudioManager.Service {
             const string exitLogBase = "Registering new AudioSource entry with the AudioManager";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = wrappedInstance.AddSoundFromPath(name, path, volume, pitch, loop, source, mixerGroup);
+            AudioError error = m_wrappedInstance.AddSoundFromPath(name, path, volume, pitch, loop, source, mixerGroup);
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -47,7 +50,7 @@ namespace AudioManager.Service {
             const string exitLogBase = "Playing registered AudioSource entry";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = wrappedInstance.Play(name);
+            AudioError error = m_wrappedInstance.Play(name);
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -58,7 +61,7 @@ namespace AudioManager.Service {
             const string exitLogBase = "Playing registered AudioSource entry at the given timeStamp";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = wrappedInstance.PlayAtTimeStamp(name, startTime);
+            AudioError error = m_wrappedInstance.PlayAtTimeStamp(name, startTime);
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -69,7 +72,7 @@ namespace AudioManager.Service {
             const string exitLogBase = "Reading the playBackPosition of the given registered AudioSource entry";
 
             OnMethodEnter(enterLogBase, name);
-            ValueDataError<float> valueDataError = wrappedInstance.GetPlaybackPosition(name);
+            ValueDataError<float> valueDataError = m_wrappedInstance.GetPlaybackPosition(name);
             OnReceivedError(exitLogBase, ((AudioError)valueDataError.Error));
             OnMethodExit(exitLogBase, ((AudioError)valueDataError.Error));
             return valueDataError;
@@ -80,7 +83,7 @@ namespace AudioManager.Service {
             const string exitLogBase = "Playing the registered AudioSource entry at the given 3D position in space";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = wrappedInstance.PlayAt3DPosition(name, position);
+            AudioError error = m_wrappedInstance.PlayAt3DPosition(name, position);
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -91,7 +94,7 @@ namespace AudioManager.Service {
             const string exitLogBase = "Playing the registered AudioSource entry once at the given 3D position in space";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = wrappedInstance.PlayOneShotAt3DPosition(name, position);
+            AudioError error = m_wrappedInstance.PlayOneShotAt3DPosition(name, position);
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -102,7 +105,7 @@ namespace AudioManager.Service {
             const string exitLogBase = "Playing the registered AudioSource entry attached to the given gameObject";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = wrappedInstance.PlayAttachedToGameObject(name, gameObject);
+            AudioError error = m_wrappedInstance.PlayAttachedToGameObject(name, gameObject);
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -113,7 +116,7 @@ namespace AudioManager.Service {
             const string exitLogBase = "Playing the registered AudioSource entry once attached to the given gameObject";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = wrappedInstance.PlayOneShotAttachedToGameObject(name, gameObject);
+            AudioError error = m_wrappedInstance.PlayOneShotAttachedToGameObject(name, gameObject);
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -124,7 +127,7 @@ namespace AudioManager.Service {
             const string exitLogBase = "Starting to play the given registered AudioSource entry delayed";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = wrappedInstance.PlayDelayed(name, delay);
+            AudioError error = m_wrappedInstance.PlayDelayed(name, delay);
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -135,7 +138,7 @@ namespace AudioManager.Service {
             const string exitLogBase = "Starting to play the given registered AudioSource entry once";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = wrappedInstance.PlayOneShot(name);
+            AudioError error = m_wrappedInstance.PlayOneShot(name);
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -146,7 +149,7 @@ namespace AudioManager.Service {
             const string exitLogBase = "Randomly changing pitch of the given registered AudioSource entry to a random value between the given min and max values";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = wrappedInstance.ChangePitch(name, minPitch, maxPitch);
+            AudioError error = m_wrappedInstance.ChangePitch(name, minPitch, maxPitch);
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -157,7 +160,7 @@ namespace AudioManager.Service {
             const string exitLogBase = "Starting to play the given registered AudioSource entry scheduled";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = wrappedInstance.PlayScheduled(name, time);
+            AudioError error = m_wrappedInstance.PlayScheduled(name, time);
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -168,7 +171,7 @@ namespace AudioManager.Service {
             const string exitLogBase = "Stopping the given registered AudioSource entry";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = wrappedInstance.Stop(name);
+            AudioError error = m_wrappedInstance.Stop(name);
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -179,7 +182,7 @@ namespace AudioManager.Service {
             const string exitLogBase = "Toggling mute for the given registered AudioSource entry";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = wrappedInstance.ToggleMute(name);
+            AudioError error = m_wrappedInstance.ToggleMute(name);
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -190,18 +193,18 @@ namespace AudioManager.Service {
             const string exitLogBase = "Toggling pause for the given registered AudioSource entry";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = wrappedInstance.TogglePause(name);
+            AudioError error = m_wrappedInstance.TogglePause(name);
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
         }
 
-        public AudioError SubscribeAudioFinished(string name, float remainingTime, System.Action<string, float> callback) {
+        public AudioError SubscribeAudioFinished(string name, float remainingTime, AudioFinishedCallback callback) {
             const string enterLogBase = "Attempting to subscribe to the registered AudioSource entry finishing to the given remainingTime";
             const string exitLogBase = "Subscribing to the registered AudioSource entry finishing to the given remainingTime";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = wrappedInstance.SubscribeAudioFinished(name, remainingTime, callback);
+            AudioError error = m_wrappedInstance.SubscribeAudioFinished(name, remainingTime, callback);
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -212,7 +215,7 @@ namespace AudioManager.Service {
             const string exitLogBase = "Reading the progress of the registered AudioSource entry";
 
             OnMethodEnter(enterLogBase, name);
-            ValueDataError<float> valueDataError = wrappedInstance.GetProgress(name);
+            ValueDataError<float> valueDataError = m_wrappedInstance.GetProgress(name);
             OnReceivedError(exitLogBase, ((AudioError)valueDataError.Error));
             OnMethodExit(exitLogBase, ((AudioError)valueDataError.Error));
             return valueDataError;
@@ -223,7 +226,7 @@ namespace AudioManager.Service {
             const string exitLogBase = "Getting registered AudioSource entry";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = wrappedInstance.TryGetSource(name, out source);
+            AudioError error = m_wrappedInstance.TryGetSource(name, out source);
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -234,7 +237,7 @@ namespace AudioManager.Service {
             const string exitLogBase = "Lerping pitch of the registered AudioSource entry";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = wrappedInstance.LerpPitch(name, endValue, waitTime, granularity);
+            AudioError error = m_wrappedInstance.LerpPitch(name, endValue, waitTime, granularity);
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -245,7 +248,7 @@ namespace AudioManager.Service {
             const string exitLogBase = "Lerping volume of the registered AudioSource entry";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = wrappedInstance.LerpVolume(name, endValue, waitTime, granularity);
+            AudioError error = m_wrappedInstance.LerpVolume(name, endValue, waitTime, granularity);
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -256,7 +259,7 @@ namespace AudioManager.Service {
             const string exitLogBase = "Changing group value of the registered AudioSource entry";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = wrappedInstance.ChangeGroupValue(name, exposedParameterName, newValue);
+            AudioError error = m_wrappedInstance.ChangeGroupValue(name, exposedParameterName, newValue);
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -267,7 +270,7 @@ namespace AudioManager.Service {
             const string exitLogBase = "Getting group value of the registered AudioSource entry";
 
             OnMethodEnter(enterLogBase, name);
-            ValueDataError<float> valueDataError = wrappedInstance.GetGroupValue(name, exposedParameterName);
+            ValueDataError<float> valueDataError = m_wrappedInstance.GetGroupValue(name, exposedParameterName);
             OnReceivedError(exitLogBase, ((AudioError)valueDataError.Error));
             OnMethodExit(exitLogBase, ((AudioError)valueDataError.Error));
             return valueDataError;
@@ -278,7 +281,7 @@ namespace AudioManager.Service {
             const string exitLogBase = "Resetting group value of the registered AudioSource entry";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = wrappedInstance.ResetGroupValue(name, exposedParameterName);
+            AudioError error = m_wrappedInstance.ResetGroupValue(name, exposedParameterName);
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -289,7 +292,7 @@ namespace AudioManager.Service {
             const string exitLogBase = "Lerping group value of the registered AudioSource entry";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = wrappedInstance.LerpGroupValue(name, exposedParameterName, endValue, waitTime, granularity);
+            AudioError error = m_wrappedInstance.LerpGroupValue(name, exposedParameterName, endValue, waitTime, granularity);
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -300,7 +303,7 @@ namespace AudioManager.Service {
             const string exitLogBase = "Removing group from the registered AudioSource entry";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = wrappedInstance.RemoveGroup(name);
+            AudioError error = m_wrappedInstance.RemoveGroup(name);
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -311,7 +314,7 @@ namespace AudioManager.Service {
             const string exitLogBase = "Adding group to the registered AudioSource entry";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = wrappedInstance.AddGroup(name, mixerGroup);
+            AudioError error = m_wrappedInstance.AddGroup(name, mixerGroup);
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -322,7 +325,7 @@ namespace AudioManager.Service {
             const string exitLogBase = "Removing registered AudioSource entry";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = wrappedInstance.RemoveSound(name);
+            AudioError error = m_wrappedInstance.RemoveSound(name);
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -333,7 +336,7 @@ namespace AudioManager.Service {
             const string exitLogBase = "Setting 3D audio options of the registered AudioSource entry";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = wrappedInstance.Set3DAudioOptions(name, minDistance, maxDistance, spatialBlend, spread, dopplerLevel, rolloffMode);
+            AudioError error = m_wrappedInstance.Set3DAudioOptions(name, minDistance, maxDistance, spatialBlend, spread, dopplerLevel, rolloffMode);
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -344,7 +347,7 @@ namespace AudioManager.Service {
             const string exitLogBase = "Setting start time of the given registered AudioSource entry";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = wrappedInstance.SetStartTime(name, startTime);
+            AudioError error = m_wrappedInstance.SetStartTime(name, startTime);
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -356,9 +359,9 @@ namespace AudioManager.Service {
         /// <param name="baselogMessage">Base message that shows which method was entered.</param>
         /// <param name="name">Name of the registered AudioSource entry that was passed as an argument to the method.</param>
         private void OnMethodEnter(string baselogMessage, string name) {
-            logger.Log(string.Join(" ", baselogMessage, "with the name:", name), LoggingLevel.INTERMEDIATE, LoggingType.NORMAL, logContext);
+            m_logger.Log(string.Join(" ", baselogMessage, "with the name:", name), LoggingLevel.INTERMEDIATE, LoggingType.NORMAL, m_logContext);
             // Cache the current time, before the method will be executed.
-            enterMethodTime = Time.realtimeSinceStartup;
+            m_enterMethodTime = Time.realtimeSinceStartup;
         }
 
         /// <summary>
@@ -371,7 +374,7 @@ namespace AudioManager.Service {
             if (error == AudioError.OK) {
                 return;
             }
-            logger.Log(string.Join(" ", baselogMessage, "failed.", ErrorToStringConvertor.ErrorToMessage(error)), LoggingLevel.LOW, LoggingType.WARNING, logContext);
+            m_logger.Log(string.Join(" ", baselogMessage, "failed.", ErrorToStringConvertor.ErrorToMessage(error)), LoggingLevel.LOW, LoggingType.WARNING, m_logContext);
         }
 
         /// <summary>
@@ -383,15 +386,15 @@ namespace AudioManager.Service {
             // Get the current time, after the method was executed.
             float exitMethodTime = Time.realtimeSinceStartup;
             // Log method execution time, calculated fromt the cached enter time and the exit time.
-            logger.Log(string.Join(" ", baselogMessage, "executed in:", ((exitMethodTime - enterMethodTime) * 1000000f), "microseconds"), LoggingLevel.STOPWATCH, LoggingType.NORMAL, logContext);
+            m_logger.Log(string.Join(" ", baselogMessage, "executed in:", ((exitMethodTime - m_enterMethodTime) * 1000000f), "microseconds"), LoggingLevel.STOPWATCH, LoggingType.NORMAL, m_logContext);
 
             // Check if any errors have occured while calling the method.
             if (error != AudioError.OK) {
-                logger.Log(string.Join(" ", baselogMessage, "failed"), LoggingLevel.HIGH, LoggingType.NORMAL, logContext);
+                m_logger.Log(string.Join(" ", baselogMessage, "failed"), LoggingLevel.HIGH, LoggingType.NORMAL, m_logContext);
                 return;
             }
 
-            logger.Log(string.Join(" ", baselogMessage, "successfull"), LoggingLevel.HIGH, LoggingType.NORMAL, logContext);
+            m_logger.Log(string.Join(" ", baselogMessage, "successfull"), LoggingLevel.HIGH, LoggingType.NORMAL, m_logContext);
         }
     }
 }

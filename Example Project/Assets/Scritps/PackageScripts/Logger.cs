@@ -1,32 +1,23 @@
 using UnityEngine;
 
 namespace AudioManager.Logger {
-    [System.Serializable]
-    public class Logger {
-
+    public class Logger : ILogger {
         // Holds the minmum log level that must be passed to the Log method,
         // so that the message actually get's printed to the console.
-        private LoggingLevel logLevel = LoggingLevel.NONE;
+        private readonly LoggingLevel m_logLevel = LoggingLevel.NONE;
 
         /// <summary>
         /// Constructor for the Logger, pass the minimal log level needed to be printed into the console.
         /// </summary>
         /// <param name="minLogLevel">Minmum log level that must be passed to the Log methods so that the message actually get's printed to the console.</param>
         public Logger(LoggingLevel minLogLevel) {
-            logLevel = minLogLevel;
+            m_logLevel = minLogLevel;
         }
 
-        /// <summary>
-        /// Simply logs the given message with the given type if it surpasses the previously entered minmum log level.
-        /// </summary>
-        /// <param name="message">Message we want to print in the console.</param>
-        /// <param name="level">Level the current message should be printed in the console at.</param>
-        /// <param name="type">Type of the message. (Error, Warning, etc.)</param>
-        /// <param name="context">Optional object to which the message applies.</param>
         public void Log(object message, LoggingLevel level, LoggingType type, Object context = null) {
-            // Check if the given level is higher than to the minumum needed logLevel,
+            // Check if the given level is higher than to the minumum needed m_logLevel,
             // if it is don't print the given message.
-            if (level > logLevel) {
+            if (level > m_logLevel) {
                 return;
             }
 
@@ -65,18 +56,10 @@ namespace AudioManager.Logger {
             }
         }
 
-        /// <summary>
-        /// Logs the given arguments with the given format and with the given type if it surpasses the previously entered minmum log level.
-        /// </summary>
-        /// <param name="format">Format we want to print the messaged in.</param>
-        /// <param name="level">Level the current message should be printed in the console at.</param>
-        /// <param name="type">Type of the message. (Error, Warning, etc.)</param>
-        /// <param name="context">Optional object to which the message applies.</param>   
-        /// <param name="args">Formatted arguements that should be printed.</param>
         public void LogFormat(string format, LoggingLevel level, LoggingType type, Object context = null, params object[] args) {
-            // Check if the given level is smaller than the minumum needed logLevel,
+            // Check if the given level is smaller than the minumum needed m_logLevel,
             // if it is don't print the given message.
-            if (level < logLevel) {
+            if (level < m_logLevel) {
                 return;
             }
 
@@ -115,16 +98,10 @@ namespace AudioManager.Logger {
             }
         }
 
-        /// <summary>
-        /// Logs the given expection if it surpasses the previously entered minmum log level.
-        /// </summary>
-        /// <param name="exception">Exception we want to print into the console.</param>
-        /// <param name="level">Level the current message should be printed in the console at.</param>
-        /// <param name="context">Optional object to which the message applies.</param>
         public void LogExpection(System.Exception exception, LoggingLevel level, Object context = null) {
-            // Check if the given level is smaller than the minumum needed logLevel,
+            // Check if the given level is smaller than the minumum needed m_logLevel,
             // if it is don't print the given message.
-            if (level < logLevel) {
+            if (level < m_logLevel) {
                 return;
             }
 
@@ -136,17 +113,10 @@ namespace AudioManager.Logger {
             Debug.LogException(exception, context);
         }
 
-        /// <summary>
-        /// Logs the given assertion with the given message if it surpasses the previously entered minmum log level.
-        /// </summary>
-        /// <param name="condition">Condition we want to print in the console.</param>
-        /// <param name="message">Message we want to print in the console.</param>
-        /// <param name="level">Level the current message should be printed in the console at.</param>
-        /// <param name="context">Optional object to which the message applies.</param>
         public void LogAssert(bool condition, string message, LoggingLevel level, Object context = null) {
-            // Check if the given level is smaller than the minumum needed logLevel,
+            // Check if the given level is smaller than the minumum needed m_logLevel,
             // if it is don't print the given message.
-            if (level < logLevel) {
+            if (level < m_logLevel) {
                 return;
             }
 
@@ -158,18 +128,10 @@ namespace AudioManager.Logger {
             Debug.Assert(condition, message, context);
         }
 
-        /// <summary>
-        /// Logs the given assertion arguments with the given format and with the given type if it surpasses the previously entered minmum log level.
-        /// </summary>
-        /// <param name="condition">Condition we want to print in the console.</param>
-        /// <param name="format">Format we want to print the messaged in.</param>
-        /// <param name="level">Level the current message should be printed in the console at.</param>
-        /// <param name="context">Optional object to which the message applies.</param>
-        /// <param name="args">Formatted arguements that should be printed.</param>
         public void LogAssertFormat(bool condition, string format, LoggingLevel level, Object context = null, params object[] args) {
-            // Check if the given level is smaller than the minumum needed logLevel,
+            // Check if the given level is smaller than the minumum needed m_logLevel,
             // if it is don't print the given message.
-            if (level < logLevel) {
+            if (level < m_logLevel) {
                 return;
             }
 

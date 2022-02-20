@@ -6,16 +6,16 @@ namespace AudioManager.Locator {
     /// </summary>
     public class ServiceLocator {
         // Default audio manager if nothing or null is registered.
-        private static NullAudioManager nullAudioManagerService = new NullAudioManager();
+        private static readonly NullAudioManager s_nullAudioManagerService = new NullAudioManager();
         // Audio manager instance, that implements our public API.
-        private static IAudioManager audioManagerService = nullAudioManagerService;
+        private static IAudioManager s_audioManagerService = s_nullAudioManagerService;
 
         /// <summary>
         /// Gets the registered audio manager service instance.
         /// </summary>
         /// <returns>Registered IAudioManager implementation.</returns>
         public static IAudioManager GetAudioManager() {
-            return audioManagerService;
+            return s_audioManagerService;
         }
 
         /// <summary>
@@ -25,10 +25,10 @@ namespace AudioManager.Locator {
         public static void RegisterService(IAudioManager service) {
             if (service == null) {
                 // Revert to null service.
-                audioManagerService = nullAudioManagerService;
+                s_audioManagerService = s_nullAudioManagerService;
                 return;
             }
-            audioManagerService = service;
+            s_audioManagerService = service;
         }
     }
 }

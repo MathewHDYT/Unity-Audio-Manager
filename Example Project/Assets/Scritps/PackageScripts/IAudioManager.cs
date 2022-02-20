@@ -1,9 +1,9 @@
-using AudioManager.Service;
 using System;
 using UnityEngine;
 using UnityEngine.Audio;
 
 namespace AudioManager.Locator {
+    public delegate void AudioFinishedCallback(string name, float remainingTime);
     public interface IAudioManager {
         /// <summary>
         /// Adds given 2D sound with the given settings to the possible playable sounds,
@@ -144,7 +144,7 @@ namespace AudioManager.Locator {
         /// <param name="remainingTime">Amount of remaining playback time in seconds, we want to call the callback at.</param>
         /// <param name="callback">Callback that should be called, once the sound only has the given amount of time left.</param>
         /// <returns>AudioError, showing wheter and how subscribing the callback failed.</returns>
-        public AudioError SubscribeAudioFinished(string name, float remainingTime, Action<string, float> callback);
+        public AudioError SubscribeAudioFinished(string name, float remainingTime, AudioFinishedCallback callback);
 
         /// <summary>
         /// Returns the progress of the sound with the given name from 0 to 1 where 1 is fully completed.

@@ -75,7 +75,7 @@ namespace AudioManager.Service {
             return AudioError.NOT_INITIALIZED;
         }
 
-        public AudioError SubscribeAudioFinished(string name, float remainingTime, Action<string, float> callback) {
+        public AudioError SubscribeAudioFinished(string name, float remainingTime, AudioFinishedCallback callback) {
             return AudioError.NOT_INITIALIZED;
         }
 
