@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 997
   m_ShowMode: 4
-  m_Title: Hierarchy
+  m_Title: Project
   m_RootView: {fileID: 6}
   m_MinSize: {x: 875, y: 542}
   m_MaxSize: {x: 10000, y: 10000}
@@ -45,10 +45,10 @@ MonoBehaviour:
     y: 30
     width: 1920
     height: 947
-  m_MinSize: {x: 677, y: 492}
+  m_MinSize: {x: 678, y: 492}
   m_MaxSize: {x: 14001, y: 14042}
   vertical: 0
-  controlID: 105
+  controlID: 115
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -226,10 +226,10 @@ MonoBehaviour:
     y: 0
     width: 1366
     height: 947
-  m_MinSize: {x: 402, y: 492}
+  m_MinSize: {x: 403, y: 492}
   m_MaxSize: {x: 10001, y: 14042}
   vertical: 1
-  controlID: 106
+  controlID: 20
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -251,10 +251,10 @@ MonoBehaviour:
     y: 0
     width: 1366
     height: 575
-  m_MinSize: {x: 402, y: 221}
-  m_MaxSize: {x: 8002, y: 4021}
+  m_MinSize: {x: 403, y: 221}
+  m_MaxSize: {x: 8003, y: 4021}
   vertical: 0
-  controlID: 107
+  controlID: 21
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -308,7 +308,7 @@ MonoBehaviour:
     height: 351
   m_ViewDataDictionary: {fileID: 0}
   m_Spl:
-    ID: 606
+    ID: 372
     splitterInitialOffset: 0
     currentActiveSplitter: -1
     realSizes:
@@ -675,36 +675,36 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scritps/PackageScripts
+    - Assets/Tests/AudioManager/PlayMode
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scritps/PackageScripts
+  - Assets/Tests/AudioManager/PlayMode
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\Mathew\Unity-Audio-Manager\Example Project
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 643f0000
-    m_LastClickedID: 16228
-    m_ExpandedIDs: 000000004e3f0000623f000000ca9a3b
+    m_SelectedIDs: b23f0000
+    m_LastClickedID: 16306
+    m_ExpandedIDs: 000000004e3f00005a3f00005c3f00009c3f0000a43f000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: 
-      m_OriginalName: 
+      m_Name: AudioManager
+      m_OriginalName: AudioManager
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 0
+      m_UserData: 16292
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 11
+      m_OriginalEventType: 0
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 5}
     m_SearchString: 
@@ -745,7 +745,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c623000082f3ffffca3e000000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -841,7 +841,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 44fbffff
+      m_ExpandedIDs: 56fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -901,9 +901,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 862.0996, y: 542.11115, z: 5.212097}
+    m_Target: {x: 318.10294, y: 262.90372, z: 0.86117554}
     speed: 2
-    m_Value: {x: 862.0996, y: 542.11115, z: 5.212097}
+    m_Value: {x: 318.10294, y: 262.90372, z: 0.86117554}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -954,9 +954,9 @@ MonoBehaviour:
     speed: 2
     m_Value: {x: -0.018308364, y: -0.005401496, z: 0.000099033576, w: -0.9998178}
   m_Size:
-    m_Target: 660.27997
+    m_Target: 165.55754
     speed: 2
-    m_Value: 660.27997
+    m_Value: 165.55754
   m_Ortho:
     m_Target: 0
     speed: 2
