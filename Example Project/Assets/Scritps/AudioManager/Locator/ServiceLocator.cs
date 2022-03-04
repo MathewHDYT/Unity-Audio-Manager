@@ -1,9 +1,6 @@
 using AudioManager.Service;
 
 namespace AudioManager.Locator {
-    /// <summary>
-    /// ServiceLocator that makes the currently active IAudioManager instance globally publicly accesible.
-    /// </summary>
     public class ServiceLocator {
         // Default audio manager if nothing or null is registered.
         private static readonly NullAudioManager s_nullAudioManagerService = new NullAudioManager();
@@ -14,7 +11,7 @@ namespace AudioManager.Locator {
         /// Gets the registered audio manager service instance.
         /// </summary>
         /// <returns>Registered IAudioManager implementation.</returns>
-        public static IAudioManager GetAudioManager() {
+        public static IAudioManager GetService() {
             return s_audioManagerService;
         }
 
@@ -23,11 +20,22 @@ namespace AudioManager.Locator {
         /// </summary>
         /// <param name="service">IAudioManager implementation we want to register.</param>
         public static void RegisterService(IAudioManager service) {
-            if (service == null) {
-                // Revert to null service.
-                s_audioManagerService = s_nullAudioManagerService;
+            if (!IsServiceValid(service)) {
+                SetDefaultService();
                 return;
             }
+            SetService(service);
+        }
+
+        private static bool IsServiceValid(IAudioManager service) {
+            return service != null;
+        }
+
+        private static void SetDefaultService() {
+            s_audioManagerService = s_nullAudioManagerService;
+        }
+
+        private static void SetService(IAudioManager service) {
             s_audioManagerService = service;
         }
     }

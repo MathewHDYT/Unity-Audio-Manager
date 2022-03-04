@@ -23,7 +23,7 @@ namespace AudioManager.Service {
         private float m_enterMethodTime;
 
         /// <summary>
-        /// Constructor.
+        /// Constructs a decorartor that wraps the given IAudioManager instance and calls the given ILogger.
         /// </summary>
         /// <param name="logger">Logger that implements the given log methods in the ILogger interface.</param>
         /// <param name="audioManager">IAudioManager instance that should be wrapped with logging.</param>
@@ -331,12 +331,12 @@ namespace AudioManager.Service {
             return error;
         }
 
-        public AudioError Set3DAudioOptions(string name, float minDistance, float maxDistance, float spatialBlend, float spread, float dopplerLevel, AudioRolloffMode rolloffMode) {
+        public AudioError Set3DAudioOptions(string name, float minDistance, float maxDistance, float spatialBlend, float spreadAngle, float dopplerLevel, AudioRolloffMode rolloffMode) {
             const string enterLogBase = "Attempting to set 3D audio options of the registered AudioSource entry";
             const string exitLogBase = "Setting 3D audio options of the registered AudioSource entry";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = m_wrappedInstance.Set3DAudioOptions(name, minDistance, maxDistance, spatialBlend, spread, dopplerLevel, rolloffMode);
+            AudioError error = m_wrappedInstance.Set3DAudioOptions(name, minDistance, maxDistance, spatialBlend, spreadAngle, dopplerLevel, rolloffMode);
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -353,22 +353,16 @@ namespace AudioManager.Service {
             return error;
         }
 
-        /// <summary>
-        /// Prints a log statement for when a method has been entering.
-        /// </summary>
-        /// <param name="baselogMessage">Base message that shows which method was entered.</param>
-        /// <param name="name">Name of the registered AudioSource entry that was passed as an argument to the method.</param>
+        //************************************************************************************************************************
+        // Private Section
+        //************************************************************************************************************************
+
         private void OnMethodEnter(string baselogMessage, string name) {
             m_logger.Log(string.Join(" ", baselogMessage, "with the name:", name), LoggingLevel.INTERMEDIATE, LoggingType.NORMAL, m_logContext);
             // Cache the current time, before the method will be executed.
             m_enterMethodTime = Time.realtimeSinceStartup;
         }
 
-        /// <summary>
-        /// Prints a log statement for when a method has produced an error.
-        /// </summary>
-        /// <param name="baselogMessage">Base message that shows which method was entered.</param>
-        /// <param name="error">Error that was returned by the method.</param>
         private void OnReceivedError(string baselogMessage, AudioError error) {
             // Don't log when no error has been received.
             if (error == AudioError.OK) {
@@ -377,11 +371,6 @@ namespace AudioManager.Service {
             m_logger.Log(string.Join(" ", baselogMessage, "failed.", ErrorToStringConvertor.ErrorToMessage(error)), LoggingLevel.LOW, LoggingType.WARNING, m_logContext);
         }
 
-        /// <summary>
-        /// Prints a log statement for when a method has been exited. Either successfully or unsuccessfully.
-        /// </summary>
-        /// <param name="baselogMessage">Base message that shows which method was entered.</param>
-        /// <param name="error">Error that was returned by the method.</param>
         private void OnMethodExit(string baselogMessage, AudioError error) {
             // Get the current time, after the method was executed.
             float exitMethodTime = Time.realtimeSinceStartup;

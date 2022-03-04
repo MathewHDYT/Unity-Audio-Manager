@@ -28,7 +28,7 @@ namespace AudioManager.Settings {
         [Space(15)]
 
         [Range(0f, 1f)]
-        [Tooltip("Sets how much the AudioSource is treated as a 3D source. 3D sources are effected by spatial position and spread. If 3D Pan Level is 0, all spatial attenuation is ignored.")]
+        [Tooltip("Sets how much the AudioSource is treated as a 3D source. 3D sources are effected by spatial position and spreadAngle. If 3D Pan Level is 0, all spatial attenuation is ignored.")]
         public float spatialBlend = 0f;
 
         [Space(15)]
@@ -44,7 +44,7 @@ namespace AudioManager.Settings {
 #endif // UNITY_EDITOR
         [Tooltip("Sets the angle of the spread of a 3D sound relative to the speaker position.")]
         [Range(0f, 360f)]
-        public float spread = 0f;
+        public float spreadAngle = 0f;
 #if UNITY_EDITOR
         [ShowIfAttribute(ActionOnConditionFail.DO_NOT_DRAW, ConditionOperator.AND, nameof(spatialBlend))]
 #endif // UNITY_EDITOR

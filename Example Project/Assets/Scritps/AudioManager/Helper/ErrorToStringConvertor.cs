@@ -1,15 +1,12 @@
 using AudioManager.Locator;
 
 namespace AudioManager.Helper {
-    /// <summary>
-    /// Helper class that converts AudioError to a readable string with some tips on how to solve the created error messages.
-    /// </summary>
     public class ErrorToStringConvertor {
         /// <summary>
         /// Convert the given error to a string message.
         /// </summary>
         /// <param name="error">Error we want to convert into a readable string.</param>
-        /// <returns></returns>
+        /// <returns>Message that represents the given AudioError</returns>
         public static string ErrorToMessage(AudioError error) {
             switch (error) {
                 case AudioError.OK:
@@ -38,6 +35,8 @@ namespace AudioManager.Helper {
                     return "The sound can not be 3D, because spatialBlend is set to be 2D instead of 3D";
                 case AudioError.NOT_INITIALIZED:
                     return "No IAudioManager has been registered with the ServiceLocator ensure a GameObject with the AudioManagerSettings script is in your scene";
+                case AudioError.MISSING_CLIP:
+                    return "Sound does not have an AudioClip component that cab be played";
                 default:
                     // Unexpected AudioError argument.
                     return "";

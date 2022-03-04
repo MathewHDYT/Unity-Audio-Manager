@@ -30,7 +30,7 @@ public class MethodCalls : MonoBehaviour {
     private const string EXPOSED_VOLUME_NAME = "Volume";
 
     private void Start() {
-        am = ServiceLocator.GetAudioManager();
+        am = ServiceLocator.GetService();
     }
 
     public void PlayClicked() {

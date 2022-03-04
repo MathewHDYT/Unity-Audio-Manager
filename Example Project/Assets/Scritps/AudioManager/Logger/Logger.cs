@@ -3,7 +3,7 @@ using UnityEngine;
 namespace AudioManager.Logger {
     public class Logger : ILogger {
         // Holds the minmum log level that must be passed to the Log method,
-        // so that the message actually get's printed to the console.
+        // so that the message actually gets printed to the console.
         private readonly LoggingLevel m_logLevel = LoggingLevel.NONE;
 
         /// <summary>
@@ -15,8 +15,6 @@ namespace AudioManager.Logger {
         }
 
         public void Log(object message, LoggingLevel level, LoggingType type, Object context = null) {
-            // Check if the given level is higher than to the minumum needed m_logLevel,
-            // if it is don't print the given message.
             if (level > m_logLevel) {
                 return;
             }
@@ -57,8 +55,6 @@ namespace AudioManager.Logger {
         }
 
         public void LogFormat(string format, LoggingLevel level, LoggingType type, Object context = null, params object[] args) {
-            // Check if the given level is smaller than the minumum needed m_logLevel,
-            // if it is don't print the given message.
             if (level < m_logLevel) {
                 return;
             }
@@ -99,8 +95,6 @@ namespace AudioManager.Logger {
         }
 
         public void LogExpection(System.Exception exception, LoggingLevel level, Object context = null) {
-            // Check if the given level is smaller than the minumum needed m_logLevel,
-            // if it is don't print the given message.
             if (level < m_logLevel) {
                 return;
             }
@@ -114,8 +108,6 @@ namespace AudioManager.Logger {
         }
 
         public void LogAssert(bool condition, string message, LoggingLevel level, Object context = null) {
-            // Check if the given level is smaller than the minumum needed m_logLevel,
-            // if it is don't print the given message.
             if (level < m_logLevel) {
                 return;
             }
@@ -129,8 +121,6 @@ namespace AudioManager.Logger {
         }
 
         public void LogAssertFormat(bool condition, string format, LoggingLevel level, Object context = null, params object[] args) {
-            // Check if the given level is smaller than the minumum needed m_logLevel,
-            // if it is don't print the given message.
             if (level < m_logLevel) {
                 return;
             }

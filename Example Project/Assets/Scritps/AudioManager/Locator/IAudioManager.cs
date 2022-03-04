@@ -1,3 +1,4 @@
+using AudioManager.Helper;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -11,14 +12,14 @@ namespace AudioManager.Locator {
         /// If 3D functionality wants to be added additionaly call the Set3DAudioOptions method.
         /// </summary>
         /// <param name="name">Name the new sound should have.</param>
-        /// <param name="path">Path to the clip we want to add to the new sound in the Resource folder.</param>
+        /// <param name="audioPath">Path to the clip we want to add to the new sound in the Resource folder.</param>
         /// <param name="volume">Volume we want the new sound to have.</param>
         /// <param name="pitch">Pitch we want the new sound to have.</param>
         /// <param name="loop">Defines wheter we want to repeat the new sound after completing it or not.</param>
         /// <param name="source">Source we want to add to the new sound.</param>
         /// <param name="mixerGroup">Mixer group the sound is influenced by.</param>
         /// <returns>AudioError, showing wheter and how adding a 2D sound from the given path with the given settings failed.</returxns>
-        public AudioError AddSoundFromPath(string name, string path, float volume = 1f, float pitch = 1f, bool loop = false, AudioSource source = null, AudioMixerGroup mixerGroup = null);
+        public AudioError AddSoundFromPath(string name, string audioPath, float volume = Constants.DEFAULT_VOLUME, float pitch = Constants.DEFAULT_PITCH, bool loop = Constants.DEFAULT_LOOP, AudioSource source = Constants.DEFAULT_SOURCE, AudioMixerGroup mixerGroup = Constants.DEFAULT_GROUP);
 
         /// <summary>
         /// Plays the sound with the given name.
@@ -172,7 +173,7 @@ namespace AudioManager.Locator {
         /// <param name="waitTime">Total time needed to reach the given endValue.</param>
         /// <param name="granularity">Amount of steps that will be taken to decrease to the endValue (Setting to high is not advised).</param>
         /// <returns>AudioError, showing wheter and how changing the pitch of the given sound failed.</returns>
-        public AudioError LerpPitch(string name, float endValue, float waitTime = 1f, float granularity = 5f);
+        public AudioError LerpPitch(string name, float endValue, float waitTime = Constants.DEFAULT_WAIT_TIME, float granularity = Constants.DEFAULT_GRANULARITY);
 
         /// <summary>
         /// Changes the volume of the sound with the given name over the given amount of time to the given endValue.
@@ -182,7 +183,7 @@ namespace AudioManager.Locator {
         /// <param name="waitTime">Total time needed to reach the given endValue.</param>
         /// <param name="granularity">Amount of steps that will be taken to decrease to the endValue (Setting to high is not advised).</param>
         /// <returns>AudioError, showing wheter and how changing the volume of the given sound failed.</returns>
-        public AudioError LerpVolume(string name, float endValue, float waitTime = 1f, float granularity = 5f);
+        public AudioError LerpVolume(string name, float endValue, float waitTime = Constants.DEFAULT_WAIT_TIME, float granularity = Constants.DEFAULT_GRANULARITY);
 
         /// <summary>
         /// Changes the value of the given exposed parameter for the complete AudioMixerGroup of the given sound to the given newValue.
@@ -222,7 +223,7 @@ namespace AudioManager.Locator {
         /// <param name="waitTime">Total time needed to reach the given endValue.</param>
         /// <param name="granularity">Amount of steps that will be taken to decrease to the endValue (Setting to high is not advised).</param>
         /// <returns>AudioError, showing wheter and how changing the given exposed parameter for the complete AudioMixerGroup of the given sound failed.</returns>
-        public AudioError LerpGroupValue(string name, string exposedParameterName, float endValue, float waitTime = 1f, float granularity = 5f);
+        public AudioError LerpGroupValue(string name, string exposedParameterName, float endValue, float waitTime = Constants.DEFAULT_WAIT_TIME, float granularity = Constants.DEFAULT_GRANULARITY);
 
         /// <summary>
         /// Remove the AudioMixerGroup from the sound with the given name,
@@ -253,12 +254,12 @@ namespace AudioManager.Locator {
         /// <param name="name">Name of the sound.</param>
         /// <param name="minDistance">Distance that sound will not get louder at.</param>
         /// <param name="maxDistance">Distance that sound will still be hearable at.</param>
-        /// <param name="spread">Sets the spread angles of the sound in degrees. (0f - 360f)</param>
+        /// <param name="spreadAngle">Sets the spread angles of the sound in degrees. (0f - 360f)</param>
         /// <param name="spatialBlend">Defines how much the Audio Source is affected by 3D space. (0f = 2D, 1f = 3D)</param>
         /// <param name="dopplerLevel">Defines Doppler Scale for the Audio Source. (0f - 5f)</param>
         /// <param name="rolloffMode">Sets how the Volume will be lowered over distance.</param>
         /// <returns>AudioError, showing wheter and how setting the 3D audio options failed.</returns>
-        public AudioError Set3DAudioOptions(string name, float minDistance = 1f, float maxDistance = 500f, float spatialBlend = 1f, float spread = 0f, float dopplerLevel = 1f, AudioRolloffMode rolloffMode = AudioRolloffMode.Logarithmic);
+        public AudioError Set3DAudioOptions(string name, float minDistance = Constants.DEFAULT_MIN_DISTANCE, float maxDistance = Constants.DEFAULT_MAX_DISTANCE, float spatialBlend = Constants.DEFAULT_BLEND, float spreadAngle = Constants.DEFAULT_ANGLE, float dopplerLevel = Constants.DEFAULT_DOPPLER, AudioRolloffMode rolloffMode = Constants.DEFAULT_MODE);
 
         /// <summary>
         /// Sets the startTime of the given sound.

@@ -12,6 +12,7 @@ namespace AudioManager.Locator {
         MISSING_SOURCE,
         MISSING_MIXER_GROUP,
         CAN_NOT_BE_3D,
-        NOT_INITIALIZED
+        NOT_INITIALIZED,
+        MISSING_CLIP
     }
 }
