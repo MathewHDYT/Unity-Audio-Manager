@@ -31,36 +31,42 @@ namespace AudioManager.Service {
             // Make gameObject persistent so that audio keeps playing over scene changes,
             // as all audioSources and emtpy gameObjects get attached or parented to the passed gameObject in the AudioManager constructor.
             DontDestroyOnLoad(gameObject);
-            IAudioManager service = new AudioManager(SetupSounds(settings), gameObject);
 
-            // Check if the loggingLevel is higher than none, if it is use the loggedAudioManager instead of the audioManager which adds log calls,
-            // with a predefined priority before and after calling the actually impemented method in the given IAudioManager instance.
-            if (loggingLevel != LoggingLevel.NONE) {
-                Logger.ILogger defaultLogger = new Logger.Logger(loggingLevel);
-                service = new LoggedAudioManager(defaultLogger, service, this);
+            ServiceLocator.RegisterService(new AudioManager(SetupSounds(settings), gameObject));
+            if (IsLoggingEnabled(loggingLevel)) {
+                ServiceLocator.RegisterLogger(new Logger.Logger(loggingLevel), this);
             }
-
-            // Register the service.
-            ServiceLocator.RegisterService(service);
         }
 
         private Dictionary<string, AudioSource> SetupSounds(AudioSourceSetting[] settings) {
             var dictionary = new Dictionary<string, AudioSource>();
-            foreach (var setting in settings) {
-                AudioHelper.AttachAudioSource(out setting.source, gameObject, setting.audioClip, setting.mixerGroup, setting.loop, setting.volume, setting.pitch, setting.spatialBlend, setting.dopplerLevel, setting.spreadAngle, setting.volumeRolloff, setting.minDistance, setting.maxDistance);
-                if(!IsSoundRegistered(dictionary, setting.soundName)) {
-                    RegisterSound(dictionary, setting.soundName, setting.source);
-                }
-            }
+            CreateAndRegisterSound(dictionary, settings);
             return dictionary;
+        }
+
+        private void CreateAndRegisterSound(Dictionary<string, AudioSource> dictionary, AudioSourceSetting[] settings) {
+            foreach (var setting in settings) {
+                CreateAndRegisterSound(dictionary, setting);
+            }
+        }
+
+        private void CreateAndRegisterSound(Dictionary<string, AudioSource> dictionary, AudioSourceSetting setting) {
+            AudioHelper.AttachAudioSource(out setting.source, gameObject, setting.audioClip, setting.mixerGroup, setting.loop, setting.volume, setting.pitch, setting.spatialBlend, setting.dopplerLevel, setting.spreadAngle, setting.volumeRolloff, setting.minDistance, setting.maxDistance);
+            if (!IsSoundRegistered(dictionary, setting.soundName)) {
+                RegisterSound(dictionary, (setting.soundName, setting.source));
+            }
+        }
+
+        private bool IsLoggingEnabled(LoggingLevel loggingLevel) {
+            return loggingLevel != LoggingLevel.NONE;
         }
 
         private bool IsSoundRegistered(Dictionary<string, AudioSource> sounds, string soundName) {
             return sounds.ContainsKey(soundName);
         }
 
-        private void RegisterSound(Dictionary<string, AudioSource> sounds, string soundName, AudioSource soundSource) {
-            sounds.Add(soundName, soundSource);
+        private void RegisterSound(Dictionary<string, AudioSource> sounds, (string soundName, AudioSource soundSource) keyValuePair) {
+            sounds.Add(keyValuePair.soundName, keyValuePair.soundSource);
         }
     }
 }

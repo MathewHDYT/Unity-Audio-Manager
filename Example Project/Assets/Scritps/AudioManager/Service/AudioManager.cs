@@ -77,7 +77,7 @@ namespace AudioManager.Service {
 
         public ValueDataError<float> GetPlaybackPosition(string name) {
             AudioError error = TryGetSource(name, out AudioSource source);
-            ValueDataError<float> valueDataError = new ValueDataError<float>(float.NaN, (int)error);
+            ValueDataError<float> valueDataError = new ValueDataError<float>(float.NaN, error);
 
             // Couldn't find source.
             if (error != AudioError.OK) {
@@ -262,7 +262,7 @@ namespace AudioManager.Service {
 
         public ValueDataError<float> GetProgress(string name) {
             AudioError error = TryGetSource(name, out AudioSource source);
-            ValueDataError<float> valueDataError = new ValueDataError<float>(float.NaN, (int)error);
+            ValueDataError<float> valueDataError = new ValueDataError<float>(float.NaN, error);
 
             // Couldn't find source.
             if (error != AudioError.OK) {
@@ -345,17 +345,17 @@ namespace AudioManager.Service {
         public ValueDataError<float> GetGroupValue(string name, string exposedParameterName) {
             AudioError error = TryGetSource(name, out AudioSource source);
             float currentValue = float.NaN;
-            ValueDataError<float> valueDataError = new ValueDataError<float>(currentValue, (int)error);
+            ValueDataError<float> valueDataError = new ValueDataError<float>(currentValue, error);
 
             // Couldn't find source.
             if (error != AudioError.OK) {
                 return valueDataError;
             }
             else if (!source.IsAudioMixerGroupValid()) {
-                valueDataError.Error = ((int)AudioError.MISSING_MIXER_GROUP);
+                valueDataError.Error = AudioError.MISSING_MIXER_GROUP;
                 return valueDataError;
             }
-            valueDataError.Error = (int)source.TryGetGroupValue(exposedParameterName, out currentValue);
+            valueDataError.Error = source.TryGetGroupValue(exposedParameterName, out currentValue);
             valueDataError.Value = currentValue;
             return valueDataError;
         }

@@ -14,35 +14,35 @@ namespace AudioManager.Logger {
             m_logLevel = minLogLevel;
         }
 
-        public void Log(object message, LoggingLevel level, LoggingType type, Object context = null) {
-            if (level > m_logLevel) {
+        public void Log(object message, LoggingLevel level, LoggingType type, Object context) {
+            if (!CanLog(level)) {
                 return;
             }
 
             switch (type) {
                 case LoggingType.NORMAL:
-                    if (context == null) {
+                    if (!ContextIsValid(context)) {
                         Debug.Log(message);
                         break;
                     }
                     Debug.Log(message, context);
                     break;
                 case LoggingType.WARNING:
-                    if (context == null) {
+                    if (!ContextIsValid(context)) {
                         Debug.LogWarning(message);
                         break;
                     }
                     Debug.LogWarning(message, context);
                     break;
                 case LoggingType.ERROR:
-                    if (context == null) {
+                    if (!ContextIsValid(context)) {
                         Debug.LogError(message);
                         break;
                     }
                     Debug.LogError(message, context);
                     break;
                 case LoggingType.ASSERTION:
-                    if (context == null) {
+                    if (!ContextIsValid(context)) {
                         Debug.LogAssertion(message);
                         break;
                     }
@@ -54,35 +54,35 @@ namespace AudioManager.Logger {
             }
         }
 
-        public void LogFormat(string format, LoggingLevel level, LoggingType type, Object context = null, params object[] args) {
-            if (level < m_logLevel) {
+        public void LogFormat(string format, LoggingLevel level, LoggingType type, Object context, params object[] args) {
+            if (!CanLog(level)) {
                 return;
             }
 
             switch (type) {
                 case LoggingType.NORMAL:
-                    if (context == null) {
+                    if (!ContextIsValid(context)) {
                         Debug.LogFormat(format, args);
                         break;
                     }
                     Debug.LogFormat(format, args, context);
                     break;
                 case LoggingType.WARNING:
-                    if (context == null) {
+                    if (!ContextIsValid(context)) {
                         Debug.LogWarningFormat(format, args, context);
                         break;
                     }
                     Debug.LogWarningFormat(format, args, context);
                     break;
                 case LoggingType.ERROR:
-                    if (context == null) {
+                    if (!ContextIsValid(context)) {
                         Debug.LogErrorFormat(format, args, context);
                         break;
                     }
                     Debug.LogErrorFormat(format, args, context);
                     break;
                 case LoggingType.ASSERTION:
-                    if (context == null) {
+                    if (!ContextIsValid(context)) {
                         Debug.LogAssertionFormat(format, args, context);
                         break;
                     }
@@ -94,12 +94,12 @@ namespace AudioManager.Logger {
             }
         }
 
-        public void LogExpection(System.Exception exception, LoggingLevel level, Object context = null) {
-            if (level < m_logLevel) {
+        public void LogException(System.Exception exception, LoggingLevel level, Object context) {
+            if (!CanLog(level)) {
                 return;
             }
 
-            if (context == null) {
+            if (!ContextIsValid(context)) {
                 Debug.LogException(exception);
                 return;
             }
@@ -107,12 +107,12 @@ namespace AudioManager.Logger {
             Debug.LogException(exception, context);
         }
 
-        public void LogAssert(bool condition, string message, LoggingLevel level, Object context = null) {
-            if (level < m_logLevel) {
+        public void LogAssert(bool condition, string message, LoggingLevel level, Object context) {
+            if (!CanLog(level)) {
                 return;
             }
 
-            if (context == null) {
+            if (!ContextIsValid(context)) {
                 Debug.Assert(condition, message);
                 return;
             }
@@ -120,17 +120,25 @@ namespace AudioManager.Logger {
             Debug.Assert(condition, message, context);
         }
 
-        public void LogAssertFormat(bool condition, string format, LoggingLevel level, Object context = null, params object[] args) {
-            if (level < m_logLevel) {
+        public void LogAssertFormat(bool condition, string format, LoggingLevel level, Object context, params object[] args) {
+            if (!CanLog(level)) {
                 return;
             }
 
-            if (context == null) {
+            if (!ContextIsValid(context)) {
                 Debug.AssertFormat(condition, format, args);
                 return;
             }
 
             Debug.AssertFormat(condition, format, context, args);
+        }
+
+        private bool CanLog(LoggingLevel level) {
+            return level <= m_logLevel;
+        }
+
+        private bool ContextIsValid(Object context) {
+            return context is object;
         }
     }
 }

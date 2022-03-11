@@ -27,7 +27,7 @@ namespace AudioManager.Logger {
         /// <param name="exception">Exception we want to print into the console.</param>
         /// <param name="level">Level the current message should be printed in the console at.</param>
         /// <param name="context">Optional object to which the message applies.</param>
-        public void LogExpection(System.Exception exception, LoggingLevel level, Object context = null);
+        public void LogException(System.Exception exception, LoggingLevel level, Object context = null);
 
         /// <summary>
         /// Logs the given assertion with the given message if it surpasses the previously entered minmum log level.

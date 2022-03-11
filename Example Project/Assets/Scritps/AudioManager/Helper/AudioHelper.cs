@@ -16,7 +16,7 @@ namespace AudioManager.Helper {
         }
 
         public static bool IsGranularityValid(float granularity) {
-            return granularity < Constants.MIN_GRANULARITY;
+            return granularity >= Constants.MIN_GRANULARITY;
         }
 
         public static AudioError AttachAudioSource(out AudioSource newSource, GameObject newGameObject, AudioClip clip, AudioMixerGroup mixerGroup, bool loop, float volume, float pitch, float spatialBlend, float dopplerLevel, float spreadAngle, AudioRolloffMode rolloffMode, float minDistance, float maxDistance) {
@@ -37,7 +37,7 @@ namespace AudioManager.Helper {
         }
 
         public static bool IsEndValueValid(float startValue, float endValue) {
-            return startValue != endValue;
+            return startValue - endValue >= float.Epsilon || endValue - startValue >= float.Epsilon;
         }
 
         public static GameObject CreateNewGameObject(string name) {

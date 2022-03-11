@@ -1,3 +1,4 @@
+using AudioManager.Logger;
 using AudioManager.Service;
 
 namespace AudioManager.Locator {
@@ -27,8 +28,28 @@ namespace AudioManager.Locator {
             SetService(service);
         }
 
+        /// <summary>
+        /// Wraps the current audio manager service instance with the given logger. If it is null nothing will happen.
+        /// </summary>
+        /// <param name="logger">ILogger implementation we want to register.</param>
+        /// <param name="context">Context object that is additionaly printed with the messages.</param>
+        public static void RegisterLogger(ILogger logger, UnityEngine.Object context) {
+            if (!IsLoggerValid(logger)) {
+                return;
+            }
+            SetService(new LoggedAudioManager(logger, s_audioManagerService, context));
+        }
+
+        //************************************************************************************************************************
+        // Private Section
+        //************************************************************************************************************************
+
         private static bool IsServiceValid(IAudioManager service) {
             return service != null;
+        }
+
+        private static bool IsLoggerValid(ILogger logger) {
+            return logger != null;
         }
 
         private static void SetDefaultService() {

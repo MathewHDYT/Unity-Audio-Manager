@@ -27,7 +27,7 @@ namespace AudioManager.Service {
         }
 
         public ValueDataError<float> GetPlaybackPosition(string name) {
-            return new ValueDataError<float>(float.NaN, ((int)AudioError.NOT_INITIALIZED));
+            return new ValueDataError<float>(float.NaN, AudioError.NOT_INITIALIZED);
         }
 
         public AudioError PlayAt3DPosition(string name, Vector3 position) {
@@ -79,7 +79,7 @@ namespace AudioManager.Service {
         }
 
         public ValueDataError<float> GetProgress(string name) {
-            return new ValueDataError<float>(float.NaN, ((int)AudioError.NOT_INITIALIZED));
+            return new ValueDataError<float>(float.NaN, AudioError.NOT_INITIALIZED);
         }
 
         public AudioError TryGetSource(string name, out AudioSource source) {
@@ -100,7 +100,7 @@ namespace AudioManager.Service {
         }
 
         public ValueDataError<float> GetGroupValue(string name, string exposedParameterName) {
-            return new ValueDataError<float>(float.NaN, ((int)AudioError.NOT_INITIALIZED));
+            return new ValueDataError<float>(float.NaN, AudioError.NOT_INITIALIZED);
         }
 
         public AudioError ResetGroupValue(string name, string exposedParameterName) {
