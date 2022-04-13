@@ -20,7 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added two new 3D methods which are derivatives of both the ```PlayAt3DPosition``` and ```PlayAttachedToGameObject``` method and support multiple instances of the same sound running at once
 
 ### Changed
-- Updated AudioManager to have a dropdown toggle, that chooses the curernt log priority level, which then shows different amount of messages via. the newly added logger class
+- Updated AudioManager to have a dropdown toggle, that chooses the current log priority level, which then shows different amount of messages via. the newly added logger class
 - Updated the functionality of all 3D methods to work with copies of the original AudioSource resisding on the AudioManager, this is done to ensure the AudioSource can be moved and deleted without effecting the AudioManager GameObject itself
 
 
