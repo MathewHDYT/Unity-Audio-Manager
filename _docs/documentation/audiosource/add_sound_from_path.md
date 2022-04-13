@@ -16,7 +16,7 @@ Adds the given 2D sound to the list of possible playable sounds and returns an A
 - ```Pitch``` is the pitch we want the new sound to have
 - ```Loop``` defines wheter we want to repeat the new sound after completing it or not
 - ```Source``` is the ```AudioSource``` object we want to add to the new sound
-- ```MixerGroup``` is the [```AudioMixerGroup```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/Audio.AudioMixerGroup.html) the sound is connected to
+- ```MixerGroup``` is the [```AudioMixerGroup```](https://docs.unity3d.com/ScriptReference/Audio.AudioMixerGroup.html) the sound is connected to
 
 ```csharp
 string soundName = "SoundName";
