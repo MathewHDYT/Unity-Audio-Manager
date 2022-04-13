@@ -28,4 +28,4 @@ else {
 When you want to completly silence a sound and still keep it playing in the background. For example if you have a radio channel with a mute or switch channel button.
 
 **Remarks:**
-See [AudioSource.mute](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/AudioSource-mute.html) for more details on what toggle mute does.
+See [```AudioSource.mute```](https://docs.unity3d.com/ScriptReference/AudioSource-mute.html) for more details on what toggle mute does.
