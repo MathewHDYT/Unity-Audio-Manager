@@ -7,20 +7,18 @@ grand_parent: Documentation
 
 ## Subscribe Audio Finished
 **What it does:**
-Subscribes the given [```Action<string, float>```](https://docs.microsoft.com/en-us/dotnet/api/system.action-2?view=net-6.0),
-so that it will be called the moment when the given sound only has the given amount of remainingTime left to play and returns an AudioError (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)), showing wheter and how subscribing the callback failed.
+Subscribes the given callback, so that it will be called the moment when the given sound only has the given amount of ```remainingTime``` left to play and returns an AudioError (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)), showing wheter and how subscribing the callback failed.
 
 **How to call it:**
 - ```SoundName``` is the ```name``` the new sound should have
 - ```RemainingTime``` is the amount of remaining playback time in seconds the sound has left to play when the callback should be called
-- ```Callback``` is the [```Action<string, float>```](https://docs.microsoft.com/en-us/dotnet/api/system.action-2?view=net-6.0) that should be called
+- ```Callback``` is the ```AudioFinishedCallback(string name, float remainingTime)``` that should be called
 
 ```csharp
 string soundName = "SoundName";
 float remainingTime = 5f;
-Action<string, float> callback = SoundFinishedCallback;
 
-AudioError error = am.SubscribeAudioFinished(soundName, remainingTime, callback);
+AudioError error = am.SubscribeAudioFinished(soundName, remainingTime, SoundFinishedCallback);
 if (err != AudioManager.AudioError.OK) {
     Debug.Log("Subscribing to the callback of the sound called: " + soundName + " failed with error id: " + err);
 }
@@ -41,8 +39,8 @@ private void SoundFinishedCallback(string name, float remainingTime) {
 ```
 
 **When to use it:**
-When you want to smoothly transition from one song into another you can use the given remainingTime to start playing and fading in another sound and fading in the old sound with the [LerpVolume](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/audiosource/lerp_volume/) method.
+When you want to smoothly transition from one song into another you can use the given remainingTime to start playing and fading in another sound and fading in the old sound with the [```LerpVolume```](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/audiosource/lerp_volume/) method.
 
 **Remarks:**
-The callback returns two params, which consist of the name that we subscribed the callback too, as well as the remainingTime we wanted to call the callback at. Both of theese params may be used to differentiate, between different callbacks if the callback method is subscribed to multiple sounds, or may be used to decrease the volume over the given remainigTime. 
+The callback returns two params, which consist of the name that we subscribed the callback too, as well as the ```remainingTime``` we wanted to call the callback at. Both of these parameters may be used to differentiate, between different callbacks if the callback method is subscribed to multiple sounds or at multiple times in the sound itself, or may be even used to decrease the volume over the given ```remainigTime```. 
 
