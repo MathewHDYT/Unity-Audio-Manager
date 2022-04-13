@@ -28,4 +28,4 @@ else {
 When you want to only play a sound once. Having multiple instances of the same sound running at the same time is only possible with this method.
 
 **Remarks:**
-See [```AudioSource.PlayOneShot```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/AudioSource.PlayOneShot.html) for more details on what play oneshot does.
+See [```AudioSource.PlayOneShot```](https://docs.unity3d.com/ScriptReference/AudioSource.PlayOneShot.html) for more details on what play oneshot does.
