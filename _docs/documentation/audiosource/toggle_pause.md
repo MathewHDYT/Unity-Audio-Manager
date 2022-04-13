@@ -28,4 +28,4 @@ else {
 When you want to pause or unpause a sound without stopping it completly so it can be later restarted at the stopped time.
 
 **Remarks:**
-See [```AudioSource.UnPause```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/AudioSource.UnPause.html) for more details on what unpause does and see [```AudioSource.Pause```](https://docs.unity3d.com/2021.2/Documentation/ScriptReference/AudioSource.Pause.html) for more details on what pause does.
+See [```AudioSource.UnPause```](https://docs.unity3d.com/ScriptReference/AudioSource.UnPause.html) for more details on what unpause does and see [```AudioSource.Pause```](https://docs.unity3d.com/ScriptReference/AudioSource.Pause.html) for more details on what pause does.
