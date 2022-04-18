@@ -11,10 +11,6 @@ jobs:
   checkLicense:
     name: Check for the Unity license ☑️
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        projectPath:
-            - ./Example Project/
     steps:
       - name: Fail - No license ☠️
         if: ${{ !startsWith(env.UNITY_LICENSE, '<') }}
@@ -57,7 +53,7 @@ jobs:
         id: testRunner
         with:
           testMode: all
-          projectPath: ${{ matrix.projectPath }}
+          projectPath: Example Project/
 
       - uses: actions/upload-artifact@v2
         with:
