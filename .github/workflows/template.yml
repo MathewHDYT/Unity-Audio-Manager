@@ -53,7 +53,7 @@ jobs:
         id: testRunner
         with:
           testMode: all
-          projectPath: Example Project/
+          projectPath: Example_Project/
 
       - uses: actions/upload-artifact@v2
         with:
