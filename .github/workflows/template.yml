@@ -13,8 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        projectPath:
-          - Example Project/
+        projectPath: Example Project
     steps:
       - name: Fail - No license ☠️
         if: ${{ !startsWith(env.UNITY_LICENSE, '<') }}
