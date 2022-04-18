@@ -1,0 +1,17 @@
+{
+    "name": "AudioManager.Locator",
+    "rootNamespace": "",
+    "references": [
+        "GUID:2510443271ef8f74ba27a53daf582389",
+        "GUID:bb97ea1f329be974ab6c9d252aea5972"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

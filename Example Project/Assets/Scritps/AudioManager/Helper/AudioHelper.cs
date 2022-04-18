@@ -1,4 +1,4 @@
-﻿using AudioManager.Locator;
+﻿using AudioManager.Core;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -15,7 +15,7 @@ namespace AudioManager.Helper {
             return clip ? AudioError.OK : AudioError.INVALID_PATH;
         }
 
-        public static bool IsGranularityValid(float granularity) {
+        public static bool IsGranularityValid(int granularity) {
             return granularity >= Constants.MIN_GRANULARITY;
         }
 

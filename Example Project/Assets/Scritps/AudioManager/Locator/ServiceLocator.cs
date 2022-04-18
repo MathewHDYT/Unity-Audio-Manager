@@ -1,5 +1,5 @@
 using AudioManager.Logger;
-using AudioManager.Service;
+using AudioManager.Core;
 
 namespace AudioManager.Locator {
     public class ServiceLocator {
@@ -33,7 +33,7 @@ namespace AudioManager.Locator {
         /// </summary>
         /// <param name="logger">ILogger implementation we want to register.</param>
         /// <param name="context">Context object that is additionaly printed with the messages.</param>
-        public static void RegisterLogger(ILogger logger, UnityEngine.Object context) {
+        public static void RegisterLogger(IAudioLogger logger, UnityEngine.Object context) {
             if (!IsLoggerValid(logger)) {
                 return;
             }
@@ -48,7 +48,7 @@ namespace AudioManager.Locator {
             return service != null;
         }
 
-        private static bool IsLoggerValid(ILogger logger) {
+        private static bool IsLoggerValid(IAudioLogger logger) {
             return logger != null;
         }
 

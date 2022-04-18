@@ -1,4 +1,6 @@
 using AudioManager.Locator;
+using AudioManager.Core;
+using AudioManager.Logger;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -27,7 +29,7 @@ public class MethodCalls : MonoBehaviour {
     [SerializeField]
     private Color32 failureBackgroundColor;
     [SerializeField]
-    private AudioManager.Logger.LoggingLevel loggingLevel;
+    private LoggingLevel loggingLevel;
 
     [Header("Objects:")]
     [SerializeField]
@@ -39,7 +41,7 @@ public class MethodCalls : MonoBehaviour {
     private const string EXPOSED_VOLUME_NAME = "Volume";
 
     private void Start() {
-        ServiceLocator.RegisterLogger(new UILogger(loggingLevel, outputText), this);
+        ServiceLocator.RegisterLogger(new UIAudioLogger(loggingLevel, outputText), this);
         am = ServiceLocator.GetService();
     }
 
@@ -199,7 +201,7 @@ public class MethodCalls : MonoBehaviour {
             SetTextAndColor(string.Join(" ", NOT_A_NUMBER, "Time"));
             return;
         }
-        if (!float.TryParse(granularityInput.text, out float granularity)) {
+        if (!int.TryParse(granularityInput.text, out int granularity)) {
             SetTextAndColor(string.Join(" ", NOT_A_NUMBER, "Granularity"));
             return;
         }
@@ -219,7 +221,7 @@ public class MethodCalls : MonoBehaviour {
             SetTextAndColor(string.Join(" ", NOT_A_NUMBER, "Time"));
             return;
         }
-        if (!float.TryParse(granularityInput.text, out float granularity)) {
+        if (!int.TryParse(granularityInput.text, out int granularity)) {
             SetTextAndColor(string.Join(" ", NOT_A_NUMBER, "Granularity"));
             return;
         }
@@ -269,7 +271,7 @@ public class MethodCalls : MonoBehaviour {
             SetTextAndColor(string.Join(" ", NOT_A_NUMBER, "Time"));
             return;
         }
-        if (!float.TryParse(granularityInput.text, out float granularity)) {
+        if (!int.TryParse(granularityInput.text, out int granularity)) {
             SetTextAndColor(string.Join(" ", NOT_A_NUMBER, "Granularity"));
             return;
         }

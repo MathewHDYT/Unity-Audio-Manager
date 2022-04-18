@@ -1,7 +1,8 @@
 {
   "dependencies": {
-    "com.unity.collab-proxy": "1.7.1",
-    "com.unity.test-framework": "1.1.30",
+    "com.unity.collab-proxy": "1.15.15",
+    "com.unity.ide.visualstudio": "2.0.14",
+    "com.unity.test-framework": "1.1.31",
     "com.unity.textmeshpro": "3.0.6",
     "com.unity.timeline": "1.4.8",
     "com.unity.ugui": "1.0.0",

@@ -1,4 +1,4 @@
-﻿using AudioManager.Locator;
+﻿using AudioManager.Core;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -76,8 +76,8 @@ namespace AudioManager.Helper {
             return source.clip.length - (progress * source.clip.length);
         }
 
-        public static bool SoundFinished(this AudioSource source) {
-            return source.isPlaying && source.GetProgress() >= Constants.MAX_PROGRESS;
+        public static bool SoundFinished(this AudioSource source, float progress) {
+            return source.isPlaying && (source.GetProgress() >= progress);
         }
 
         public static bool IsSound2D(this AudioSource source) {

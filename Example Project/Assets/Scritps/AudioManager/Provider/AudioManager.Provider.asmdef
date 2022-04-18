@@ -1,0 +1,21 @@
+{
+    "name": "AudioManager.Provider",
+    "rootNamespace": "",
+    "references": [
+        "GUID:6b4911466a85ce34c934d0255949e75e",
+        "GUID:bb97ea1f329be974ab6c9d252aea5972",
+        "GUID:e39e53512fd032c49a37a82b0dd59be0",
+        "GUID:2510443271ef8f74ba27a53daf582389",
+        "GUID:71d168ec2ded14d4e977bd844d557972",
+        "GUID:81e22f46ddc2c4344b3cc97fef78d184"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
