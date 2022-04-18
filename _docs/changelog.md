@@ -13,7 +13,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Released]
 
-## [1.6.0](https://github.com/MathewHDYT/Unity-Audio-Manager/releases/tag/v1.6.0) - 2021-02-06
+## [1.7.0](https://github.com/MathewHDYT/Unity-Audio-Manager/releases/tag/v1.7.0) - 2022-04-18
+
+### Added
+- UnitTesting of the DefaultAudioManager, AudioLogger, LoggedAudioManager, ValueDataError, NullAudioManager and ServiceLocator class
+- UILogger for the Example project to log the text shown in the console directly into a Textbox as well
+
+### Changed
+- Split source code into different [namespaces](https://docs.unity3d.com/Manual/Namespaces.html), as well as [assemblies](https://docs.unity3d.com/Manual/ScriptCompilationAssemblyDefinitionFiles.html) and folders corresponding to their features
+- Fixed incorrect handling of null objects with the ```AudioLogger```, ```LoggedAudioManager``` and ```DefaultAudioManager```
+- Renamed ```AudioManager``` to ```DefaultAudioManager``` to ensure no conflicts with the main namespace
+- Cached ```new WaitForSecond()``` calls to decrease memory usage in the ```LerpVolume```, ```LerpPitch``` and ```LerpGroupValue``` method
+
+
+## [1.6.0](https://github.com/MathewHDYT/Unity-Audio-Manager/releases/tag/v1.6.0) - 2022-02-06
 
 ### Added
 - New logger class that allows logging with a given priority level and different underlying ```Debug.Log``` calls
@@ -24,7 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated the functionality of all 3D methods to work with copies of the original AudioSource resisding on the AudioManager, this is done to ensure the AudioSource can be moved and deleted without effecting the AudioManager GameObject itself
 
 
-## [1.5.0](https://github.com/MathewHDYT/Unity-Audio-Manager/releases/tag/v1.5.0) - 2021-01-21
+## [1.5.0](https://github.com/MathewHDYT/Unity-Audio-Manager/releases/tag/v1.5.0) - 2022-01-21
 
 ### Changed
 - AudioManager is now included via. the package manager as a package instead of as single scripts
