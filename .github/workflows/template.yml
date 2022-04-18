@@ -1,0 +1,214 @@
+name: GameCI Template 🎮
+
+on: push
+
+env:
+  UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+
+jobs:
+  checkLicense:
+    name: Check for the Unity license ☑️
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fail - No license ☠️
+        if: ${{ !startsWith(env.UNITY_LICENSE, '<') }}
+        run: exit 1
+
+#  testRunner:
+#    needs: checkLicense
+#    name: Test all modes 📝
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v2
+#
+#      - name: Create LFS file list
+#        run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
+#
+#      - name: Restore LFS cache
+#        uses: actions/cache@v2
+#        id: lfs-cache
+#        with:
+#          path: .git/lfs
+#          key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}
+#
+#      - name: Git LFS Pull
+#        run: |
+#          git lfs pull
+#          git add .
+#          git reset --hard
+#
+#      - name: Restore Library cache
+#        uses: actions/cache@v2
+#        with:
+#          path: Library
+#          key: Library-test-project
+#          restore-keys: |
+#            Library-test-project-
+#            Library-
+#
+#      - uses: webbertakken/unity-test-runner@v2
+#        id: testRunner
+#        with:
+#          testMode: all
+#
+#      - uses: actions/upload-artifact@v2
+#        with:
+#          name: Test results (all modes)
+#          path: ${{ steps.testRunner.outputs.artifactsPath }}
+#
+#  buildWebGL:
+#    needs: testRunner
+#    name: Build for WebGL 🖥️
+#    runs-on: ubuntu-latest
+#    strategy:
+#      fail-fast: false
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v2
+#
+#      - name: Create LFS file list
+#        run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
+#
+#      - name: Restore LFS cache
+#        uses: actions/cache@v2
+#        id: lfs-cache
+#        with:
+#          path: .git/lfs
+#          key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}
+#
+#      - name: Git LFS Pull
+#        run: |
+#          git lfs pull
+#          git add .
+#          git reset --hard
+#
+#      - name: Restore Library cache
+#        uses: actions/cache@v2
+#        with:
+#          path: Library
+#          key: Library-build-WebGL
+#          restore-keys: |
+#            Library-build-
+#            Library-
+#
+#      - uses: webbertakken/unity-builder@v2
+#        with:
+#          targetPlatform: WebGL
+#
+#      - uses: actions/upload-artifact@v2
+#        with:
+#          name: build-WebGL
+#          path: build/WebGL
+#
+#  buildWindows:
+#    needs: testRunner
+#    name: Build for Windows 🖥️
+#    runs-on: ubuntu-latest
+#    strategy:
+#      fail-fast: false
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v2
+#
+#      - name: Create LFS file list
+#        run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
+#
+#      - name: Restore LFS cache
+#        uses: actions/cache@v2
+#        id: lfs-cache
+#        with:
+#          path: .git/lfs
+#          key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}
+#
+#      - name: Git LFS Pull
+#        run: |
+#          git lfs pull
+#          git add .
+#          git reset --hard
+#
+#      - name: Restore Library cache
+#        uses: actions/cache@v2
+#        with:
+#          path: Library
+#          key: Library-build-StandaloneWindows64
+#          restore-keys: |
+#            Library-build-
+#            Library-
+#
+#      - uses: webbertakken/unity-builder@v2
+#        with:
+#          targetPlatform: StandaloneWindows64
+#
+#      - uses: actions/upload-artifact@v2
+#        with:
+#          name: build-StandaloneWindows64
+#          path: build/StandaloneWindows64
+#
+#  buildAndroid:
+#    needs: testRunner
+#    name: Build for Android 📱
+#    runs-on: ubuntu-latest
+#    strategy:
+#      fail-fast: false
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v2
+#
+#      - name: Create LFS file list
+#        run: git lfs ls-files -l | cut -d' ' -f1 | sort > .lfs-assets-id
+#
+#      - name: Restore LFS cache
+#        uses: actions/cache@v2
+#        id: lfs-cache
+#        with:
+#          path: .git/lfs
+#          key: ${{ runner.os }}-lfs-${{ hashFiles('.lfs-assets-id') }}
+#
+#      - name: Git LFS Pull
+#        run: |
+#          git lfs pull
+#          git add .
+#          git reset --hard
+#
+#      - name: Restore Library cache
+#        uses: actions/cache@v2
+#        with:
+#          path: Library
+#          key: Library-build-Android
+#          restore-keys: |
+#            Library-build-
+#            Library-
+#
+#      - uses: webbertakken/unity-builder@v2
+#        with:
+#          targetPlatform: Android
+#
+#      - uses: actions/upload-artifact@v2
+#        with:
+#          name: build-Android
+#          path: build/Android
+#
+#
+#  deployPages:
+#    needs: buildWebGL
+#    name: Deploy to Github Pages 🚀
+#    runs-on: ubuntu-latest
+#    steps:
+#      - name: Checkout code
+#        uses: actions/checkout@v2
+#
+#      - uses: actions/download-artifact@v2
+#        with:
+#          name: build-WebGL
+#          path: build
+#
+#      - name: Display structure of root files
+#        run: ls -R
+#        working-directory: build/WebGL
+#
+#      - name: Deploy 🚀
+#        uses: JamesIves/github-pages-deploy-action@4.1.4
+#        with:
+#          branch: gh-pages
+#          folder: build/WebGL
