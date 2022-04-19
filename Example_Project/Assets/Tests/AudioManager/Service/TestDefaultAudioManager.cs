@@ -21,6 +21,8 @@ public class TestDefaultAudioManager {
     AudioSource m_source;
     AudioMixerGroup m_mixerGroup;
     DefaultAudioManager m_audioManager;
+    bool m_calledCallback;
+    float m_remainingTime;
 
     [SetUp]
     public void TestSetUp() {
@@ -41,6 +43,8 @@ public class TestDefaultAudioManager {
         m_sounds.Add(m_nullAudioSourceName, null);
         m_sounds.Add(m_audioSourceName, m_source);
         m_audioManager = new DefaultAudioManager(m_sounds, null);
+        m_calledCallback = false;
+        m_remainingTime = m_clip.length * 2f;
         // Ensure AudioSource is stopped before attempting to play it.
         m_source.Stop();
     }
@@ -193,7 +197,7 @@ public class TestDefaultAudioManager {
         Assert.IsTrue(startTime - m_source.time <= maxDifferenceStartTime);
         // The startTime is only reset at the approximate end of the song, because a higher resolution isn't possible.
         // Therefore we wait a little bit more than the actual time, to ensure the startTime is actually reset.
-        yield return new WaitForSeconds(m_clip.length - (startTime * 0.90f));
+        yield return new WaitForSeconds(m_clip.length - (startTime * 0.99f));
         Assert.IsFalse(m_source.isPlaying);
         Assert.AreEqual(0f, m_source.time);
     }
@@ -713,54 +717,47 @@ public class TestDefaultAudioManager {
 
     [UnityTest]
     public IEnumerator TestSubscribeAudioFinished() {
-        float remainingTime = m_clip.length * 2f;
-        bool calledCallback = false;
-        AudioFinishedCallback callback = (string n, float t) => {
-            calledCallback = true;
-            Assert.AreEqual(remainingTime, t);
-        };
-
         /// ---------------------------------------------
         /// Invalid case (AudioError.DOES_NOT_EXIST)
         /// ---------------------------------------------
-        AudioError error = m_audioManager.SubscribeAudioFinished(m_unregisteredAudioSourceName, remainingTime, callback);
+        AudioError error = m_audioManager.SubscribeAudioFinished(m_unregisteredAudioSourceName, m_remainingTime, AudioFinishedCallback);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.DOES_NOT_EXIST, error);
-        Assert.IsFalse(calledCallback);
+        Assert.IsFalse(m_calledCallback);
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_SOURCE)
         /// ---------------------------------------------
-        error = m_audioManager.SubscribeAudioFinished(m_nullAudioSourceName, remainingTime, callback);
+        error = m_audioManager.SubscribeAudioFinished(m_nullAudioSourceName, m_remainingTime, AudioFinishedCallback);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_SOURCE, error);
-        Assert.IsFalse(calledCallback);
+        Assert.IsFalse(m_calledCallback);
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_CLIP)
         /// ---------------------------------------------
-        error = m_audioManager.SubscribeAudioFinished(m_audioSourceName, remainingTime, callback);
+        error = m_audioManager.SubscribeAudioFinished(m_audioSourceName, m_remainingTime, AudioFinishedCallback);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_CLIP, error);
-        Assert.IsFalse(calledCallback);
+        Assert.IsFalse(m_calledCallback);
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_PARENT)
         /// ---------------------------------------------
         m_source.clip = m_clip;
-        error = m_audioManager.SubscribeAudioFinished(m_audioSourceName, remainingTime, callback);
+        error = m_audioManager.SubscribeAudioFinished(m_audioSourceName, m_remainingTime, AudioFinishedCallback);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_PARENT, error);
-        Assert.IsFalse(calledCallback);
+        Assert.IsFalse(m_calledCallback);
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.INVALID_TIME)
         /// ---------------------------------------------
         m_audioManager = new DefaultAudioManager(m_sounds, m_gameObject);
-        error = m_audioManager.SubscribeAudioFinished(m_audioSourceName, remainingTime, callback);
+        error = m_audioManager.SubscribeAudioFinished(m_audioSourceName, m_remainingTime, AudioFinishedCallback);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.INVALID_TIME, error);
-        Assert.IsFalse(calledCallback);
+        Assert.IsFalse(m_calledCallback);
 
         // Start playing the given clip. So we can test if subscribing was successfull.
         error = m_audioManager.Play(m_audioSourceName);
@@ -770,13 +767,13 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Valid case (AudioError.OK)
         /// ---------------------------------------------
-        remainingTime = m_clipEndTime;
-        error = m_audioManager.SubscribeAudioFinished(m_audioSourceName, remainingTime, callback);
+        m_remainingTime = m_clipEndTime;
+        error = m_audioManager.SubscribeAudioFinished(m_audioSourceName, m_remainingTime, AudioFinishedCallback);
         Assert.AreEqual(AudioError.OK, error);
         // Callback is only called at the approximate time passed, because a higher resolution isn't possible.
         // Therefore we wait a little bit more than the actual time, to ensure the callback is actually called.
-        yield return new WaitForSeconds(m_clip.length - (remainingTime * 0.90f));
-        Assert.IsTrue(calledCallback);
+        yield return new WaitForSeconds(m_clip.length - (m_remainingTime * 0.99f));
+        Assert.IsTrue(m_calledCallback);
     }
 
     [UnityTest]
@@ -1455,5 +1452,10 @@ public class TestDefaultAudioManager {
         error = m_audioManager.Play(m_audioSourceName);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(startTime - m_source.time <= maxDifferenceStartTime);
+    }
+
+    public void AudioFinishedCallback (string name, float remainingTime) {
+        m_calledCallback = true;
+        Assert.AreEqual(m_remainingTime, remainingTime);
     }
 }
