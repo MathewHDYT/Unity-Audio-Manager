@@ -98,6 +98,7 @@ jobs:
       - uses: webbertakken/unity-builder@v2
         with:
           targetPlatform: WebGL
+          projectPath: Example_Project/
 
       - uses: actions/upload-artifact@v2
         with:
@@ -142,6 +143,7 @@ jobs:
       - uses: webbertakken/unity-builder@v2
         with:
           targetPlatform: StandaloneWindows64
+          projectPath: Example_Project/
 
       - uses: actions/upload-artifact@v2
         with:
@@ -186,6 +188,7 @@ jobs:
       - uses: webbertakken/unity-builder@v2
         with:
           targetPlatform: Android
+          projectPath: Example_Project/
 
       - uses: actions/upload-artifact@v2
         with:
