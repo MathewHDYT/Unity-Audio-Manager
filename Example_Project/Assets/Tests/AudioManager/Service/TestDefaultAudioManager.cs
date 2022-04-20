@@ -775,7 +775,7 @@ public class TestDefaultAudioManager {
         Assert.AreEqual(AudioError.OK, error);
         // Callback is only called at the approximate time passed, because a higher resolution isn't possible.
         // Therefore we wait a little bit more than the actual time, to ensure the callback is actually called.
-        yield return new WaitForSeconds(m_clip.length - (remainingTime * 0.99f));
+        yield return new WaitForSeconds(m_clip.length - (remainingTime * 0.1f));
         Assert.IsTrue(calledCallback);
     }
 
