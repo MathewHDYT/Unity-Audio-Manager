@@ -6,6 +6,8 @@ on:
 
 env:
   UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+  ITCH_USERNAME: mathewhd
+  ITCH_GAME_ID: unity-audio-manager
 
 jobs:
   checkLicense:
@@ -195,26 +197,32 @@ jobs:
           name: build-Android
           path: build/Android
 
-
-  deployPages:
+  deploy:
     needs: buildWebGL
-    name: Deploy to Github Pages 🚀
+    needs: buildWindows
+    name: Deploy to Itch.io 🚀
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        path:
+          - StandaloneWindows64
+          - WebGL
+        channel:
+          - windows
+          - webgl
+    runs-on: ubuntu-latest
+    name: Deploy - Itch.io ${{ matrix.template }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - uses: actions/download-artifact@v2
+      - uses: actions/download-artifact@v2.0.8
         with:
-          name: build-WebGL
-          path: build
-
-      - name: Display structure of root files
-        run: ls -R
-        working-directory: build/WebGL
-
-      - name: Deploy 🚀
-        uses: JamesIves/github-pages-deploy-action@4.1.4
+          name: ${{ matrix.path }}
+          path: build/${{ matrix.path }}
+      - uses: KikimoraGames/itch-publish@v0.0.3
         with:
-          branch: gh-pages
-          folder: build/WebGL
+          butlerApiKey: ${{secrets.BUTLER_API_KEY}}
+          gameData: ./build/${{ matrix.template }}
+          itchUsername: ${{env.ITCH_USERNAME}}
+          itchGameId: ${{ env.ITCH_GAME_ID }}
+          buildChannel: ${{ matrix.channel }}
+          buildNumber: ${{ needs.version.outputs.version_hash }}
