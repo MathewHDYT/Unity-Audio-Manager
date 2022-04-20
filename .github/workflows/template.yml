@@ -221,7 +221,6 @@ jobs:
     needs: buildWebGL
     name: Deploy WebGL to Itch.io 🚀
     runs-on: ubuntu-latest
-    runs-on: ubuntu-latest
     steps:
       - name: Download build
         uses: actions/download-artifact@v2.0.8
