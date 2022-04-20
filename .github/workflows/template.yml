@@ -203,13 +203,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download build
-      - uses: actions/download-artifact@v2.0.8
+        uses: actions/download-artifact@v2.0.8
         with:
           name: build-StandaloneWindows64
           path: build/StandaloneWindows64
 
       - name: Deploy build
-      - uses: KikimoraGames/itch-publish@v0.0.3
+        uses: KikimoraGames/itch-publish@v0.0.3
         with:
           butlerApiKey: ${{secrets.BUTLER_API_KEY}}
           gameData: ./build/
@@ -224,13 +224,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Download build
-      - uses: actions/download-artifact@v2.0.8
+        uses: actions/download-artifact@v2.0.8
         with:
           name: build-WebGL
           path: build/WebGL
 
       - name: Deploy build
-      - uses: KikimoraGames/itch-publish@v0.0.3
+        uses: KikimoraGames/itch-publish@v0.0.3
         with:
           butlerApiKey: ${{secrets.BUTLER_API_KEY}}
           gameData: ./build/
