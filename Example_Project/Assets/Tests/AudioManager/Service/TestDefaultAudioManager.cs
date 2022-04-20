@@ -193,7 +193,7 @@ public class TestDefaultAudioManager {
         Assert.IsTrue(startTime - m_source.time <= maxDifferenceStartTime);
         // The startTime is only reset at the approximate end of the song, because a higher resolution isn't possible.
         // Therefore we wait a little bit more than the actual time, to ensure the startTime is actually reset.
-        yield return new WaitForSeconds(m_clip.length - (startTime * 0.50f));
+        yield return new WaitForSeconds(m_clip.length - (startTime * 0.99f));
         Assert.IsFalse(m_source.isPlaying);
         Assert.AreEqual(0f, m_source.time);
     }
@@ -775,7 +775,7 @@ public class TestDefaultAudioManager {
         Assert.AreEqual(AudioError.OK, error);
         // Callback is only called at the approximate time passed, because a higher resolution isn't possible.
         // Therefore we wait a little bit more than the actual time, to ensure the callback is actually called.
-        yield return new WaitForSeconds(m_clip.length - (remainingTime * 0.50f));
+        yield return new WaitForSeconds(m_clip.length - (remainingTime * 0.99f));
         Assert.IsTrue(calledCallback);
     }
 
