@@ -197,32 +197,43 @@ jobs:
           name: build-Android
           path: build/Android
 
-  deploy:
-    needs: buildWebGL
+  deployWindows:
     needs: buildWindows
-    name: Deploy to Itch.io 🚀
+    name: Deploy Windows to Itch.io 🚀
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: true
-      matrix:
-        path:
-          - StandaloneWindows64
-          - WebGL
-        channel:
-          - windows
-          - webgl
-    runs-on: ubuntu-latest
-    name: Deploy - Itch.io ${{ matrix.template }}
     steps:
+      - name: Download build
       - uses: actions/download-artifact@v2.0.8
         with:
-          name: ${{ matrix.path }}
-          path: build/${{ matrix.path }}
+          name: build-StandaloneWindows64
+          path: build/StandaloneWindows64
+
+      - name: Deploy build
       - uses: KikimoraGames/itch-publish@v0.0.3
         with:
           butlerApiKey: ${{secrets.BUTLER_API_KEY}}
-          gameData: ./build/${{ matrix.template }}
+          gameData: ./build/
           itchUsername: ${{env.ITCH_USERNAME}}
           itchGameId: ${{ env.ITCH_GAME_ID }}
-          buildChannel: ${{ matrix.channel }}
-          buildNumber: ${{ needs.version.outputs.version_hash }}
+          buildChannel: windows
+
+  deployWebGL:
+    needs: buildWebGL
+    name: Deploy WebGL to Itch.io 🚀
+    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build
+      - uses: actions/download-artifact@v2.0.8
+        with:
+          name: build-WebGL
+          path: build/WebGL
+
+      - name: Deploy build
+      - uses: KikimoraGames/itch-publish@v0.0.3
+        with:
+          butlerApiKey: ${{secrets.BUTLER_API_KEY}}
+          gameData: ./build/
+          itchUsername: ${{env.ITCH_USERNAME}}
+          itchGameId: ${{ env.ITCH_GAME_ID }}
+          buildChannel: webgl
