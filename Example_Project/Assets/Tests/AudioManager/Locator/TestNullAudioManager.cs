@@ -92,6 +92,12 @@ public class TestNullAudioManager {
     }
 
     [Test]
+    public void TestPlayScheduled() {
+        AudioError error = m_am.PlayScheduled(m_text, m_val);
+        Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
+    }
+
+    [Test]
     public void TestStop() {
         AudioError error = m_am.Stop(m_text);
         Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
@@ -138,6 +144,12 @@ public class TestNullAudioManager {
     [Test]
     public void TestLerpVolume() {
         AudioError error = m_am.LerpVolume(m_text, m_val);
+        Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
+    }
+
+    [Test]
+    public void TestChangeGroupValue() {
+        AudioError error = m_am.ChangeGroupValue(m_text, m_text, m_val);
         Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
     }
 

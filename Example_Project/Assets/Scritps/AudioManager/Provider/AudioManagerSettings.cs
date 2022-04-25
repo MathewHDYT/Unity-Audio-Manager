@@ -43,9 +43,34 @@ namespace AudioManager.Provider {
 #endif // UNITY_EDITOR
         }
 
+        // Test methods used only for UnitTesting.
+#if UNITY_EDITOR
+        public void SetCustomHideFlags(HideFlags testHideFlags) {
+            customHideFlags = testHideFlags;
+        }
+
+        public void SetLoggingLevel(LoggingLevel testLoggingLevel) {
+            loggingLevel = testLoggingLevel;
+        }
+
+        public void SetSettings(AudioSourceSetting[] testSettings) {
+            settings = testSettings;
+        }
+
+        public void TestOnEnable() {
+            OnEnable();
+        }
+
+        public void TestAwake() {
+            Awake();
+        }
+#endif // UNITY_EDITOR
+
         private Dictionary<string, AudioSource> SetupSounds(AudioSourceSetting[] settings) {
             var dictionary = new Dictionary<string, AudioSource>();
-            CreateAndRegisterSound(dictionary, settings);
+            if (settings is object) {
+                CreateAndRegisterSound(dictionary, settings);
+            }
             return dictionary;
         }
 

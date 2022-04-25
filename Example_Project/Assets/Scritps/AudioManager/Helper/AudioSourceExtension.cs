@@ -16,10 +16,6 @@ namespace AudioManager.Helper {
             return !AudioHelper.IsEndValueValid(pitch, source.pitch);
         }
 
-        public static bool IsSameParent(this AudioSource source, GameObject gameObject) {
-            return source.gameObject == gameObject;
-        }
-
         public static AudioError TryGetGroupValue(this AudioSource source, string exposedParameterName, out float currentValue) {
             AudioError error = AudioError.OK;
             if (!source.outputAudioMixerGroup.audioMixer.GetFloat(exposedParameterName, out currentValue)) {
@@ -96,70 +92,48 @@ namespace AudioManager.Helper {
             source.outputAudioMixerGroup = mixerGroup;
         }
 
-        public static AudioError CopyAudioSourceSettings(this AudioSource copyTo, AudioSource copyFrom) {
-            AudioError error = Set2DAudioOptions(copyTo, copyFrom.clip, copyFrom.outputAudioMixerGroup, copyFrom.loop, copyFrom.volume, copyFrom.pitch);
-            if (error != AudioError.OK) {
-                return error;
-            }
-            return Set3DAudioOptions(copyTo, copyFrom.spatialBlend, copyFrom.dopplerLevel, copyFrom.spread, copyFrom.rolloffMode, copyFrom.minDistance, copyFrom.maxDistance);
+        public static void CopyAudioSourceSettings(this AudioSource copyTo, AudioSource copyFrom) {
+            Set2DAudioOptions(copyTo, copyFrom.clip, copyFrom.outputAudioMixerGroup, copyFrom.loop, copyFrom.volume, copyFrom.pitch);
+            Set3DAudioOptions(copyTo, copyFrom.spatialBlend, copyFrom.dopplerLevel, copyFrom.spread, copyFrom.rolloffMode, copyFrom.minDistance, copyFrom.maxDistance);
         }
 
-        public static AudioError CopyAudioSourceSettings(this AudioSource copyTo, AudioClip clip, AudioMixerGroup mixerGroup, bool loop, float volume, float pitch, float spatialBlend, float dopplerLevel, float spreadAngle, AudioRolloffMode rolloffMode, float minDistance, float maxDistance) {
-            AudioError error = Set2DAudioOptions(copyTo, clip, mixerGroup, loop, volume, pitch);
-            if (error != AudioError.OK) {
-                return error;
-            }
-            return Set3DAudioOptions(copyTo, spatialBlend, dopplerLevel, spreadAngle, rolloffMode, minDistance, maxDistance);
+        public static void CopyAudioSourceSettings(this AudioSource copyTo, AudioClip clip, AudioMixerGroup mixerGroup, bool loop, float volume, float pitch, float spatialBlend, float dopplerLevel, float spreadAngle, AudioRolloffMode rolloffMode, float minDistance, float maxDistance) {
+            Set2DAudioOptions(copyTo, clip, mixerGroup, loop, volume, pitch);
+            Set3DAudioOptions(copyTo, spatialBlend, dopplerLevel, spreadAngle, rolloffMode, minDistance, maxDistance);
         }
 
-        public static AudioError CreateEmptyGameObject(this AudioSource parentSource, string name, Vector3 position, Transform parent, out AudioSource newSource) {
+        public static void CreateEmptyGameObject(this AudioSource parentSource, string name, Vector3 position, Transform parent, out AudioSource newSource) {
             GameObject newGameObject = AudioHelper.CreateNewGameObject(name);
             Transform newTransform = AudioHelper.GetTransform(newGameObject);
             AudioHelper.SetTransformParent(newTransform, parent);
             AudioHelper.SetTransformPosition(newTransform, position);
-            return parentSource.AttachAudioSource(out newSource, newGameObject);
+            parentSource.AttachAudioSource(out newSource, newGameObject);
         }
 
-        public static AudioError CopySettingsAndPosition(this AudioSource childSource, Vector3 position, AudioSource parentSource) {
-            AudioError error = childSource.CopyAudioSourceSettings(parentSource);
+        public static void CopySettingsAndGameObject(this AudioSource childSource, GameObject parent, AudioSource parentSource) {
+           childSource.CopyAudioSourceSettings(parentSource);
+            AudioHelper.SetTransformParent(childSource.transform, parent.transform);
+        }
+
+        public static void CopySettingsAndPosition(this AudioSource childSource, Vector3 position, AudioSource parentSource) {
+            childSource.CopyAudioSourceSettings(parentSource);
             AudioHelper.SetTransformPosition(childSource.transform, position);
-            return error;
         }
 
-        public static AudioError AttachAudioSource(this AudioSource parentSource, out AudioSource newSource, GameObject newGameObject) {
+        public static void AttachAudioSource(this AudioSource parentSource, out AudioSource newSource, GameObject newGameObject) {
             AudioHelper.AddAudioSourceComponent(newGameObject, out newSource);
-            return newSource.CopyAudioSourceSettings(parentSource);
+            newSource.CopyAudioSourceSettings(parentSource);
         }
 
-        public static AudioError Set2DAudioOptions(this AudioSource source, AudioClip clip, AudioMixerGroup mixerGroup, bool loop, float volume, float pitch) {
-            AudioError error = AudioError.OK;
-
-            if (!source) {
-                error = AudioError.MISSING_SOURCE;
-                return error;
-            }
-
+        public static void Set2DAudioOptions(this AudioSource source, AudioClip clip, AudioMixerGroup mixerGroup, bool loop, float volume, float pitch) {
             source.clip = clip;
             source.outputAudioMixerGroup = mixerGroup;
             source.loop = loop;
             source.volume = volume;
             source.pitch = pitch;
-            return error;
         }
 
-        public static AudioError Set3DAudioOptions(this AudioSource source, float spatialBlend, float dopplerLevel, float spreadAngle, AudioRolloffMode rolloffMode, float minDistance, float maxDistance) {
-            AudioError error = AudioError.OK;
-
-            // Check if source is null.
-            if (!source) {
-                error = AudioError.MISSING_SOURCE;
-                return error;
-            }
-            else if (AudioHelper.IsSound2D(spatialBlend)) {
-                error = AudioError.CAN_NOT_BE_3D;
-                return error;
-            }
-
+        public static void Set3DAudioOptions(this AudioSource source, float spatialBlend, float dopplerLevel, float spreadAngle, AudioRolloffMode rolloffMode, float minDistance, float maxDistance) {
             source.spatialize = true;
             source.spatialBlend = spatialBlend;
             source.dopplerLevel = dopplerLevel;
@@ -167,7 +141,6 @@ namespace AudioManager.Helper {
             source.rolloffMode = rolloffMode;
             source.minDistance = minDistance;
             source.maxDistance = maxDistance;
-            return error;
         }
     }
 }

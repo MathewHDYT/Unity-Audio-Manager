@@ -19,9 +19,9 @@ namespace AudioManager.Helper {
             return granularity >= Constants.MIN_GRANULARITY;
         }
 
-        public static AudioError AttachAudioSource(out AudioSource newSource, GameObject newGameObject, AudioClip clip, AudioMixerGroup mixerGroup, bool loop, float volume, float pitch, float spatialBlend, float dopplerLevel, float spreadAngle, AudioRolloffMode rolloffMode, float minDistance, float maxDistance) {
+        public static void AttachAudioSource(out AudioSource newSource, GameObject newGameObject, AudioClip clip, AudioMixerGroup mixerGroup, bool loop, float volume, float pitch, float spatialBlend, float dopplerLevel, float spreadAngle, AudioRolloffMode rolloffMode, float minDistance, float maxDistance) {
             AddAudioSourceComponent(newGameObject, out newSource);
-            return newSource.CopyAudioSourceSettings(clip, mixerGroup, loop, volume, pitch, spatialBlend, dopplerLevel, spreadAngle, rolloffMode, minDistance, maxDistance);
+            newSource.CopyAudioSourceSettings(clip, mixerGroup, loop, volume, pitch, spatialBlend, dopplerLevel, spreadAngle, rolloffMode, minDistance, maxDistance);
         }
 
         public static void AddAudioSourceComponent(GameObject parent, out AudioSource source) {

@@ -48,11 +48,7 @@ namespace AudioManager.Service {
                 AudioHelper.AddAudioSourceComponent(m_parentGameObject, out source);
             }
 
-            error = source.Set2DAudioOptions(clip, mixerGroup, loop, volume, pitch);
-            if (error != AudioError.OK) {
-                return error;
-            }
-
+            source.Set2DAudioOptions(clip, mixerGroup, loop, volume, pitch);
             error = RegisterAudioSource(name, source);
             return error;
         }
@@ -116,8 +112,13 @@ namespace AudioManager.Service {
                 error = AudioError.CAN_NOT_BE_3D;
                 return error;
             }
+            else if (!m_parentTransform) {
+                error = AudioError.INVALID_PARENT;
+                return error;
+            }
 
-            return PlayAt3DPosition(parentSource, position, false);
+            PlayAt3DPosition(parentSource, position, false);
+            return error;
         }
 
         public AudioError PlayOneShotAt3DPosition(string name, Vector3 position) {
@@ -131,8 +132,13 @@ namespace AudioManager.Service {
                 error = AudioError.CAN_NOT_BE_3D;
                 return error;
             }
+            else if (!m_parentTransform) {
+                error = AudioError.INVALID_PARENT;
+                return error;
+            }
 
-            return PlayAt3DPosition(parentSource, position, true);
+            PlayAt3DPosition(parentSource, position, true);
+            return error;
         }
 
         public AudioError PlayAttachedToGameObject(string name, GameObject attachGameObject) {
@@ -151,7 +157,8 @@ namespace AudioManager.Service {
                 return error;
             }
 
-            return PlayAttachedToGameObject(parentSource, attachGameObject, false);
+            PlayAttachedToGameObject(parentSource, attachGameObject, false);
+            return error;
         }
 
         public AudioError PlayOneShotAttachedToGameObject(string name, GameObject attachGameObject) {
@@ -170,7 +177,8 @@ namespace AudioManager.Service {
                 return error;
             }
 
-            return PlayAttachedToGameObject(parentSource, attachGameObject, true);
+            PlayAttachedToGameObject(parentSource, attachGameObject, true);
+            return error;
         }
 
         public AudioError PlayDelayed(string name, float delay) {
@@ -486,8 +494,12 @@ namespace AudioManager.Service {
             if (error != AudioError.OK) {
                 return error;
             }
+            else if (AudioHelper.IsSound2D(spatialBlend)) {
+                error = AudioError.CAN_NOT_BE_3D;
+                return error;
+            }
 
-            error = source.Set3DAudioOptions(spatialBlend, dopplerLevel, spreadAngle, rolloffMode, minDistance, maxDistance);
+            source.Set3DAudioOptions(spatialBlend, dopplerLevel, spreadAngle, rolloffMode, minDistance, maxDistance);
             return error;
         }
 
@@ -516,11 +528,6 @@ namespace AudioManager.Service {
 
             if (IsSoundRegistered(name)) {
                 error = AudioError.ALREADY_EXISTS;
-                return error;
-            }
-
-            error = source.IsSoundValid();
-            if (error != AudioError.OK) {
                 return error;
             }
 
@@ -611,79 +618,42 @@ namespace AudioManager.Service {
             childDictionary.Add(keyName, newChildSource);
         }
 
-        private AudioError CreateNewChildren(AudioSource parentSource, Vector3 position, string keyName, out AudioSource newChildSource) {
-            AudioError error = AudioError.OK;
-
-            if (!m_parentTransform) {
-                newChildSource = null;
-                error = AudioError.MISSING_PARENT;
-                return error;
-            }
-
-            error = parentSource.CreateEmptyGameObject(keyName, position, m_parentTransform, out newChildSource);
-            if (error != AudioError.OK) {
-                return error;
-            }
-
+        private void CreateNewChildren(AudioSource parentSource, Vector3 position, string keyName, out AudioSource newChildSource) {
+            parentSource.CreateEmptyGameObject(keyName, position, m_parentTransform, out newChildSource);
             var newChildDictionary = CreateNewChild(keyName, newChildSource);
             RegisterNewChildren(parentSource, newChildDictionary);
-            return error;
         }
 
-        private AudioError UpdateOrCreateChild(AudioSource parentSource, Vector3 position, string keyName, Dictionary<string, AudioSource> childDictionary, out AudioSource childSource) {
-            AudioError error = AudioError.OK;
-
+        private void UpdateOrCreateChild(AudioSource parentSource, Vector3 position, string keyName, Dictionary<string, AudioSource> childDictionary, out AudioSource childSource) {
             if (TryGetRegisteredChild(childDictionary, keyName, out childSource)) {
-                error = childSource.CopySettingsAndPosition(position, parentSource);
-                return error;
+                childSource.CopySettingsAndPosition(position, parentSource);
+                return;
             }
-            return CreateNewChild(parentSource, position, keyName, childDictionary, out childSource);
+            CreateNewChild(parentSource, position, keyName, childDictionary, out childSource);
         }
 
-        private AudioError CreateNewChild(AudioSource parentSource, Vector3 position, string keyName, Dictionary<string, AudioSource> childDictionary, out AudioSource newChildSource) {
-            AudioError error = AudioError.OK;
-
-            if (!m_parentTransform) {
-                newChildSource = null;
-                error = AudioError.MISSING_PARENT;
-                return error;
-            }
-
-            error = parentSource.CreateEmptyGameObject(keyName, position, m_parentTransform, out newChildSource);
-            if (error != AudioError.OK) {
-                return error;
-            }
-
+        private void CreateNewChild(AudioSource parentSource, Vector3 position, string keyName, Dictionary<string, AudioSource> childDictionary, out AudioSource newChildSource) {
+            parentSource.CreateEmptyGameObject(keyName, position, m_parentTransform, out newChildSource);
             RegisterNewChild(childDictionary, keyName, newChildSource);
-            return error;
         }
 
-        private AudioError CreateNewChildren(AudioSource parentSource, GameObject parent, string keyName, out AudioSource newChildSource) {
-            AudioError error = parentSource.AttachAudioSource(out newChildSource, parent);
-
-            if (error != AudioError.OK) {
-                return error;
-            }
-
+        private void CreateNewChildren(AudioSource parentSource, GameObject parent, string keyName, out AudioSource newChildSource) {
+            parentSource.AttachAudioSource(out newChildSource, parent);
             var newChildDictionary = CreateNewChild(keyName, newChildSource);
             RegisterNewChildren(parentSource, newChildDictionary);
-            return error;
         }
 
-        private AudioError UpdateOrCreateChild(AudioSource parentSource, GameObject parent, string keyName, Dictionary<string, AudioSource> childDictionary, out AudioSource childSource) {
-            AudioError error = AudioError.OK;
-
-            if (TryGetRegisteredChild(childDictionary, keyName, out childSource) && childSource.IsSameParent(parent)) {
-                error = childSource.CopyAudioSourceSettings(parentSource);
-                return error;
+        private void UpdateOrCreateChild(AudioSource parentSource, GameObject parent, string keyName, Dictionary<string, AudioSource> childDictionary, out AudioSource childSource) {
+            if (TryGetRegisteredChild(childDictionary, keyName, out childSource)) {
+                childSource.CopySettingsAndGameObject(parent, parentSource);
+                return;
             }
-            return CreateNewChild(parentSource, parent, keyName, childDictionary, out childSource);
+            CreateNewChild(parentSource, parent, keyName, childDictionary, out childSource);
         }
 
-        private AudioError CreateNewChild(AudioSource parentSource, GameObject parent, string keyName, Dictionary<string, AudioSource> childDictionary, out AudioSource newChildSource) {
-            AudioError error = parentSource.AttachAudioSource(out newChildSource, parent);
+        private void CreateNewChild(AudioSource parentSource, GameObject parent, string keyName, Dictionary<string, AudioSource> childDictionary, out AudioSource newChildSource) {
+            parentSource.AttachAudioSource(out newChildSource, parent);
             RegisterNewChild(childDictionary, keyName, newChildSource);
-            return error;
         }
 
         private void PlayOrPlayOneShot(AudioSource childSource, bool oneShot) {
@@ -694,40 +664,30 @@ namespace AudioManager.Service {
             childSource.Play();
         }
 
-        private AudioError PlayAt3DPosition(AudioSource parentSource, Vector3 position, bool oneShot, [CallerMemberName] string memberName = "") {
-            AudioError error = AudioError.OK;
+        private void PlayAt3DPosition(AudioSource parentSource, Vector3 position, bool oneShot, [CallerMemberName] string memberName = "") {
             AudioSource newSource = null;
 
             if (TryGetRegisteredChildren(parentSource, out var childDictionary)) {
-                error = UpdateOrCreateChild(parentSource, position, memberName, childDictionary, out newSource);
+                UpdateOrCreateChild(parentSource, position, memberName, childDictionary, out newSource);
             }
             else {
-                error = CreateNewChildren(parentSource, position, memberName, out newSource);
+                CreateNewChildren(parentSource, position, memberName, out newSource);
             }
 
-            if (error != AudioError.OK) {
-                return error;
-            }
             PlayOrPlayOneShot(newSource, oneShot);
-            return error;
         }
 
-        private AudioError PlayAttachedToGameObject(AudioSource parentSource, GameObject gameObject, bool oneShot, [CallerMemberName] string memberName = "") {
-            AudioError error = AudioError.OK;
+        private void PlayAttachedToGameObject(AudioSource parentSource, GameObject gameObject, bool oneShot, [CallerMemberName] string memberName = "") {
             AudioSource newSource = null;
 
             if (TryGetRegisteredChildren(parentSource, out var childDictionary)) {
-                error = UpdateOrCreateChild(parentSource, gameObject, memberName, childDictionary, out newSource);
+                UpdateOrCreateChild(parentSource, gameObject, memberName, childDictionary, out newSource);
             }
             else {
-                error = CreateNewChildren(parentSource, gameObject, memberName, out newSource);
+                CreateNewChildren(parentSource, gameObject, memberName, out newSource);
             }
 
-            if (error != AudioError.OK) {
-                return error;
-            }
             PlayOrPlayOneShot(newSource, oneShot);
-            return error;
         }
 
         private void ResetStartTime(string name, float remainingTime) {
