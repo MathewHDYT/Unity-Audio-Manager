@@ -52,7 +52,7 @@ jobs:
             Library-
 
       - name: Run tests and generate coverage XML report
-        uses: webbertakken/unity-test-runner@v2
+        uses: game-ci/unity-test-runner@v2
         id: testRunner
         with:
           testMode: all
