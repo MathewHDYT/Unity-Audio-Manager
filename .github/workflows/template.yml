@@ -45,16 +45,17 @@ jobs:
       - name: Restore Library cache
         uses: actions/cache@v2
         with:
-          path: Library
+          path: Example_Project/Library
           key: Library-test-project
           restore-keys: |
             Library-test-project-
             Library-
 
       - name: Run tests and generate coverage XML report
-        uses: webbertakken/unity-test-runner@v2
+        uses: game-ci/unity-test-runner@v2
         id: testRunner
         with:
+          unityVersion: 2019.3f1
           testMode: all
           projectPath: Example_Project/
           customParameters: -debugCodeOptimization -enableCodeCoverage -coverageResultsPath ./coverage-results -coverageOptions generateAdditionalMetrics
@@ -68,8 +69,6 @@ jobs:
     needs: testRunner
     name: Build for WebGL 🖥️
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -93,7 +92,7 @@ jobs:
       - name: Restore Library cache
         uses: actions/cache@v2
         with:
-          path: Library
+          path: Example_Project/Library
           key: Library-build-WebGL
           restore-keys: |
             Library-build-
@@ -113,8 +112,6 @@ jobs:
     needs: testRunner
     name: Build for Windows 🖥️
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -138,7 +135,7 @@ jobs:
       - name: Restore Library cache
         uses: actions/cache@v2
         with:
-          path: Library
+          path: Example_Project/Library
           key: Library-build-StandaloneWindows64
           restore-keys: |
             Library-build-
@@ -158,8 +155,6 @@ jobs:
     needs: testRunner
     name: Build for Android 📱
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -183,7 +178,7 @@ jobs:
       - name: Restore Library cache
         uses: actions/cache@v2
         with:
-          path: Library
+          path: Example_Project/Library
           key: Library-build-Android
           restore-keys: |
             Library-build-
@@ -213,9 +208,9 @@ jobs:
       - name: Deploy build
         uses: KikimoraGames/itch-publish@v0.0.3
         with:
-          butlerApiKey: ${{secrets.BUTLER_API_KEY}}
+          butlerApiKey: ${{ secrets.BUTLER_API_KEY }}
           gameData: ./build/
-          itchUsername: ${{env.ITCH_USERNAME}}
+          itchUsername: ${{ env.ITCH_USERNAME }}
           itchGameId: ${{ env.ITCH_GAME_ID }}
           buildChannel: windows
 
@@ -233,8 +228,8 @@ jobs:
       - name: Deploy build
         uses: KikimoraGames/itch-publish@v0.0.3
         with:
-          butlerApiKey: ${{secrets.BUTLER_API_KEY}}
+          butlerApiKey: ${{ secrets.BUTLER_API_KEY }}
           gameData: ./build/
-          itchUsername: ${{env.ITCH_USERNAME}}
+          itchUsername: ${{ env.ITCH_USERNAME }}
           itchGameId: ${{ env.ITCH_GAME_ID }}
           buildChannel: webgl
