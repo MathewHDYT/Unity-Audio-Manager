@@ -55,7 +55,7 @@ jobs:
         uses: game-ci/unity-test-runner@v2
         id: testRunner
         with:
-          unityVersion: 2019.3
+          unityVersion: 2021.3.1f1
           testMode: all
           projectPath: Example_Project/
           customParameters: -debugCodeOptimization -enableCodeCoverage -coverageResultsPath ./coverage-results -coverageOptions generateAdditionalMetrics
