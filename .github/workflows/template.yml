@@ -52,13 +52,19 @@ jobs:
             Library-
 
       - name: Run tests and generate coverage XML report
-        uses: game-ci/unity-test-runner@v2
+        uses: webbertakken/unity-test-runner@v2
         id: testRunner
         with:
-          unityVersion: 2021.3.1f1
           testMode: all
           projectPath: Example_Project/
           customParameters: -debugCodeOptimization -enableCodeCoverage -coverageResultsPath ./coverage-results -coverageOptions generateAdditionalMetrics
+
+      - name: Upload coverage XML report to Codecov
+        uses: codecov/codecov-action@v2
+        with:
+            files: ./coverage1.xml,./coverage2.xml
+            flags: unittests
+            name: codecov-umbrella
 
       - uses: actions/upload-artifact@v2
         with:
