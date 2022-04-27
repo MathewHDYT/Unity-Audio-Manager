@@ -64,6 +64,7 @@ jobs:
         with:
             flags: unittests
             name: codecov-umbrella
+            file: /github/workspace/CodeCoverage/Report/Summary.xml
 
       - uses: actions/upload-artifact@v2
         with:
