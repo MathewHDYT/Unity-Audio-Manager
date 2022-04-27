@@ -62,9 +62,7 @@ jobs:
       - name: Publish coverage XML report to Codecov
         uses: codecov/codecov-action@v2
         with:
-            flags: unittests
-            name: codecov-umbrella
-            file: /github/workspace/CodeCoverage/Report/Summary.xml
+            fail_ci_if_error: true
 
       - uses: actions/upload-artifact@v2
         with:
