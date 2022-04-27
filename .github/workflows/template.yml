@@ -57,12 +57,12 @@ jobs:
         with:
           testMode: all
           projectPath: Example_Project/
-          customParameters: -debugCodeOptimization -enableCodeCoverage -coverageResultsPath ./coverage-results -coverageOptions generateAdditionalMetrics;generateHtmlReport;generateHtmlReportHistory;generateBadgeReport; pathFilters:+**/AudioManager/**,-**/ShowIfAttributeDrawer.cs
+          customParameters: -debugCodeOptimization -enableCodeCoverage -coverageResultsPath ./CodeCoverage -coverageOptions generateAdditionalMetrics;generateHtmlReport;generateHtmlReportHistory;generateBadgeReport; pathFilters:+**/AudioManager/**,-**/ShowIfAttributeDrawer.cs
 
       - name: Upload coverage XML report to Codecov
         uses: codecov/codecov-action@v2
         with:
-            files: coverage-results/**/*.xml
+            files: /github/workspace/CodeCoverage/**/*.xml
             flags: unittests
             name: codecov-umbrella
 
