@@ -1,0 +1,40 @@
+title: Unity Audio Manager
+color_scheme: dark
+
+# Build settings
+remote_theme: pmarsceill/just-the-docs
+#theme: "just-the-docs"
+
+# Enable or disable the site search
+# Supports true (default) or false
+search_enabled: true
+
+search:
+  # Split pages into sections that can be searched individually
+  # Supports 1 - 6, default: 2
+  heading_level: 3
+
+aux_links:
+  "Unity Audio Manager on GitHub":
+    - "//github.com/MathewHDYT/Unity-Audio-Manager"
+
+# Define Jekyll collections
+collections:
+  # Define a collection named "docs", its documents reside in the "_docs" directory
+  docs:
+    permalink: "/:collection/:path/"
+    output: true
+
+just_the_docs:
+  # Define which collections are used in just-the-docs
+  collections:
+    # Reference the "docs" collection
+    docs:
+      # Give the collection a name
+      name: Documentation
+      # Exclude the collection from the navigation
+      # Supports true or false (default)
+      nav_exclude: false
+      # Exclude the collection from the search
+      # Supports true or false (default)
+      search_exclude: false
