@@ -43,7 +43,6 @@ jobs:
           git reset --hard
 
       - name: Restore Library cache
-        id: testRunner
         uses: actions/cache@v2
         with:
           path: Example_Project/Library
@@ -53,6 +52,7 @@ jobs:
             Library-
 
       - name: Run tests and generate coverage XML report
+        id: testRunner
         uses: game-ci/unity-test-runner@v2
         with:
           testMode: all
