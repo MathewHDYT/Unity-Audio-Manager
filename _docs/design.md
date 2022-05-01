@@ -13,10 +13,10 @@ Additonally seperate assemblies and namespaces for the different parts of the Au
 
 ### Service Locator pattern
 
-A more detailed description on the [```Service Loactor```](https://gameprogrammingpatterns.com/service-locator.html) pattern and other patterns invaluable for game design can be found on https://gameprogrammingpatterns.com/. As well as examples on all the patterns can be found in this github repository [Unity Design Patterns](https://github.com/QianMo/Unity-Design-Pattern).
+A more detailed description on the [```Service Locator```](https://gameprogrammingpatterns.com/service-locator.html) pattern and other patterns invaluable for game design can be found on https://gameprogrammingpatterns.com/. As well as examples on all the patterns can be found in this github repository [Unity Design Patterns](https://github.com/QianMo/Unity-Design-Pattern).
 
 The short explantion tough is that this pattern makes it possible to make a service globally accessible, which isn't always a good idea but very helpful for an ```AudioManager``` which might be entangled with a lot of your code. Without directly coupling to the class that actually implements the behaviour.
-Meaning you use the static ```ServiceLocator``` to get an instance of ```IAudioManager```, which could be a custom implementation the ```NullAudioManager``` if an error occured more simply the ```DefaultAudioManager``` or even the ```LoggedAudioManager```. As you can hopefully see this makes it much easier to write your own implementation see ([Custom AudioManager](https://mathewhdyt.github.io/Unity-Audio-Manager/custom-audio-manager)) if you want to know more.
+Meaning you use the static ```ServiceLocator``` to get an instance of ```IAudioManager```, which could be a custom implementation the ```NullAudioManager``` if an error occured more simply the ```DefaultAudioManager``` or even the ```LoggedAudioManager```. As you can hopefully see this makes it much easier to write your own implementation see ([Custom AudioManager](https://mathewhdyt.github.io/Unity-Audio-Manager/custom_audio_manager)) if you want to know more.
 
 Additionaly this made it possible to completly seperate the Logging of the ```AudioManager``` from the actual implementation, meaning if Logging is disabled the ```IAudioLogger``` implementation will never even be called. Additonally we can easily register a new custom Logger that might log to a UI text field instead of the console see ([Logging](https://mathewhdyt.github.io/Unity-Audio-Manager/logging)) if you want to know more.
 

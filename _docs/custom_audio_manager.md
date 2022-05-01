@@ -17,7 +17,6 @@ using UnityEngine;
 using UnityEngine.Audio;
 
 public class ExampleAudioManager : IAudioManager {
-
     public ExampleAudioManager() {
         // Nothing to do.
     }
@@ -155,8 +154,8 @@ using AudioManager.Core;
 using AudioManager.Locator;
 
 public class AudioHandler {
-
-	// Set the cachedInstance to NullAudioManager per default to ensure EnableAudio doesn't register null and disable audio completly.
+	// Set the cachedInstance to NullAudioManager per default,
+	// to ensure EnableAudio doesn't register null and disable audio completly.
 	private IAudioManager cachedInstance = NullAudioManager;
 
     public static void DisableAudio() {

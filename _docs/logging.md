@@ -32,7 +32,6 @@ using AudioManager.Logger;
 using UnityEngine;
 
 public class ExampleAudioLogger : IAudioLogger {
-
     public ExampleAudioLogger() {
         // Nothing to do.
     }
