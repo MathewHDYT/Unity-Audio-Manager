@@ -57,7 +57,7 @@ jobs:
         with:
           testMode: all
           projectPath: Example_Project/
-          customParameters: -debugCodeOptimization -enableCodeCoverage -coverageResultsPath ./CodeCoverage -coverageOptions generateAdditionalMetrics;generateHtmlReport;generateHtmlReportHistory;generateBadgeReport; pathFilters:+**/AudioManager/**,-**/ShowIfAttributeDrawer.cs
+          customParameters: -debugCodeOptimization -enableCodeCoverage -coverageResultsPath ./CodeCoverage -coverageOptions generateAdditionalMetrics;generateHtmlReport;generateHtmlReportHistory;generateBadgeReport; pathFilters:+**/Scripts/AudioManager/**,-**/Scripts/AudioManager/Settings/ShowIfAttributeDrawer.cs
 
       - name: Publish coverage XML report to Codecov
         uses: codecov/codecov-action@v2
