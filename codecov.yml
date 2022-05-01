@@ -1,5 +1,5 @@
 ignore:
-  - "**/Test/**/*"  # Recursively ignore test folder
+  - "**/Tests/**/*"  # Recursively ignore test folder
   - "**/Scripts/AudioManager/Settings/ShowIfAttributeDrawer.cs" # Ignore file that can't be unittested
   - "**/Scripts/*.cs" # Ignore files that are only used for the example project and not included in the AudioManager source code
   
