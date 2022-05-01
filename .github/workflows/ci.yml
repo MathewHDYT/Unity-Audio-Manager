@@ -53,16 +53,17 @@ jobs:
 
       - name: Run tests and generate coverage XML report
         uses: game-ci/unity-test-runner@v2
-        id: testRunner
         with:
           testMode: all
           projectPath: Example_Project/
           customParameters: -debugCodeOptimization -enableCodeCoverage -coverageResultsPath ./CodeCoverage -coverageOptions generateAdditionalMetrics;generateHtmlReport;generateHtmlReportHistory;generateBadgeReport; pathFilters:+**/AudioManager/**,-**/ShowIfAttributeDrawer.cs
 
       - name: Publish coverage XML report to Codecov
+        id: testRunner
         uses: codecov/codecov-action@v2
         with:
-            fail_ci_if_error: true
+          name: All modes
+          flags: unittest
 
       - uses: actions/upload-artifact@v2
         with:
