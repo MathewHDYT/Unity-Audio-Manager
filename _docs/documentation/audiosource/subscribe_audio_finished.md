@@ -19,7 +19,7 @@ string soundName = "SoundName";
 float remainingTime = 5f;
 
 AudioError error = am.SubscribeAudioFinished(soundName, remainingTime, SoundFinishedCallback);
-if (err != AudioManager.AudioError.OK) {
+if (err != AudioError.OK) {
     Debug.Log("Subscribing to the callback of the sound called: " + soundName + " failed with error id: " + err);
 }
 else {

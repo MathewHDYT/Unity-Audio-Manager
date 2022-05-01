@@ -28,7 +28,7 @@ AudioSource source = null;
 AudioMixerGroup mixerGroup = null;
 
 AudioError err = am.AddSoundFromPath(soundName, path, volume, pitch, loop, source, mixerGroup);
-if (err != AudioManager.AudioError.OK) {
+if (err != AudioError.OK) {
     Debug.Log("Adding the sound called: " + soundName + " from the given path failed with error id: " + err);
 }
 else {
@@ -42,7 +42,7 @@ string soundName = "SoundName";
 string path = "Audio/audioClip01";
 
 AudioError err = am.AddSoundFromPath(soundName, path);
-if (err != AudioManager.AudioError.OK) {
+if (err != AudioError.OK) {
     Debug.Log("Adding the sound called: " + soundName + " from the given path failed with error id: " + err);
 }
 else {
@@ -51,7 +51,7 @@ else {
 ```
 
 **When to use it:**
-When you want to add a new 2D sound at runtime, could be useful if you need to add a lot of songs and don't want to add them manually through the GameObject the Audio Manager script resides on.
+When you want to add a new 2D sound at runtime, could be useful if you need to add a lot of songs and don't want to add them manually through the GameObject the ```AudioManagerSettings``` script for v1.7.0 and above see ([GitHub release](https://github.com/MathewHDYT/Unity-Audio-Manager-UAM/releases/)) or ```AudioManager``` for older versions resides on.
 
 **Remarks:**
 If 3D functionality and settings want to be added, additionaly call the [```Set3DAudioOptions```](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/audiosource/set_3d_audio_options/) method.

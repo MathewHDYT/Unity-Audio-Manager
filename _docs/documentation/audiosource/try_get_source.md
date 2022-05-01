@@ -17,7 +17,7 @@ string soundName = "SoundName";
 AudioSource source = default;
 
 AudioError err = am.TryGetSource(soundName, out source);
-if (err != AudioManager.AudioError.OK) {
+if (err != AudioError.OK) {
     Debug.Log("Getting source of the sound called: " + soundName + " failed with error id: " + err);
 }
 else {

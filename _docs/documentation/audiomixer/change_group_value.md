@@ -20,7 +20,7 @@ string exposedParameterName = "Volume";
 float newValue = -80f;
 
 AudioError error = am.ChangeGroupValue(soundName, exposedParameterName, newValue);
-if (error != AudioManager.AudioError.OK) {
+if (error != AudioError.OK) {
     Debug.Log("Changing AudioMixerGroup exposed parameter with the name " + exposedParameterName + " on the sound called: " + soundName + " failed with error id: " + err);
 }
 else {

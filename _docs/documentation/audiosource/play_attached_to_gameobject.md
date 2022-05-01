@@ -18,7 +18,7 @@ string soundName = "SoundName";
 GameObject gameObject = this.gameObject;
 
 AudioError err = am.PlayAttachedToGameObject(soundName, gameObject);
-if (err != AudioManager.AudioError.OK) {
+if (err != AudioError.OK) {
     Debug.Log("Playing sound called: " + soundName + " attached to: " + gameObject.name + " failed with error id: " + err);
 }
 else {

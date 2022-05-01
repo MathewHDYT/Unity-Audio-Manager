@@ -16,7 +16,7 @@ Remove and deregisters a sound with the given name from the AudioManager and ret
 string soundName = "SoundName";
 
 AudioError err = am.RemoveSound(soundName);
-if (err != AudioManager.AudioError.OK) {
+if (err != AudioError.OK) {
     Debug.Log("Removing sound called: " + soundName + " failed with error id: " + err);
 }
 else {

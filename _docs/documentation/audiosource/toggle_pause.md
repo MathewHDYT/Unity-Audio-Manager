@@ -16,7 +16,7 @@ Completly pauses or unpauses playback of the given sound until it is toggled aga
 string soundName = "SoundName";
 
 AudioError err = am.TogglePause(soundName);
-if (err != AudioManager.AudioError.OK) {
+if (err != AudioError.OK) {
     Debug.Log("Pausing or unpausing sound called: " + soundName + " failed with error id: " + err);
 }
 else {

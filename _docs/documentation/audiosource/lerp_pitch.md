@@ -22,7 +22,7 @@ float waitTime = 1f;
 float granularity = 2f;
 
 AudioError err = am.LerpPitch(soundName, endValue, waitTime, granularity);
-if (err != AudioManager.AudioError.OK) {
+if (err != AudioError.OK) {
     Debug.Log("Lerping pitch of the sound called: " + soundName + " failed with error id: " + err);
 }
 else {
@@ -37,7 +37,7 @@ string soundName = "SoundName";
 float endValue = 0.8f;
 
 AudioError err = am.LerpPitch(soundName, endValue);
-if (err != AudioManager.AudioError.OK) {
+if (err != AudioError.OK) {
     Debug.Log("Lerping pitch of the sound called: " + soundName + " failed with error id: " + err);
 }
 else {

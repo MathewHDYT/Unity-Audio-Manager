@@ -11,14 +11,14 @@ Start playing the choosen sound at the given ```startTime``` and returns an Audi
 
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to play
-- ```StartTime``` is the moment we want to play the sound at so instead of starting at 0 seconds we start at 10 seconds
+- ```StartTime``` is the moment we want to play the sound at so instead of starting at 0 seconds we start at 10 seconds in the audio clip
 
 ```csharp
 string soundName = "SoundName";
 float startTime = 10f;
 
 AudioError err = am.PlayAtTimeStamp(soundName, startTime);
-if (err != AudioManager.AudioError.OK) {
+if (err != AudioError.OK) {
     Debug.Log("Playing sound called: " + soundName + " at startTime: " + startTime.ToString("0.00") + " failed with error id: " + err);
 }
 else {

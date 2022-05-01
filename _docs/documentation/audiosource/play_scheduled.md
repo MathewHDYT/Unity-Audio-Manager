@@ -18,7 +18,7 @@ string soundName = "SoundName";
 double delay = 10d;
 
 AudioError err = am.PlayScheduled(soundName, delay);
-if (err != AudioManager.AudioError.OK) {
+if (err != AudioError.OK) {
     Debug.Log("Playing sound called: " + soundName + " after " + delay.ToString("0.00") + " failed with error id: " + err);
 }
 else {

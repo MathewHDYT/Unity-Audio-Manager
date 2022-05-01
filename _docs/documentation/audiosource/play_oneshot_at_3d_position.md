@@ -18,7 +18,7 @@ string soundName = "SoundName";
 Vector3 worldPosition = new Vector3(10f, 10f, 0f);
 
 AudioError err = am.PlayOneShotAt3DPosition(soundName, worldPosition);
-if (err != AudioManager.AudioError.OK) {
+if (err != AudioError.OK) {
     Debug.Log("Playing sound called: " + soundName + " at the position x " + worldPosition.x.ToString("0.00") + " and y " + worldPosition.y.ToString("0.00") + " once failed with error id: " + err);
 }
 else {

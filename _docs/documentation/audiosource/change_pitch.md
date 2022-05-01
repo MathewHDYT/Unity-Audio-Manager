@@ -12,7 +12,7 @@ Sets the ```pitch``` of the given sound to random value between the given min -a
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to play
 - ```MinPitch``` is the minimum amount of pitch the sound can be set to
-- ```MaxPitch``` is the Maximum amount of pitch the sound can be set to
+- ```MaxPitch``` is the maximum amount of pitch the sound can be set to
 
 ```csharp
 string soundName = "SoundName";
@@ -20,7 +20,7 @@ float minPitch = 0.9f;
 float maxPitch = 1.1f;
 
 AudioError err = am.ChangePitch(soundName, minPitch, maxPitch);
-if (err != AudioManager.AudioError.OK) {
+if (err != AudioError.OK) {
     Debug.Log("Changing pitch for the sound called: " + soundName + " failed with error id: " + err);
 }
 else {

@@ -28,7 +28,7 @@ float dopplerLevel = 1f;
 AudioRolloffMode rolloffMode = AudioRolloffMode.Logarithmic;
 
 AudioError err = am.Set3DAudioOptions(soundName, minDistance, maxDistance, spatialBlend, spread, dopplerLevel, rolloffMode);
-if (err != AudioManager.AudioError.OK) {
+if (err != AudioError.OK) {
     Debug.Log("Setting 3D audio options for the sound called: " + soundName + " failed with error id: " + err);
 }
 else {
@@ -42,7 +42,7 @@ Alternatively you can call the methods with less paramters as some of them have 
 string soundName = "SoundName";
 
 AudioError err = am.PlayAt3DPosition(soundName);
-if (err != AudioManager.AudioError.OK) {
+if (err != AudioError.OK) {
     Debug.Log("Setting 3D audio options for the sound called: " + soundName + " failed with error id: " + err);
 }
 else {

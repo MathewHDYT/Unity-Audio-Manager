@@ -7,7 +7,7 @@ grand_parent: Documentation
 
 ## Get Group Value
 **What it does:**
-Returns an instance of the ValueDataError class, where the value (gettable with ```Value```), is the current value of the given exposed parameter and where the error (gettable with ```Error```) is an integer representing the AudioError Enum (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)), showing wheter and how getting the value of the given exposed parameter failed.
+Returns an instance of the ValueDataError class, where the value (gettable with ```Value```), is the current value of the given exposed parameter and where the error (gettable with ```Error```) is an AudioError (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)), showing wheter and how getting the value of the given exposed parameter failed.
 
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to get the [```AudioMixerGroup```](https://docs.unity3d.com/ScriptReference/Audio.AudioMixerGroup.html) parameter on
@@ -18,7 +18,7 @@ string soundName = "SoundName";
 string exposedParameterName = "Volume";
 
 ValueDataError<float> valueDataError = am.GetGroupValue(soundName, exposedParameterName);
-if (valueDataError.Error != (int)AudioManager.AudioError.OK) {
+if (valueDataError.Error != AudioError.OK) {
     Debug.Log("Getting AudioMixerGroup volume of the sound called: " + soundName + " failed with error id: " + valueDataError.Error);
 }
 else {
