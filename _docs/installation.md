@@ -9,7 +9,7 @@ permalink: /installation
 
 ### Example project
 
-To test the example project simply open the continuously integrated itch.io build under https://mathewhd.itch.io/unity-audio-manager and either run the WebGL build in your Browser or download the Windows Build.
+To test the example project simply open the continuously integrated [Itch.io build](https://mathewhd.itch.io/unity-audio-manager) and either run the WebGL build in your Browser directly or download the Windows build.
 
 You can also install the complete Example project from the ```main``` branch for the given Unity version see ([Required Software](https://mathewhdyt.github.io/Unity-Audio-Manager/installation#required-software)) and after installing it you can download the project and open it in Unity (see [Opening a Project in Unity](https://docs.unity3d.com/2021.2/Documentation/Manual/GettingStartedOpeningProjects.html)). Then you can start the game with the play button to test the AudioManagers functionalities.
 
