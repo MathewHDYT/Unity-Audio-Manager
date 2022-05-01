@@ -141,7 +141,7 @@ public class ExampleAudioManager : IAudioManager {
 ```
 
 Be aware calling ```ServiceLocator.RegisterService()``` will register the ```NullAudioManager``` if null is passed into the function, meaning no Audio will be played anymore until ```ServiceLocator.RegisterService()```, has been called again.
-Additionaly registering your own custom ```IAudioManager``` with ```ServiceLocator.RegisterService()```, will result in logging being disabled if this is wanted as well either readd the default ```IAudioLogger``` found in the ```AudioManager.Logger``` namespace or see ([Logging](https://mathewhdyt.github.io/Unity-Audio-Manager/logging)) if you also want to create a custom ```IAudioLogger``` implementation.
+Additionaly registering your own custom ```IAudioManager``` with ```ServiceLocator.RegisterService()```, will result in logging being disabled if this is wanted as well either use the default ```IAudioLogger``` found in the ```AudioManager.Logger``` namespace or see ([Logging](https://mathewhdyt.github.io/Unity-Audio-Manager/logging)) if you also want to create a custom ```IAudioLogger``` implementation.
 
 ## Disabling audio at runtime
 
