@@ -43,6 +43,7 @@ jobs:
           git reset --hard
 
       - name: Restore Library cache
+        id: testRunner
         uses: actions/cache@v2
         with:
           path: Example_Project/Library
@@ -59,11 +60,12 @@ jobs:
           customParameters: -debugCodeOptimization -enableCodeCoverage -coverageResultsPath ./CodeCoverage -coverageOptions generateAdditionalMetrics;generateHtmlReport;generateHtmlReportHistory;generateBadgeReport; pathFilters:+**/AudioManager/**,-**/ShowIfAttributeDrawer.cs
 
       - name: Publish coverage XML report to Codecov
-        id: testRunner
         uses: codecov/codecov-action@v2
         with:
           name: All modes
           flags: unittest
+          files: CodeCoverage/**/*.xml
+          fail_ci_if_error: true
 
       - uses: actions/upload-artifact@v2
         with:
