@@ -13,18 +13,28 @@ public class TestServiceLocator {
 
     [Test]
     public void TestRegisterLogger() {
+        // Setting null and checking if it wasn't set.
+        ServiceLocator.RegisterLogger(null, null);
+        IAudioManager audioManager = ServiceLocator.GetService();
+        Assert.IsNull(audioManager as LoggedAudioManager);
+
         // Setting custom IAudioLogger implementation and checking if it was set.
         IAudioLogger logger = new AudioLogger(LoggingLevel.NONE);
         ServiceLocator.RegisterLogger(logger, null);
-        IAudioManager audioManager = ServiceLocator.GetService();
+        audioManager = ServiceLocator.GetService();
         Assert.IsNotNull(audioManager as LoggedAudioManager);
     }
 
     [Test]
     public void TestRegisterService() {
+        // Setting null and checking if the default was set.
+        ServiceLocator.RegisterService(null);
+        IAudioManager audioManager = ServiceLocator.GetService();
+        Assert.IsNotNull(audioManager as NullAudioManager);
+
         // Setting custom IAudioManager implementation and checking if it was set.
         ServiceLocator.RegisterService(new DummyAudioManager());
-        IAudioManager audioManager = ServiceLocator.GetService();
+        audioManager = ServiceLocator.GetService();
         Assert.IsNotNull(audioManager as DummyAudioManager);
     }
 }

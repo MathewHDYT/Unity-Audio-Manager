@@ -11,6 +11,7 @@ public class TestDefaultAudioManager {
     string m_unregisteredAudioSourceName;
     string m_nullAudioSourceName;
     string m_audioSourceName;
+    string m_InitalizedAudioSourceName;
     string m_clipPath;
     string m_parameterName;
     AudioClip m_clip;
@@ -27,22 +28,28 @@ public class TestDefaultAudioManager {
         m_unregisteredAudioSourceName = "Test1";
         m_nullAudioSourceName = "Test2";
         m_audioSourceName = "Test3";
+        m_InitalizedAudioSourceName = "Test4";
         m_clipPath = "TestClip";
         m_parameterName = "Volume";
         m_clip = Resources.Load<AudioClip>(m_clipPath);
         m_clipStartTime = m_clip.length / 100f;
-        m_clipEndTime = m_clip.length * 0.99f;
+        m_clipEndTime = m_clip.length * 0.95f;
         m_sounds = new Dictionary<string, AudioSource>();
         m_gameObject = new GameObject();
         m_gameObject.AddComponent<DummyMonoBehvaiour>();
         m_source = m_gameObject.AddComponent<AudioSource>();
+        AudioSource m_initalizedSource = m_gameObject.AddComponent<AudioSource>();
+        m_initalizedSource.spatialBlend = 1f;
+        m_initalizedSource.clip = m_clip;
         AudioMixer mixer = Resources.Load<AudioMixer>("Mixer");
         m_mixerGroup = mixer ? mixer.FindMatchingGroups("Master")[0] : null;
         m_sounds.Add(m_nullAudioSourceName, null);
         m_sounds.Add(m_audioSourceName, m_source);
+        m_sounds.Add(m_InitalizedAudioSourceName, m_initalizedSource);
         m_audioManager = new DefaultAudioManager(m_sounds, null);
         // Ensure AudioSource is stopped before attempting to play it.
         m_source.Stop();
+        m_initalizedSource.Stop();
     }
 
     [TearDown]
@@ -52,7 +59,7 @@ public class TestDefaultAudioManager {
 
     [Test]
     public void TestAddSoundFromPath() {
-        const string name = "Test4";
+        const string name = "Test5";
         const float volume = 0.5f;
         const float pitch = 0.5f;
         const bool loop = true;
@@ -193,7 +200,7 @@ public class TestDefaultAudioManager {
         Assert.IsTrue(startTime - m_source.time <= maxDifferenceStartTime);
         // The startTime is only reset at the approximate end of the song, because a higher resolution isn't possible.
         // Therefore we wait a little bit more than the actual time, to ensure the startTime is actually reset.
-        yield return new WaitForSeconds(m_clip.length - (startTime * 0.98f));
+        yield return new WaitForSeconds(m_clip.length - (startTime * 0.99f));
         Assert.IsFalse(m_source.isPlaying);
         Assert.AreEqual(0f, m_source.time);
     }
@@ -240,7 +247,7 @@ public class TestDefaultAudioManager {
         // We do not test if m_source is playing and the position of the attached gameObject m_source resides on,
         // because 3D methods don't use the original AudioSource but make a copy of it and attach that to a new gameObject instead.
         const float expectedSpatialBlend = 1f;
-        Vector3 expectedPosition = Vector3.one;
+        Vector3 expectedPosition = Vector3.zero;
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.DOES_NOT_EXIST)
@@ -272,18 +279,28 @@ public class TestDefaultAudioManager {
         Assert.AreEqual(AudioError.CAN_NOT_BE_3D, error);
 
         /// ---------------------------------------------
-        /// Invalid case (AudioError.MISSING_PARENT)
+        /// Invalid case (AudioError.INVALID_PARENT)
         /// ---------------------------------------------
         m_source.spatialBlend = expectedSpatialBlend;
         error = m_audioManager.PlayAt3DPosition(m_audioSourceName, expectedPosition);
         Assert.AreNotEqual(AudioError.OK, error);
-        Assert.AreEqual(AudioError.MISSING_PARENT, error);
+        Assert.AreEqual(AudioError.INVALID_PARENT, error);
 
         /// ---------------------------------------------
         /// Valid case (AudioError.OK)
         /// ---------------------------------------------
         m_audioManager = new DefaultAudioManager(m_sounds, m_gameObject);
         error = m_audioManager.PlayAt3DPosition(m_audioSourceName, expectedPosition);
+        Assert.AreEqual(AudioError.OK, error);
+
+        error = m_audioManager.PlayAt3DPosition(m_audioSourceName, expectedPosition);
+        Assert.AreEqual(AudioError.OK, error);
+
+        expectedPosition = Vector3.one;
+        error = m_audioManager.PlayAt3DPosition(m_audioSourceName, expectedPosition);
+        Assert.AreEqual(AudioError.OK, error);
+
+        error = m_audioManager.PlayOneShotAt3DPosition(m_audioSourceName, expectedPosition);
         Assert.AreEqual(AudioError.OK, error);
     }
 
@@ -292,7 +309,7 @@ public class TestDefaultAudioManager {
         // We do not test if m_source is playing and the position of the attached gameObject m_source resides on,
         // because 3D methods don't use the original AudioSource but make a copy of it and attach that to a new gameObject instead.
         const float expectedSpatialBlend = 1f;
-        Vector3 expectedPosition = Vector3.one;
+        Vector3 expectedPosition = Vector3.zero;
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.DOES_NOT_EXIST)
@@ -324,18 +341,29 @@ public class TestDefaultAudioManager {
         Assert.AreEqual(AudioError.CAN_NOT_BE_3D, error);
 
         /// ---------------------------------------------
-        /// Invalid case (AudioError.MISSING_PARENT)
+        /// Invalid case (AudioError.INVALID_PARENT)
         /// ---------------------------------------------
         m_source.spatialBlend = expectedSpatialBlend;
         error = m_audioManager.PlayOneShotAt3DPosition(m_audioSourceName, expectedPosition);
         Assert.AreNotEqual(AudioError.OK, error);
-        Assert.AreEqual(AudioError.MISSING_PARENT, error);
+        Assert.AreEqual(AudioError.INVALID_PARENT, error);
 
         /// ---------------------------------------------
         /// Valid case (AudioError.OK)
         /// ---------------------------------------------
         m_audioManager = new DefaultAudioManager(m_sounds, m_gameObject);
         error = m_audioManager.PlayOneShotAt3DPosition(m_audioSourceName, expectedPosition);
+        Assert.AreEqual(AudioError.OK, error);
+
+        error = m_audioManager.PlayOneShotAt3DPosition(m_audioSourceName, expectedPosition);
+        Assert.AreEqual(AudioError.OK, error);
+
+        expectedPosition = Vector3.one;
+        error = m_audioManager.PlayOneShotAt3DPosition(m_audioSourceName, expectedPosition);
+        Assert.AreEqual(AudioError.OK, error);
+
+        Object.Destroy(m_gameObject);
+        error = m_audioManager.PlayAt3DPosition(m_audioSourceName, expectedPosition);
         Assert.AreEqual(AudioError.OK, error);
     }
 
@@ -390,6 +418,16 @@ public class TestDefaultAudioManager {
         m_audioManager = new DefaultAudioManager(m_sounds, m_gameObject);
         error = m_audioManager.PlayAttachedToGameObject(m_audioSourceName, expectedGameObject);
         Assert.AreEqual(AudioError.OK, error);
+
+        error = m_audioManager.PlayAttachedToGameObject(m_audioSourceName, expectedGameObject);
+        Assert.AreEqual(AudioError.OK, error);
+
+        expectedGameObject = new GameObject();
+        error = m_audioManager.PlayAttachedToGameObject(m_audioSourceName, expectedGameObject);
+        Assert.AreEqual(AudioError.OK, error);
+
+        error = m_audioManager.PlayOneShotAttachedToGameObject(m_audioSourceName, expectedGameObject);
+        Assert.AreEqual(AudioError.OK, error);
     }
 
     [Test]
@@ -442,6 +480,16 @@ public class TestDefaultAudioManager {
         expectedGameObject = m_gameObject;
         m_audioManager = new DefaultAudioManager(m_sounds, m_gameObject);
         error = m_audioManager.PlayOneShotAttachedToGameObject(m_audioSourceName, expectedGameObject);
+        Assert.AreEqual(AudioError.OK, error);
+
+        error = m_audioManager.PlayOneShotAttachedToGameObject(m_audioSourceName, expectedGameObject);
+        Assert.AreEqual(AudioError.OK, error);
+
+        expectedGameObject = new GameObject();
+        error = m_audioManager.PlayOneShotAttachedToGameObject(m_audioSourceName, expectedGameObject);
+        Assert.AreEqual(AudioError.OK, error);
+
+        error = m_audioManager.PlayAttachedToGameObject(m_InitalizedAudioSourceName, expectedGameObject);
         Assert.AreEqual(AudioError.OK, error);
     }
 
@@ -762,10 +810,14 @@ public class TestDefaultAudioManager {
         Assert.AreEqual(AudioError.INVALID_TIME, error);
         Assert.IsFalse(calledCallback);
 
-        // Start playing the given clip. So we can test if subscribing was successfull.
-        error = m_audioManager.Play(m_audioSourceName);
-        Assert.AreEqual(AudioError.OK, error);
-        Assert.IsTrue(m_source.isPlaying);
+        /// ---------------------------------------------
+        /// Invalid case (AudioError.INVALID_PROGRESS)
+        /// ---------------------------------------------
+        remainingTime = 0.01f;
+        error = m_audioManager.SubscribeAudioFinished(m_audioSourceName, remainingTime, callback);
+        Assert.AreNotEqual(AudioError.OK, error);
+        Assert.AreEqual(AudioError.INVALID_PROGRESS, error);
+        Assert.IsFalse(calledCallback);
 
         /// ---------------------------------------------
         /// Valid case (AudioError.OK)
@@ -773,9 +825,15 @@ public class TestDefaultAudioManager {
         remainingTime = m_clipEndTime;
         error = m_audioManager.SubscribeAudioFinished(m_audioSourceName, remainingTime, callback);
         Assert.AreEqual(AudioError.OK, error);
+
+        // Start playing the given clip. So we can test if subscribing was successfull.
+        error = m_audioManager.Play(m_audioSourceName);
+        Assert.AreEqual(AudioError.OK, error);
+        Assert.IsTrue(m_source.isPlaying);
+
         // Callback is only called at the approximate time passed, because a higher resolution isn't possible.
         // Therefore we wait a little bit more than the actual time, to ensure the callback is actually called.
-        yield return new WaitForSeconds(m_clip.length - (remainingTime * 0.98f));
+        yield return new WaitForSeconds(m_clip.length - (remainingTime * 0.99f));
         Assert.IsTrue(calledCallback);
     }
 
@@ -928,7 +986,6 @@ public class TestDefaultAudioManager {
         yield return new WaitForSeconds(waitTime + 0.05f);
         Assert.AreEqual(endValue, m_source.pitch);
     }
-
 
     [UnityTest]
     public IEnumerator TestLerpVolume() {
@@ -1367,10 +1424,10 @@ public class TestDefaultAudioManager {
     public void TestSet3DAudioOptions() {
         const float minDistance = 10f;
         const float maxDistance = 25f;
-        const float spatialBlend = 0.5f;
         const float spreadAngle = 20f;
         const float dopplerLevel = 0.5f;
         const AudioRolloffMode rolloffMode = AudioRolloffMode.Linear;
+        float spatialBlend = 0f;
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.DOES_NOT_EXIST)
@@ -1394,9 +1451,17 @@ public class TestDefaultAudioManager {
         Assert.AreEqual(AudioError.MISSING_CLIP, error);
 
         /// ---------------------------------------------
-        /// Valid case (AudioError.OK)
+        /// Invalid case (AudioError.CAN_NOT_BE_3D)
         /// ---------------------------------------------
         m_source.clip = m_clip;
+        error = m_audioManager.Set3DAudioOptions(m_audioSourceName, minDistance, maxDistance, spatialBlend, spreadAngle, dopplerLevel, rolloffMode);
+        Assert.AreNotEqual(AudioError.OK, error);
+        Assert.AreEqual(AudioError.CAN_NOT_BE_3D, error);
+
+        /// ---------------------------------------------
+        /// Valid case (AudioError.OK)
+        /// ---------------------------------------------
+        spatialBlend = 0.5f;
         error = m_audioManager.Set3DAudioOptions(m_audioSourceName, minDistance, maxDistance, spatialBlend, spreadAngle, dopplerLevel, rolloffMode);
         Assert.AreEqual(AudioError.OK, error);
         Assert.AreEqual(minDistance, m_source.minDistance);

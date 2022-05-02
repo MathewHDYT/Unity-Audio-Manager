@@ -1,0 +1,17 @@
+{
+    "name": "AudioManager.Service",
+    "rootNamespace": "",
+    "references": [
+        "GUID:2510443271ef8f74ba27a53daf582389",
+        "GUID:81e22f46ddc2c4344b3cc97fef78d184"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
