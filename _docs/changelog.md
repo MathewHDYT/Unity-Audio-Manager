@@ -13,7 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Released]
 
-## [1.7.0](https://github.com/MathewHDYT/Unity-Audio-Manager/releases/tag/v1.7.0) - 2022-04-18
+## [1.7.0](https://github.com/MathewHDYT/Unity-Audio-Manager/releases/tag/v1.7.0) - 2022-05-02
 
 ### Added
 - UnitTesting of the DefaultAudioManager, AudioLogger, LoggedAudioManager, ValueDataError, NullAudioManager and ServiceLocator class
