@@ -206,12 +206,6 @@ jobs:
     name: Deploy Windows to Itch.io 🚀
     runs-on: ubuntu-latest
     steps:
-      - name: Download build
-        uses: actions/download-artifact@v2.0.8
-        with:
-          name: build-StandaloneWindows64
-          path: build/StandaloneWindows64
-
       - uses: actions/checkout@v2
 
       - name: Get the latest tag 🏷️
@@ -219,6 +213,12 @@ jobs:
         id: get-latest-tag
         with:
           semver_only: true
+
+      - name: Download build
+        uses: actions/download-artifact@v2.0.8
+        with:
+          name: build-StandaloneWindows64
+          path: build/StandaloneWindows64
 
       - name: Deploy build
         uses: KikimoraGames/itch-publish@v0.0.3
@@ -235,12 +235,6 @@ jobs:
     name: Deploy WebGL to Itch.io 🚀
     runs-on: ubuntu-latest
     steps:
-      - name: Download build
-        uses: actions/download-artifact@v2.0.8
-        with:
-          name: build-WebGL
-          path: build/WebGL
-
       - uses: actions/checkout@v2
 
       - name: Get the latest tag 🏷️
@@ -248,6 +242,12 @@ jobs:
         id: get-latest-tag
         with:
           semver_only: true
+
+      - name: Download build
+        uses: actions/download-artifact@v2.0.8
+        with:
+          name: build-WebGL
+          path: build/WebGL
 
       - name: Deploy build
         uses: KikimoraGames/itch-publish@v0.0.3
