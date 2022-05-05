@@ -215,7 +215,6 @@ jobs:
       - name: Get the latest tag 🏷️
         uses: actions-ecosystem/action-get-latest-tag@v1
         id: get-latest-tag
-        if: ${{ steps.release-label.outputs.level != null }}
 
       - name: Deploy build
         uses: KikimoraGames/itch-publish@v0.0.3
@@ -225,7 +224,7 @@ jobs:
           itchUsername: ${{ env.ITCH_USERNAME }}
           itchGameId: ${{ env.ITCH_GAME_ID }}
           buildChannel: windows
-          buildNumber: ${{ steps.release-label.outputs.new_version }}
+          buildNumber: ${{ steps.get-latest-tag.outputs.tag }}
 
   deployWebGL:
     needs: buildWebGL
@@ -241,7 +240,6 @@ jobs:
       - name: Get the latest tag 🏷️
         uses: actions-ecosystem/action-get-latest-tag@v1
         id: get-latest-tag
-        if: ${{ steps.release-label.outputs.level != null }}
 
       - name: Deploy build
         uses: KikimoraGames/itch-publish@v0.0.3
@@ -251,4 +249,4 @@ jobs:
           itchUsername: ${{ env.ITCH_USERNAME }}
           itchGameId: ${{ env.ITCH_GAME_ID }}
           buildChannel: webgl
-          buildNumber: ${{ steps.release-label.outputs.new_version }}
+          buildNumber: ${{ steps.get-latest-tag.outputs.tag }}
