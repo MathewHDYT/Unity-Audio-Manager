@@ -212,6 +212,11 @@ jobs:
           name: build-StandaloneWindows64
           path: build/StandaloneWindows64
 
+      - name: Get the latest tag 🏷️
+        uses: actions-ecosystem/action-get-latest-tag@v1
+        id: get-latest-tag
+        if: ${{ steps.release-label.outputs.level != null }}
+
       - name: Deploy build
         uses: KikimoraGames/itch-publish@v0.0.3
         with:
@@ -220,6 +225,7 @@ jobs:
           itchUsername: ${{ env.ITCH_USERNAME }}
           itchGameId: ${{ env.ITCH_GAME_ID }}
           buildChannel: windows
+          buildNumber: ${{ steps.release-label.outputs.new_version }}
 
   deployWebGL:
     needs: buildWebGL
@@ -232,6 +238,11 @@ jobs:
           name: build-WebGL
           path: build/WebGL
 
+      - name: Get the latest tag 🏷️
+        uses: actions-ecosystem/action-get-latest-tag@v1
+        id: get-latest-tag
+        if: ${{ steps.release-label.outputs.level != null }}
+
       - name: Deploy build
         uses: KikimoraGames/itch-publish@v0.0.3
         with:
@@ -240,3 +251,4 @@ jobs:
           itchUsername: ${{ env.ITCH_USERNAME }}
           itchGameId: ${{ env.ITCH_GAME_ID }}
           buildChannel: webgl
+          buildNumber: ${{ steps.release-label.outputs.new_version }}
