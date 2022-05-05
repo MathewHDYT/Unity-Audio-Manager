@@ -17,11 +17,11 @@ jobs:
         with:
           files: com.mathewhdyt.audiomanager
           recursive: true
-          dest: com.mathewhdyt.audiomanager.zip
+          dest: package.zip
       - uses: actions/upload-artifact@v1
         with:
           name: package
-          path: ${{ github.workspace }}/com.mathewhdyt.audiomanager.zip
+          path: ${{ github.workspace }}/package.zip
 
   deployPackage:
     needs: zipPackage
@@ -32,7 +32,7 @@ jobs:
         uses: actions/download-artifact@v2.0.8
         with:
           name: package
-          path: ${{ github.workspace }}/com.mathewhdyt.audiomanager.zip
+          path: ${{ github.workspace }}/package.zip
 
       - name: Deploy package
         uses: KikimoraGames/itch-publish@v0.0.3
