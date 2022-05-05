@@ -5,6 +5,7 @@
 [![GitHub release](https://img.shields.io/github/release/MathewHDYT/Unity-Audio-Manager-UAM/all.svg?style=flat-square)](https://github.com/MathewHDYT/Unity-Audio-Manager-UAM/releases/)
 [![GitHub downloads](https://img.shields.io/github/downloads/MathewHDYT/Unity-Audio-Manager-UAM/all.svg?style=flat-square)](https://github.com/MathewHDYT/Unity-Audio-Manager-UAM/releases/)
 [![Actions status](https://github.com/MathewHDYT/Unity-Audio-Manager/actions/workflows/ci.yml/badge.svg)](https://github.com/MathewHDYT/Unity-Audio-Manager/actions/workflows/ci.yml)
+[![Actions status](https://github.com/MathewHDYT/Unity-Audio-Manager/actions/workflows/zip.yml/badge.svg)](https://github.com/MathewHDYT/Unity-Audio-Manager/actions/workflows/zip.yml)
 [![Actions status](https://github.com/MathewHDYT/Unity-Audio-Manager/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/MathewHDYT/Unity-Audio-Manager/actions/workflows/pages/pages-build-deployment)
 [![Actions status](https://github.com/MathewHDYT/Unity-Audio-Manager/actions/workflows/activation.yml/badge.svg)](https://github.com/MathewHDYT/Unity-Audio-Manager/actions/workflows/activation.yml)
 [![Code coverage](https://codecov.io/gh/MathewHDYT/Unity-Audio-Manager/branch/main/graph/badge.svg?token=3F6ITRGZVW)](https://codecov.io/gh/MathewHDYT/Unity-Audio-Manager)
