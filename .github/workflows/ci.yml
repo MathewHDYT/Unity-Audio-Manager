@@ -16,11 +16,12 @@ jobs:
       - uses: papeloto/action-zip@v1
         with:
           files: com.mathewhdyt.audiomanager
+          recursive: true
           dest: com.mathewhdyt.audiomanager.zip
-      - uses: actions/upload-artifact@v2
+      - uses: actions/upload-artifact@v1
         with:
-          name: build-package
-          path: build/package
+          name: package
+          path: ${{ github.workspace }}/com.mathewhdyt.audiomanager.zip
 
   deployPackage:
     needs: zipPackage
@@ -30,8 +31,8 @@ jobs:
       - name: Download build
         uses: actions/download-artifact@v2.0.8
         with:
-          name: build-package
-          path: build/package
+          name: package
+          path: ${{ github.workspace }}/com.mathewhdyt.audiomanager.zip
 
       - name: Deploy package
         uses: KikimoraGames/itch-publish@v0.0.3
