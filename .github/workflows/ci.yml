@@ -1,0 +1,43 @@
+name: Package Zip / Deploy ✨
+
+on:
+  push: { branches: [package] }
+
+env:
+  ITCH_USERNAME: mathewhd
+  ITCH_GAME_ID: unity-audio-manager
+
+jobs:
+  zipPackage:
+    name: Zip package repository 📁
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - uses: papeloto/action-zip@v1
+        with:
+          files: com.mathewhdyt.audiomanager
+          dest: com.mathewhdyt.audiomanager.zip
+      - uses: actions/upload-artifact@v2
+        with:
+          name: build-package
+          path: build/package
+
+  deployPackage:
+    needs: zipPackage
+    name: Deploy package to Itch.io 🚀
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download build
+        uses: actions/download-artifact@v2.0.8
+        with:
+          name: build-package
+          path: build/package
+
+      - name: Deploy package
+        uses: KikimoraGames/itch-publish@v0.0.3
+        with:
+          butlerApiKey: ${{ secrets.BUTLER_API_KEY }}
+          gameData: ./build/
+          itchUsername: ${{ env.ITCH_USERNAME }}
+          itchGameId: ${{ env.ITCH_GAME_ID }}
+          buildChannel: win-linux-mac-stable
