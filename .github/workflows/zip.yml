@@ -28,7 +28,15 @@ jobs:
     name: Deploy package to Itch.io 🚀
     runs-on: ubuntu-latest
     steps:
-      - name: Download build
+      - uses: actions/checkout@v2
+
+      - name: Get the latest tag 🏷️
+        uses: actions-ecosystem/action-get-latest-tag@v1
+        id: get-latest-tag
+        with:
+          semver_only: true
+
+      - name: Download zip
         uses: actions/download-artifact@v2.0.8
         with:
           name: package
@@ -42,3 +50,4 @@ jobs:
           itchUsername: ${{ env.ITCH_USERNAME }}
           itchGameId: ${{ env.ITCH_GAME_ID }}
           buildChannel: win-linux-mac-stable
+          buildNumber: ${{ steps.get-latest-tag.outputs.tag }}
