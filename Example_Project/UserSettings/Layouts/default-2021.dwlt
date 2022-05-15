@@ -48,7 +48,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 65
+  controlID: 30
 --- !u!114 &3
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -68,8 +68,8 @@ MonoBehaviour:
     y: 0
     width: 454
     height: 947
-  m_MinSize: {x: 276, y: 71}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 15}
   m_Panes:
   - {fileID: 15}
@@ -111,7 +111,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: CodeCoverageWindow
+  m_Name: ProjectBrowser
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -120,16 +120,16 @@ MonoBehaviour:
     y: 561
     width: 1466
     height: 386
-  m_MinSize: {x: 446, y: 406}
-  m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 12}
+  m_MinSize: {x: 231, y: 271}
+  m_MaxSize: {x: 10001, y: 10021}
+  m_ActualView: {fileID: 14}
   m_Panes:
   - {fileID: 14}
   - {fileID: 19}
   - {fileID: 13}
   - {fileID: 12}
-  m_Selected: 3
-  m_LastSelected: 2
+  m_Selected: 0
+  m_LastSelected: 1
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -225,7 +225,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 66
+  controlID: 31
 --- !u!114 &10
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -250,7 +250,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 67
+  controlID: 32
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -1077,99 +1077,99 @@ MonoBehaviour:
       messages: 
       output: '
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 '
       stacktrace: 
@@ -1190,27 +1190,27 @@ MonoBehaviour:
       messages: 
       output: '
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
+
+
+
+
+
+
+
+
+
+
+
 
 '
       stacktrace: 
@@ -1231,27 +1231,27 @@ MonoBehaviour:
       messages: 
       output: '
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
+
+
+
+
+
+
+
+
+
+
+
 
 '
       stacktrace: 
@@ -1273,8 +1273,8 @@ MonoBehaviour:
       output: 'NullReferenceException: Object reference not set to an instance of
         an object.
 
-        NullReferenceException: Object reference not set to
-        an instance of an object.
+        NullReferenceException: Object reference not set to an
+        instance of an object.
 
         NullReferenceException: Object reference
         not set to an instance of an object.
@@ -1325,99 +1325,99 @@ MonoBehaviour:
       messages: 
       output: '
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 '
       stacktrace: 
@@ -3558,36 +3558,36 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts
+    - Assets/Scripts/AudioManager/Core
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scripts
+  - Assets/Scripts/AudioManager/Core
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\Mathew\Unity-Audio-Manager\Example_Project
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: c8540000
-    m_LastClickedID: 21704
-    m_ExpandedIDs: 00000000c44d0000c64d0000ca4d0000f24d000000ca9a3b
+    scrollPos: {x: 0, y: 11}
+    m_SelectedIDs: fe4d0000
+    m_LastClickedID: 19966
+    m_ExpandedIDs: 00000000c64d0000c84d0000ca4d0000dc4d0000e44d000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
-      m_Name: Scritps
-      m_OriginalName: Scritps
+      m_Name: 
+      m_OriginalName: 
       m_EditFieldRect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 0
         height: 0
-      m_UserData: 19912
+      m_UserData: 0
       m_IsWaitingForDelay: 0
       m_IsRenaming: 0
-      m_OriginalEventType: 0
+      m_OriginalEventType: 11
       m_IsRenamingFilename: 1
       m_ClientGUIView: {fileID: 5}
     m_SearchString: 
@@ -3601,7 +3601,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000c44d0000c64d0000c84d0000ca4d0000
+    m_ExpandedIDs: 00000000c64d0000c84d0000ca4d0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -3628,7 +3628,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -3731,7 +3731,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 96dfffffe6dfffff4ae6ffffeae8ffff3ae9ffffa0efffffdef2ffff2ef3ffffa2f9ffff26fbffff
+      m_ExpandedIDs: 26fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -3747,7 +3747,7 @@ MonoBehaviour:
         m_IsRenaming: 0
         m_OriginalEventType: 11
         m_IsRenamingFilename: 0
-        m_ClientGUIView: {fileID: 0}
+        m_ClientGUIView: {fileID: 4}
       m_SearchString: 
     m_ExpandedScenes: []
     m_CurrenRootInstanceID: 0
@@ -4094,7 +4094,7 @@ MonoBehaviour:
   m_ShowGizmos: 0
   m_TargetDisplay: 0
   m_ClearColor: {r: 0, g: 0, b: 0, a: 0}
-  m_TargetSize: {x: 1101, y: 519}
+  m_TargetSize: {x: 1920, y: 1080}
   m_TextureFilterMode: 0
   m_TextureHideFlags: 61
   m_RenderIMGUI: 1
@@ -4103,16 +4103,16 @@ MonoBehaviour:
   m_VSyncEnabled: 0
   m_Gizmos: 0
   m_Stats: 0
-  m_SelectedSizes: 00000000000000000000000000000000000000000000000000000000000000000000000000000000
+  m_SelectedSizes: 03000000000000000000000000000000000000000000000000000000000000000000000000000000
   m_ZoomArea:
     m_HRangeLocked: 0
     m_VRangeLocked: 0
     hZoomLockedByDefault: 0
     vZoomLockedByDefault: 0
-    m_HBaseRangeMin: -550.5
-    m_HBaseRangeMax: 550.5
-    m_VBaseRangeMin: -259.5
-    m_VBaseRangeMax: 259.5
+    m_HBaseRangeMin: -960
+    m_HBaseRangeMax: 960
+    m_VBaseRangeMin: -540
+    m_VBaseRangeMax: 540
     m_HAllowExceedBaseRangeMin: 1
     m_HAllowExceedBaseRangeMax: 1
     m_VAllowExceedBaseRangeMin: 1
@@ -4132,7 +4132,7 @@ MonoBehaviour:
       y: 21
       width: 1101
       height: 519
-    m_Scale: {x: 1, y: 1}
+    m_Scale: {x: 0.4805556, y: 0.48055556}
     m_Translation: {x: 550.5, y: 259.5}
     m_MarginLeft: 0
     m_MarginRight: 0
@@ -4140,12 +4140,12 @@ MonoBehaviour:
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -550.5
-      y: -259.5
-      width: 1101
-      height: 519
+      x: -1145.5491
+      y: -540
+      width: 2291.0981
+      height: 1080
     m_MinimalGUI: 1
-  m_defaultScale: 1
+  m_defaultScale: 0.48055556
   m_LastWindowPixelSize: {x: 1101, y: 540}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1

@@ -2,7 +2,7 @@
 using UnityEngine.Audio;
 
 namespace AudioManager.Core {
-    public class Constants {
+    public struct Constants {
         // Max. progress of the sound still detactable in an IEnumerator.
         public const float MAX_PROGRESS = 0.99f;
         // Max. spatial blend value that still counts as 2D.

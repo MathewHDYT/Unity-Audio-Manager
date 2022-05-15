@@ -393,8 +393,8 @@ namespace AudioManager.Logger {
             return error.HasValue ? error.Value : nullError;
         }
 
-        private ValueDataError<float> ConvertToValueDataError(ValueDataError<float> valueDataError) {
-            return valueDataError != null ? valueDataError : new ValueDataError<float>(nullValue, nullError);
+        private ValueDataError<float> ConvertToValueDataError(ValueDataError<float>? valueDataError) {
+            return valueDataError.HasValue ? valueDataError.Value : new ValueDataError<float>(nullValue, nullError);
         }
     }
 }

@@ -16,11 +16,11 @@ MonoBehaviour:
   audioClip: {fileID: 8300000, guid: 77a11786e7330534e98881f9861f24cc, type: 3}
   mixerGroup: {fileID: 7089786455754941964, guid: 5d344aa093ce48f4c9c2af9abc47b1c6, type: 2}
   loop: 0
-  volume: 0.6
+  volume: 0.7
   pitch: 1
   spatialBlend: 0
   dopplerLevel: 1
-  spread: 0
+  spreadAngle: 0
   volumeRolloff: 0
   minDistance: 1
   maxDistance: 500
