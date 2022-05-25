@@ -381,7 +381,7 @@ namespace AudioManager.Logger {
             m_logger?.Log(string.Join(" ", baselogMessage, "executed in:", ((exitMethodTime - m_enterMethodTime) * 1000000f), "microseconds"), LoggingLevel.STOPWATCH, LoggingType.NORMAL, m_logContext);
 
             // Check if any errors have occured while calling the method.
-            if (error == AudioError.OK) {
+            if (error != AudioError.OK) {
                 m_logger?.Log(string.Join(" ", baselogMessage, "failed"), LoggingLevel.HIGH, LoggingType.NORMAL, m_logContext);
                 return;
             }

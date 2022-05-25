@@ -3,6 +3,7 @@ using AudioManager.Core;
 using AudioManager.Logger;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.Video;
 
 public class MethodCalls : MonoBehaviour {
     [Header("Input:")]
@@ -19,17 +20,15 @@ public class MethodCalls : MonoBehaviour {
     [SerializeField]
     private Text outputText;
     [SerializeField]
-    private Image panel;
-    [SerializeField]
-    private Color32 successColor;
-    [SerializeField]
-    private Color32 failureColor;
-    [SerializeField]
-    private Color32 successBackgroundColor;
-    [SerializeField]
-    private Color32 failureBackgroundColor;
-    [SerializeField]
     private LoggingLevel loggingLevel;
+
+    [Header("Background:")]
+    [SerializeField]
+    private GameObject[] uiPanels;
+    [SerializeField]
+    private VideoClip[] videoClips;
+    [SerializeField]
+    private VideoPlayer videoPlayer;
 
     [Header("Objects:")]
     [SerializeField]
@@ -45,30 +44,40 @@ public class MethodCalls : MonoBehaviour {
         am = ServiceLocator.GetService();
     }
 
+    public void SwitchTab(int index) {
+        foreach (var panel in uiPanels) {
+            panel.SetActive(false);
+        }
+
+        if (index < uiPanels.Length) {
+            uiPanels[index].SetActive(true);
+        }
+        if (index < videoClips.Length) {
+            videoPlayer.clip = videoClips[index];
+        }
+    }
+
     public void PlayClicked() {
         ClearText();
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        AudioError error = am.Play(selectedSoundName);
-        ChangeColorOnError(error);
+        am.Play(selectedSoundName);
     }
 
     public void PlayAtTimeStampClicked() {
         ClearText();
         if (!float.TryParse(timeInput.text, out float timeStamp)) {
-            SetTextAndColor(string.Join(" ", NOT_A_NUMBER, "Time"));
+            SetText(string.Join(" ", NOT_A_NUMBER, "Time"));
             return;
         }
 
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        AudioError error = am.PlayAtTimeStamp(selectedSoundName, timeStamp);
-        ChangeColorOnError(error);
+        am.PlayAtTimeStamp(selectedSoundName, timeStamp);
     }
 
     public void GetPlayBackPositionClicked() {
         ClearText();
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
         ValueDataError<float> valueDataError = am.GetPlaybackPosition(selectedSoundName);
-        ChangeColorOnError(valueDataError.Error);
 
         if (CheckSuccess(valueDataError.Error)) {
             AppendText(string.Join(" ", "Current playback position being:", valueDataError.Value.ToString("0.00"), "seconds"));
@@ -82,8 +91,7 @@ public class MethodCalls : MonoBehaviour {
         var worldPosition = new Vector3(randomXPos, randomYPos, 5f);
 
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        AudioError error = am.PlayAt3DPosition(selectedSoundName, worldPosition);
-        ChangeColorOnError(error);
+        am.PlayAt3DPosition(selectedSoundName, worldPosition);
     }
 
     public void PlayAttachedToGameObjectClicked() {
@@ -93,9 +101,8 @@ public class MethodCalls : MonoBehaviour {
         Vector3 worldPosition = new Vector3(randomXPos, randomYPos, 5f);
 
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        AudioError error = am.PlayAttachedToGameObject(selectedSoundName, radio);
+        am.PlayAttachedToGameObject(selectedSoundName, radio);
         radio.transform.position = worldPosition;
-        ChangeColorOnError(error);
     }
 
     public void PlayOneShotAt3DPositionClicked() {
@@ -105,8 +112,7 @@ public class MethodCalls : MonoBehaviour {
         var worldPosition = new Vector3(randomXPos, randomYPos, 5f);
 
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        AudioError error = am.PlayOneShotAt3DPosition(selectedSoundName, worldPosition);
-        ChangeColorOnError(error);
+        am.PlayOneShotAt3DPosition(selectedSoundName, worldPosition);
     }
 
     public void PlayOneShotAttachedToGameObjectClicked() {
@@ -116,68 +122,60 @@ public class MethodCalls : MonoBehaviour {
         Vector3 worldPosition = new Vector3(randomXPos, randomYPos, 5f);
 
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        AudioError error = am.PlayOneShotAttachedToGameObject(selectedSoundName, radio);
+        am.PlayOneShotAttachedToGameObject(selectedSoundName, radio);
         radio.transform.position = worldPosition;
-        ChangeColorOnError(error);
     }
 
     public void PlayDelayedClicked() {
         ClearText();
         if (!float.TryParse(timeInput.text, out float delay)) {
-            SetTextAndColor(string.Join(" ", NOT_A_NUMBER, "Time"));
+            SetText(string.Join(" ", NOT_A_NUMBER, "Time"));
             return;
         }
 
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        AudioError error = am.PlayDelayed(selectedSoundName, delay);
-        ChangeColorOnError(error);
+        am.PlayDelayed(selectedSoundName, delay);
     }
 
     public void PlayOneShotClicked() {
         ClearText();
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        AudioError error = am.PlayOneShot(selectedSoundName);
-        ChangeColorOnError(error);
+        am.PlayOneShot(selectedSoundName);
     }
 
     public void PlayScheduledClicked() {
         ClearText();
         if (!double.TryParse(timeInput.text, out double delay)) {
-            SetTextAndColor(string.Join(" ", NOT_A_NUMBER, "Time"));
+            SetText(string.Join(" ", NOT_A_NUMBER, "Time"));
             return;
         }
 
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        AudioError error = am.PlayScheduled(selectedSoundName, delay);
-        ChangeColorOnError(error);
+        am.PlayScheduled(selectedSoundName, delay);
     }
 
     public void StopClicked() {
         ClearText();
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        AudioError error = am.Stop(selectedSoundName);
-        ChangeColorOnError(error);
+        am.Stop(selectedSoundName);
     }
 
     public void ToggleMuteClicked() {
         ClearText();
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        AudioError error = am.ToggleMute(selectedSoundName);
-        ChangeColorOnError(error);
+        am.ToggleMute(selectedSoundName);
     }
 
     public void TogglePauseClicked() {
         ClearText();
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        AudioError error = am.TogglePause(selectedSoundName);
-        ChangeColorOnError(error);
+        am.TogglePause(selectedSoundName);
     }
 
     public void GetProgressClicked() {
         ClearText();
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
         ValueDataError<float> valueDataError = am.GetProgress(selectedSoundName);
-        ChangeColorOnError(valueDataError.Error);
 
         if (CheckSuccess(valueDataError.Error)) {
             AppendText(string.Join(" ", "Current progress being:", (valueDataError.Value * 100).ToString("0.00"), "%"));
@@ -187,67 +185,62 @@ public class MethodCalls : MonoBehaviour {
     public void GetSourceClicked() {
         ClearText();
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        AudioError error = am.TryGetSource(selectedSoundName, out _);
-        ChangeColorOnError(error);
+        am.TryGetSource(selectedSoundName, out _);
     }
 
     public void LerpPitchClicked() {
         ClearText();
         if (!float.TryParse(endValueInput.text, out float endValue)) {
-            SetTextAndColor(string.Join(" ", NOT_A_NUMBER, "End Value"));
+            SetText(string.Join(" ", NOT_A_NUMBER, "End Value"));
             return;
         }
         if (!float.TryParse(timeInput.text, out float time)) {
-            SetTextAndColor(string.Join(" ", NOT_A_NUMBER, "Time"));
+            SetText(string.Join(" ", NOT_A_NUMBER, "Time"));
             return;
         }
         if (!int.TryParse(granularityInput.text, out int granularity)) {
-            SetTextAndColor(string.Join(" ", NOT_A_NUMBER, "Granularity"));
+            SetText(string.Join(" ", NOT_A_NUMBER, "Granularity"));
             return;
         }
 
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        AudioError error = am.LerpPitch(selectedSoundName, endValue, time, granularity);
-        ChangeColorOnError(error);
+        am.LerpPitch(selectedSoundName, endValue, time, granularity);
     }
 
     public void LerpVolumeClicked() {
         ClearText();
         if (!float.TryParse(endValueInput.text, out float endValue)) {
-            SetTextAndColor(string.Join(" ", NOT_A_NUMBER, "End Value"));
+            SetText(string.Join(" ", NOT_A_NUMBER, "End Value"));
             return;
         }
         if (!float.TryParse(timeInput.text, out float time)) {
-            SetTextAndColor(string.Join(" ", NOT_A_NUMBER, "Time"));
+            SetText(string.Join(" ", NOT_A_NUMBER, "Time"));
             return;
         }
         if (!int.TryParse(granularityInput.text, out int granularity)) {
-            SetTextAndColor(string.Join(" ", NOT_A_NUMBER, "Granularity"));
+            SetText(string.Join(" ", NOT_A_NUMBER, "Granularity"));
             return;
         }
 
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        AudioError error = am.LerpVolume(selectedSoundName, endValue, time, granularity);
-        ChangeColorOnError(error);
+        am.LerpVolume(selectedSoundName, endValue, time, granularity);
     }
 
     public void ChangeGroupValueClicked() {
         ClearText();
         if (!float.TryParse(endValueInput.text, out float endValue)) {
-            SetTextAndColor(string.Join(" ", NOT_A_NUMBER, "End Value"));
+            SetText(string.Join(" ", NOT_A_NUMBER, "End Value"));
             return;
         }
 
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        AudioError error = am.ChangeGroupValue(selectedSoundName, EXPOSED_VOLUME_NAME, endValue);
-        ChangeColorOnError(error);
+        am.ChangeGroupValue(selectedSoundName, EXPOSED_VOLUME_NAME, endValue);
     }
 
     public void GetGroupValueClicked() {
         ClearText();
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
         ValueDataError<float> valueDataError = am.GetGroupValue(selectedSoundName, EXPOSED_VOLUME_NAME);
-        ChangeColorOnError(valueDataError.Error);
 
         if (CheckSuccess(valueDataError.Error)) {
             AppendText(string.Join(" ", "Current group value being:", valueDataError.Value.ToString("0.00")));
@@ -257,65 +250,52 @@ public class MethodCalls : MonoBehaviour {
     public void ResetGroupValueClicked() {
         ClearText();
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        AudioError error = am.ResetGroupValue(selectedSoundName, EXPOSED_VOLUME_NAME);
-        ChangeColorOnError(error);
+        am.ResetGroupValue(selectedSoundName, EXPOSED_VOLUME_NAME);
     }
 
     public void LerpGroupValueClicked() {
         ClearText();
         if (!float.TryParse(endValueInput.text, out float endValue)) {
-            SetTextAndColor(string.Join(" ", NOT_A_NUMBER, "End Value"));
+            SetText(string.Join(" ", NOT_A_NUMBER, "End Value"));
             return;
         }
         if (!float.TryParse(timeInput.text, out float time)) {
-            SetTextAndColor(string.Join(" ", NOT_A_NUMBER, "Time"));
+            SetText(string.Join(" ", NOT_A_NUMBER, "Time"));
             return;
         }
         if (!int.TryParse(granularityInput.text, out int granularity)) {
-            SetTextAndColor(string.Join(" ", NOT_A_NUMBER, "Granularity"));
+            SetText(string.Join(" ", NOT_A_NUMBER, "Granularity"));
             return;
         }
 
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        AudioError error = am.LerpGroupValue(selectedSoundName, EXPOSED_VOLUME_NAME, endValue, time, granularity);
-        ChangeColorOnError(error);
+        am.LerpGroupValue(selectedSoundName, EXPOSED_VOLUME_NAME, endValue, time, granularity);
     }
 
     public void SetStartTimeClicked() {
         ClearText();
         if (!float.TryParse(timeInput.text, out float time)) {
-            SetTextAndColor(string.Join(" ", NOT_A_NUMBER, "Time"));
+            SetText(string.Join(" ", NOT_A_NUMBER, "Time"));
             return;
         }
 
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        AudioError error = am.SetStartTime(selectedSoundName, time);
-        ChangeColorOnError(error);
+        am.SetStartTime(selectedSoundName, time);
     }
 
     private bool CheckSuccess(AudioError error) {
         return error == AudioError.OK;
     }
 
-    private void ChangeColorOnError(AudioError error) {
-        SetColor(CheckSuccess(error));
-    }
-
     private void ClearText() {
         outputText.text = "";
     }
 
-    private void SetTextAndColor(string text) {
+    private void SetText(string text) {
         AppendText(text);
-        SetColor(false);
     }
 
     private void AppendText(string text) {
         outputText.text += text;
-    }
-
-    private void SetColor(bool success) {
-        outputText.color = success ? successColor : failureColor;
-        panel.color = success ? successBackgroundColor : failureBackgroundColor;
     }
 }

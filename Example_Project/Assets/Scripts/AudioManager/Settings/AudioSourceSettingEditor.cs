@@ -17,12 +17,16 @@ namespace AudioManager.Settings {
 
         public override void OnInspectorGUI() {
             base.OnInspectorGUI();
-            //DrawDefaultInspector();
 
             EditorGUI.BeginDisabledGroup(serializedObject.isEditingMultipleObjects);
-            if (GUILayout.Button("Preview AudioSource")) {
+            EditorGUILayout.BeginHorizontal();
+            if (GUILayout.Button(new GUIContent("Play", "Will begin playback of an AudioSource with the given settings."))) {
                 CopySettingsAndPlay((AudioSourceSetting)target);
             }
+            else if (GUILayout.Button(new GUIContent("Stop", "Will stop the playback of the created AudioSource."))) {
+                Stop();
+            }
+            EditorGUILayout.EndHorizontal();
             EditorGUI.EndDisabledGroup();
         }
 
@@ -43,6 +47,10 @@ namespace AudioManager.Settings {
             preview.minDistance = setting.minDistance;
             preview.maxDistance = setting.maxDistance;
             preview.Play();
+        }
+
+        private void Stop() {
+            preview.Stop();
         }
     }
 }

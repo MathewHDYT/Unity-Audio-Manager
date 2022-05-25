@@ -20,7 +20,7 @@ MonoBehaviour:
   pitch: 1
   spatialBlend: 0
   dopplerLevel: 1
-  spread: 0
+  spreadAngle: 0
   volumeRolloff: 0
   minDistance: 1
   maxDistance: 500
