@@ -1,6 +1,7 @@
-using AudioManager.Locator;
 using AudioManager.Core;
+using AudioManager.Locator;
 using AudioManager.Logger;
+using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
@@ -30,7 +31,7 @@ public class MethodCalls : MonoBehaviour {
     [SerializeField]
     private GameObject[] uiPanels;
     [SerializeField]
-    private VideoClip[] videoClips;
+    private string[] videoClips;
     [SerializeField]
     private VideoPlayer videoPlayer;
 
@@ -46,6 +47,8 @@ public class MethodCalls : MonoBehaviour {
     private void Start() {
         ServiceLocator.RegisterLogger(new UIAudioLogger(loggingLevel, outputText), this);
         am = ServiceLocator.GetService();
+        // Initally enable first tab.
+        SwitchTab(0);
     }
 
     public void SwitchTab(int index) {
@@ -57,7 +60,7 @@ public class MethodCalls : MonoBehaviour {
             uiPanels[index].SetActive(true);
         }
         if (index < videoClips.Length) {
-            videoPlayer.clip = videoClips[index];
+            videoPlayer.url = Path.Join(Application.streamingAssetsPath, videoClips[index]);
         }
     }
 
