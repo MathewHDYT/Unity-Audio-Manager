@@ -15,6 +15,10 @@ public class MethodCalls : MonoBehaviour {
     private InputField endValueInput;
     [SerializeField]
     private InputField granularityInput;
+    [SerializeField]
+    private InputField minPitchInput;
+    [SerializeField]
+    private InputField maxPitchInput;
 
     [Header("Output:")]
     [SerializeField]
@@ -103,6 +107,21 @@ public class MethodCalls : MonoBehaviour {
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
         am.PlayAttachedToGameObject(selectedSoundName, radio);
         radio.transform.position = worldPosition;
+    }
+
+    public void ChangePitchClicked() {
+        ClearText();
+        if (!float.TryParse(minPitchInput.text, out float minPitch)) {
+            SetText(string.Join(" ", NOT_A_NUMBER, "Min Pitch"));
+            return;
+        }
+        if (!float.TryParse(maxPitchInput.text, out float maxPitch)) {
+            SetText(string.Join(" ", NOT_A_NUMBER, "Max Pitch"));
+            return;
+        }
+
+        var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
+        am.ChangePitch(selectedSoundName, minPitch, maxPitch);
     }
 
     public void PlayOneShotAt3DPositionClicked() {
