@@ -1,3 +1,4 @@
+#if UNITY_EDITOR
 using UnityEditor;
 using UnityEngine;
 
@@ -54,3 +55,4 @@ namespace AudioManager.Settings {
         }
     }
 }
+#endif // UNITY_EDITOR
