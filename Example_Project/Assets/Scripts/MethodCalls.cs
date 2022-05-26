@@ -29,6 +29,8 @@ public class MethodCalls : MonoBehaviour {
 
     [Header("Background:")]
     [SerializeField]
+    private Image panel;
+    [SerializeField]
     private GameObject[] uiPanels;
     [SerializeField]
     private string[] videoClips;
@@ -40,6 +42,7 @@ public class MethodCalls : MonoBehaviour {
     private GameObject radio;
 
     private IAudioManager am;
+    private int lastIndex = int.MaxValue;
 
     private const string NOT_A_NUMBER = "Input is not a valid number in the textfield:";
     private const string EXPOSED_VOLUME_NAME = "Volume";
@@ -47,11 +50,20 @@ public class MethodCalls : MonoBehaviour {
     private void Start() {
         ServiceLocator.RegisterLogger(new UIAudioLogger(loggingLevel, outputText), this);
         am = ServiceLocator.GetService();
+#if UNITY_WEBGL
+        panel.color = new Color(panel.color.r, panel.color.g, panel.color.b, 0f);
+#endif // UNITY_WEBGL
         // Initally enable first tab.
         SwitchTab(0);
     }
 
     public void SwitchTab(int index) {
+        // Don't switch tabs, if the index didn't change.
+        if (index == lastIndex) {
+            return;
+        }
+        lastIndex = index;
+
         foreach (var panel in uiPanels) {
             panel.SetActive(false);
         }
@@ -59,9 +71,12 @@ public class MethodCalls : MonoBehaviour {
         if (index < uiPanels.Length) {
             uiPanels[index].SetActive(true);
         }
+#if !UNITY_WEBGL
         if (index < videoClips.Length) {
             videoPlayer.url = Path.Join(Application.streamingAssetsPath, videoClips[index]);
+            videoPlayer.Play();
         }
+#endif // UNITY_WEBGL
     }
 
     public void PlayClicked() {
