@@ -31,6 +31,8 @@ public class MethodCalls : MonoBehaviour {
     [SerializeField]
     private Image panel;
     [SerializeField]
+    private GameObject fallbackImage;
+    [SerializeField]
     private GameObject[] uiPanels;
     [SerializeField]
     private string[] videoClips;
@@ -52,6 +54,7 @@ public class MethodCalls : MonoBehaviour {
         am = ServiceLocator.GetService();
 #if UNITY_WEBGL
         panel.color = new Color(panel.color.r, panel.color.g, panel.color.b, 0f);
+        fallbackImage.SetActive(true);
 #endif // UNITY_WEBGL
         // Initally enable first tab.
         SwitchTab(0);
