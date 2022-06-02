@@ -1,4 +1,5 @@
 using AudioManager.Core;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -14,6 +15,10 @@ public class DummyAudioManager : IAudioManager {
         return AudioError.OK;
     }
 
+    public IEnumerable<string> GetEnumerator() {
+        return null;
+    }
+
     public AudioError Play(string name) {
         return AudioError.OK;
     }
@@ -24,6 +29,10 @@ public class DummyAudioManager : IAudioManager {
 
     public ValueDataError<float> GetPlaybackPosition(string name) {
         return new ValueDataError<float>(float.NaN, AudioError.OK);
+    }
+
+    public AudioError SetPlaypbackDirection(string name, float pitch) {
+        return AudioError.OK;
     }
 
     public AudioError PlayAt3DPosition(string name, Vector3 position) {
@@ -124,6 +133,14 @@ public class DummyAudioManager : IAudioManager {
     }
 
     public AudioError SetStartTime(string name, float startTime) {
+        return AudioError.OK;
+    }
+
+    public AudioError SkipForward(string name, float time) {
+        return AudioError.OK;
+    }
+
+    public AudioError SkipBackward(string name, float time) {
         return AudioError.OK;
     }
 }

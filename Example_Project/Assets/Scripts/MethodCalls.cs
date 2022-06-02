@@ -88,6 +88,59 @@ public class MethodCalls : MonoBehaviour {
         am.Play(selectedSoundName);
     }
 
+    public void GetEnumeratorClicked() {
+        ClearText();
+        if (!float.TryParse(endValueInput.text, out float endValue)) {
+            SetText(string.Join(" ", NOT_A_NUMBER, "End Value"));
+            return;
+        }
+        if (!float.TryParse(timeInput.text, out float time)) {
+            SetText(string.Join(" ", NOT_A_NUMBER, "Time"));
+            return;
+        }
+        if (!int.TryParse(granularityInput.text, out int granularity)) {
+            SetText(string.Join(" ", NOT_A_NUMBER, "Granularity"));
+            return;
+        }
+
+        foreach (var name in am.GetEnumerator()) {
+            am.LerpVolume(name, endValue, time, granularity);
+        }
+    }
+
+    public void SkipForwardClicked() {
+        ClearText();
+        if (!float.TryParse(timeInput.text, out float timeStamp)) {
+            SetText(string.Join(" ", NOT_A_NUMBER, "Time"));
+            return;
+        }
+
+        var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
+        am.SkipForward(selectedSoundName, timeStamp);
+    }
+
+    public void SkipBackwardClicked() {
+        ClearText();
+        if (!float.TryParse(timeInput.text, out float timeStamp)) {
+            SetText(string.Join(" ", NOT_A_NUMBER, "Time"));
+            return;
+        }
+
+        var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
+        am.SkipBackward(selectedSoundName, timeStamp);
+    }
+
+    public void SetPlaybackDirection() {
+        ClearText();
+        if (!float.TryParse(minPitchInput.text, out float minPitch)) {
+            SetText(string.Join(" ", NOT_A_NUMBER, "Min Pitch"));
+            return;
+        }
+
+        var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
+        am.SetPlaypbackDirection(selectedSoundName, minPitch);
+    }
+
     public void PlayAtTimeStampClicked() {
         ClearText();
         if (!float.TryParse(timeInput.text, out float timeStamp)) {

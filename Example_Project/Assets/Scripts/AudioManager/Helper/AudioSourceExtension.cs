@@ -8,12 +8,47 @@ namespace AudioManager.Helper {
             source.time = timeStamp;
         }
 
+        public static void SetPitch(this AudioSource source, float pitch) {
+            source.pitch = pitch;
+        }
+
+        public static bool IsReversePitch(this AudioSource source, float pitch) {
+            return pitch < 0f;
+        }
+
+        public static void SetTimeFromPitch(this AudioSource source, float pitch) {
+            float startTime = source.IsReversePitch(pitch) ? source.GetEndOfClip() : 0f;
+            source.SetTime(startTime);
+        }
+
+        public static float GetEndOfClip(this AudioSource source) {
+            return (source.clip.length * Constants.MAX_PROGRESS);
+        }
+
         public static bool IsSameVolume(this AudioSource source, float volume) {
             return !AudioHelper.IsEndValueValid(volume, source.volume);
         }
 
         public static bool IsSamePitch(this AudioSource source, float pitch) {
             return !AudioHelper.IsEndValueValid(pitch, source.pitch);
+        }
+
+        public static bool ExceedsClipEnd(this AudioSource source, float time) {
+            return (source.time + time) - source.clip.length > float.Epsilon;
+        }
+
+        public static bool ExceedsClipStart(this AudioSource source, float time) {
+            return source.time - time < float.Epsilon;
+        }
+
+        public static void IncreaseTime(this AudioSource source, float time) {
+            float currentTime = source.ExceedsClipEnd(time) ? source.GetEndOfClip() : source.time + time;
+            source.SetTime(currentTime);
+        }
+
+        public static void DecreaseTime(this AudioSource source, float time) {
+            float currentTime = source.ExceedsClipStart(time) ? 0f : source.time - time;
+            source.SetTime(currentTime);
         }
 
         public static AudioError TryGetGroupValue(this AudioSource source, string exposedParameterName, out float currentValue) {
