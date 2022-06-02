@@ -13,6 +13,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Released]
 
+## [1.8.0](https://github.com/MathewHDYT/Unity-Audio-Manager/releases/tag/v1.8.0) - 2022-06-02
+
+### Added
+- Play and Stop buttons on the ScriptableObject that allow to preview the clip with the given settings
+- Added new methods ```GetEnumerator```, ```SetPlaypbackDirection```, ```SkipForward``` and ```SkipBackward```
+
+### Changed
+- Overhauled the UI and usability of the Example scene
+
+
 ## [1.7.0](https://github.com/MathewHDYT/Unity-Audio-Manager/releases/tag/v1.7.0) - 2022-05-02
 
 ### Added
