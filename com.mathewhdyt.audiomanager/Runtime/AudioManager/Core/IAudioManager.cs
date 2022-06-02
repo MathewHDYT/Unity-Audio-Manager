@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -19,6 +20,12 @@ namespace AudioManager.Core {
         /// <param name="mixerGroup">Mixer group the sound is influenced by.</param>
         /// <returns><see cref="AudioError"/>, showing wheter and how adding a 2D sound from the given path with the given settings failed.</returns>
         public AudioError AddSoundFromPath(string name, string audioPath, float volume = Constants.DEFAULT_VOLUME, float pitch = Constants.DEFAULT_PITCH, bool loop = Constants.DEFAULT_LOOP, AudioSource source = Constants.DEFAULT_SOURCE, AudioMixerGroup mixerGroup = Constants.DEFAULT_GROUP);
+
+        /// <summary>
+        /// Returns an enumerable to the underlying list of all registered sound names. Can be used to call methods like <see cref="LerpVolume"/> for each registered sound.
+        /// </summary>
+        /// <returns>Enumerable of all underlying registered sound names.</returns>
+        public IEnumerable<string> GetEnumerator();
 
         /// <summary>
         /// Plays the sound with the given name.
@@ -45,6 +52,15 @@ namespace AudioManager.Core {
         /// showing wheter and how getting the current playback position of the sound failed.
         /// </returns>
         public ValueDataError<float> GetPlaybackPosition(string name);
+
+        /// <summary>
+        /// Sets the given direction the song should be played in. A given pitch of 0 or more means it is a normal song and should just be played with the given pitch value from the start.
+        /// Less than 0 means that the song will play in reverse from the end of the song tough.
+        /// </summary>
+        /// <param name="name">Name of the registered sound.</param>
+        /// <param name="pitch">Pitch that shows in wich direction and with wich speed to play the song in (Reverse, Normal).</param>
+        /// <returns><see cref="AudioError"/>, showing wheter and how setting the playback direction failed.</returns>
+        public AudioError SetPlaypbackDirection(string name, float pitch = Constants.DEFAULT_REVERSE_PITCH);
 
         /// <summary>
         /// Plays the sound with the given name at a 3D position in space.
@@ -269,5 +285,21 @@ namespace AudioManager.Core {
         /// <param name="startTime">Moment in the sound we want to start playing at in seconds.</param>
         /// <returns><see cref="AudioError"/>, showing wheter and how setting the start time failed.</returns>
         public AudioError SetStartTime(string name, float startTime);
+
+        /// <summary>
+        /// Skips the given sound forwards for the given amount of time in seconds in the playtime to maximum the end of the song.
+        /// </summary>
+        /// <param name="name">Name of the registered sound.</param>
+        /// <param name="time">Amount of time in seconds we want to advance the given track.</param>
+        /// <returns><see cref="AudioError"/>, showing wheter and how skipping forward the current time failed.</returns>
+        public AudioError SkipForward(string name, float time);
+
+        /// <summary>
+        /// Skips the given sound backwards for the given amount of time in seconds in the playtime to maximum the start of the song.
+        /// </summary>
+        /// <param name="name">Name of the registered sound.</param>
+        /// <param name="time">Amount of time in seconds we want to regress the given track.</param>
+        /// <returns><see cref="AudioError"/>, showing wheter and how skipping backward the current time failed.</returns>
+        public AudioError SkipBackward(string name, float time);
     }
 }

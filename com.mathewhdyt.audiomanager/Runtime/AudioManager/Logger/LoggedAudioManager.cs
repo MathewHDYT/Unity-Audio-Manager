@@ -1,4 +1,5 @@
 using AudioManager.Core;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -47,6 +48,17 @@ namespace AudioManager.Logger {
             return error;
         }
 
+        public IEnumerable<string> GetEnumerator() {
+            const string enterLogBase = "Attempting to get all registered AudioSource entries";
+            const string exitLogBase = "Getting all registered AudioSource entries";
+
+            OnMethodEnter(enterLogBase);
+            IEnumerable<string> value = m_wrappedInstance?.GetEnumerator();
+            OnReceivedError(exitLogBase, AudioError.OK);
+            OnMethodExit(exitLogBase, AudioError.OK);
+            return value;
+        }
+
         public AudioError Play(string name) {
             const string enterLogBase = "Attempting to play the registered AudioSource entry";
             const string exitLogBase = "Playing registered AudioSource entry";
@@ -70,14 +82,25 @@ namespace AudioManager.Logger {
         }
 
         public ValueDataError<float> GetPlaybackPosition(string name) {
-            const string enterLogBase = "Attempting to read the playBackPosition of the registered AudioSource entry";
-            const string exitLogBase = "Reading the playBackPosition of the given registered AudioSource entry";
+            const string enterLogBase = "Attempting to read the playbackPosition of the registered AudioSource entry";
+            const string exitLogBase = "Reading the playbackPosition of the given registered AudioSource entry";
 
             OnMethodEnter(enterLogBase, name);
             ValueDataError<float> valueDataError = ConvertToValueDataError(m_wrappedInstance?.GetPlaybackPosition(name));
             OnReceivedError(exitLogBase, valueDataError.Error);
             OnMethodExit(exitLogBase, valueDataError.Error);
             return valueDataError;
+        }
+
+        public AudioError SetPlaypbackDirection(string name, float pitch) {
+            const string enterLogBase = "Attempting to set the playback direction of the registered AudioSource entry";
+            const string exitLogBase = "Setting playback direction of the given registered AudioSource entry";
+
+            OnMethodEnter(enterLogBase, name);
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.SetPlaypbackDirection(name, pitch));
+            OnReceivedError(exitLogBase, error);
+            OnMethodExit(exitLogBase, error);
+            return error;
         }
 
         public AudioError PlayAt3DPosition(string name, Vector3 position) {
@@ -356,9 +379,37 @@ namespace AudioManager.Logger {
             return error;
         }
 
+        public AudioError SkipForward(string name, float time) {
+            const string enterLogBase = "Attempting to skip the registered AudioSource entries forward";
+            const string exitLogBase = "Skipping the given registered AudioSource entry forward";
+
+            OnMethodEnter(enterLogBase);
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.SkipForward(name, time));
+            OnReceivedError(exitLogBase, error);
+            OnMethodExit(exitLogBase, error);
+            return error;
+        }
+
+        public AudioError SkipBackward(string name, float time) {
+            const string enterLogBase = "Attempting to skip the registered AudioSource entries backward";
+            const string exitLogBase = "Skipping the given registered AudioSource entry backward";
+
+            OnMethodEnter(enterLogBase);
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.SkipBackward(name, time));
+            OnReceivedError(exitLogBase, error);
+            OnMethodExit(exitLogBase, error);
+            return error;
+        }
+
         //************************************************************************************************************************
         // Private Section
         //************************************************************************************************************************
+
+        private void OnMethodEnter(string baselogMessage) {
+            m_logger?.Log(string.Join(" ", baselogMessage), LoggingLevel.INTERMEDIATE, LoggingType.NORMAL, m_logContext);
+            // Cache the current time, before the method will be executed.
+            m_enterMethodTime = Time.realtimeSinceStartup;
+        }
 
         private void OnMethodEnter(string baselogMessage, string name) {
             m_logger?.Log(string.Join(" ", baselogMessage, "with the name:", name), LoggingLevel.INTERMEDIATE, LoggingType.NORMAL, m_logContext);
@@ -371,7 +422,7 @@ namespace AudioManager.Logger {
             if (error == AudioError.OK) {
                 return;
             }
-            m_logger?.LogFormat("{0} failed. <color=yellow>{1}</color>", LoggingLevel.LOW, LoggingType.WARNING, m_logContext, baselogMessage, ErrorToStringConvertor.ErrorToMessage(error));
+            m_logger?.LogFormat("{0} failed.\r\n<color=yellow>{1}</color>", LoggingLevel.LOW, LoggingType.WARNING, m_logContext, baselogMessage, ErrorToStringConvertor.ErrorToMessage(error));
         }
 
         private void OnMethodExit(string baselogMessage, AudioError error) {
@@ -381,7 +432,7 @@ namespace AudioManager.Logger {
             m_logger?.Log(string.Join(" ", baselogMessage, "executed in:", ((exitMethodTime - m_enterMethodTime) * 1000000f), "microseconds"), LoggingLevel.STOPWATCH, LoggingType.NORMAL, m_logContext);
 
             // Check if any errors have occured while calling the method.
-            if (error == AudioError.OK) {
+            if (error != AudioError.OK) {
                 m_logger?.Log(string.Join(" ", baselogMessage, "failed"), LoggingLevel.HIGH, LoggingType.NORMAL, m_logContext);
                 return;
             }
@@ -393,8 +444,8 @@ namespace AudioManager.Logger {
             return error.HasValue ? error.Value : nullError;
         }
 
-        private ValueDataError<float> ConvertToValueDataError(ValueDataError<float> valueDataError) {
-            return valueDataError != null ? valueDataError : new ValueDataError<float>(nullValue, nullError);
+        private ValueDataError<float> ConvertToValueDataError(ValueDataError<float>? valueDataError) {
+            return valueDataError.HasValue ? valueDataError.Value : new ValueDataError<float>(nullValue, nullError);
         }
     }
 }

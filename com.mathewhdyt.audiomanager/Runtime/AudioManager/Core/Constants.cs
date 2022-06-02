@@ -2,7 +2,7 @@
 using UnityEngine.Audio;
 
 namespace AudioManager.Core {
-    public class Constants {
+    public struct Constants {
         // Max. progress of the sound still detactable in an IEnumerator.
         public const float MAX_PROGRESS = 0.99f;
         // Max. spatial blend value that still counts as 2D.
@@ -13,6 +13,7 @@ namespace AudioManager.Core {
         // Default values for method parameters.
         public const float DEFAULT_VOLUME = 1f;
         public const float DEFAULT_PITCH = 1f;
+        public const float DEFAULT_REVERSE_PITCH = -1f;
         public const bool DEFAULT_LOOP = false;
         public const float DEFAULT_WAIT_TIME = 1f;
         public const int DEFAULT_GRANULARITY = 5;

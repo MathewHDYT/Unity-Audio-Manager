@@ -109,6 +109,15 @@ public class TestDefaultAudioManager {
     }
 
     [Test]
+    public void TestGetEnumerator() {
+        /// ---------------------------------------------
+        /// Valid case (AudioError.OK)
+        /// ---------------------------------------------
+        IEnumerable<string> sounds = m_audioManager.GetEnumerator();
+        Assert.IsNotNull(sounds);
+    }
+
+    [Test]
     public void TestPlay() {
         /// ---------------------------------------------
         /// Invalid case (AudioError.DOES_NOT_EXIST)
@@ -240,6 +249,52 @@ public class TestDefaultAudioManager {
         valueDataError = m_audioManager.GetPlaybackPosition(m_audioSourceName);
         Assert.AreEqual(AudioError.OK, valueDataError.Error);
         Assert.AreEqual(expectedTime, valueDataError.Value);
+    }
+
+    [Test]
+    public void TestSetPlaypbackDirection() {
+        const float maxDifferenceStartTime = 0.00002f;
+        float pitch = 1f;
+
+        /// ---------------------------------------------
+        /// Invalid case (AudioError.DOES_NOT_EXIST)
+        /// ---------------------------------------------
+        AudioError error = m_audioManager.SetPlaypbackDirection(m_unregisteredAudioSourceName, pitch);
+        Assert.AreNotEqual(AudioError.OK, error);
+        Assert.AreEqual(AudioError.DOES_NOT_EXIST, error);
+
+        /// ---------------------------------------------
+        /// Invalid case (AudioError.MISSING_SOURCE)
+        /// ---------------------------------------------
+        error = m_audioManager.SetPlaypbackDirection(m_nullAudioSourceName, pitch);
+        Assert.AreNotEqual(AudioError.OK, error);
+        Assert.AreEqual(AudioError.MISSING_SOURCE, error);
+
+        /// ---------------------------------------------
+        /// Invalid case (AudioError.MISSING_CLIP)
+        /// ---------------------------------------------
+        error = m_audioManager.SetPlaypbackDirection(m_audioSourceName, pitch);
+        Assert.AreNotEqual(AudioError.OK, error);
+        Assert.AreEqual(AudioError.MISSING_CLIP, error);
+
+        /// ---------------------------------------------
+        /// Valid case (AudioError.OK)
+        /// ---------------------------------------------
+        m_source.clip = m_clip;
+        float endOfClip = (m_source.clip.length * Constants.MAX_PROGRESS);
+        error = m_audioManager.SetPlaypbackDirection(m_audioSourceName, pitch);
+        Assert.AreEqual(AudioError.OK, error);
+        Assert.AreEqual(pitch, m_source.pitch);
+        Assert.AreEqual(0f, m_source.time);
+
+        pitch = -1f;
+        error = m_audioManager.SetPlaypbackDirection(m_audioSourceName, pitch);
+        Assert.AreEqual(AudioError.OK, error);
+        Assert.AreEqual(pitch, m_source.pitch);
+        // The clip needs to be played to have it's time actually assigned.
+        error = m_audioManager.Play(m_audioSourceName);
+        Assert.AreEqual(AudioError.OK, error);
+        Assert.IsTrue(endOfClip - m_source.time <= maxDifferenceStartTime);
     }
 
     [Test]
@@ -1520,5 +1575,99 @@ public class TestDefaultAudioManager {
         error = m_audioManager.Play(m_audioSourceName);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(startTime - m_source.time <= maxDifferenceStartTime);
+    }
+
+    [Test]
+    public void TestSkipForward() {
+        const float maxDifferenceStartTime = 0.00002f;
+        float startTime = (m_clip.length * Constants.MAX_PROGRESS);
+        float time = 1f;
+
+        /// ---------------------------------------------
+        /// Invalid case (AudioError.DOES_NOT_EXIST)
+        /// ---------------------------------------------
+        AudioError error = m_audioManager.SkipForward(m_unregisteredAudioSourceName, time);
+        Assert.AreNotEqual(AudioError.OK, error);
+        Assert.AreEqual(AudioError.DOES_NOT_EXIST, error);
+        Assert.AreNotEqual(time, m_source.time);
+
+        /// ---------------------------------------------
+        /// Invalid case (AudioError.MISSING_SOURCE)
+        /// ---------------------------------------------
+        error = m_audioManager.SkipForward(m_nullAudioSourceName, time);
+        Assert.AreNotEqual(AudioError.OK, error);
+        Assert.AreEqual(AudioError.MISSING_SOURCE, error);
+        Assert.AreNotEqual(time, m_source.time);
+
+        /// ---------------------------------------------
+        /// Invalid case (AudioError.MISSING_CLIP)
+        /// ---------------------------------------------
+        error = m_audioManager.SkipForward(m_audioSourceName, time);
+        Assert.AreNotEqual(AudioError.OK, error);
+        Assert.AreEqual(AudioError.MISSING_CLIP, error);
+        Assert.AreNotEqual(time, m_source.time);
+
+        /// ---------------------------------------------
+        /// Valid case (AudioError.OK)
+        /// ---------------------------------------------
+        m_source.clip = m_clip;
+        error = m_audioManager.SkipForward(m_audioSourceName, time);
+        Assert.AreEqual(AudioError.OK, error);
+        // The clip needs to be played to have it's time actually assigned.
+        error = m_audioManager.Play(m_audioSourceName);
+        Assert.AreEqual(AudioError.OK, error);
+        Assert.IsTrue(m_source.time - time <= maxDifferenceStartTime);
+
+        m_source.time = startTime;
+        error = m_audioManager.SkipForward(m_audioSourceName, time);
+        Assert.AreEqual(AudioError.OK, error);
+        Assert.IsTrue(m_source.time - startTime <= maxDifferenceStartTime);
+    }
+
+    [Test]
+    public void TestSkipBackward() {
+        const float maxDifferenceStartTime = 0.00002f;
+        float startTime = m_clip.length / 2f;
+        float time = 1f;
+
+        /// ---------------------------------------------
+        /// Invalid case (AudioError.DOES_NOT_EXIST)
+        /// ---------------------------------------------
+        AudioError error = m_audioManager.SkipBackward(m_unregisteredAudioSourceName, time);
+        Assert.AreNotEqual(AudioError.OK, error);
+        Assert.AreEqual(AudioError.DOES_NOT_EXIST, error);
+        Assert.AreNotEqual(time, m_source.time);
+
+        /// ---------------------------------------------
+        /// Invalid case (AudioError.MISSING_SOURCE)
+        /// ---------------------------------------------
+        error = m_audioManager.SkipBackward(m_nullAudioSourceName, time);
+        Assert.AreNotEqual(AudioError.OK, error);
+        Assert.AreEqual(AudioError.MISSING_SOURCE, error);
+        Assert.AreNotEqual(time, m_source.time);
+
+        /// ---------------------------------------------
+        /// Invalid case (AudioError.MISSING_CLIP)
+        /// ---------------------------------------------
+        error = m_audioManager.SkipBackward(m_audioSourceName, time);
+        Assert.AreNotEqual(AudioError.OK, error);
+        Assert.AreEqual(AudioError.MISSING_CLIP, error);
+        Assert.AreNotEqual(time, m_source.time);
+
+        /// ---------------------------------------------
+        /// Valid case (AudioError.OK)
+        /// ---------------------------------------------
+        m_source.clip = m_clip;
+        error = m_audioManager.SkipBackward(m_audioSourceName, time);
+        Assert.AreEqual(AudioError.OK, error);
+        // The clip needs to be played to have it's time actually assigned.
+        error = m_audioManager.Play(m_audioSourceName);
+        Assert.AreEqual(AudioError.OK, error);
+        Assert.AreEqual(0f, m_source.time);
+
+        m_source.time = startTime;
+        error = m_audioManager.SkipBackward(m_audioSourceName, time);
+        Assert.AreEqual(AudioError.OK, error);
+        Assert.IsTrue(m_source.time - (startTime - time) <= maxDifferenceStartTime);
     }
 }

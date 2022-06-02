@@ -1,4 +1,5 @@
 using AudioManager.Core;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -18,6 +19,10 @@ namespace AudioManager.Locator {
             return AudioError.NOT_INITIALIZED;
         }
 
+        public IEnumerable<string> GetEnumerator() {
+            return null;
+        }
+
         public AudioError Play(string name) {
             return AudioError.NOT_INITIALIZED;
         }
@@ -28,6 +33,10 @@ namespace AudioManager.Locator {
 
         public ValueDataError<float> GetPlaybackPosition(string name) {
             return new ValueDataError<float>(float.NaN, AudioError.NOT_INITIALIZED);
+        }
+
+        public AudioError SetPlaypbackDirection(string name, float pitch = Constants.DEFAULT_REVERSE_PITCH) {
+            return AudioError.NOT_INITIALIZED;
         }
 
         public AudioError PlayAt3DPosition(string name, Vector3 position) {
@@ -128,6 +137,14 @@ namespace AudioManager.Locator {
         }
 
         public AudioError SetStartTime(string name, float startTime) {
+            return AudioError.NOT_INITIALIZED;
+        }
+
+        public AudioError SkipForward(string name, float time) {
+            return AudioError.NOT_INITIALIZED;
+        }
+
+        public AudioError SkipBackward(string name, float time) {
             return AudioError.NOT_INITIALIZED;
         }
     }

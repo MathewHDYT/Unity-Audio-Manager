@@ -53,6 +53,10 @@ namespace AudioManager.Service {
             return error;
         }
 
+        public IEnumerable<string> GetEnumerator() {
+            return m_soundDictionary.Keys;
+        }
+
         public AudioError Play(string name) {
             AudioError error = TryGetSource(name, out AudioSource source);
 
@@ -99,6 +103,19 @@ namespace AudioManager.Service {
 
             valueDataError.Value = source.time;
             return valueDataError;
+        }
+
+        public AudioError SetPlaypbackDirection(string name, float pitch) {
+            AudioError error = TryGetSource(name, out AudioSource source);
+
+            // Couldn't find source.
+            if (error != AudioError.OK) {
+                return error;
+            }
+
+            source.SetPitch(pitch);
+            source.SetTimeFromPitch(pitch);
+            return error;
         }
 
         public AudioError PlayAt3DPosition(string name, Vector3 position) {
@@ -516,6 +533,30 @@ namespace AudioManager.Service {
             }
 
             source.SetTime(startTime);
+            return error;
+        }
+
+        public AudioError SkipForward(string name, float time) {
+            AudioError error = TryGetSource(name, out AudioSource source);
+
+            // Couldn't find source.
+            if (error != AudioError.OK) {
+                return error;
+            }
+
+            source.IncreaseTime(time);
+            return error;
+        }
+
+        public AudioError SkipBackward(string name, float time) {
+            AudioError error = TryGetSource(name, out AudioSource source);
+
+            // Couldn't find source.
+            if (error != AudioError.OK) {
+                return error;
+            }
+
+            source.DecreaseTime(time);
             return error;
         }
 

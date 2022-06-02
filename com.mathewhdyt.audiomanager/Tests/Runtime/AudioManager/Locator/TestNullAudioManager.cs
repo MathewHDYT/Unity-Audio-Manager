@@ -1,6 +1,7 @@
 using AudioManager.Core;
 using AudioManager.Locator;
 using NUnit.Framework;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -31,6 +32,12 @@ public class TestNullAudioManager {
     }
 
     [Test]
+    public void TestGetEnumerator() {
+        IEnumerable<string> sounds = m_am.GetEnumerator();
+        Assert.IsNull(sounds);
+    }
+
+    [Test]
     public void TestPlay() {
         AudioError error = m_am.Play(m_text);
         Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
@@ -47,6 +54,12 @@ public class TestNullAudioManager {
         ValueDataError<float> valueDataError = m_am.GetPlaybackPosition(m_text);
         Assert.AreEqual(AudioError.NOT_INITIALIZED, valueDataError.Error);
         Assert.IsNaN(valueDataError.Value);
+    }
+
+    [Test]
+    public void TestSetPlaypbackDirection() {
+        AudioError error = m_am.SetPlaypbackDirection(m_text, m_val);
+        Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
     }
 
     [Test]
@@ -199,6 +212,18 @@ public class TestNullAudioManager {
     [Test]
     public void TestSetStartTime() {
         AudioError error = m_am.SetStartTime(m_text, m_val);
+        Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
+    }
+
+    [Test]
+    public void TestSkipForward() {
+        AudioError error = m_am.SkipForward(m_text, m_val);
+        Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
+    }
+
+    [Test]
+    public void TestSkipBackward() {
+        AudioError error = m_am.SkipBackward(m_text, m_val);
         Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
     }
 }
