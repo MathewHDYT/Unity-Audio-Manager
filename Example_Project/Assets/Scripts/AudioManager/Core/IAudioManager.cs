@@ -46,12 +46,9 @@ namespace AudioManager.Core {
         /// Gets the current playback position of the given sound in seconds.
         /// </summary>
         /// <param name="name">Name of the registered sound.</param>
-        /// <returns>
-        /// <see cref="ValueDataError{T}"/>, where the value (gettable with <see cref="ValueDataError{T}.Value"/>), is the current playback position of the given sound in seconds
-        /// and where the error (gettable with <see cref="ValueDataError{T}.Error"/>) is an <see cref="AudioError"/>,
-        /// showing wheter and how getting the current playback position of the sound failed.
-        /// </returns>
-        public ValueDataError<float> GetPlaybackPosition(string name);
+        /// <param name="time">Variable the playback position in seconds will be copied into (<see cref="float.NaN"/> on failure).</param>
+        /// <returns><see cref="AudioError"/>, showing wheter and how getting the current playback position of the sound failed.</returns>
+        public AudioError GetPlaybackPosition(string name, out float time);
 
         /// <summary>
         /// Sets the given direction the song should be played in. A given pitch of 0 or more means it is a normal song and should just be played with the given pitch value from the start.
@@ -165,12 +162,9 @@ namespace AudioManager.Core {
         /// Returns the progress of the sound with the given name from 0 to 1 where 1 is fully completed.
         /// </summary>
         /// <param name="name">Name of the registered sound.</param>
-        /// <returns>
-        /// <see cref="ValueDataError{T}"/>, where the value (gettable with <see cref="ValueDataError{T}.Value"/>), is the current progress of the given sound in seconds
-        /// and where the error (gettable with <see cref="ValueDataError{T}.Error"/>) is an <see cref="AudioError"/>,
-        /// showing wheter and how getting the current progess of the sound failed.
-        /// </returns>
-        public ValueDataError<float> GetProgress(string name);
+        /// <param name="progress">Variable the progress will be copied into (<see cref="float.NaN"/> on failure).</param>
+        /// <returns><see cref="AudioError"/>, showing wheter and how subscribing the callback failed, showing wheter and how getting the current progess of the sound failed.</returns>
+        public AudioError GetProgress(string name, out float progress);
 
         /// <summary>
         /// Gets the corresponding source to the sound with the given name.
@@ -213,13 +207,10 @@ namespace AudioManager.Core {
         /// Gets the value of the given exposed parameter for the complete <see cref="AudioMixerGroup"/> of the given sound.
         /// </summary>
         /// <param name="name">Name of the registered sound.</param>
+        /// <param name="value">Variable the current exposed parameter will be copied into (<see cref="float.NaN"/> on failure).</param>
         /// <param name="exposedParameterName">Name of the exposed parameter we want to get.</param>
-        /// <returns>
-        /// <see cref="ValueDataError{T}"/>, where the value (gettable with <see cref="ValueDataError{T}.Value"/>), is the current group value of the given sound
-        /// and where the error (gettable with <see cref="ValueDataError{T}.Error"/>) is an <see cref="AudioError"/>,
-        /// showing wheter and how getting the current exposed parameter value failed.
-        /// </returns>
-        public ValueDataError<float> GetGroupValue(string name, string exposedParameterName);
+        /// <returns><see cref="AudioError"/>, showing wheter and how getting the current exposed parameter value failed.</returns>
+        public AudioError GetGroupValue(string name, string exposedParameterName, out float currentValue);
 
         /// <summary>
         /// Resets the value of the given exposed parameter for the complete <see cref="AudioMixerGroup"/> of the given sound to the default value.

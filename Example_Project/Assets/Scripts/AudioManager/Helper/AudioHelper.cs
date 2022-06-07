@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 
 namespace AudioManager.Helper {
-    public class AudioHelper {
+    public static class AudioHelper {
         public static void GetStepValueAndTime(float startValue, float endValue, float waitTime, float granularity, out float stepValue, out float stepTime) {
             float difference = endValue - startValue;
             stepValue = difference / granularity;

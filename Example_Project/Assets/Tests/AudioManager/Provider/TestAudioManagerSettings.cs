@@ -17,7 +17,7 @@ public class TestAudioManagerSettings {
         m_soundName = "Test";
         AudioSourceSetting scriptableObject = ScriptableObject.CreateInstance<AudioSourceSetting>();
         scriptableObject.soundName = m_soundName;
-        AudioSourceSetting[] scriptableObjects = { scriptableObject };
+        AudioSourceSetting[] scriptableObjects = { scriptableObject, scriptableObject, null };
         m_hideFlags = HideFlags.HideInHierarchy | HideFlags.HideInInspector;
         m_gameObject = new GameObject();
         m_settings = m_gameObject.AddComponent<AudioManagerSettings>();

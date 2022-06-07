@@ -31,8 +31,9 @@ namespace AudioManager.Locator {
             return AudioError.NOT_INITIALIZED;
         }
 
-        public ValueDataError<float> GetPlaybackPosition(string name) {
-            return new ValueDataError<float>(float.NaN, AudioError.NOT_INITIALIZED);
+        public AudioError GetPlaybackPosition(string name, out float time) {
+            time = Constants.NULL_VALUE;
+            return AudioError.NOT_INITIALIZED;
         }
 
         public AudioError SetPlaypbackDirection(string name, float pitch = Constants.DEFAULT_REVERSE_PITCH) {
@@ -87,8 +88,9 @@ namespace AudioManager.Locator {
             return AudioError.NOT_INITIALIZED;
         }
 
-        public ValueDataError<float> GetProgress(string name) {
-            return new ValueDataError<float>(float.NaN, AudioError.NOT_INITIALIZED);
+        public AudioError GetProgress(string name, out float progress) {
+            progress = Constants.NULL_VALUE;
+            return AudioError.NOT_INITIALIZED;
         }
 
         public AudioError TryGetSource(string name, out AudioSource source) {
@@ -108,8 +110,9 @@ namespace AudioManager.Locator {
             return AudioError.NOT_INITIALIZED;
         }
 
-        public ValueDataError<float> GetGroupValue(string name, string exposedParameterName) {
-            return new ValueDataError<float>(float.NaN, AudioError.NOT_INITIALIZED);
+        public AudioError GetGroupValue(string name, string exposedParameterName, out float currentValue) {
+            currentValue = Constants.NULL_VALUE;
+            return AudioError.NOT_INITIALIZED;
         }
 
         public AudioError ResetGroupValue(string name, string exposedParameterName) {

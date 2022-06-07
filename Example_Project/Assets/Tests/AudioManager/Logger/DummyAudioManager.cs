@@ -27,8 +27,9 @@ public class DummyAudioManager : IAudioManager {
         return AudioError.OK;
     }
 
-    public ValueDataError<float> GetPlaybackPosition(string name) {
-        return new ValueDataError<float>(float.NaN, AudioError.OK);
+    public AudioError GetPlaybackPosition(string name, out float time) {
+        time = Constants.NULL_VALUE;
+        return AudioError.OK;
     }
 
     public AudioError SetPlaypbackDirection(string name, float pitch) {
@@ -83,8 +84,9 @@ public class DummyAudioManager : IAudioManager {
         return AudioError.OK;
     }
 
-    public ValueDataError<float> GetProgress(string name) {
-        return new ValueDataError<float>(float.NaN, AudioError.OK);
+    public AudioError GetProgress(string name, out float progress) {
+        progress = Constants.NULL_VALUE;
+        return AudioError.OK;
     }
 
     public AudioError TryGetSource(string name, out AudioSource source) {
@@ -104,8 +106,9 @@ public class DummyAudioManager : IAudioManager {
         return AudioError.OK;
     }
 
-    public ValueDataError<float> GetGroupValue(string name, string exposedParameterName) {
-        return new ValueDataError<float>(float.NaN, AudioError.OK);
+    public AudioError GetGroupValue(string name, string exposedParameterName, out float currentValue) {
+        currentValue = Constants.NULL_VALUE;
+        return AudioError.OK;
     }
 
     public AudioError ResetGroupValue(string name, string exposedParameterName) {

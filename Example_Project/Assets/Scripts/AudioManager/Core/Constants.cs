@@ -11,6 +11,7 @@ namespace AudioManager.Core {
         public const int MIN_GRANULARITY = 1;
 
         // Default values for method parameters.
+        public const float NULL_VALUE = float.NaN;
         public const float DEFAULT_VOLUME = 1f;
         public const float DEFAULT_PITCH = 1f;
         public const float DEFAULT_REVERSE_PITCH = -1f;

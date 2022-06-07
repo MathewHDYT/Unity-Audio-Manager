@@ -8,9 +8,6 @@ using UnityEngine.Audio;
 
 namespace AudioManager.Service {
     public class DefaultAudioManager : IAudioManager {
-        // Private constant member variables.
-        private const float nullValue = float.NaN;
-
         // Readonly private member variables.
         private readonly GameObject m_parentGameObject;
         private readonly MonoBehaviour m_parentBehaviour;
@@ -92,17 +89,17 @@ namespace AudioManager.Service {
             return error;
         }
 
-        public ValueDataError<float> GetPlaybackPosition(string name) {
+        public AudioError GetPlaybackPosition(string name, out float time) {
             AudioError error = TryGetSource(name, out AudioSource source);
-            ValueDataError<float> valueDataError = new ValueDataError<float>(nullValue, error);
 
             // Couldn't find source.
             if (error != AudioError.OK) {
-                return valueDataError;
+                time = Constants.NULL_VALUE;
+                return error;
             }
 
-            valueDataError.Value = source.time;
-            return valueDataError;
+            time = source.time;
+            return error;
         }
 
         public AudioError SetPlaypbackDirection(string name, float pitch) {
@@ -314,17 +311,17 @@ namespace AudioManager.Service {
             return error;
         }
 
-        public ValueDataError<float> GetProgress(string name) {
+        public AudioError GetProgress(string name, out float progress) {
             AudioError error = TryGetSource(name, out AudioSource source);
-            ValueDataError<float> valueDataError = new ValueDataError<float>(nullValue, error);
 
             // Couldn't find source.
             if (error != AudioError.OK) {
-                return valueDataError;
+                progress = Constants.NULL_VALUE;
+                return error;
             }
 
-            valueDataError.Value = source.GetProgress();
-            return valueDataError;
+            progress = source.GetProgress();
+            return error;
         }
 
         public AudioError TryGetSource(string name, out AudioSource source) {
@@ -404,22 +401,20 @@ namespace AudioManager.Service {
             return error;
         }
 
-        public ValueDataError<float> GetGroupValue(string name, string exposedParameterName) {
+        public AudioError GetGroupValue(string name, string exposedParameterName, out float currentValue) {
             AudioError error = TryGetSource(name, out AudioSource source);
-            float currentValue = nullValue;
-            ValueDataError<float> valueDataError = new ValueDataError<float>(currentValue, error);
+            currentValue = Constants.NULL_VALUE;
 
             // Couldn't find source.
             if (error != AudioError.OK) {
-                return valueDataError;
+                return error;
             }
             else if (!source.IsAudioMixerGroupValid()) {
-                valueDataError.Error = AudioError.MISSING_MIXER_GROUP;
-                return valueDataError;
+                error = AudioError.MISSING_MIXER_GROUP;
+                return error;
             }
-            valueDataError.Error = source.TryGetGroupValue(exposedParameterName, out currentValue);
-            valueDataError.Value = currentValue;
-            return valueDataError;
+            error = source.TryGetGroupValue(exposedParameterName, out currentValue);
+            return error;
         }
 
         public AudioError ResetGroupValue(string name, string exposedParameterName) {
@@ -439,7 +434,6 @@ namespace AudioManager.Service {
 
         public AudioError LerpGroupValue(string name, string exposedParameterName, float endValue, float waitTime, int granularity) {
             AudioError error = TryGetSource(name, out AudioSource source);
-            float currentValue = nullValue;
 
             // Couldn't find source.
             if (error != AudioError.OK) {
@@ -454,7 +448,7 @@ namespace AudioManager.Service {
                 return error;
             }
 
-            error = source.TryGetGroupValue(exposedParameterName, out currentValue);
+            error = source.TryGetGroupValue(exposedParameterName, out float currentValue);
             if (error != AudioError.OK) {
                 return error;
             }

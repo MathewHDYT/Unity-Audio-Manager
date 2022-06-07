@@ -221,34 +221,37 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.DOES_NOT_EXIST)
         /// ---------------------------------------------
-        ValueDataError<float> valueDataError = m_audioManager.GetPlaybackPosition(m_unregisteredAudioSourceName);
-        Assert.AreNotEqual(AudioError.OK, valueDataError.Error);
-        Assert.AreEqual(AudioError.DOES_NOT_EXIST, valueDataError.Error);
-        Assert.AreNotEqual(expectedTime, valueDataError.Value);
+        AudioError error = m_audioManager.GetPlaybackPosition(m_unregisteredAudioSourceName, out float time);
+        Assert.AreNotEqual(AudioError.OK, error);
+        Assert.AreEqual(AudioError.DOES_NOT_EXIST, error);
+        Assert.IsNaN(time);
+        Assert.AreNotEqual(expectedTime, time);
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_SOURCE)
         /// ---------------------------------------------
-        valueDataError = m_audioManager.GetPlaybackPosition(m_nullAudioSourceName);
-        Assert.AreNotEqual(AudioError.OK, valueDataError.Error);
-        Assert.AreEqual(AudioError.MISSING_SOURCE, valueDataError.Error);
-        Assert.AreNotEqual(expectedTime, valueDataError.Value);
+        error = m_audioManager.GetPlaybackPosition(m_nullAudioSourceName, out time);
+        Assert.AreNotEqual(AudioError.OK, error);
+        Assert.AreEqual(AudioError.MISSING_SOURCE, error);
+        Assert.IsNaN(time);
+        Assert.AreNotEqual(expectedTime, time);
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_CLIP)
         /// ---------------------------------------------
-        valueDataError = m_audioManager.GetPlaybackPosition(m_audioSourceName);
-        Assert.AreNotEqual(AudioError.OK, valueDataError.Error);
-        Assert.AreEqual(AudioError.MISSING_CLIP, valueDataError.Error);
-        Assert.AreNotEqual(expectedTime, valueDataError.Value);
+        error = m_audioManager.GetPlaybackPosition(m_audioSourceName, out time);
+        Assert.AreNotEqual(AudioError.OK, error);
+        Assert.AreEqual(AudioError.MISSING_CLIP, error);
+        Assert.IsNaN(time);
+        Assert.AreNotEqual(expectedTime, time);
 
         /// ---------------------------------------------
         /// Valid case (AudioError.OK)
         /// ---------------------------------------------
         m_source.clip = m_clip;
-        valueDataError = m_audioManager.GetPlaybackPosition(m_audioSourceName);
-        Assert.AreEqual(AudioError.OK, valueDataError.Error);
-        Assert.AreEqual(expectedTime, valueDataError.Value);
+        error = m_audioManager.GetPlaybackPosition(m_audioSourceName, out time);
+        Assert.AreEqual(AudioError.OK, error);
+        Assert.AreEqual(expectedTime, time);
     }
 
     [Test]
@@ -897,33 +900,33 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.DOES_NOT_EXIST)
         /// ---------------------------------------------
-        ValueDataError<float> valueDataError = m_audioManager.GetProgress(m_unregisteredAudioSourceName);
-        Assert.AreNotEqual(AudioError.OK, valueDataError.Error);
-        Assert.AreEqual(AudioError.DOES_NOT_EXIST, valueDataError.Error);
-        Assert.AreEqual(float.NaN, valueDataError.Value);
-        Assert.AreNotEqual(m_source.time / m_clip.length, valueDataError.Value);
+        AudioError error = m_audioManager.GetProgress(m_unregisteredAudioSourceName, out float progress);
+        Assert.AreNotEqual(AudioError.OK, error);
+        Assert.AreEqual(AudioError.DOES_NOT_EXIST, error);
+        Assert.IsNaN(progress);
+        Assert.AreNotEqual(m_source.time / m_clip.length, progress);
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_SOURCE)
         /// ---------------------------------------------
-        valueDataError = m_audioManager.GetProgress(m_nullAudioSourceName);
-        Assert.AreNotEqual(AudioError.OK, valueDataError.Error);
-        Assert.AreEqual(AudioError.MISSING_SOURCE, valueDataError.Error);
-        Assert.AreEqual(float.NaN, valueDataError.Value);
-        Assert.AreNotEqual(m_source.time / m_clip.length, valueDataError.Value);
+        error = m_audioManager.GetProgress(m_nullAudioSourceName, out progress);
+        Assert.AreNotEqual(AudioError.OK, error);
+        Assert.AreEqual(AudioError.MISSING_SOURCE, error);
+        Assert.IsNaN(progress);
+        Assert.AreNotEqual(m_source.time / m_clip.length, progress);
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_CLIP)
         /// ---------------------------------------------
-        valueDataError = m_audioManager.GetProgress(m_nullAudioSourceName);
-        Assert.AreNotEqual(AudioError.OK, valueDataError.Error);
-        Assert.AreEqual(AudioError.MISSING_SOURCE, valueDataError.Error);
-        Assert.AreEqual(float.NaN, valueDataError.Value);
-        Assert.AreNotEqual(m_source.time / m_clip.length, valueDataError.Value);
+        error = m_audioManager.GetProgress(m_nullAudioSourceName, out progress);
+        Assert.AreNotEqual(AudioError.OK, error);
+        Assert.AreEqual(AudioError.MISSING_SOURCE, error);
+        Assert.IsNaN(progress);
+        Assert.AreNotEqual(m_source.time / m_clip.length, progress);
 
         // Start playing the given clip. So we can test if getting the progress was successfull.
         m_source.clip = m_clip;
-        AudioError error = m_audioManager.Play(m_audioSourceName);
+        error = m_audioManager.Play(m_audioSourceName);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_source.isPlaying);
         yield return new WaitForSeconds(m_clipStartTime);
@@ -931,9 +934,9 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Valid case (AudioError.OK)
         /// ---------------------------------------------
-        valueDataError = m_audioManager.GetProgress(m_audioSourceName);
+        error = m_audioManager.GetProgress(m_audioSourceName, out progress);
         Assert.AreEqual(AudioError.OK, error);
-        Assert.AreEqual(m_source.time / m_clip.length, valueDataError.Value);
+        Assert.AreEqual(m_source.time / m_clip.length, progress);
     }
 
     [Test]
@@ -1182,58 +1185,58 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.DOES_NOT_EXIST)
         /// ---------------------------------------------
-        ValueDataError<float> valueDataError = m_audioManager.GetGroupValue(m_unregisteredAudioSourceName, parameterName);
-        Assert.AreNotEqual(AudioError.OK, valueDataError.Error);
-        Assert.AreEqual(AudioError.DOES_NOT_EXIST, valueDataError.Error);
-        m_mixerGroup.audioMixer.GetFloat(parameterName, out float currentValue);
-        Assert.AreNotEqual(currentValue, valueDataError.Value);
+        AudioError error = m_audioManager.GetGroupValue(m_unregisteredAudioSourceName, parameterName, out float currentValue);
+        Assert.AreNotEqual(AudioError.OK, error);
+        Assert.AreEqual(AudioError.DOES_NOT_EXIST, error);
+        m_mixerGroup.audioMixer.GetFloat(parameterName, out float expectedValue);
+        Assert.AreNotEqual(expectedValue, currentValue);
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_SOURCE)
         /// ---------------------------------------------
-        valueDataError = m_audioManager.GetGroupValue(m_nullAudioSourceName, parameterName);
-        Assert.AreNotEqual(AudioError.OK, valueDataError.Error);
-        Assert.AreEqual(AudioError.MISSING_SOURCE, valueDataError.Error);
-        m_mixerGroup.audioMixer.GetFloat(parameterName, out currentValue);
-        Assert.AreNotEqual(currentValue, valueDataError.Value);
+        error = m_audioManager.GetGroupValue(m_nullAudioSourceName, parameterName, out currentValue);
+        Assert.AreNotEqual(AudioError.OK, error);
+        Assert.AreEqual(AudioError.MISSING_SOURCE, error);
+        m_mixerGroup.audioMixer.GetFloat(parameterName, out expectedValue);
+        Assert.AreNotEqual(expectedValue, currentValue);
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_CLIP)
         /// ---------------------------------------------
-        valueDataError = m_audioManager.GetGroupValue(m_audioSourceName, parameterName);
-        Assert.AreNotEqual(AudioError.OK, valueDataError.Error);
-        Assert.AreEqual(AudioError.MISSING_CLIP, valueDataError.Error);
-        m_mixerGroup.audioMixer.GetFloat(parameterName, out currentValue);
-        Assert.AreNotEqual(currentValue, valueDataError.Value);
+        error = m_audioManager.GetGroupValue(m_audioSourceName, parameterName, out currentValue);
+        Assert.AreNotEqual(AudioError.OK, error);
+        Assert.AreEqual(AudioError.MISSING_CLIP, error);
+        m_mixerGroup.audioMixer.GetFloat(parameterName, out expectedValue);
+        Assert.AreNotEqual(expectedValue, currentValue);
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_MIXER_GROUP)
         /// ---------------------------------------------
         m_source.clip = m_clip;
-        valueDataError = m_audioManager.GetGroupValue(m_audioSourceName, parameterName);
-        Assert.AreNotEqual(AudioError.OK, valueDataError.Error);
-        Assert.AreEqual(AudioError.MISSING_MIXER_GROUP, valueDataError.Error);
-        m_mixerGroup.audioMixer.GetFloat(parameterName, out currentValue);
-        Assert.AreNotEqual(currentValue, valueDataError.Value);
+        error = m_audioManager.GetGroupValue(m_audioSourceName, parameterName, out currentValue);
+        Assert.AreNotEqual(AudioError.OK, error);
+        Assert.AreEqual(AudioError.MISSING_MIXER_GROUP, error);
+        m_mixerGroup.audioMixer.GetFloat(parameterName, out expectedValue);
+        Assert.AreNotEqual(expectedValue, currentValue);
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.MIXER_NOT_EXPOSED)
         /// ---------------------------------------------
         m_source.outputAudioMixerGroup = m_mixerGroup;
-        valueDataError = m_audioManager.GetGroupValue(m_audioSourceName, parameterName);
-        Assert.AreNotEqual(AudioError.OK, valueDataError.Error);
-        Assert.AreEqual(AudioError.MIXER_NOT_EXPOSED, valueDataError.Error);
-        m_mixerGroup.audioMixer.GetFloat(parameterName, out currentValue);
-        Assert.AreNotEqual(currentValue, valueDataError.Value);
+        error = m_audioManager.GetGroupValue(m_audioSourceName, parameterName, out currentValue);
+        Assert.AreNotEqual(AudioError.OK, error);
+        Assert.AreEqual(AudioError.MIXER_NOT_EXPOSED, error);
+        m_mixerGroup.audioMixer.GetFloat(parameterName, out expectedValue);
+        Assert.AreNotEqual(expectedValue, currentValue);
 
         /// ---------------------------------------------
         /// Valid case (AudioError.OK)
         /// ---------------------------------------------
         parameterName = m_parameterName;
-        valueDataError = m_audioManager.GetGroupValue(m_audioSourceName, parameterName);
-        Assert.AreEqual(AudioError.OK, valueDataError.Error);
-        m_mixerGroup.audioMixer.GetFloat(parameterName, out currentValue);
-        Assert.AreEqual(currentValue, valueDataError.Value);
+        error = m_audioManager.GetGroupValue(m_audioSourceName, parameterName, out currentValue);
+        Assert.AreEqual(AudioError.OK, error);
+        m_mixerGroup.audioMixer.GetFloat(parameterName, out expectedValue);
+        Assert.AreEqual(expectedValue, currentValue);
     }
 
     [Test]

@@ -10,7 +10,6 @@ namespace AudioManager.Logger {
     public class LoggedAudioManager : IAudioManager {
         // Private constant member variables.
         private const AudioError nullError = AudioError.NOT_INITIALIZED;
-        private const float nullValue = float.NaN;
 
         // Readonly private member variables.
         // Class used for logging.
@@ -81,15 +80,16 @@ namespace AudioManager.Logger {
             return error;
         }
 
-        public ValueDataError<float> GetPlaybackPosition(string name) {
+        public AudioError GetPlaybackPosition(string name, out float time) {
             const string enterLogBase = "Attempting to read the playbackPosition of the registered AudioSource entry";
             const string exitLogBase = "Reading the playbackPosition of the given registered AudioSource entry";
 
+            time = Constants.NULL_VALUE;
             OnMethodEnter(enterLogBase, name);
-            ValueDataError<float> valueDataError = ConvertToValueDataError(m_wrappedInstance?.GetPlaybackPosition(name));
-            OnReceivedError(exitLogBase, valueDataError.Error);
-            OnMethodExit(exitLogBase, valueDataError.Error);
-            return valueDataError;
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.GetPlaybackPosition(name, out time));
+            OnReceivedError(exitLogBase, error);
+            OnMethodExit(exitLogBase, error);
+            return error;
         }
 
         public AudioError SetPlaypbackDirection(string name, float pitch) {
@@ -235,15 +235,16 @@ namespace AudioManager.Logger {
             return error;
         }
 
-        public ValueDataError<float> GetProgress(string name) {
+        public AudioError GetProgress(string name, out float progress) {
             const string enterLogBase = "Attempting to read the progress of the registered AudioSource entry";
             const string exitLogBase = "Reading the progress of the registered AudioSource entry";
 
+            progress = Constants.NULL_VALUE;
             OnMethodEnter(enterLogBase, name);
-            ValueDataError<float> valueDataError = ConvertToValueDataError(m_wrappedInstance?.GetProgress(name));
-            OnReceivedError(exitLogBase, valueDataError.Error);
-            OnMethodExit(exitLogBase, valueDataError.Error);
-            return valueDataError;
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.GetProgress(name, out progress));
+            OnReceivedError(exitLogBase, error);
+            OnMethodExit(exitLogBase, error);
+            return error;
         }
 
         public AudioError TryGetSource(string name, out AudioSource source) {
@@ -291,15 +292,16 @@ namespace AudioManager.Logger {
             return error;
         }
 
-        public ValueDataError<float> GetGroupValue(string name, string exposedParameterName) {
+        public AudioError GetGroupValue(string name, string exposedParameterName, out float currentValue) {
             string enterLogBase = string.Join(" ", "Attempting to get group value with the name:", exposedParameterName, "of the registered AudioSource entry");
             const string exitLogBase = "Getting group value of the registered AudioSource entry";
 
+            currentValue = Constants.NULL_VALUE;
             OnMethodEnter(enterLogBase, name);
-            ValueDataError<float> valueDataError = ConvertToValueDataError(m_wrappedInstance?.GetGroupValue(name, exposedParameterName));
-            OnReceivedError(exitLogBase, valueDataError.Error);
-            OnMethodExit(exitLogBase, valueDataError.Error);
-            return valueDataError;
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.GetGroupValue(name, exposedParameterName, out currentValue));
+            OnReceivedError(exitLogBase, error);
+            OnMethodExit(exitLogBase, error);
+            return error;
         }
 
         public AudioError ResetGroupValue(string name, string exposedParameterName) {
@@ -442,10 +444,6 @@ namespace AudioManager.Logger {
 
         private AudioError ConvertToAudioError(AudioError? error) {
             return error.HasValue ? error.Value : nullError;
-        }
-
-        private ValueDataError<float> ConvertToValueDataError(ValueDataError<float>? valueDataError) {
-            return valueDataError.HasValue ? valueDataError.Value : new ValueDataError<float>(nullValue, nullError);
         }
     }
 }

@@ -1,7 +1,6 @@
 using AudioManager.Core;
 using AudioManager.Locator;
 using AudioManager.Logger;
-using System.IO;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
@@ -155,10 +154,10 @@ public class MethodCalls : MonoBehaviour {
     public void GetPlayBackPositionClicked() {
         ClearText();
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        ValueDataError<float> valueDataError = am.GetPlaybackPosition(selectedSoundName);
+        AudioError error = am.GetPlaybackPosition(selectedSoundName, out float time);
 
-        if (CheckSuccess(valueDataError.Error)) {
-            AppendText(string.Join(" ", "Current playback position being:", valueDataError.Value.ToString("0.00"), "seconds"));
+        if (CheckSuccess(error)) {
+            AppendText(string.Join(" ", "Current playback position being:", time.ToString("0.00"), "seconds"));
         }
     }
 
@@ -268,10 +267,10 @@ public class MethodCalls : MonoBehaviour {
     public void GetProgressClicked() {
         ClearText();
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        ValueDataError<float> valueDataError = am.GetProgress(selectedSoundName);
+        AudioError error = am.GetProgress(selectedSoundName, out float progress);
 
-        if (CheckSuccess(valueDataError.Error)) {
-            AppendText(string.Join(" ", "Current progress being:", (valueDataError.Value * 100).ToString("0.00"), "%"));
+        if (CheckSuccess(error)) {
+            AppendText(string.Join(" ", "Current progress being:", (progress * 100).ToString("0.00"), "%"));
         }
     }
 
@@ -333,10 +332,10 @@ public class MethodCalls : MonoBehaviour {
     public void GetGroupValueClicked() {
         ClearText();
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        ValueDataError<float> valueDataError = am.GetGroupValue(selectedSoundName, EXPOSED_VOLUME_NAME);
+        AudioError error = am.GetGroupValue(selectedSoundName, EXPOSED_VOLUME_NAME, out float currentValue);
 
-        if (CheckSuccess(valueDataError.Error)) {
-            AppendText(string.Join(" ", "Current group value being:", valueDataError.Value.ToString("0.00")));
+        if (CheckSuccess(error)) {
+            AppendText(string.Join(" ", "Current group value being:", currentValue.ToString("0.00")));
         }
     }
 

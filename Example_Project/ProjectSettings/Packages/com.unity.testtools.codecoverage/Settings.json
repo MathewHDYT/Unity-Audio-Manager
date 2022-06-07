@@ -6,7 +6,7 @@
             {
                 "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
                 "key": "IncludeAssemblies",
-                "value": "{\"m_Value\":\"Assembly-CSharp,AudioManager.Core,AudioManager.Helper,AudioManager.Locator,AudioManager.Logger,AudioManager.Provider,AudioManager.Service,AudioManager.Settings,Tests.Core,Tests.Locator,Tests.Logger,Tests.Service\"}"
+                "value": "{\"m_Value\":\"Assembly-CSharp,AudioManager.Core,AudioManager.Helper,AudioManager.Locator,AudioManager.Logger,AudioManager.Provider,AudioManager.Service,AudioManager.Settings,Tests.Locator,Tests.Logger,Tests.Service\"}"
             },
             {
                 "type": "System.String, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089",
