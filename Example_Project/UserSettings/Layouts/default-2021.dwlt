@@ -119,7 +119,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 68
+  controlID: 73
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 69
+  controlID: 42
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -169,7 +169,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 70
+  controlID: 43
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -272,8 +272,8 @@ MonoBehaviour:
     y: 0
     width: 569
     height: 947
-  m_MinSize: {x: 276, y: 71}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 20}
   m_Panes:
   - {fileID: 20}
@@ -342,7 +342,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: f4d6feff30d7feff6ad8feffaad8feff42dffeffd6e0feff16e1feffaee7feffeae7feff26e8feff2ee9feff6ee9feff06f0feff40f0feff80f0feff18f7feff54f7feff90f7feff88f8feffc8f8feff60fffeff7801ffffb801ffff5008ffff2a09ffff6a09ffff0210ffffb611fffff611ffff8e18ffff821bffffc21bffff5a22ffff3423ffff7423ffff0c2affff882bffffc82bffff6032fffffe35ffff3e36ffffd63cffff7040ffffb040ffff4847ffff164affff564affffee50ffff565effff965effffa65fffffdc5fffff1c60ffff4061ffff7e61ffffbe61ffffce62ffff0063ffff4063ffff6464ffff9264ffffd264ffffe265ffff1c66ffff5c66fffff46cffffb66efffff66effff8e75ffffc875ffff0876ffffa07cffff6684ffffa684ffff3e8bffff2c92ffff6c92ffff0499ffffdc99ffff1c9affffc8a0ffff02a1ffff42a1ffffdaa7ffffb8b2fffff8b2ffff90b9ffff6ec3ffffaec3ffff46caffff90d0ffffd0d0ffff3ad4ffff74d4ffffb4d4ffff3cdbffff96dbffffd6dbffff5ce2ffff92e2ffffd2e2ffffcce9ffffd6eaffff16ebffffbef1fffff2f2ffff32f3ffffe0f9ffff26fbffff
+      m_ExpandedIDs: 4cf3ffff22faffff26fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -804,22 +804,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Tests/AudioManager/Logger
+    - Assets/Scenes
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Tests/AudioManager/Logger
+  - Assets/Scenes
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\Mathew\Unity-Audio-Manager\Example_Project
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 135}
-    m_SelectedIDs: b44b0000
-    m_LastClickedID: 19380
-    m_ExpandedIDs: 00000000fa4a0000fc4a0000fe4a00001e4b0000ae4b000000ca9a3b
+    scrollPos: {x: 0, y: 75}
+    m_SelectedIDs: 1a4b0000
+    m_LastClickedID: 19226
+    m_ExpandedIDs: 00000000fa4a0000fc4a0000fe4a0000004b0000024b000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -847,7 +847,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000fa4a0000fc4a0000fe4a0000
+    m_ExpandedIDs: 00000000fa4a0000fc4a0000fe4a0000004b0000024b0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -874,7 +874,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c623000000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -1676,99 +1676,99 @@ MonoBehaviour:
       messages: 
       output: '
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 '
       stacktrace: 
@@ -1789,27 +1789,27 @@ MonoBehaviour:
       messages: 
       output: '
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
+
+
+
+
+
+
+
+
+
+
+
 
 '
       stacktrace: 
@@ -1830,27 +1830,27 @@ MonoBehaviour:
       messages: 
       output: '
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
+
+
+
+
+
+
+
+
+
+
+
 
 '
       stacktrace: 
@@ -1872,8 +1872,8 @@ MonoBehaviour:
       output: 'NullReferenceException: Object reference not set to an instance of
         an object.
 
-        NullReferenceException: Object reference not set to
-        an instance of an object.
+        NullReferenceException: Object reference not set to an
+        instance of an object.
 
         NullReferenceException: Object reference
         not set to an instance of an object.
@@ -1924,99 +1924,99 @@ MonoBehaviour:
       messages: 
       output: '
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
 
-        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 '
       stacktrace: 
@@ -10699,490 +10699,477 @@ MonoBehaviour:
       There are no audio listeners in the scene. Please ensure
       there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no audio listeners
+      in the scene. Please ensure there is always one audio listener in the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
-
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There
+      are no audio listeners in the scene. Please ensure there is always one audio
+      listener in the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There are no audio listeners in the scene. Please
+      ensure there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no
+      audio listeners in the scene. Please ensure there is always one audio listener
+      in the scene
 
       There are no audio listeners in the scene. Please ensure
       there is always one audio listener in the scene
-
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There are no audio listeners
+      in the scene. Please ensure there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There
+      are no audio listeners in the scene. Please ensure there is always one audio
+      listener in the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There are no audio listeners in the scene. Please
+      ensure there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no
+      audio listeners in the scene. Please ensure there is always one audio listener
+      in the scene
 
       There are no audio listeners in the scene. Please ensure
       there is always one audio listener in the scene
-
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There are no audio listeners
+      in the scene. Please ensure there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There
+      are no audio listeners in the scene. Please ensure there is always one audio
+      listener in the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There are no audio listeners in the scene. Please
+      ensure there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no
+      audio listeners in the scene. Please ensure there is always one audio listener
+      in the scene
 
       There are no audio listeners in the scene. Please ensure
       there is always one audio listener in the scene
-
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There are no audio listeners
+      in the scene. Please ensure there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There
+      are no audio listeners in the scene. Please ensure there is always one audio
+      listener in the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There are no audio listeners in the scene. Please
+      ensure there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no
+      audio listeners in the scene. Please ensure there is always one audio listener
+      in the scene
 
       There are no audio listeners in the scene. Please ensure
       there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no audio listeners
+      in the scene. Please ensure there is always one audio listener in the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
-
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There
+      are no audio listeners in the scene. Please ensure there is always one audio
+      listener in the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There are no audio listeners in the scene. Please
+      ensure there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no
+      audio listeners in the scene. Please ensure there is always one audio listener
+      in the scene
 
       There are no audio listeners in the scene. Please ensure
       there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
-
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There are no audio listeners
+      in the scene. Please ensure there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There
+      are no audio listeners in the scene. Please ensure there is always one audio
+      listener in the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There are no audio listeners in the scene. Please
+      ensure there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no
+      audio listeners in the scene. Please ensure there is always one audio listener
+      in the scene
 
       There are no audio listeners in the scene. Please ensure
       there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no audio listeners
+      in the scene. Please ensure there is always one audio listener in the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There
+      are no audio listeners in the scene. Please ensure there is always one audio
+      listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
-
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There are no audio listeners in the scene. Please
+      ensure there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no
+      audio listeners in the scene. Please ensure there is always one audio listener
+      in the scene
 
       There are no audio listeners in the scene. Please ensure
       there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
-
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There are no audio listeners
+      in the scene. Please ensure there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There
+      are no audio listeners in the scene. Please ensure there is always one audio
+      listener in the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There are no audio listeners in the scene. Please
+      ensure there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no
+      audio listeners in the scene. Please ensure there is always one audio listener
+      in the scene
 
       There are no audio listeners in the scene. Please ensure
       there is always one audio listener in the scene
-
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There are no audio listeners
+      in the scene. Please ensure there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There
+      are no audio listeners in the scene. Please ensure there is always one audio
+      listener in the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There are no audio listeners in the scene. Please
+      ensure there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no
+      audio listeners in the scene. Please ensure there is always one audio listener
+      in the scene
 
       There are no audio listeners in the scene. Please ensure
       there is always one audio listener in the scene
-
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There are no audio listeners
+      in the scene. Please ensure there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There
+      are no audio listeners in the scene. Please ensure there is always one audio
+      listener in the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There are no audio listeners in the scene. Please
+      ensure there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no
+      audio listeners in the scene. Please ensure there is always one audio listener
+      in the scene
 
       There are no audio listeners in the scene. Please ensure
       there is always one audio listener in the scene
-
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There are no audio listeners
+      in the scene. Please ensure there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There
+      are no audio listeners in the scene. Please ensure there is always one audio
+      listener in the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There are no audio listeners in the scene. Please
+      ensure there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no
+      audio listeners in the scene. Please ensure there is always one audio listener
+      in the scene
 
       There are no audio listeners in the scene. Please ensure
       there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no audio listeners
+      in the scene. Please ensure there is always one audio listener in the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
-
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There
+      are no audio listeners in the scene. Please ensure there is always one audio
+      listener in the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There are no audio listeners in the scene. Please
+      ensure there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no
+      audio listeners in the scene. Please ensure there is always one audio listener
+      in the scene
 
       There are no audio listeners in the scene. Please ensure
       there is always one audio listener in the scene
-
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There are no audio listeners
+      in the scene. Please ensure there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There
+      are no audio listeners in the scene. Please ensure there is always one audio
+      listener in the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There are no audio listeners in the scene. Please
+      ensure there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no
+      audio listeners in the scene. Please ensure there is always one audio listener
+      in the scene
 
       There are no audio listeners in the scene. Please ensure
       there is always one audio listener in the scene
-
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There are no audio listeners
+      in the scene. Please ensure there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There
+      are no audio listeners in the scene. Please ensure there is always one audio
+      listener in the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There are no audio listeners in the scene. Please
+      ensure there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no
+      audio listeners in the scene. Please ensure there is always one audio listener
+      in the scene
 
       There are no audio listeners in the scene. Please ensure
       there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no audio listeners
+      in the scene. Please ensure there is always one audio listener in the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There
+      are no audio listeners in the scene. Please ensure there is always one audio
+      listener in the scene
+
+      There are no audio listeners in the scene. Please
+      ensure there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no
+      audio listeners in the scene. Please ensure there is always one audio listener
+      in the scene
 
       There are no audio listeners in the scene. Please ensure
       there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no audio listeners
+      in the scene. Please ensure there is always one audio listener in the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There
+      are no audio listeners in the scene. Please ensure there is always one audio
+      listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no audio listeners in the scene. Please
+      ensure there is always one audio listener in the scene
 
+      There are no
+      audio listeners in the scene. Please ensure there is always one audio listener
+      in the scene
+
       There are no audio listeners in the scene. Please ensure
       there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no audio listeners
+      in the scene. Please ensure there is always one audio listener in the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There
+      are no audio listeners in the scene. Please ensure there is always one audio
+      listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no audio listeners in the scene. Please
+      ensure there is always one audio listener in the scene
 
+      There are no
+      audio listeners in the scene. Please ensure there is always one audio listener
+      in the scene
+
       There are no audio listeners in the scene. Please ensure
       there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no audio listeners
+      in the scene. Please ensure there is always one audio listener in the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There
+      are no audio listeners in the scene. Please ensure there is always one audio
+      listener in the scene
+
+      There are no audio listeners in the scene. Please
+      ensure there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no
+      audio listeners in the scene. Please ensure there is always one audio listener
+      in the scene
 
       There are no audio listeners in the scene. Please ensure
       there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no audio listeners
+      in the scene. Please ensure there is always one audio listener in the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There
+      are no audio listeners in the scene. Please ensure there is always one audio
+      listener in the scene
+
+      There are no audio listeners in the scene. Please
+      ensure there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no
+      audio listeners in the scene. Please ensure there is always one audio listener
+      in the scene
 
       There are no audio listeners in the scene. Please ensure
       there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no audio listeners
+      in the scene. Please ensure there is always one audio listener in the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There
+      are no audio listeners in the scene. Please ensure there is always one audio
+      listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no audio listeners in the scene. Please
+      ensure there is always one audio listener in the scene
 
+      There are no
+      audio listeners in the scene. Please ensure there is always one audio listener
+      in the scene
+
       There are no audio listeners in the scene. Please ensure
       there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no audio listeners
+      in the scene. Please ensure there is always one audio listener in the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There
+      are no audio listeners in the scene. Please ensure there is always one audio
+      listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no audio listeners in the scene. Please
+      ensure there is always one audio listener in the scene
 
+      There are no
+      audio listeners in the scene. Please ensure there is always one audio listener
+      in the scene
+
       There are no audio listeners in the scene. Please ensure
       there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no audio listeners
+      in the scene. Please ensure there is always one audio listener in the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There
+      are no audio listeners in the scene. Please ensure there is always one audio
+      listener in the scene
+
+      There are no audio listeners in the scene. Please
+      ensure there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no
+      audio listeners in the scene. Please ensure there is always one audio listener
+      in the scene
 
       There are no audio listeners in the scene. Please ensure
       there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no audio listeners
+      in the scene. Please ensure there is always one audio listener in the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There
+      are no audio listeners in the scene. Please ensure there is always one audio
+      listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no audio listeners in the scene. Please
+      ensure there is always one audio listener in the scene
 
+      There are no
+      audio listeners in the scene. Please ensure there is always one audio listener
+      in the scene
+
       There are no audio listeners in the scene. Please ensure
       there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no audio listeners
+      in the scene. Please ensure there is always one audio listener in the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There
+      are no audio listeners in the scene. Please ensure there is always one audio
+      listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no audio listeners in the scene. Please
+      ensure there is always one audio listener in the scene
 
+      There are no
+      audio listeners in the scene. Please ensure there is always one audio listener
+      in the scene
+
       There are no audio listeners in the scene. Please ensure
       there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no audio listeners
+      in the scene. Please ensure there is always one audio listener in the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There
+      are no audio listeners in the scene. Please ensure there is always one audio
+      listener in the scene
+
+      There are no audio listeners in the scene. Please
+      ensure there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no
+      audio listeners in the scene. Please ensure there is always one audio listener
+      in the scene
 
       There are no audio listeners in the scene. Please ensure
       there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no audio listeners
+      in the scene. Please ensure there is always one audio listener in the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There
+      are no audio listeners in the scene. Please ensure there is always one audio
+      listener in the scene
+
+      There are no audio listeners in the scene. Please
+      ensure there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no
+      audio listeners in the scene. Please ensure there is always one audio listener
+      in the scene
 
       There are no audio listeners in the scene. Please ensure
       there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no audio listeners
+      in the scene. Please ensure there is always one audio listener in the scene
 
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
+      There
+      are no audio listeners in the scene. Please ensure there is always one audio
+      listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There are no audio listeners in the scene. Please
+      ensure there is always one audio listener in the scene
 
+      There are no
+      audio listeners in the scene. Please ensure there is always one audio listener
+      in the scene
+
       There are no audio listeners in the scene. Please ensure
       there is always one audio listener in the scene
+
+      There are no audio listeners
+      in the scene. Please ensure there is always one audio listener in the scene
 
-      There are no audio
-      listeners in the scene. Please ensure there is always one audio listener in
-      the scene
+      There
+      are no audio listeners in the scene. Please ensure there is always one audio
+      listener in the scene
 
       There are ...
 
 
-      ---MESSAGE TRUNCATED AT 15000 CHARACTERS---'
+      ---MESSAGE TRUNCATED AT
+      15000 CHARACTERS---'
     m_ResultStacktrace: 
     m_TestListState:
       scrollPos: {x: 0, y: 0}
