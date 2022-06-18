@@ -258,3 +258,32 @@ jobs:
           itchGameId: ${{ env.ITCH_GAME_ID }}
           buildChannel: webgl
           buildNumber: ${{ steps.get-latest-tag.outputs.tag }}
+
+  deployAndroid:
+    needs: buildAndroid
+    name: Deploy Android to Itch.io 🚀
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Get the latest tag 🏷️
+        uses: actions-ecosystem/action-get-latest-tag@v1
+        id: get-latest-tag
+        with:
+          semver_only: true
+
+      - name: Download build
+        uses: actions/download-artifact@v2.0.8
+        with:
+          name: build-Android
+          path: build/Android
+
+      - name: Deploy build
+        uses: KikimoraGames/itch-publish@v0.0.3
+        with:
+          butlerApiKey: ${{ secrets.BUTLER_API_KEY }}
+          gameData: ./build/
+          itchUsername: ${{ env.ITCH_USERNAME }}
+          itchGameId: ${{ env.ITCH_GAME_ID }}
+          buildChannel: android
+          buildNumber: ${{ steps.get-latest-tag.outputs.tag }}
