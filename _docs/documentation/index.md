@@ -15,12 +15,12 @@ Shows all the possible ```AudioError``` enum values that can be returned by the 
 | -------| ------------------------------| -----------------------------------------------------------------------------------------------|
 | 0      | OK                            | Method succesfully executed                                                                    |
 | 1      | DOES_NOT_EXIST                | Sound has not been registered with the AudioManager                                            |
-| 2      | ALREADY_EXISTS                | Can't add sound as there already exists a sound with that name                                 |
-| 3      | INVALID_PATH                  | Can't add sound because the path does not lead to a valid audio clip                           |
+| 2      | ALREADY_EXISTS                | There already exists a sound with that name                                 					  |
+| 3      | INVALID_PATH                  | Path does not lead to a valid audio clip                           							  |
 | 4      | INVALID_END_VALUE             | The given endValue is already the same as the current value                                    |
 | 5      | INVALID_GRANULARITY           | The given granularity is too small, has to be higher than or equal to 1                        |
 | 6      | INVALID_TIME                  | The given time exceeds the actual length of the clip                                           |
-| 7      | INVALID_PROGRESS              | The given value is to close to the end of the actual clip length, therefore the given value can not be detected, because playing audio is frame rate independent |
+| 7      | INVALID_PROGRESS              | The given value is to close to the end or the start of the actual clip length, because playing audio is frame rate independent |
 | 8      | MIXER_NOT_EXPOSED             | The given parameter in the AudioMixer is not exposed or does not exist                         |
 | 9      | MISSING_SOURCE                | Sound does not have an AudioSource component on the GameObject the AudioManager resides on     |
 | 10     | MISSING_MIXER_GROUP           | Group methods may only be called with a sound that has a set AudioMixerGroup                   |
@@ -29,3 +29,5 @@ Shows all the possible ```AudioError``` enum values that can be returned by the 
 | 13     | MISSING_CLIP                  | Sound does not have an AudioClip component that can be played                                  |
 | 14     | MISSING_PARENT                | AudioManager did not get passed a valid parent gameObject with the needed components. (MonoBehaviour, Transform) |
 | 15     | INVALID_PARENT                | The given gameObject passed to the method was null and therefore no AudioSource component can be attached and played on it |
+| 16     | ALREADY_SUBSCRIBED            | Callback with the exact same progress was already subscribed for this sound					  |
+| 17     | NOT_SUBSCRIBED                | Callback with the progress was not yet subscribed for this sound								  |
