@@ -22,6 +22,17 @@ public class AdvancedExamples : MonoBehaviour {
     [Tooltip("Moment in the clip that the loop should end at.")]
     private float loopEnd;
 
+    [Header("Reverse Loop song sub-section:")]
+    [SerializeField]
+    [Tooltip("Song that should be looped between the given start and end position.")]
+    private AudioSourceSetting reverseLoopSound;
+    [SerializeField]
+    [Tooltip("How many seconds into the song the loop should start.")]
+    private float reverseLoopStart;
+    [SerializeField]
+    [Tooltip("After how many seconds in the loop the song should reset to the reverseLoopStart.")]
+    private float reverseLoopEnd;
+
     [Header("Transition between songs:")]
     [SerializeField]
     [Tooltip("Song that should be first and faded out.")]
@@ -47,10 +58,35 @@ public class AdvancedExamples : MonoBehaviour {
     [Tooltip("Pitch that will be set and decides , which direction to play in (normal > 0, reverse < 0).")]
     private float directionPitch;
 
+    [Header("Fade in song:")]
+    [SerializeField]
+    [Tooltip("Song that should be slowly faded in.")]
+    private AudioSourceSetting fadeInSong;
+    [SerializeField]
+    [Tooltip("Time until the clip has completly faded in.")]
+    private float clipFadeInTime;
+    [SerializeField]
+    [Tooltip("End volume of the clip when it has completly faded in.")]
+    private float fadeInEndVolume;
+    [SerializeField]
+    [Tooltip("How many steps we take to decrease the volume more means a smoother decrease, normally around 5-10 is more than enough tough.")]
+    private int fadeInGranularity;
+
+    [Header("Fade out song:")]
+    [SerializeField]
+    [Tooltip("Song that should be played normally then slowly faded out.")]
+    private AudioSourceSetting fadeOutSong;
+    [SerializeField]
+    [Tooltip("Time until the clip has completly faded out.")]
+    private float clipFadeOutTime;
+    [SerializeField]
+    [Tooltip("How many steps we take to decrease the volume more means a smoother decrease, normally around 5-10 is more than enough tough.")]
+    private int fadeOutGranularity;
+
     private IAudioManager am;
 
     private void Start() {
-        SettingsHelper.SetupSounds(out var sounds, new AudioSourceSetting[] { loopSound, firstSound, secondSound, reverseSound }, this.gameObject);
+        SettingsHelper.SetupSounds(out var sounds, new AudioSourceSetting[] { loopSound, reverseLoopSound, firstSound, secondSound, reverseSound, fadeInSong, fadeOutSong }, this.gameObject);
         ServiceLocator.RegisterService(new DefaultAudioManager(sounds, this.gameObject));
         am = ServiceLocator.GetService();
 
@@ -61,11 +97,20 @@ public class AdvancedExamples : MonoBehaviour {
             case AdvancedExample.LOOP_SONG_SUB_SECTION:
                 InitLoopSubSectionExample();
                 break;
+            case AdvancedExample.REVERSE_LOOP_SONG_SUB_SECTION:
+                InitReverseLoopSubSectionExample();
+                break;
             case AdvancedExample.TRANSITION_BETWEEN_SONGS:
                 InitTransitionBetweenSongsExample();
                 break;
             case AdvancedExample.PLAY_SONG_IN_REVERSE:
-                InitPlayInReverseExample();
+                InitPlaySongInReverseExample();
+                break;
+            case AdvancedExample.FADE_IN_SONG:
+                InitFadeInSongExample();
+                break;
+            case AdvancedExample.FADE_OUT_SONG:
+                InitFadeOutSongExample();
                 break;
             default:
                 // Unexpected AdvancedExample argument.
@@ -73,62 +118,124 @@ public class AdvancedExamples : MonoBehaviour {
         }
     }
 
-    private void SongProgressCallback(string name, float remainingTime) {
+    private ProgressResponse SongProgressCallback(string name, float progress) {
+        am.TryGetSource(name, out AudioSource source);
+        Debug.Log("Actual: " + source.time + ", Expected: " + (progress * source.clip.length));
+
+        ProgressResponse response = ProgressResponse.UNSUB;
         switch (advancedExample) {
             case AdvancedExample.NONE:
                 // Nothing to do.
                 break;
             case AdvancedExample.LOOP_SONG_SUB_SECTION:
-                HandleLoopSubSectionExample(name, remainingTime);
+                response = HandleLoopSubSectionExample(name);
+                break;
+            case AdvancedExample.REVERSE_LOOP_SONG_SUB_SECTION:
+                response = HandleReverseLoopSubSectionExample(name);
                 break;
             case AdvancedExample.TRANSITION_BETWEEN_SONGS:
-                HandleTransitionBetweenSongsExample(name, remainingTime);
+                response = HandleTransitionBetweenSongsExample(name, progress);
                 break;
             case AdvancedExample.PLAY_SONG_IN_REVERSE:
                 // Nothing to do.
+                break;
+            case AdvancedExample.FADE_IN_SONG:
+                response = HandleFadeInSongExample(name);
+                break;
+            case AdvancedExample.FADE_OUT_SONG:
+                response = HandleFadeOutSongExample(name, progress);
                 break;
             default:
                 // Unexpected AdvancedExample argument.
                 break;
         }
+        return response;
     }
 
     private void InitLoopSubSectionExample() {
         am.TryGetSource(loopSound.soundName, out AudioSource source);
-        source.loop = true;
         source.time = loopStart;
-        float remainingTime = source.clip.length - loopEnd;
-        am.SubscribeAudioFinished(loopSound.soundName, remainingTime, SongProgressCallback);
+        float progress = (loopEnd / source.clip.length);
+        am.SubscribeProgressCoroutine(loopSound.soundName, progress, SongProgressCallback);
         am.Play(loopSound.soundName);
     }
 
-    private void HandleLoopSubSectionExample(string name, float remainingTime) {
-        float skipTime = loopEnd - loopStart;
-        am.SkipBackward(name, skipTime);
-        am.SubscribeAudioFinished(name, remainingTime, SongProgressCallback);
+    private ProgressResponse HandleLoopSubSectionExample(string name) {
+        float skipTime = loopStart - loopEnd;
+        am.SkipTime(name, skipTime);
+        return ProgressResponse.RESUB_IMMEDIATE;
+    }
+
+    private void InitReverseLoopSubSectionExample() {
+        am.SetPlaypbackDirection(reverseLoopSound.soundName);
+        am.TryGetSource(reverseLoopSound.soundName, out AudioSource source);
+        source.time = source.clip.length - reverseLoopStart;
+        float progress = (source.clip.length - reverseLoopEnd - reverseLoopStart) / source.clip.length;
+        am.SubscribeProgressCoroutine(reverseLoopSound.soundName, progress, SongProgressCallback);
+        am.Play(reverseLoopSound.soundName);
+    }
+
+    private ProgressResponse HandleReverseLoopSubSectionExample(string name) {
+        float skipTime = reverseLoopEnd;
+        am.SkipTime(name, skipTime);
+        return ProgressResponse.RESUB_IMMEDIATE;
     }
 
     private void InitTransitionBetweenSongsExample() {
-        am.SubscribeAudioFinished(firstSound.soundName, transitionTime, SongProgressCallback);
+        am.SubscribeProgressCoroutine(firstSound.soundName, transitionTime, SongProgressCallback);
         am.Play(firstSound.soundName);
     }
 
-    private void HandleTransitionBetweenSongsExample(string name, float remainingTime) {
-        am.LerpVolume(name, 0f, remainingTime, transitionGranularity);
-        am.TryGetSource(secondSound.soundName, out AudioSource source);
+    private ProgressResponse HandleTransitionBetweenSongsExample(string name, float progress) {
+        am.TryGetSource(name, out AudioSource source);
+        am.LerpVolume(name, 0f, progress, transitionGranularity);
         float endValue = source.volume;
         source.volume = 0f;
-        StartCoroutine(DelayedPlay(endValue, remainingTime));
+        StartCoroutine(DelayedPlay(endValue, progress));
+        return ProgressResponse.UNSUB;
     }
 
-    private void InitPlayInReverseExample() {
+    private void InitPlaySongInReverseExample() {
         am.SetPlaypbackDirection(reverseSound.soundName, directionPitch);
         am.Play(reverseSound.soundName);
     }
 
-    private IEnumerator DelayedPlay(float endValue, float remainingTime) {
+    private void InitFadeInSongExample() {
+        am.SubscribeProgressCoroutine(fadeInSong.soundName, 0f, SongProgressCallback);
+        am.Play(fadeInSong.soundName);
+    }
+
+    private ProgressResponse HandleFadeInSongExample(string name) {
+        am.TryGetSource(name, out AudioSource source);
+        source.volume = 0f;
+        am.LerpVolume(name, fadeInEndVolume, clipFadeInTime, fadeInGranularity);
+        return ProgressResponse.RESUB_IN_LOOP;
+    }
+
+    private void InitFadeOutSongExample() {
+        am.TryGetSource(fadeOutSong.soundName, out AudioSource source);
+        float progress = ((source.clip.length - clipFadeOutTime) / source.clip.length);
+        am.SubscribeProgressCoroutine(fadeOutSong.soundName, progress, SongProgressCallback);
+        am.Play(fadeOutSong.soundName);
+    }
+
+    private ProgressResponse HandleFadeOutSongExample(string name, float progress) {
+        am.TryGetSource(name, out AudioSource source);
+        float endValue = source.volume;
+        am.LerpVolume(name, 0f, progress, fadeOutGranularity);
+        StartCoroutine(DelayedVolumeReset(endValue, progress));
+        return ProgressResponse.RESUB_IN_LOOP;
+    }
+
+    private IEnumerator DelayedPlay(float endValue, float progress) {
         yield return new WaitForSeconds(intermissionDelay);
         am.Play(secondSound.soundName);
-        am.LerpVolume(secondSound.soundName, endValue, remainingTime - intermissionDelay, transitionGranularity);
+        am.LerpVolume(secondSound.soundName, endValue, progress - intermissionDelay, transitionGranularity);
+    }
+
+    private IEnumerator DelayedVolumeReset(float endValue, float progress) {
+        yield return new WaitForSeconds(progress);
+        am.TryGetSource(fadeOutSong.soundName, out AudioSource source);
+        source.volume = endValue;
     }
 }

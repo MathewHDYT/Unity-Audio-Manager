@@ -80,7 +80,11 @@ public class DummyAudioManager : IAudioManager {
         return AudioError.OK;
     }
 
-    public AudioError SubscribeAudioFinished(string name, float remainingTime, AudioFinishedCallback callback) {
+    public AudioError SubscribeProgressCoroutine(string name, float progress, AudioFinishedCallback callback) {
+        return AudioError.OK;
+    }
+
+    public AudioError UnsubscribeProgressCoroutine(string name, float progress) {
         return AudioError.OK;
     }
 
@@ -139,11 +143,7 @@ public class DummyAudioManager : IAudioManager {
         return AudioError.OK;
     }
 
-    public AudioError SkipForward(string name, float time) {
-        return AudioError.OK;
-    }
-
-    public AudioError SkipBackward(string name, float time) {
+    public AudioError SkipTime(string name, float time) {
         return AudioError.OK;
     }
 }

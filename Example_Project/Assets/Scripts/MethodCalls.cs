@@ -107,7 +107,7 @@ public class MethodCalls : MonoBehaviour {
         }
     }
 
-    public void SkipForwardClicked() {
+    public void SkipTimeClicked() {
         ClearText();
         if (!float.TryParse(timeInput.text, out float timeStamp)) {
             SetText(string.Join(" ", NOT_A_NUMBER, "Time"));
@@ -115,18 +115,7 @@ public class MethodCalls : MonoBehaviour {
         }
 
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        am.SkipForward(selectedSoundName, timeStamp);
-    }
-
-    public void SkipBackwardClicked() {
-        ClearText();
-        if (!float.TryParse(timeInput.text, out float timeStamp)) {
-            SetText(string.Join(" ", NOT_A_NUMBER, "Time"));
-            return;
-        }
-
-        var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        am.SkipBackward(selectedSoundName, timeStamp);
+        am.SkipTime(selectedSoundName, timeStamp);
     }
 
     public void SetPlaybackDirection() {

@@ -32,10 +32,6 @@ namespace AudioManager.Helper {
             return spatialBlend <= Constants.SPATIAL_BLEND_2D;
         }
 
-        public static bool IsProgressValid(float progress) {
-            return progress <= Constants.MAX_PROGRESS;
-        }
-
         public static bool IsEndValueValid(float startValue, float endValue) {
             return startValue - endValue >= float.Epsilon || endValue - startValue >= float.Epsilon;
         }

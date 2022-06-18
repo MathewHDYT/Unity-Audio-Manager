@@ -84,7 +84,11 @@ namespace AudioManager.Locator {
             return AudioError.NOT_INITIALIZED;
         }
 
-        public AudioError SubscribeAudioFinished(string name, float remainingTime, AudioFinishedCallback callback) {
+        public AudioError SubscribeProgressCoroutine(string name, float progress, AudioFinishedCallback callback) {
+            return AudioError.NOT_INITIALIZED;
+        }
+
+        public AudioError UnsubscribeProgressCoroutine(string name, float progress) {
             return AudioError.NOT_INITIALIZED;
         }
 
@@ -143,11 +147,7 @@ namespace AudioManager.Locator {
             return AudioError.NOT_INITIALIZED;
         }
 
-        public AudioError SkipForward(string name, float time) {
-            return AudioError.NOT_INITIALIZED;
-        }
-
-        public AudioError SkipBackward(string name, float time) {
+        public AudioError SkipTime(string name, float time) {
             return AudioError.NOT_INITIALIZED;
         }
     }

@@ -129,8 +129,14 @@ public class TestNullAudioManager {
     }
 
     [Test]
-    public void TestSubscribeAudioFinished() {
-        AudioError error = m_am.SubscribeAudioFinished(m_text, m_val, m_cb);
+    public void TestSubscribeProgressCoroutine() {
+        AudioError error = m_am.SubscribeProgressCoroutine(m_text, m_val, m_cb);
+        Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
+    }
+
+    [Test]
+    public void TestUnsubscribeProgressCoroutine() {
+        AudioError error = m_am.UnsubscribeProgressCoroutine(m_text, m_val);
         Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
     }
 
@@ -216,14 +222,8 @@ public class TestNullAudioManager {
     }
 
     [Test]
-    public void TestSkipForward() {
-        AudioError error = m_am.SkipForward(m_text, m_val);
-        Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
-    }
-
-    [Test]
-    public void TestSkipBackward() {
-        AudioError error = m_am.SkipBackward(m_text, m_val);
+    public void TestSkipTime() {
+        AudioError error = m_am.SkipTime(m_text, m_val);
         Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
     }
 }

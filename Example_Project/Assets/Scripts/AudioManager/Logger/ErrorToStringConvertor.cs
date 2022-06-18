@@ -14,9 +14,9 @@ namespace AudioManager.Logger {
                 case AudioError.DOES_NOT_EXIST:
                     return "Sound has not been registered with the AudioManager";
                 case AudioError.ALREADY_EXISTS:
-                    return "Can't add sound as there already exists a sound with that name";
+                    return "There already exists a sound with that name";
                 case AudioError.INVALID_PATH:
-                    return "Can't add sound because the path does not lead to a valid audio clip";
+                    return "Path does not lead to a valid audio clip";
                 case AudioError.INVALID_END_VALUE:
                     return "The given endValue is already the same as the current value";
                 case AudioError.INVALID_GRANULARITY:
@@ -24,7 +24,7 @@ namespace AudioManager.Logger {
                 case AudioError.INVALID_TIME:
                     return "The given time exceeds the actual length of the clip";
                 case AudioError.INVALID_PROGRESS:
-                    return "The given value is to close to the end of the actual clip length, therefore the given value can not be detected, because playing audio is frame rate independent";
+                    return "The given value is to close to the end or the start of the actual clip length, therefore the given value can not be detected, because playing audio is frame rate independent";
                 case AudioError.MIXER_NOT_EXPOSED:
                     return "The given parameter in the AudioMixer is not exposed or does not exist";
                 case AudioError.MISSING_SOURCE:
@@ -41,6 +41,10 @@ namespace AudioManager.Logger {
                     return "AudioManager did not get passed a valid parent gameObject with the needed components. (MonoBehaviour, Transform)";
                 case AudioError.INVALID_PARENT:
                     return "The given gameObject passed to the method was null and therefore no AudioSource component can be attached and played on it";
+                case AudioError.ALREADY_SUBSCRIBED:
+                    return "Callback with the exact same progress was already subscribed for this sound";
+                case AudioError.NOT_SUBSCRIBED:
+                    return "Callback with the progress was not yet subscribed for this sound";
                 default:
                     // Unexpected AudioError argument.
                     return "";

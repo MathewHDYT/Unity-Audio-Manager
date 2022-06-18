@@ -3,8 +3,12 @@ using UnityEngine.Audio;
 
 namespace AudioManager.Core {
     public struct Constants {
-        // Max. progress of the sound still detactable in an IEnumerator.
+        // Max. progress of the sound still detactable in an IEnumerator,
+        // when playing the sound with a positive pitch.
         public const float MAX_PROGRESS = 0.99f;
+        // Min. progress of the sound still detactable in an IEnumerator,
+        // when playing the sound with a negative pitch.
+        public const float MIN_PROGRESS = 1f - MAX_PROGRESS;
         // Max. spatial blend value that still counts as 2D.
         public const float SPATIAL_BLEND_2D = 0f;
         // Min. granularity value that is still valid.

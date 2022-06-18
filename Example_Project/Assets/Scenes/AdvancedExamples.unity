@@ -170,7 +170,10 @@ MonoBehaviour:
   advancedExample: 0
   loopSound: {fileID: 11400000, guid: 4f6e895c788626e44add29b6a3f333fc, type: 2}
   loopStart: 0
-  loopEnd: 11
+  loopEnd: 10
+  reverseLoopSound: {fileID: 11400000, guid: 722aa8d3c51851c4892d82871cabea89, type: 2}
+  reverseLoopStart: 10
+  reverseLoopEnd: 20
   firstSound: {fileID: 11400000, guid: 4f6e895c788626e44add29b6a3f333fc, type: 2}
   secondSound: {fileID: 11400000, guid: 722aa8d3c51851c4892d82871cabea89, type: 2}
   transitionTime: 10
@@ -178,6 +181,13 @@ MonoBehaviour:
   transitionGranularity: 10
   reverseSound: {fileID: 11400000, guid: 8dc3e386dc3a16945857363072276555, type: 2}
   directionPitch: -1
+  fadeInSong: {fileID: 11400000, guid: 4f6e895c788626e44add29b6a3f333fc, type: 2}
+  clipFadeInTime: 5
+  fadeInEndVolume: 0.6
+  fadeInGranularity: 10
+  fadeOutSong: {fileID: 11400000, guid: 4f6e895c788626e44add29b6a3f333fc, type: 2}
+  clipFadeOutTime: 5
+  fadeOutGranularity: 10
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
