@@ -4,6 +4,9 @@ using AudioManager.Logger;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
+#if !UNITY_WEBGL
+using System.IO;
+#endif // UNITY_WEBGL
 
 public class MethodCalls : MonoBehaviour {
     [Header("Input:")]
@@ -78,7 +81,7 @@ public class MethodCalls : MonoBehaviour {
             videoPlayer.url = Path.Join(Application.streamingAssetsPath, videoClips[index]);
             videoPlayer.Play();
         }
-#endif // UNITY_WEBGL
+#endif // !UNITY_WEBGL
     }
 
     public void PlayClicked() {

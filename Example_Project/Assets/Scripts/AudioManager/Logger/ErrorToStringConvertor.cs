@@ -24,7 +24,7 @@ namespace AudioManager.Logger {
                 case AudioError.INVALID_TIME:
                     return "The given time exceeds the actual length of the clip";
                 case AudioError.INVALID_PROGRESS:
-                    return "The given value is to close to the end or the start of the actual clip length, therefore the given value can not be detected, because playing audio is frame rate independent";
+                    return "The given value is to close to the end or the start of the actual clip length, because playing audio is frame rate independent";
                 case AudioError.MIXER_NOT_EXPOSED:
                     return "The given parameter in the AudioMixer is not exposed or does not exist";
                 case AudioError.MISSING_SOURCE:

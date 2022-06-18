@@ -6,6 +6,12 @@ coverage:
         threshold: 5%
         base: auto
         if_ci_failed: ignore # Success, failure, error, ignore
+    patch:
+      default: # This can be anything, but it needs to exist as the name
+        target: auto
+        threshold: 5%
+        base: auto
+        if_ci_failed: ignore # Success, failure, error, ignore
 ignore:
   - "**/Tests/**/*"  # Recursively ignore test folder
   - "**/Scripts/AudioManager/Settings/ShowIfAttributeDrawer.cs" # Ignore file that can't be unittested
