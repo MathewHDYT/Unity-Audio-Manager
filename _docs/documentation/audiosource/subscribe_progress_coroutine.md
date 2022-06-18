@@ -48,6 +48,7 @@ When you want to smoothly transition from one song into another you can use the 
 The callback returns two params, which consist of the name that we subscribed the callback too, as well as the ```progress``` we wanted to call the callback at. Both of these parameters may be used to differentiate, between different callbacks if the callback method is subscribed to multiple sounds or at multiple times in the sound itself, or may be even used to decrease the volume, which we can caculate with the ```progress```. 
 
 **ProgressResponse:**
+
 | **ID** | **CONSTANT**                  | **MEANING**                                                                                                                                     |
 | -------| ------------------------------| ------------------------------------------------------------------------------------------------------------------------------------------------|
 | 0      | UNSUB                         | Does not call the given AudioCallback anymore                                                                                                   |
