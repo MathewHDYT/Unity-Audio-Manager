@@ -13,6 +13,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Released]
 
+## [1.9.0](https://github.com/MathewHDYT/Unity-Audio-Manager/releases/tag/v1.9.0) - 2022-06-19
+
+### Added
+- Added new method ```UnsubscribeProgressCoroutine```
+
+### Changed
+- Overhauled and renamed ```SubscribeAudioFinished``` to ```SubscribeProgressCoroutine```, now works with reverse playing songs and the callback has a return type, which decides wheter we unsubscribe the callback, resubscribe for the next iteration of the song or resubscribe it immediatly
+- Replaced ```SkipForward``` and ```SkipBackward``` with new method ```SkipTime```, which skips forward if the value is positive or backwards if the value is negative
+- Replaced ```ValueDataError``` and used ```out``` keyword for returning additional values from methods instead
+
+
 ## [1.8.0](https://github.com/MathewHDYT/Unity-Audio-Manager/releases/tag/v1.8.0) - 2022-06-02
 
 ### Added
