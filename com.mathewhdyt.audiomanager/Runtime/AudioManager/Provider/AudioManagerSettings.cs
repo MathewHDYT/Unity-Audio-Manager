@@ -3,7 +3,6 @@ using AudioManager.Locator;
 using AudioManager.Logger;
 using AudioManager.Service;
 using AudioManager.Settings;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace AudioManager.Provider {
@@ -33,9 +32,10 @@ namespace AudioManager.Provider {
             // as all audioSources and emtpy gameObjects get attached or parented to the passed gameObject in the AudioManager constructor.
             DontDestroyOnLoad(gameObject);
 
-            ServiceLocator.RegisterService(new DefaultAudioManager(SetupSounds(settings), gameObject));
+            SettingsHelper.SetupSounds(out var sounds, settings, this.gameObject);
+            ServiceLocator.RegisterService(new DefaultAudioManager(sounds, this.gameObject));
             // Only register a logger if we are in the Editor and the logging level is higher than LoggingLevel.NONE.
-            // This is done to ensure no needless Debug.Log calls get made when the game is built or needs no debug output.
+            // This is done to ensure no needless Debug.Log calls get made when the game is built and needs no debug output.
 #if UNITY_EDITOR
             if (IsLoggingEnabled(loggingLevel)) {
                 ServiceLocator.RegisterLogger(new AudioLogger(loggingLevel), this);
@@ -66,37 +66,8 @@ namespace AudioManager.Provider {
         }
 #endif // UNITY_EDITOR
 
-        private Dictionary<string, AudioSource> SetupSounds(AudioSourceSetting[] settings) {
-            var dictionary = new Dictionary<string, AudioSource>();
-            if (settings is object) {
-                CreateAndRegisterSound(dictionary, settings);
-            }
-            return dictionary;
-        }
-
-        private void CreateAndRegisterSound(Dictionary<string, AudioSource> dictionary, AudioSourceSetting[] settings) {
-            foreach (var setting in settings) {
-                CreateAndRegisterSound(dictionary, setting);
-            }
-        }
-
-        private void CreateAndRegisterSound(Dictionary<string, AudioSource> dictionary, AudioSourceSetting setting) {
-            AudioHelper.AttachAudioSource(out setting.source, gameObject, setting.audioClip, setting.mixerGroup, setting.loop, setting.volume, setting.pitch, setting.spatialBlend, setting.dopplerLevel, setting.spreadAngle, setting.volumeRolloff, setting.minDistance, setting.maxDistance);
-            if (!IsSoundRegistered(dictionary, setting.soundName)) {
-                RegisterSound(dictionary, (setting.soundName, setting.source));
-            }
-        }
-
         private bool IsLoggingEnabled(LoggingLevel loggingLevel) {
             return loggingLevel != LoggingLevel.NONE;
-        }
-
-        private bool IsSoundRegistered(Dictionary<string, AudioSource> sounds, string soundName) {
-            return sounds.ContainsKey(soundName);
-        }
-
-        private void RegisterSound(Dictionary<string, AudioSource> sounds, (string soundName, AudioSource soundSource) keyValuePair) {
-            sounds.Add(keyValuePair.soundName, keyValuePair.soundSource);
         }
     }
 }

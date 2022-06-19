@@ -10,7 +10,6 @@ namespace AudioManager.Logger {
     public class LoggedAudioManager : IAudioManager {
         // Private constant member variables.
         private const AudioError nullError = AudioError.NOT_INITIALIZED;
-        private const float nullValue = float.NaN;
 
         // Readonly private member variables.
         // Class used for logging.
@@ -81,15 +80,16 @@ namespace AudioManager.Logger {
             return error;
         }
 
-        public ValueDataError<float> GetPlaybackPosition(string name) {
+        public AudioError GetPlaybackPosition(string name, out float time) {
             const string enterLogBase = "Attempting to read the playbackPosition of the registered AudioSource entry";
             const string exitLogBase = "Reading the playbackPosition of the given registered AudioSource entry";
 
+            time = Constants.NULL_VALUE;
             OnMethodEnter(enterLogBase, name);
-            ValueDataError<float> valueDataError = ConvertToValueDataError(m_wrappedInstance?.GetPlaybackPosition(name));
-            OnReceivedError(exitLogBase, valueDataError.Error);
-            OnMethodExit(exitLogBase, valueDataError.Error);
-            return valueDataError;
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.GetPlaybackPosition(name, out time));
+            OnReceivedError(exitLogBase, error);
+            OnMethodExit(exitLogBase, error);
+            return error;
         }
 
         public AudioError SetPlaypbackDirection(string name, float pitch) {
@@ -224,26 +224,38 @@ namespace AudioManager.Logger {
             return error;
         }
 
-        public AudioError SubscribeAudioFinished(string name, float remainingTime, AudioFinishedCallback callback) {
-            const string enterLogBase = "Attempting to subscribe to the registered AudioSource entry finishing to the given remainingTime";
-            const string exitLogBase = "Subscribing to the registered AudioSource entry finishing to the given remainingTime";
+        public AudioError SubscribeProgressCoroutine(string name, float progress, AudioFinishedCallback callback) {
+            const string enterLogBase = "Attempting to subscribe to the registered AudioSource entry finishing to the given progress";
+            const string exitLogBase = "Subscribing to the registered AudioSource entry finishing to the given progress";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = ConvertToAudioError(m_wrappedInstance?.SubscribeAudioFinished(name, remainingTime, callback));
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.SubscribeProgressCoroutine(name, progress, callback));
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
         }
 
-        public ValueDataError<float> GetProgress(string name) {
+        public AudioError UnsubscribeProgressCoroutine(string name, float progress) {
+            const string enterLogBase = "Attempting to unsubscribe to the registered AudioSource entry finishing to the given progress";
+            const string exitLogBase = "Unsubscribing to the registered AudioSource entry finishing to the given progress";
+
+            OnMethodEnter(enterLogBase, name);
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.UnsubscribeProgressCoroutine(name, progress));
+            OnReceivedError(exitLogBase, error);
+            OnMethodExit(exitLogBase, error);
+            return error;
+        }
+
+        public AudioError GetProgress(string name, out float progress) {
             const string enterLogBase = "Attempting to read the progress of the registered AudioSource entry";
             const string exitLogBase = "Reading the progress of the registered AudioSource entry";
 
+            progress = Constants.NULL_VALUE;
             OnMethodEnter(enterLogBase, name);
-            ValueDataError<float> valueDataError = ConvertToValueDataError(m_wrappedInstance?.GetProgress(name));
-            OnReceivedError(exitLogBase, valueDataError.Error);
-            OnMethodExit(exitLogBase, valueDataError.Error);
-            return valueDataError;
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.GetProgress(name, out progress));
+            OnReceivedError(exitLogBase, error);
+            OnMethodExit(exitLogBase, error);
+            return error;
         }
 
         public AudioError TryGetSource(string name, out AudioSource source) {
@@ -291,15 +303,16 @@ namespace AudioManager.Logger {
             return error;
         }
 
-        public ValueDataError<float> GetGroupValue(string name, string exposedParameterName) {
+        public AudioError GetGroupValue(string name, string exposedParameterName, out float currentValue) {
             string enterLogBase = string.Join(" ", "Attempting to get group value with the name:", exposedParameterName, "of the registered AudioSource entry");
             const string exitLogBase = "Getting group value of the registered AudioSource entry";
 
+            currentValue = Constants.NULL_VALUE;
             OnMethodEnter(enterLogBase, name);
-            ValueDataError<float> valueDataError = ConvertToValueDataError(m_wrappedInstance?.GetGroupValue(name, exposedParameterName));
-            OnReceivedError(exitLogBase, valueDataError.Error);
-            OnMethodExit(exitLogBase, valueDataError.Error);
-            return valueDataError;
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.GetGroupValue(name, exposedParameterName, out currentValue));
+            OnReceivedError(exitLogBase, error);
+            OnMethodExit(exitLogBase, error);
+            return error;
         }
 
         public AudioError ResetGroupValue(string name, string exposedParameterName) {
@@ -379,23 +392,12 @@ namespace AudioManager.Logger {
             return error;
         }
 
-        public AudioError SkipForward(string name, float time) {
-            const string enterLogBase = "Attempting to skip the registered AudioSource entries forward";
-            const string exitLogBase = "Skipping the given registered AudioSource entry forward";
+        public AudioError SkipTime(string name, float time) {
+            const string enterLogBase = "Attempting to skip the registered AudioSource entries forward or backward";
+            const string exitLogBase = "Skipping the given registered AudioSource entry forward or backward";
 
             OnMethodEnter(enterLogBase);
-            AudioError error = ConvertToAudioError(m_wrappedInstance?.SkipForward(name, time));
-            OnReceivedError(exitLogBase, error);
-            OnMethodExit(exitLogBase, error);
-            return error;
-        }
-
-        public AudioError SkipBackward(string name, float time) {
-            const string enterLogBase = "Attempting to skip the registered AudioSource entries backward";
-            const string exitLogBase = "Skipping the given registered AudioSource entry backward";
-
-            OnMethodEnter(enterLogBase);
-            AudioError error = ConvertToAudioError(m_wrappedInstance?.SkipBackward(name, time));
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.SkipTime(name, time));
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -406,13 +408,13 @@ namespace AudioManager.Logger {
         //************************************************************************************************************************
 
         private void OnMethodEnter(string baselogMessage) {
-            m_logger?.Log(string.Join(" ", baselogMessage), LoggingLevel.INTERMEDIATE, LoggingType.NORMAL, m_logContext);
+            m_logger?.Log(string.Join(" ", baselogMessage), LoggingLevel.HIGH, LoggingType.NORMAL, m_logContext);
             // Cache the current time, before the method will be executed.
             m_enterMethodTime = Time.realtimeSinceStartup;
         }
 
         private void OnMethodEnter(string baselogMessage, string name) {
-            m_logger?.Log(string.Join(" ", baselogMessage, "with the name:", name), LoggingLevel.INTERMEDIATE, LoggingType.NORMAL, m_logContext);
+            m_logger?.Log(string.Join(" ", baselogMessage, "with the name:", name), LoggingLevel.HIGH, LoggingType.NORMAL, m_logContext);
             // Cache the current time, before the method will be executed.
             m_enterMethodTime = Time.realtimeSinceStartup;
         }
@@ -433,19 +435,15 @@ namespace AudioManager.Logger {
 
             // Check if any errors have occured while calling the method.
             if (error != AudioError.OK) {
-                m_logger?.Log(string.Join(" ", baselogMessage, "failed"), LoggingLevel.HIGH, LoggingType.NORMAL, m_logContext);
+                m_logger?.Log(string.Join(" ", baselogMessage, "failed"), LoggingLevel.INTERMEDIATE, LoggingType.NORMAL, m_logContext);
                 return;
             }
 
-            m_logger?.Log(string.Join(" ", baselogMessage, "successfull"), LoggingLevel.HIGH, LoggingType.NORMAL, m_logContext);
+            m_logger?.Log(string.Join(" ", baselogMessage, "successfull"), LoggingLevel.INTERMEDIATE, LoggingType.NORMAL, m_logContext);
         }
 
         private AudioError ConvertToAudioError(AudioError? error) {
             return error.HasValue ? error.Value : nullError;
-        }
-
-        private ValueDataError<float> ConvertToValueDataError(ValueDataError<float>? valueDataError) {
-            return valueDataError.HasValue ? valueDataError.Value : new ValueDataError<float>(nullValue, nullError);
         }
     }
 }

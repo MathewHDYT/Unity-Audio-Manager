@@ -15,6 +15,8 @@ namespace AudioManager.Core {
         NOT_INITIALIZED,
         MISSING_CLIP,
         MISSING_PARENT,
-        INVALID_PARENT
+        INVALID_PARENT,
+        ALREADY_SUBSCRIBED,
+        NOT_SUBSCRIBED
     }
 }

@@ -3,7 +3,13 @@ using UnityEngine;
 using UnityEngine.Audio;
 
 namespace AudioManager.Core {
-    public delegate void AudioFinishedCallback(string name, float remainingTime);
+    /// <summary>
+    /// Subscribable callback that gets called with a given passed progress in a sounds total playtime.
+    /// </summary>
+    /// <param name="name">Name of the registered sound the callback has been called for.</param>
+    /// <param name="progress">Point in the songs playtime from 0 to 1 we should call the callback at.</param>
+    /// <returns><see cref="AudioError"/>, showing wheter and how we should subscribe the AudioFinishedCallback again for the same progress.</returns>
+    public delegate ProgressResponse AudioFinishedCallback(string name, float progress);
     public interface IAudioManager {
         /// <summary>
         /// Adds given 2D sound with the given settings to the possible playable sounds,
@@ -46,12 +52,9 @@ namespace AudioManager.Core {
         /// Gets the current playback position of the given sound in seconds.
         /// </summary>
         /// <param name="name">Name of the registered sound.</param>
-        /// <returns>
-        /// <see cref="ValueDataError{T}"/>, where the value (gettable with <see cref="ValueDataError{T}.Value"/>), is the current playback position of the given sound in seconds
-        /// and where the error (gettable with <see cref="ValueDataError{T}.Error"/>) is an <see cref="AudioError"/>,
-        /// showing wheter and how getting the current playback position of the sound failed.
-        /// </returns>
-        public ValueDataError<float> GetPlaybackPosition(string name);
+        /// <param name="time">Variable the playback position in seconds will be copied into (<see cref="float.NaN"/> on failure).</param>
+        /// <returns><see cref="AudioError"/>, showing wheter and how getting the current playback position of the sound failed.</returns>
+        public AudioError GetPlaybackPosition(string name, out float time);
 
         /// <summary>
         /// Sets the given direction the song should be played in. A given pitch of 0 or more means it is a normal song and should just be played with the given pitch value from the start.
@@ -152,25 +155,32 @@ namespace AudioManager.Core {
         public AudioError TogglePause(string name);
 
         /// <summary>
-        /// Subscribes the given <see cref="AudioFinishedCallback"/>, so that it will be called with the given name and remaining time as a parameter,
-        /// as soon as the sound only has the given remainingTime left to play until it finishes.
+        /// Subscribes the given <see cref="AudioFinishedCallback"/>, so that it will be called with the given name and progress as a parameter,
+        /// as soon as the sound has reached the given progress point in the clips runtime. Depeding on the return value of the callback,
+        /// it will be subscribed again for the next time that progress is hit.
         /// </summary>
         /// <param name="name">Name of the registered sound.</param>
-        /// <param name="remainingTime">Amount of remaining playback time in seconds, we want to call the callback at.</param>
+        /// <param name="progress">Amount of progress from 0 to 1, we want to call the callback at.</param>
         /// <param name="callback">Callback that should be called, once the sound only has the given amount of time left.</param>
         /// <returns><see cref="AudioError"/>, showing wheter and how subscribing the callback failed.</returns>
-        public AudioError SubscribeAudioFinished(string name, float remainingTime, AudioFinishedCallback callback);
+        public AudioError SubscribeProgressCoroutine(string name, float progress, AudioFinishedCallback callback);
+
+        /// <summary>
+        /// Unsubscribes the previously via. <see cref="SubscribeProgressCoroutine"/> subscribed <see cref="AudioFinishedCallback"/>,
+        /// so that it will not be called anymore when the sound with the given name reaches the given progress.
+        /// </summary>
+        /// <param name="name">Name of the registered sound.</param>
+        /// <param name="progress">Amount of progress from 0 to 1, we want to call the callback at.</param>
+        /// <returns><see cref="AudioError"/>, showing wheter and how unsubscribing the callback failed.</returns>
+        public AudioError UnsubscribeProgressCoroutine(string name, float progress);
 
         /// <summary>
         /// Returns the progress of the sound with the given name from 0 to 1 where 1 is fully completed.
         /// </summary>
         /// <param name="name">Name of the registered sound.</param>
-        /// <returns>
-        /// <see cref="ValueDataError{T}"/>, where the value (gettable with <see cref="ValueDataError{T}.Value"/>), is the current progress of the given sound in seconds
-        /// and where the error (gettable with <see cref="ValueDataError{T}.Error"/>) is an <see cref="AudioError"/>,
-        /// showing wheter and how getting the current progess of the sound failed.
-        /// </returns>
-        public ValueDataError<float> GetProgress(string name);
+        /// <param name="progress">Variable the progress will be copied into (<see cref="float.NaN"/> on failure).</param>
+        /// <returns><see cref="AudioError"/>, showing wheter and how subscribing the callback failed, showing wheter and how getting the current progess of the sound failed.</returns>
+        public AudioError GetProgress(string name, out float progress);
 
         /// <summary>
         /// Gets the corresponding source to the sound with the given name.
@@ -213,13 +223,10 @@ namespace AudioManager.Core {
         /// Gets the value of the given exposed parameter for the complete <see cref="AudioMixerGroup"/> of the given sound.
         /// </summary>
         /// <param name="name">Name of the registered sound.</param>
+        /// <param name="value">Variable the current exposed parameter will be copied into (<see cref="float.NaN"/> on failure).</param>
         /// <param name="exposedParameterName">Name of the exposed parameter we want to get.</param>
-        /// <returns>
-        /// <see cref="ValueDataError{T}"/>, where the value (gettable with <see cref="ValueDataError{T}.Value"/>), is the current group value of the given sound
-        /// and where the error (gettable with <see cref="ValueDataError{T}.Error"/>) is an <see cref="AudioError"/>,
-        /// showing wheter and how getting the current exposed parameter value failed.
-        /// </returns>
-        public ValueDataError<float> GetGroupValue(string name, string exposedParameterName);
+        /// <returns><see cref="AudioError"/>, showing wheter and how getting the current exposed parameter value failed.</returns>
+        public AudioError GetGroupValue(string name, string exposedParameterName, out float currentValue);
 
         /// <summary>
         /// Resets the value of the given exposed parameter for the complete <see cref="AudioMixerGroup"/> of the given sound to the default value.
@@ -287,19 +294,11 @@ namespace AudioManager.Core {
         public AudioError SetStartTime(string name, float startTime);
 
         /// <summary>
-        /// Skips the given sound forwards for the given amount of time in seconds in the playtime to maximum the end of the song.
+        /// Skips the given sound forwards or backwards for the given amount of time in seconds limited to the end of the song or the start of the song.
         /// </summary>
         /// <param name="name">Name of the registered sound.</param>
-        /// <param name="time">Amount of time in seconds we want to advance the given track.</param>
-        /// <returns><see cref="AudioError"/>, showing wheter and how skipping forward the current time failed.</returns>
-        public AudioError SkipForward(string name, float time);
-
-        /// <summary>
-        /// Skips the given sound backwards for the given amount of time in seconds in the playtime to maximum the start of the song.
-        /// </summary>
-        /// <param name="name">Name of the registered sound.</param>
-        /// <param name="time">Amount of time in seconds we want to regress the given track.</param>
-        /// <returns><see cref="AudioError"/>, showing wheter and how skipping backward the current time failed.</returns>
-        public AudioError SkipBackward(string name, float time);
+        /// <param name="time">Amount of time in seconds we want to advance the given track (Negative number skips backward, positive number skips forward).</param>
+        /// <returns><see cref="AudioError"/>, showing wheter and how skipping forward or backward the current time failed.</returns>
+        public AudioError SkipTime(string name, float time);
     }
 }

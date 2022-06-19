@@ -12,17 +12,25 @@ namespace AudioManager.Helper {
             source.pitch = pitch;
         }
 
-        public static bool IsReversePitch(this AudioSource source, float pitch) {
-            return pitch < 0f;
+        public static bool IsReversePitch(this AudioSource source) {
+            return source.pitch < 0f;
         }
 
-        public static void SetTimeFromPitch(this AudioSource source, float pitch) {
-            float startTime = source.IsReversePitch(pitch) ? source.GetEndOfClip() : 0f;
+        public static void SetTimeFromCurrentPitch(this AudioSource source) {
+            float startTime = source.IsReversePitch() ? source.GetEndOfClip() : source.GetStartOfClip();
             source.SetTime(startTime);
+        }
+
+        public static bool IsProgressValid(this AudioSource source, float progress) {
+            return source.IsReversePitch() ? progress >= Constants.MIN_PROGRESS : progress <= Constants.MAX_PROGRESS;
         }
 
         public static float GetEndOfClip(this AudioSource source) {
             return (source.clip.length * Constants.MAX_PROGRESS);
+        }
+
+        public static float GetStartOfClip(this AudioSource source) {
+            return (source.clip.length * Constants.MIN_PROGRESS);
         }
 
         public static bool IsSameVolume(this AudioSource source, float volume) {
@@ -38,7 +46,7 @@ namespace AudioManager.Helper {
         }
 
         public static bool ExceedsClipStart(this AudioSource source, float time) {
-            return source.time - time < float.Epsilon;
+            return source.time + time < float.Epsilon;
         }
 
         public static void IncreaseTime(this AudioSource source, float time) {
@@ -47,7 +55,7 @@ namespace AudioManager.Helper {
         }
 
         public static void DecreaseTime(this AudioSource source, float time) {
-            float currentTime = source.ExceedsClipStart(time) ? 0f : source.time - time;
+            float currentTime = source.ExceedsClipStart(time) ? 0f : source.time + time;
             source.SetTime(currentTime);
         }
 
@@ -75,10 +83,6 @@ namespace AudioManager.Helper {
             return error;
         }
 
-        public static void SetRandomPitch(this AudioSource source, float minPitch, float maxPitch) {
-            source.pitch = Random.Range(minPitch, maxPitch);
-        }
-
         public static AudioError IsSoundValid(this AudioSource source) {
             AudioError error = AudioError.OK;
 
@@ -95,20 +99,15 @@ namespace AudioManager.Helper {
             return source.outputAudioMixerGroup;
         }
 
-        public static float ConvertTimeStampIntoProgress(this AudioSource source, float remainingTime) {
-            // Divide the given timeStamp in the sound by its length to get a value ranging from 0 to 1,
-            // then reverse the value, because the remainingTime starts from the end of the clip and not the start.
-            return -(remainingTime / source.clip.length) + 1f;
+        public static bool ProgressAchieved(this AudioSource source, float progress) {
+            float currentProgress = source.GetProgress();
+            bool progressAchieved = source.IsReversePitch() ? (currentProgress <= progress && currentProgress >= Constants.MIN_PROGRESS) : (currentProgress >= progress && currentProgress <= Constants.MAX_PROGRESS);
+            return source.isPlaying && progressAchieved;
         }
 
-        public static float ConvertProgressIntoTimeStamp(this AudioSource source, float progress) {
-            // Mulitply the given timeStamp by its length to get a time in the clip ranging from the start to the end,
-            // then subtract the value, becuase the progress starts from the end of the clip and not the start. 
-            return source.clip.length - (progress * source.clip.length);
-        }
-
-        public static bool SoundFinished(this AudioSource source, float progress) {
-            return source.isPlaying && (source.GetProgress() >= progress);
+        public static float GetClipRemainingTime(this AudioSource source) {
+            float remainingTime = (source.clip.length - source.time) / source.pitch;
+            return source.IsReversePitch() ? (source.clip.length + remainingTime) : remainingTime;
         }
 
         public static bool IsSound2D(this AudioSource source) {
@@ -116,7 +115,7 @@ namespace AudioManager.Helper {
         }
 
         public static bool IsLengthValid(this AudioSource source, float length) {
-            return length <= source.clip.length;
+            return length <= source.clip.length && length >= 0f;
         }
 
         public static float GetProgress(this AudioSource source) {
