@@ -11,6 +11,14 @@ Subscribes the given AudioFinishedCallback, so that it will be called with the g
 as soon as the sound has reached the given progress point in the clips runtime. Depeding on the return value of the callback,
 it will be subscribed again for the next time that progress is hit.
 
+[**Possible Errors:**](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)
+- DOES_NOT_EXIST
+- MISSING_SOURCE
+- MISSING_CLIP
+- MISSING_PARENT
+- INVALID_PROGRESS
+- ALREADY_SUBSCRIBED
+
 **How to call it:**
 - ```SoundName``` is the ```name``` the new sound should have
 - ```Progress``` is the point in the clips runtime from 0 to 1, when the callback should be called

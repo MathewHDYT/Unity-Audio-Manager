@@ -9,6 +9,11 @@ grand_parent: Documentation
 **What it does:**
 Starts playing the sound after the given amount of time with additional buffer time to fetch the data from media and returns an AudioError (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)), showing wheter and how playing the sound after the given amount of time failed.
 
+[**Possible Errors:**](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)
+- DOES_NOT_EXIST
+- MISSING_SOURCE
+- MISSING_CLIP
+
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to play after the given amount of time which would be the 10 seconds we've defined
 - ```Delay``` is the time after which we want to start playing the sound

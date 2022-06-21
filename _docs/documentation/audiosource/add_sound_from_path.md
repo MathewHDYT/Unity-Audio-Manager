@@ -9,6 +9,11 @@ grand_parent: Documentation
 **What it does:**
 Adds the given 2D sound to the list of possible playable sounds and returns an AudioError (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)), showing wheter and how adding the sound from the given path failed.
 
+[**Possible Errors:**](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)
+- INVALID_PATH
+- MISSING_PARENT
+- ALREADY_EXISTS
+
 **How to call it:**
 - ```SoundName``` is the ```name``` the new sound should have
 - ```Path``` is the path to the ```AudioClip``` we want to add to the new sound in the Resource folder

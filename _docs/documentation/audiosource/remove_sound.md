@@ -9,6 +9,9 @@ grand_parent: Documentation
 **What it does:**
 Remove and deregisters a sound with the given name from the AudioManager and returns an AudioError (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)), showing wheter and how removing the sound failed.
 
+[**Possible Errors:**](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)
+- DOES_NOT_EXIST
+
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to remove
 

@@ -9,6 +9,16 @@ grand_parent: Documentation
 **What it does:**
 Lerps the value of the given exposed parameter for the complete [```AudioMixerGroup```](https://docs.unity3d.com/ScriptReference/Audio.AudioMixerGroup.html) of a given sound over a given amount of time and returns an AudioError (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/#possible-errors)), showing wheter and how lerping the value of the given exposed parameter failed.
 
+[**Possible Errors:**](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)
+- DOES_NOT_EXIST
+- MISSING_SOURCE
+- MISSING_CLIP
+- MISSING_MIXER_GROUP
+- MISSING_PARENT
+- MIXER_NOT_EXPOSED
+- INVALID_END_VALUE
+- INVALID_GRANULARITY
+
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to reset the [```AudioMixerGroup```](https://docs.unity3d.com/ScriptReference/Audio.AudioMixerGroup.html) parameter on
 - ```ExposedParameterName``` is the name we have given the exposed parameter on the [```AudioMixer```](https://docs.unity3d.com/ScriptReference/Audio.AudioMixer.html)

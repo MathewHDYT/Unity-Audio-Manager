@@ -9,6 +9,12 @@ grand_parent: Documentation
 **What it does:**
 Enables and sets the possible 3D audio options needed and returns an AudioError (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)), showing wheter and how setting the 3D audio options failed.
 
+[**Possible Errors:**](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)
+- DOES_NOT_EXIST
+- MISSING_SOURCE
+- MISSING_CLIP
+- CAN_NOT_BE_3D
+
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to play
 - ```MinDistance``` is the distance the sound will not get louder at

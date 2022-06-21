@@ -9,6 +9,14 @@ grand_parent: Documentation
 **What it does:**
 Lerps the ```pitch``` of a sound over a given amount of time and returns an AudioError (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)), showing wheter and how lerping the pitch of the given sound failed.
 
+[**Possible Errors:**](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)
+- DOES_NOT_EXIST
+- MISSING_SOURCE
+- MISSING_CLIP
+- INVALID_END_VALUE
+- INVALID_GRANULARITY
+- MISSING_PARENT
+
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to change the pitch from
 - ```EndValue``` (0.1 - 3) is the value the ```pitch``` should have at the end

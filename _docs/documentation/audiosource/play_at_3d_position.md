@@ -9,6 +9,13 @@ grand_parent: Documentation
 **What it does:**
 Starts playing the choosen sound at a given 3D position and returns an AudioError (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)), showing wheter and how playing the sound at the given position failed.
 
+[**Possible Errors:**](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)
+- DOES_NOT_EXIST
+- MISSING_SOURCE
+- MISSING_CLIP
+- CAN_NOT_BE_3D
+- INVALID_PARENT
+
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to play
 - ```WorldPosition``` is the 3D position in world space we want the sound to be emitting from

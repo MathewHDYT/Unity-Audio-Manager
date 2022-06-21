@@ -1,13 +1,18 @@
 ---
 layout: default
-title: Set Playpback Direction
+title: Set Playback Direction
 parent: AudioSource
 grand_parent: Documentation
 ---
 
-## Set Playpback Direction
+## Set Playback Direction
 **What it does:**
 Sets the given direction the song should be played in. A given pitch of 0 or more means it is a normal song and should just be played with the given pitch value from the start. Less than 0 means that the song will play in reverse from the end of the song and returns an AudioError (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)), showing wheter and how setting the playback direction failed.
+
+[**Possible Errors:**](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)
+- DOES_NOT_EXIST
+- MISSING_SOURCE
+- MISSING_CLIP
 
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to set the playback direction of
