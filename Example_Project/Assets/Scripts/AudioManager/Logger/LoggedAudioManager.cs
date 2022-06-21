@@ -92,12 +92,12 @@ namespace AudioManager.Logger {
             return error;
         }
 
-        public AudioError SetPlaypbackDirection(string name, float pitch) {
+        public AudioError SetPlaybackDirection(string name, float pitch) {
             const string enterLogBase = "Attempting to set the playback direction of the registered AudioSource entry";
             const string exitLogBase = "Setting playback direction of the given registered AudioSource entry";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = ConvertToAudioError(m_wrappedInstance?.SetPlaypbackDirection(name, pitch));
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.SetPlaybackDirection(name, pitch));
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;

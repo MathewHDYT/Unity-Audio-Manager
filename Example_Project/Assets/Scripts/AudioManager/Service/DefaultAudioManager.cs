@@ -103,7 +103,7 @@ namespace AudioManager.Service {
             return error;
         }
 
-        public AudioError SetPlaypbackDirection(string name, float pitch) {
+        public AudioError SetPlaybackDirection(string name, float pitch) {
             AudioError error = TryGetSource(name, out AudioSource source);
 
             // Couldn't find source.
@@ -229,7 +229,7 @@ namespace AudioManager.Service {
             }
 
             float pitch = Random.Range(minPitch, maxPitch);
-            error = SetPlaypbackDirection(name, pitch);
+            error = SetPlaybackDirection(name, pitch);
             return error;
         }
 

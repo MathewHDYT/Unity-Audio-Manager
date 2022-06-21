@@ -36,7 +36,7 @@ namespace AudioManager.Locator {
             return AudioError.NOT_INITIALIZED;
         }
 
-        public AudioError SetPlaypbackDirection(string name, float pitch = Constants.DEFAULT_REVERSE_PITCH) {
+        public AudioError SetPlaybackDirection(string name, float pitch = Constants.DEFAULT_REVERSE_PITCH) {
             return AudioError.NOT_INITIALIZED;
         }
 

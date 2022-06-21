@@ -129,7 +129,7 @@ public class MethodCalls : MonoBehaviour {
         }
 
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        am.SetPlaypbackDirection(selectedSoundName, minPitch);
+        am.SetPlaybackDirection(selectedSoundName, minPitch);
     }
 
     public void PlayAtTimeStampClicked() {

@@ -32,7 +32,7 @@ public class DummyAudioManager : IAudioManager {
         return AudioError.OK;
     }
 
-    public AudioError SetPlaypbackDirection(string name, float pitch) {
+    public AudioError SetPlaybackDirection(string name, float pitch) {
         return AudioError.OK;
     }
 

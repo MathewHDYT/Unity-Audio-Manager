@@ -58,7 +58,7 @@ public class TestNullAudioManager {
 
     [Test]
     public void TestSetPlaypbackDirection() {
-        AudioError error = m_am.SetPlaypbackDirection(m_text, m_val);
+        AudioError error = m_am.SetPlaybackDirection(m_text, m_val);
         Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
     }
 

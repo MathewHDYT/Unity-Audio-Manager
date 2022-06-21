@@ -262,21 +262,21 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.DOES_NOT_EXIST)
         /// ---------------------------------------------
-        AudioError error = m_audioManager.SetPlaypbackDirection(m_unregisteredAudioSourceName, pitch);
+        AudioError error = m_audioManager.SetPlaybackDirection(m_unregisteredAudioSourceName, pitch);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.DOES_NOT_EXIST, error);
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_SOURCE)
         /// ---------------------------------------------
-        error = m_audioManager.SetPlaypbackDirection(m_nullAudioSourceName, pitch);
+        error = m_audioManager.SetPlaybackDirection(m_nullAudioSourceName, pitch);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_SOURCE, error);
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_CLIP)
         /// ---------------------------------------------
-        error = m_audioManager.SetPlaypbackDirection(m_audioSourceName, pitch);
+        error = m_audioManager.SetPlaybackDirection(m_audioSourceName, pitch);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_CLIP, error);
 
@@ -285,13 +285,13 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         m_source.clip = m_clip;
         float endOfClip = (m_source.clip.length * Constants.MAX_PROGRESS);
-        error = m_audioManager.SetPlaypbackDirection(m_audioSourceName, pitch);
+        error = m_audioManager.SetPlaybackDirection(m_audioSourceName, pitch);
         Assert.AreEqual(AudioError.OK, error);
         Assert.AreEqual(pitch, m_source.pitch);
         Assert.AreEqual(0f, m_source.time);
 
         pitch = -1f;
-        error = m_audioManager.SetPlaypbackDirection(m_audioSourceName, pitch);
+        error = m_audioManager.SetPlaybackDirection(m_audioSourceName, pitch);
         Assert.AreEqual(AudioError.OK, error);
         Assert.AreEqual(pitch, m_source.pitch);
         // The clip needs to be played to have it's time actually assigned.

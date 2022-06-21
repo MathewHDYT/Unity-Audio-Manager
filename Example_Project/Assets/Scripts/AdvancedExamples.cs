@@ -167,7 +167,7 @@ public class AdvancedExamples : MonoBehaviour {
     }
 
     private void InitReverseLoopSubSectionExample() {
-        am.SetPlaypbackDirection(reverseLoopSound.soundName);
+        am.SetPlaybackDirection(reverseLoopSound.soundName);
         am.TryGetSource(reverseLoopSound.soundName, out AudioSource source);
         source.time = source.clip.length - reverseLoopStart;
         float progress = (source.clip.length - reverseLoopEnd - reverseLoopStart) / source.clip.length;
@@ -196,7 +196,7 @@ public class AdvancedExamples : MonoBehaviour {
     }
 
     private void InitPlaySongInReverseExample() {
-        am.SetPlaypbackDirection(reverseSound.soundName, directionPitch);
+        am.SetPlaybackDirection(reverseSound.soundName, directionPitch);
         am.Play(reverseSound.soundName);
     }
 

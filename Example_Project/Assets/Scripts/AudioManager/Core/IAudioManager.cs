@@ -63,7 +63,7 @@ namespace AudioManager.Core {
         /// <param name="name">Name of the registered sound.</param>
         /// <param name="pitch">Pitch that shows in wich direction and with wich speed to play the song in (Reverse, Normal).</param>
         /// <returns><see cref="AudioError"/>, showing wheter and how setting the playback direction failed.</returns>
-        public AudioError SetPlaypbackDirection(string name, float pitch = Constants.DEFAULT_REVERSE_PITCH);
+        public AudioError SetPlaybackDirection(string name, float pitch = Constants.DEFAULT_REVERSE_PITCH);
 
         /// <summary>
         /// Plays the sound with the given name at a 3D position in space.
