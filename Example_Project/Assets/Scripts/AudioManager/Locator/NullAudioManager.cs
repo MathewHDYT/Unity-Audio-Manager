@@ -8,13 +8,6 @@ namespace AudioManager.Locator {
     /// Null instances of the IAudioManager interface, simply returns the AudioError.NOT_INITALIZED error for all API methods.
     /// </summary>
     public class NullAudioManager : IAudioManager {
-        /// <summary>
-        /// Empty Constructor.
-        /// </summary>
-        public NullAudioManager() {
-            // Nothing to do.
-        }
-
         public AudioError AddSoundFromPath(string name, string path, float volume, float pitch, bool loop, AudioSource source, AudioMixerGroup mixerGroup) {
             return AudioError.NOT_INITIALIZED;
         }

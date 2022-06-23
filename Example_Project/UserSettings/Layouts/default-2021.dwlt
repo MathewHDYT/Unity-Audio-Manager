@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 997
   m_ShowMode: 4
-  m_Title: Hierarchy
+  m_Title: Project
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -119,7 +119,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 178
+  controlID: 121
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 179
+  controlID: 73
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -169,7 +169,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 180
+  controlID: 52
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -340,9 +340,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
+      m_SelectedIDs: d4070000
       m_LastClickedID: 0
-      m_ExpandedIDs: 86faffff
+      m_ExpandedIDs: 26fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -642,7 +642,7 @@ MonoBehaviour:
   m_Rotation:
     m_Target: {x: -0.059731282, y: -0.6602091, z: 0.052804112, w: -0.7468442}
     speed: 2
-    m_Value: {x: 0.05973128, y: 0.66020906, z: -0.05280411, w: 0.7468442}
+    m_Value: {x: -0.059731033, y: -0.6602064, z: 0.052803893, w: -0.7468411}
   m_Size:
     m_Target: 3651.6665
     speed: 2
@@ -730,7 +730,7 @@ MonoBehaviour:
     m_VAllowExceedBaseRangeMax: 1
     m_ScaleWithWindow: 0
     m_HSlider: 0
-    m_VSlider: 1
+    m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
     m_EnableMouseInput: 1
     m_EnableSliderZoomHorizontal: 0
@@ -743,7 +743,7 @@ MonoBehaviour:
       y: 21
       width: 1053
       height: 515
-    m_Scale: {x: 0.49629626, y: 0.49629626}
+    m_Scale: {x: 0.47685188, y: 0.47685185}
     m_Translation: {x: 526.5, y: 257.5}
     m_MarginLeft: 0
     m_MarginRight: 0
@@ -751,12 +751,12 @@ MonoBehaviour:
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -1060.8583
-      y: -518.8433
-      width: 2121.7166
-      height: 1037.6866
+      x: -1104.1165
+      y: -540
+      width: 2208.233
+      height: 1080
     m_MinimalGUI: 1
-  m_defaultScale: 0.4962963
+  m_defaultScale: 0.47685185
   m_LastWindowPixelSize: {x: 1053, y: 536}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
@@ -804,22 +804,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts/AudioManager/Service
+    - Assets/Scripts/AudioManager/Core
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Scripts/AudioManager/Service
+  - Assets/Scripts/AudioManager/Core
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\Mathew\Unity-Audio-Manager\Example_Project
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 23}
-    m_SelectedIDs: 344b0000
-    m_LastClickedID: 19252
-    m_ExpandedIDs: 00000000424a0000444a0000464a000000ca9a3b
+    scrollPos: {x: 0, y: 0}
+    m_SelectedIDs: 1a4b0000
+    m_LastClickedID: 19226
+    m_ExpandedIDs: 00000000fc4a0000fe4a0000004b000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -847,7 +847,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000424a000000ca9a3b
+    m_ExpandedIDs: 00000000fc4a0000fe4a0000004b0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -874,7 +874,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c623000000000000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -932,7 +932,7 @@ MonoBehaviour:
     m_LastAppliedPresetName: Default
     m_SaveData: []
   m_Spl:
-    ID: 204
+    ID: 1771
     splitterInitialOffset: 266
     currentActiveSplitter: -1
     realSizes:
@@ -964,7 +964,7 @@ MonoBehaviour:
       name: Example Project
       fullName: Example Project
       resultStatus: 1
-      duration: 3.1882803
+      duration: 3.0424366
       messages: 
       output: 
       stacktrace: 
@@ -980,7 +980,7 @@ MonoBehaviour:
       name: Tests.Locator.dll
       fullName: C:/Users/Mathew/Unity-Audio-Manager/Example_Project/Library/ScriptAssemblies/Tests.Locator.dll
       resultStatus: 1
-      duration: 0.0927663
+      duration: 0.0491116
       messages: 
       output: 
       stacktrace: 
@@ -996,7 +996,7 @@ MonoBehaviour:
       name: TestNullAudioManager
       fullName: TestNullAudioManager
       resultStatus: 1
-      duration: 0.0712124
+      duration: 0.0379034
       messages: 
       output: 
       stacktrace: 
@@ -1012,7 +1012,7 @@ MonoBehaviour:
       name: TestAddGroup
       fullName: TestNullAudioManager.TestAddGroup
       resultStatus: 1
-      duration: 0.0294614
+      duration: 0.0124857
       messages: 
       output: 
       stacktrace: 
@@ -1029,7 +1029,7 @@ MonoBehaviour:
       name: TestAddSoundFromPath
       fullName: TestNullAudioManager.TestAddSoundFromPath
       resultStatus: 1
-      duration: 0.0002039
+      duration: 0.0002285
       messages: 
       output: 
       stacktrace: 
@@ -1046,7 +1046,7 @@ MonoBehaviour:
       name: TestChangeGroupValue
       fullName: TestNullAudioManager.TestChangeGroupValue
       resultStatus: 1
-      duration: 0.0001919
+      duration: 0.0001928
       messages: 
       output: 
       stacktrace: 
@@ -1063,7 +1063,7 @@ MonoBehaviour:
       name: TestChangePitch
       fullName: TestNullAudioManager.TestChangePitch
       resultStatus: 1
-      duration: 0.000183
+      duration: 0.000186
       messages: 
       output: 
       stacktrace: 
@@ -1080,7 +1080,7 @@ MonoBehaviour:
       name: TestGetEnumerator
       fullName: TestNullAudioManager.TestGetEnumerator
       resultStatus: 1
-      duration: 0.0007457
+      duration: 0.0003387
       messages: 
       output: 
       stacktrace: 
@@ -1097,7 +1097,7 @@ MonoBehaviour:
       name: TestGetGroupValue
       fullName: TestNullAudioManager.TestGetGroupValue
       resultStatus: 1
-      duration: 0.0008671
+      duration: 0.0004443
       messages: 
       output: 
       stacktrace: 
@@ -1114,7 +1114,7 @@ MonoBehaviour:
       name: TestGetPlaybackPosition
       fullName: TestNullAudioManager.TestGetPlaybackPosition
       resultStatus: 1
-      duration: 0.0001989
+      duration: 0.000193
       messages: 
       output: 
       stacktrace: 
@@ -1131,7 +1131,7 @@ MonoBehaviour:
       name: TestGetProgress
       fullName: TestNullAudioManager.TestGetProgress
       resultStatus: 1
-      duration: 0.0001997
+      duration: 0.0001981
       messages: 
       output: 
       stacktrace: 
@@ -1148,7 +1148,7 @@ MonoBehaviour:
       name: TestLerpGroupValue
       fullName: TestNullAudioManager.TestLerpGroupValue
       resultStatus: 1
-      duration: 0.0001868
+      duration: 0.0001822
       messages: 
       output: 
       stacktrace: 
@@ -1165,7 +1165,7 @@ MonoBehaviour:
       name: TestLerpPitch
       fullName: TestNullAudioManager.TestLerpPitch
       resultStatus: 1
-      duration: 0.0001899
+      duration: 0.0001895
       messages: 
       output: 
       stacktrace: 
@@ -1182,7 +1182,7 @@ MonoBehaviour:
       name: TestLerpVolume
       fullName: TestNullAudioManager.TestLerpVolume
       resultStatus: 1
-      duration: 0.0001831
+      duration: 0.0001815
       messages: 
       output: 
       stacktrace: 
@@ -1199,7 +1199,7 @@ MonoBehaviour:
       name: TestPlay
       fullName: TestNullAudioManager.TestPlay
       resultStatus: 1
-      duration: 0.0001749
+      duration: 0.0001775
       messages: 
       output: 
       stacktrace: 
@@ -1216,7 +1216,7 @@ MonoBehaviour:
       name: TestPlayAt3DPosition
       fullName: TestNullAudioManager.TestPlayAt3DPosition
       resultStatus: 1
-      duration: 0.0001875
+      duration: 0.0001943
       messages: 
       output: 
       stacktrace: 
@@ -1233,7 +1233,7 @@ MonoBehaviour:
       name: TestPlayAttachedToGameObject
       fullName: TestNullAudioManager.TestPlayAttachedToGameObject
       resultStatus: 1
-      duration: 0.0001826
+      duration: 0.0001961
       messages: 
       output: 
       stacktrace: 
@@ -1250,7 +1250,7 @@ MonoBehaviour:
       name: TestPlayAtTimeStamp
       fullName: TestNullAudioManager.TestPlayAtTimeStamp
       resultStatus: 1
-      duration: 0.000174
+      duration: 0.0001773
       messages: 
       output: 
       stacktrace: 
@@ -1267,7 +1267,7 @@ MonoBehaviour:
       name: TestPlayDelayed
       fullName: TestNullAudioManager.TestPlayDelayed
       resultStatus: 1
-      duration: 0.0001745
+      duration: 0.0001751
       messages: 
       output: 
       stacktrace: 
@@ -1284,7 +1284,7 @@ MonoBehaviour:
       name: TestPlayOneShot
       fullName: TestNullAudioManager.TestPlayOneShot
       resultStatus: 1
-      duration: 0.0001719
+      duration: 0.0001806
       messages: 
       output: 
       stacktrace: 
@@ -1301,7 +1301,7 @@ MonoBehaviour:
       name: TestPlayOneShotAt3DPosition
       fullName: TestNullAudioManager.TestPlayOneShotAt3DPosition
       resultStatus: 1
-      duration: 0.0001786
+      duration: 0.0001952
       messages: 
       output: 
       stacktrace: 
@@ -1318,7 +1318,7 @@ MonoBehaviour:
       name: TestPlayOneShotAttachedToGameObject
       fullName: TestNullAudioManager.TestPlayOneShotAttachedToGameObject
       resultStatus: 1
-      duration: 0.0001704
+      duration: 0.0001855
       messages: 
       output: 
       stacktrace: 
@@ -1335,7 +1335,7 @@ MonoBehaviour:
       name: TestPlayScheduled
       fullName: TestNullAudioManager.TestPlayScheduled
       resultStatus: 1
-      duration: 0.0001657
+      duration: 0.0001771
       messages: 
       output: 
       stacktrace: 
@@ -1352,7 +1352,7 @@ MonoBehaviour:
       name: TestRemoveGroup
       fullName: TestNullAudioManager.TestRemoveGroup
       resultStatus: 1
-      duration: 0.0001757
+      duration: 0.0001851
       messages: 
       output: 
       stacktrace: 
@@ -1369,7 +1369,7 @@ MonoBehaviour:
       name: TestRemoveSound
       fullName: TestNullAudioManager.TestRemoveSound
       resultStatus: 1
-      duration: 0.0001655
+      duration: 0.000185
       messages: 
       output: 
       stacktrace: 
@@ -1386,7 +1386,7 @@ MonoBehaviour:
       name: TestResetGroupValue
       fullName: TestNullAudioManager.TestResetGroupValue
       resultStatus: 1
-      duration: 0.0001663
+      duration: 0.0001853
       messages: 
       output: 
       stacktrace: 
@@ -1403,7 +1403,7 @@ MonoBehaviour:
       name: TestSet3DAudioOptions
       fullName: TestNullAudioManager.TestSet3DAudioOptions
       resultStatus: 1
-      duration: 0.0001689
+      duration: 0.0001865
       messages: 
       output: 
       stacktrace: 
@@ -1420,7 +1420,7 @@ MonoBehaviour:
       name: TestSetPlaypbackDirection
       fullName: TestNullAudioManager.TestSetPlaypbackDirection
       resultStatus: 1
-      duration: 0.000175
+      duration: 0.0001872
       messages: 
       output: 
       stacktrace: 
@@ -1437,7 +1437,7 @@ MonoBehaviour:
       name: TestSetStartTime
       fullName: TestNullAudioManager.TestSetStartTime
       resultStatus: 1
-      duration: 0.0001695
+      duration: 0.0001788
       messages: 
       output: 
       stacktrace: 
@@ -1454,7 +1454,7 @@ MonoBehaviour:
       name: TestSkipTime
       fullName: TestNullAudioManager.TestSkipTime
       resultStatus: 1
-      duration: 0.0001805
+      duration: 0.0001935
       messages: 
       output: 
       stacktrace: 
@@ -1471,7 +1471,7 @@ MonoBehaviour:
       name: TestStop
       fullName: TestNullAudioManager.TestStop
       resultStatus: 1
-      duration: 0.0001725
+      duration: 0.0001831
       messages: 
       output: 
       stacktrace: 
@@ -1488,7 +1488,7 @@ MonoBehaviour:
       name: TestSubscribeProgressCoroutine
       fullName: TestNullAudioManager.TestSubscribeProgressCoroutine
       resultStatus: 1
-      duration: 0.000174
+      duration: 0.0001889
       messages: 
       output: 
       stacktrace: 
@@ -1505,7 +1505,7 @@ MonoBehaviour:
       name: TestToggleMute
       fullName: TestNullAudioManager.TestToggleMute
       resultStatus: 1
-      duration: 0.0001642
+      duration: 0.0001726
       messages: 
       output: 
       stacktrace: 
@@ -1522,7 +1522,7 @@ MonoBehaviour:
       name: TestTogglePause
       fullName: TestNullAudioManager.TestTogglePause
       resultStatus: 1
-      duration: 0.0001674
+      duration: 0.0001747
       messages: 
       output: 
       stacktrace: 
@@ -1539,7 +1539,7 @@ MonoBehaviour:
       name: TestTryGetSource
       fullName: TestNullAudioManager.TestTryGetSource
       resultStatus: 1
-      duration: 0.000205
+      duration: 0.0002001
       messages: 
       output: 
       stacktrace: 
@@ -1556,7 +1556,7 @@ MonoBehaviour:
       name: TestUnsubscribeProgressCoroutine
       fullName: TestNullAudioManager.TestUnsubscribeProgressCoroutine
       resultStatus: 1
-      duration: 0.0001726
+      duration: 0.000174
       messages: 
       output: 
       stacktrace: 
@@ -1573,7 +1573,7 @@ MonoBehaviour:
       name: TestServiceLocator
       fullName: TestServiceLocator
       resultStatus: 1
-      duration: 0.0112305
+      duration: 0.0043528
       messages: 
       output: 
       stacktrace: 
@@ -1589,7 +1589,7 @@ MonoBehaviour:
       name: TestGetService
       fullName: TestServiceLocator.TestGetService
       resultStatus: 1
-      duration: 0.0061643
+      duration: 0.0005339
       messages: 
       output: 
       stacktrace: 
@@ -1606,7 +1606,7 @@ MonoBehaviour:
       name: TestRegisterLogger
       fullName: TestServiceLocator.TestRegisterLogger
       resultStatus: 1
-      duration: 0.0013363
+      duration: 0.000659
       messages: 
       output: 
       stacktrace: 
@@ -1623,7 +1623,7 @@ MonoBehaviour:
       name: TestRegisterService
       fullName: TestServiceLocator.TestRegisterService
       resultStatus: 1
-      duration: 0.0007651
+      duration: 0.0002738
       messages: 
       output: 
       stacktrace: 
@@ -1640,7 +1640,7 @@ MonoBehaviour:
       name: Tests.Logger.dll
       fullName: C:/Users/Mathew/Unity-Audio-Manager/Example_Project/Library/ScriptAssemblies/Tests.Logger.dll
       resultStatus: 1
-      duration: 0.1013724
+      duration: 0.0945958
       messages: 
       output: 
       stacktrace: 
@@ -1656,7 +1656,7 @@ MonoBehaviour:
       name: TestAudioLogger
       fullName: TestAudioLogger
       resultStatus: 1
-      duration: 0.0606367
+      duration: 0.059152
       messages: 
       output: 
       stacktrace: 
@@ -1672,7 +1672,7 @@ MonoBehaviour:
       name: TestLog
       fullName: TestAudioLogger.TestLog
       resultStatus: 1
-      duration: 0.0236336
+      duration: 0.0191982
       messages: 
       output: '
 
@@ -1785,7 +1785,7 @@ MonoBehaviour:
       name: TestLogAssert
       fullName: TestAudioLogger.TestLogAssert
       resultStatus: 1
-      duration: 0.0035809
+      duration: 0.0038649
       messages: 
       output: '
 
@@ -1826,7 +1826,7 @@ MonoBehaviour:
       name: TestLogAssertFormat
       fullName: TestAudioLogger.TestLogAssertFormat
       resultStatus: 1
-      duration: 0.0039051
+      duration: 0.0041047
       messages: 
       output: '
 
@@ -1867,7 +1867,7 @@ MonoBehaviour:
       name: TestLogException
       fullName: TestAudioLogger.TestLogException
       resultStatus: 1
-      duration: 0.010921
+      duration: 0.0097581
       messages: 
       output: 'NullReferenceException: Object reference not set to an instance of
         an object.
@@ -1920,7 +1920,7 @@ MonoBehaviour:
       name: TestLogFormat
       fullName: TestAudioLogger.TestLogFormat
       resultStatus: 1
-      duration: 0.0155147
+      duration: 0.0192914
       messages: 
       output: '
 
@@ -2033,7 +2033,7 @@ MonoBehaviour:
       name: TestErrorToStringConvertor
       fullName: TestErrorToStringConvertor
       resultStatus: 1
-      duration: 0.0071979
+      duration: 0.0055737
       messages: 
       output: 
       stacktrace: 
@@ -2049,7 +2049,7 @@ MonoBehaviour:
       name: TestErrorToMessage
       fullName: TestErrorToStringConvertor.TestErrorToMessage
       resultStatus: 1
-      duration: 0.0043645
+      duration: 0.0029776
       messages: 
       output: 
       stacktrace: 
@@ -2066,7 +2066,7 @@ MonoBehaviour:
       name: TestLoggedAudioManager
       fullName: TestLoggedAudioManager
       resultStatus: 1
-      duration: 0.0308318
+      duration: 0.0268709
       messages: 
       output: 
       stacktrace: 
@@ -2082,7 +2082,7 @@ MonoBehaviour:
       name: TestAddGroup
       fullName: TestLoggedAudioManager.TestAddGroup
       resultStatus: 1
-      duration: 0.004067
+      duration: 0.0018019
       messages: 
       output: 
       stacktrace: 
@@ -2099,7 +2099,7 @@ MonoBehaviour:
       name: TestAddSoundFromPath
       fullName: TestLoggedAudioManager.TestAddSoundFromPath
       resultStatus: 1
-      duration: 0.000495
+      duration: 0.0005708
       messages: 
       output: 
       stacktrace: 
@@ -2116,7 +2116,7 @@ MonoBehaviour:
       name: TestChangeGroupValue
       fullName: TestLoggedAudioManager.TestChangeGroupValue
       resultStatus: 1
-      duration: 0.0004876
+      duration: 0.0005357
       messages: 
       output: 
       stacktrace: 
@@ -2133,7 +2133,7 @@ MonoBehaviour:
       name: TestChangePitch
       fullName: TestLoggedAudioManager.TestChangePitch
       resultStatus: 1
-      duration: 0.0004528
+      duration: 0.0004989
       messages: 
       output: 
       stacktrace: 
@@ -2150,7 +2150,7 @@ MonoBehaviour:
       name: TestGetEnumerator
       fullName: TestLoggedAudioManager.TestGetEnumerator
       resultStatus: 1
-      duration: 0.0004242
+      duration: 0.0005209
       messages: 
       output: 
       stacktrace: 
@@ -2167,7 +2167,7 @@ MonoBehaviour:
       name: TestGetGroupValue
       fullName: TestLoggedAudioManager.TestGetGroupValue
       resultStatus: 1
-      duration: 0.0005241
+      duration: 0.0005747
       messages: 
       output: 
       stacktrace: 
@@ -2184,7 +2184,7 @@ MonoBehaviour:
       name: TestGetPlaybackPosition
       fullName: TestLoggedAudioManager.TestGetPlaybackPosition
       resultStatus: 1
-      duration: 0.0004705
+      duration: 0.0005251
       messages: 
       output: 
       stacktrace: 
@@ -2201,7 +2201,7 @@ MonoBehaviour:
       name: TestGetProgress
       fullName: TestLoggedAudioManager.TestGetProgress
       resultStatus: 1
-      duration: 0.0004699
+      duration: 0.0005317
       messages: 
       output: 
       stacktrace: 
@@ -2218,7 +2218,7 @@ MonoBehaviour:
       name: TestLerpGroupValue
       fullName: TestLoggedAudioManager.TestLerpGroupValue
       resultStatus: 1
-      duration: 0.0004742
+      duration: 0.0005283
       messages: 
       output: 
       stacktrace: 
@@ -2235,7 +2235,7 @@ MonoBehaviour:
       name: TestLerpPitch
       fullName: TestLoggedAudioManager.TestLerpPitch
       resultStatus: 1
-      duration: 0.0004518
+      duration: 0.0005122
       messages: 
       output: 
       stacktrace: 
@@ -2252,7 +2252,7 @@ MonoBehaviour:
       name: TestLerpVolume
       fullName: TestLoggedAudioManager.TestLerpVolume
       resultStatus: 1
-      duration: 0.0004332
+      duration: 0.0004822
       messages: 
       output: 
       stacktrace: 
@@ -2269,7 +2269,7 @@ MonoBehaviour:
       name: TestPlay
       fullName: TestLoggedAudioManager.TestPlay
       resultStatus: 1
-      duration: 0.0004239
+      duration: 0.0004768
       messages: 
       output: 
       stacktrace: 
@@ -2286,7 +2286,7 @@ MonoBehaviour:
       name: TestPlayAt3DPosition
       fullName: TestLoggedAudioManager.TestPlayAt3DPosition
       resultStatus: 1
-      duration: 0.0004673
+      duration: 0.0005188
       messages: 
       output: 
       stacktrace: 
@@ -2303,7 +2303,7 @@ MonoBehaviour:
       name: TestPlayAttachedToGameObject
       fullName: TestLoggedAudioManager.TestPlayAttachedToGameObject
       resultStatus: 1
-      duration: 0.0004537
+      duration: 0.0004938
       messages: 
       output: 
       stacktrace: 
@@ -2320,7 +2320,7 @@ MonoBehaviour:
       name: TestPlayAtTimeStamp
       fullName: TestLoggedAudioManager.TestPlayAtTimeStamp
       resultStatus: 1
-      duration: 0.0004364
+      duration: 0.0005231
       messages: 
       output: 
       stacktrace: 
@@ -2337,7 +2337,7 @@ MonoBehaviour:
       name: TestPlayDelayed
       fullName: TestLoggedAudioManager.TestPlayDelayed
       resultStatus: 1
-      duration: 0.0004261
+      duration: 0.0004796
       messages: 
       output: 
       stacktrace: 
@@ -2354,7 +2354,7 @@ MonoBehaviour:
       name: TestPlayOneShot
       fullName: TestLoggedAudioManager.TestPlayOneShot
       resultStatus: 1
-      duration: 0.0004316
+      duration: 0.0004765
       messages: 
       output: 
       stacktrace: 
@@ -2371,7 +2371,7 @@ MonoBehaviour:
       name: TestPlayOneShotAt3DPosition
       fullName: TestLoggedAudioManager.TestPlayOneShotAt3DPosition
       resultStatus: 1
-      duration: 0.0004773
+      duration: 0.0005035
       messages: 
       output: 
       stacktrace: 
@@ -2388,7 +2388,7 @@ MonoBehaviour:
       name: TestPlayOneShotAttachedToGameObject
       fullName: TestLoggedAudioManager.TestPlayOneShotAttachedToGameObject
       resultStatus: 1
-      duration: 0.0004409
+      duration: 0.000496
       messages: 
       output: 
       stacktrace: 
@@ -2405,7 +2405,7 @@ MonoBehaviour:
       name: TestPlayScheduled
       fullName: TestLoggedAudioManager.TestPlayScheduled
       resultStatus: 1
-      duration: 0.0004269
+      duration: 0.0004812
       messages: 
       output: 
       stacktrace: 
@@ -2422,7 +2422,7 @@ MonoBehaviour:
       name: TestRemoveGroup
       fullName: TestLoggedAudioManager.TestRemoveGroup
       resultStatus: 1
-      duration: 0.0004236
+      duration: 0.0004822
       messages: 
       output: 
       stacktrace: 
@@ -2439,7 +2439,7 @@ MonoBehaviour:
       name: TestRemoveSound
       fullName: TestLoggedAudioManager.TestRemoveSound
       resultStatus: 1
-      duration: 0.000431
+      duration: 0.0004792
       messages: 
       output: 
       stacktrace: 
@@ -2456,7 +2456,7 @@ MonoBehaviour:
       name: TestResetGroupValue
       fullName: TestLoggedAudioManager.TestResetGroupValue
       resultStatus: 1
-      duration: 0.0004587
+      duration: 0.0005258
       messages: 
       output: 
       stacktrace: 
@@ -2473,7 +2473,7 @@ MonoBehaviour:
       name: TestSet3DAudioOptions
       fullName: TestLoggedAudioManager.TestSet3DAudioOptions
       resultStatus: 1
-      duration: 0.0004506
+      duration: 0.000517
       messages: 
       output: 
       stacktrace: 
@@ -2490,7 +2490,7 @@ MonoBehaviour:
       name: TestSetPlaypbackDirection
       fullName: TestLoggedAudioManager.TestSetPlaypbackDirection
       resultStatus: 1
-      duration: 0.0004441
+      duration: 0.0004931
       messages: 
       output: 
       stacktrace: 
@@ -2507,7 +2507,7 @@ MonoBehaviour:
       name: TestSetStartTime
       fullName: TestLoggedAudioManager.TestSetStartTime
       resultStatus: 1
-      duration: 0.0004435
+      duration: 0.0005235
       messages: 
       output: 
       stacktrace: 
@@ -2524,7 +2524,7 @@ MonoBehaviour:
       name: TestSkipTime
       fullName: TestLoggedAudioManager.TestSkipTime
       resultStatus: 1
-      duration: 0.0004454
+      duration: 0.0004796
       messages: 
       output: 
       stacktrace: 
@@ -2541,7 +2541,7 @@ MonoBehaviour:
       name: TestStop
       fullName: TestLoggedAudioManager.TestStop
       resultStatus: 1
-      duration: 0.0004322
+      duration: 0.0004882
       messages: 
       output: 
       stacktrace: 
@@ -2558,7 +2558,7 @@ MonoBehaviour:
       name: TestSubscribeProgressCoroutine
       fullName: TestLoggedAudioManager.TestSubscribeProgressCoroutine
       resultStatus: 1
-      duration: 0.0004425
+      duration: 0.0005025
       messages: 
       output: 
       stacktrace: 
@@ -2575,7 +2575,7 @@ MonoBehaviour:
       name: TestToggleMute
       fullName: TestLoggedAudioManager.TestToggleMute
       resultStatus: 1
-      duration: 0.0004354
+      duration: 0.0004849
       messages: 
       output: 
       stacktrace: 
@@ -2592,7 +2592,7 @@ MonoBehaviour:
       name: TestTogglePause
       fullName: TestLoggedAudioManager.TestTogglePause
       resultStatus: 1
-      duration: 0.0004275
+      duration: 0.0004865
       messages: 
       output: 
       stacktrace: 
@@ -2609,7 +2609,7 @@ MonoBehaviour:
       name: TestTryGetSource
       fullName: TestLoggedAudioManager.TestTryGetSource
       resultStatus: 1
-      duration: 0.0004629
+      duration: 0.0005241
       messages: 
       output: 
       stacktrace: 
@@ -2626,7 +2626,7 @@ MonoBehaviour:
       name: TestUnsubscribeProgressCoroutine
       fullName: TestLoggedAudioManager.TestUnsubscribeProgressCoroutine
       resultStatus: 1
-      duration: 0.000427
+      duration: 0.0005008
       messages: 
       output: 
       stacktrace: 
@@ -2643,7 +2643,7 @@ MonoBehaviour:
       name: Tests.Provider.dll
       fullName: C:/Users/Mathew/Unity-Audio-Manager/Example_Project/Library/ScriptAssemblies/Tests.Provider.dll
       resultStatus: 1
-      duration: 0.0193697
+      duration: 0.01201
       messages: 
       output: 
       stacktrace: 
@@ -2659,7 +2659,7 @@ MonoBehaviour:
       name: TestAudioManagerSettings
       fullName: TestAudioManagerSettings
       resultStatus: 1
-      duration: 0.0163201
+      duration: 0.0095972
       messages: 
       output: 
       stacktrace: 
@@ -2675,7 +2675,7 @@ MonoBehaviour:
       name: TestAwake
       fullName: TestAudioManagerSettings.TestAwake
       resultStatus: 1
-      duration: 0.0131971
+      duration: 0.0039486
       messages: 
       output: 'Getting registered AudioSource entry failed.
 
@@ -2697,7 +2697,7 @@ MonoBehaviour:
       name: TestOnEnable
       fullName: TestAudioManagerSettings.TestOnEnable
       resultStatus: 1
-      duration: 0.0002965
+      duration: 0.0002892
       messages: 
       output: 
       stacktrace: 
@@ -2714,7 +2714,7 @@ MonoBehaviour:
       name: Tests.Service.dll
       fullName: C:/Users/Mathew/Unity-Audio-Manager/Example_Project/Library/ScriptAssemblies/Tests.Service.dll
       resultStatus: 1
-      duration: 2.8332849
+      duration: 2.7715578
       messages: 
       output: 'There are no audio listeners in the scene. Please ensure there is
         always one audio listener in the scene
@@ -2733,7 +2733,7 @@ MonoBehaviour:
       name: TestDefaultAudioManager
       fullName: TestDefaultAudioManager
       resultStatus: 1
-      duration: 2.8208375
+      duration: 2.7623641
       messages: 
       output: 
       stacktrace: 
@@ -2749,7 +2749,7 @@ MonoBehaviour:
       name: TestAddGroup
       fullName: TestDefaultAudioManager.TestAddGroup
       resultStatus: 1
-      duration: 0.0066932
+      duration: 0.0047485
       messages: 
       output: 
       stacktrace: 
@@ -2766,7 +2766,7 @@ MonoBehaviour:
       name: TestAddSoundFromPath
       fullName: TestDefaultAudioManager.TestAddSoundFromPath
       resultStatus: 1
-      duration: 0.0021272
+      duration: 0.0021746
       messages: 
       output: 
       stacktrace: 
@@ -2783,7 +2783,7 @@ MonoBehaviour:
       name: TestChangeGroupValue
       fullName: TestDefaultAudioManager.TestChangeGroupValue
       resultStatus: 1
-      duration: 0.0031416
+      duration: 0.0027144
       messages: 
       output: "Exposed name does not exist: \r\nExposed name does not exist: \r\nExposed
         name does not exist: \r\nExposed name does not exist: \r\nExposed name does
@@ -2802,7 +2802,7 @@ MonoBehaviour:
       name: TestChangePitch
       fullName: TestDefaultAudioManager.TestChangePitch
       resultStatus: 1
-      duration: 0.001746
+      duration: 0.0009984
       messages: 
       output: 
       stacktrace: 
@@ -2819,7 +2819,7 @@ MonoBehaviour:
       name: TestGetEnumerator
       fullName: TestDefaultAudioManager.TestGetEnumerator
       resultStatus: 1
-      duration: 0.0010744
+      duration: 0.0003671
       messages: 
       output: 
       stacktrace: 
@@ -2836,7 +2836,7 @@ MonoBehaviour:
       name: TestGetGroupValue
       fullName: TestDefaultAudioManager.TestGetGroupValue
       resultStatus: 1
-      duration: 0.0025429
+      duration: 0.0025011
       messages: 
       output: "Exposed name does not exist: \r\nExposed name does not exist: \r\nExposed
         name does not exist: \r\nExposed name does not exist: \r\nExposed name does
@@ -2855,7 +2855,7 @@ MonoBehaviour:
       name: TestGetPlaybackPosition
       fullName: TestDefaultAudioManager.TestGetPlaybackPosition
       resultStatus: 1
-      duration: 0.0005485
+      duration: 0.0005795
       messages: 
       output: 
       stacktrace: 
@@ -2872,7 +2872,7 @@ MonoBehaviour:
       name: TestGetProgress
       fullName: TestDefaultAudioManager.TestGetProgress
       resultStatus: 1
-      duration: 0.0506604
+      duration: 0.040265
       messages: 
       output: 'There are no audio listeners in the scene. Please ensure there is
         always one audio listener in the scene
@@ -2894,10 +2894,6 @@ MonoBehaviour:
         There are no audio listeners in the scene.
         Please ensure there is always one audio listener in the scene
 
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
 '
       stacktrace: 
       notRunnable: 0
@@ -2913,7 +2909,7 @@ MonoBehaviour:
       name: TestLerpGroupValue
       fullName: TestDefaultAudioManager.TestLerpGroupValue
       resultStatus: 1
-      duration: 0.061311
+      duration: 0.0592146
       messages: 
       output: "Exposed name does not exist: \r\n"
       stacktrace: 
@@ -2930,7 +2926,7 @@ MonoBehaviour:
       name: TestLerpPitch
       fullName: TestDefaultAudioManager.TestLerpPitch
       resultStatus: 1
-      duration: 0.0568115
+      duration: 0.0565793
       messages: 
       output: 
       stacktrace: 
@@ -2947,7 +2943,7 @@ MonoBehaviour:
       name: TestLerpVolume
       fullName: TestDefaultAudioManager.TestLerpVolume
       resultStatus: 1
-      duration: 0.056716
+      duration: 0.0577262
       messages: 
       output: 
       stacktrace: 
@@ -2964,7 +2960,7 @@ MonoBehaviour:
       name: TestPlay
       fullName: TestDefaultAudioManager.TestPlay
       resultStatus: 1
-      duration: 0.0005124
+      duration: 0.0006429
       messages: 
       output: 
       stacktrace: 
@@ -2981,7 +2977,7 @@ MonoBehaviour:
       name: TestPlayAt3DPosition
       fullName: TestDefaultAudioManager.TestPlayAt3DPosition
       resultStatus: 1
-      duration: 0.002712
+      duration: 0.003411
       messages: 
       output: 
       stacktrace: 
@@ -2998,7 +2994,7 @@ MonoBehaviour:
       name: TestPlayAttachedToGameObject
       fullName: TestDefaultAudioManager.TestPlayAttachedToGameObject
       resultStatus: 1
-      duration: 0.0010818
+      duration: 0.0010934
       messages: 
       output: 
       stacktrace: 
@@ -3015,7 +3011,7 @@ MonoBehaviour:
       name: TestPlayAtTimeStamp
       fullName: TestDefaultAudioManager.TestPlayAtTimeStamp
       resultStatus: 1
-      duration: 0.1404195
+      duration: 0.1395869
       messages: 
       output: 'There are no audio listeners in the scene. Please ensure there is
         always one audio listener in the scene
@@ -3413,7 +3409,7 @@ MonoBehaviour:
       name: TestPlayDelayed
       fullName: TestDefaultAudioManager.TestPlayDelayed
       resultStatus: 1
-      duration: 0.0007559
+      duration: 0.0007721
       messages: 
       output: 
       stacktrace: 
@@ -3430,7 +3426,7 @@ MonoBehaviour:
       name: TestPlayOneShot
       fullName: TestDefaultAudioManager.TestPlayOneShot
       resultStatus: 1
-      duration: 0.0004923
+      duration: 0.0004715
       messages: 
       output: 
       stacktrace: 
@@ -3447,7 +3443,7 @@ MonoBehaviour:
       name: TestPlayOneShotAt3DPosition
       fullName: TestDefaultAudioManager.TestPlayOneShotAt3DPosition
       resultStatus: 1
-      duration: 0.0006672
+      duration: 0.0006567
       messages: 
       output: 
       stacktrace: 
@@ -3464,7 +3460,7 @@ MonoBehaviour:
       name: TestPlayOneShotAttachedToGameObject
       fullName: TestDefaultAudioManager.TestPlayOneShotAttachedToGameObject
       resultStatus: 1
-      duration: 0.0005524
+      duration: 0.000577
       messages: 
       output: 
       stacktrace: 
@@ -3481,7 +3477,7 @@ MonoBehaviour:
       name: TestPlayScheduled
       fullName: TestDefaultAudioManager.TestPlayScheduled
       resultStatus: 1
-      duration: 0.000465
+      duration: 0.0004735
       messages: 
       output: 
       stacktrace: 
@@ -3498,7 +3494,7 @@ MonoBehaviour:
       name: TestRemoveGroup
       fullName: TestDefaultAudioManager.TestRemoveGroup
       resultStatus: 1
-      duration: 0.0004375
+      duration: 0.0004411
       messages: 
       output: 
       stacktrace: 
@@ -3515,7 +3511,7 @@ MonoBehaviour:
       name: TestRemoveSound
       fullName: TestDefaultAudioManager.TestRemoveSound
       resultStatus: 1
-      duration: 0.0003754
+      duration: 0.0003879
       messages: 
       output: 
       stacktrace: 
@@ -3532,7 +3528,7 @@ MonoBehaviour:
       name: TestResetGroupValue
       fullName: TestDefaultAudioManager.TestResetGroupValue
       resultStatus: 1
-      duration: 0.0010638
+      duration: 0.001123
       messages: 
       output: "Exposed name does not exist: \r\n"
       stacktrace: 
@@ -3549,7 +3545,7 @@ MonoBehaviour:
       name: TestSet3DAudioOptions
       fullName: TestDefaultAudioManager.TestSet3DAudioOptions
       resultStatus: 1
-      duration: 0.0005515
+      duration: 0.0005806
       messages: 
       output: 
       stacktrace: 
@@ -3566,7 +3562,7 @@ MonoBehaviour:
       name: TestSetPlaypbackDirection
       fullName: TestDefaultAudioManager.TestSetPlaypbackDirection
       resultStatus: 1
-      duration: 0.000483
+      duration: 0.0004969
       messages: 
       output: 
       stacktrace: 
@@ -3583,7 +3579,7 @@ MonoBehaviour:
       name: TestSetStartTime
       fullName: TestDefaultAudioManager.TestSetStartTime
       resultStatus: 1
-      duration: 0.0004488
+      duration: 0.0004627
       messages: 
       output: 
       stacktrace: 
@@ -3600,7 +3596,7 @@ MonoBehaviour:
       name: TestSkipTime
       fullName: TestDefaultAudioManager.TestSkipTime
       resultStatus: 1
-      duration: 0.000749
+      duration: 0.0007356
       messages: 
       output: 
       stacktrace: 
@@ -3617,7 +3613,7 @@ MonoBehaviour:
       name: TestStop
       fullName: TestDefaultAudioManager.TestStop
       resultStatus: 1
-      duration: 0.0004414
+      duration: 0.000407
       messages: 
       output: 
       stacktrace: 
@@ -3634,7 +3630,7 @@ MonoBehaviour:
       name: TestSubscribeProgressCoroutine
       fullName: TestDefaultAudioManager.TestSubscribeProgressCoroutine
       resultStatus: 1
-      duration: 2.3676124
+      duration: 2.33617
       messages: 
       output: 'There are no audio listeners in the scene. Please ensure there is
         always one audio listener in the scene
@@ -10449,198 +10445,6 @@ MonoBehaviour:
         There
         are no audio listeners in the scene. Please ensure there is always one audio
         listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
 
 '
       stacktrace: 
@@ -10657,7 +10461,7 @@ MonoBehaviour:
       name: TestToggleMute
       fullName: TestDefaultAudioManager.TestToggleMute
       resultStatus: 1
-      duration: 0.0007419
+      duration: 0.0008861
       messages: 
       output: 
       stacktrace: 
@@ -10674,7 +10478,7 @@ MonoBehaviour:
       name: TestTogglePause
       fullName: TestDefaultAudioManager.TestTogglePause
       resultStatus: 1
-      duration: 0.0006063
+      duration: 0.0006471
       messages: 
       output: 
       stacktrace: 
@@ -10691,7 +10495,7 @@ MonoBehaviour:
       name: TestTryGetSource
       fullName: TestDefaultAudioManager.TestTryGetSource
       resultStatus: 1
-      duration: 0.0003914
+      duration: 0.0003933
       messages: 
       output: 
       stacktrace: 
@@ -10708,13 +10512,27 @@ MonoBehaviour:
       name: TestUnsubscribeProgressCoroutine
       fullName: TestDefaultAudioManager.TestUnsubscribeProgressCoroutine
       resultStatus: 1
-      duration: 0.0311177
+      duration: 0.0286333
       messages: 
       output: 'There are no audio listeners in the scene. Please ensure there is
         always one audio listener in the scene
 
         There are no audio listeners
         in the scene. Please ensure there is always one audio listener in the scene
+
+        There
+        are no audio listeners in the scene. Please ensure there is always one audio
+        listener in the scene
+
+        There are no audio listeners in the scene.
+        Please ensure there is always one audio listener in the scene
+
+        There
+        are no audio listeners in the scene. Please ensure there is always one audio
+        listener in the scene
+
+        There are no audio listeners in the scene.
+        Please ensure there is always one audio listener in the scene
 
         There
         are no audio listeners in the scene. Please ensure there is always one audio
@@ -10777,7 +10595,7 @@ MonoBehaviour:
       name: Tests.Settings.dll
       fullName: C:/Users/Mathew/Unity-Audio-Manager/Example_Project/Library/ScriptAssemblies/Tests.Settings.dll
       resultStatus: 1
-      duration: 0.0083712
+      duration: 0.0060298
       messages: 
       output: 
       stacktrace: 
@@ -10793,7 +10611,7 @@ MonoBehaviour:
       name: TestShowIfAttribute
       fullName: TestShowIfAttribute
       resultStatus: 1
-      duration: 0.0035458
+      duration: 0.0028026
       messages: 
       output: 
       stacktrace: 
@@ -10809,7 +10627,7 @@ MonoBehaviour:
       name: TestConstructor
       fullName: TestShowIfAttribute.TestConstructor
       resultStatus: 1
-      duration: 0.0010127
+      duration: 0.0007055
       messages: 
       output: 
       stacktrace: 
@@ -10821,505 +10639,13 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1118
       parentUniqueId: Tests.Settings.dll/[Tests.Settings][TestShowIfAttribute][suite]
-    m_ResultText: 'TestSubscribeProgressCoroutine (2.368s)
-
-      ---
-
-      There
-      are no audio listeners in the scene. Please ensure there is always one audio
-      listener in the scene
-
-      There are no audio listeners in the scene. Please
-      ensure there is always one audio listener in the scene
-
-      There are no
-      audio listeners in the scene. Please ensure there is always one audio listener
-      in the scene
-
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
-
-      There are no audio listeners
-      in the scene. Please ensure there is always one audio listener in the scene
-
-      There
-      are no audio listeners in the scene. Please ensure there is always one audio
-      listener in the scene
-
-      There are no audio listeners in the scene. Please
-      ensure there is always one audio listener in the scene
-
-      There are no
-      audio listeners in the scene. Please ensure there is always one audio listener
-      in the scene
-
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
-
-      There are no audio listeners
-      in the scene. Please ensure there is always one audio listener in the scene
-
-      There
-      are no audio listeners in the scene. Please ensure there is always one audio
-      listener in the scene
-
-      There are no audio listeners in the scene. Please
-      ensure there is always one audio listener in the scene
-
-      There are no
-      audio listeners in the scene. Please ensure there is always one audio listener
-      in the scene
-
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
-
-      There are no audio listeners
-      in the scene. Please ensure there is always one audio listener in the scene
-
-      There
-      are no audio listeners in the scene. Please ensure there is always one audio
-      listener in the scene
-
-      There are no audio listeners in the scene. Please
-      ensure there is always one audio listener in the scene
-
-      There are no
-      audio listeners in the scene. Please ensure there is always one audio listener
-      in the scene
-
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
-
-      There are no audio listeners
-      in the scene. Please ensure there is always one audio listener in the scene
-
-      There
-      are no audio listeners in the scene. Please ensure there is always one audio
-      listener in the scene
-
-      There are no audio listeners in the scene. Please
-      ensure there is always one audio listener in the scene
-
-      There are no
-      audio listeners in the scene. Please ensure there is always one audio listener
-      in the scene
-
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
-
-      There are no audio listeners
-      in the scene. Please ensure there is always one audio listener in the scene
-
-      There
-      are no audio listeners in the scene. Please ensure there is always one audio
-      listener in the scene
-
-      There are no audio listeners in the scene. Please
-      ensure there is always one audio listener in the scene
-
-      There are no
-      audio listeners in the scene. Please ensure there is always one audio listener
-      in the scene
-
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
-
-      There are no audio listeners
-      in the scene. Please ensure there is always one audio listener in the scene
-
-      There
-      are no audio listeners in the scene. Please ensure there is always one audio
-      listener in the scene
-
-      There are no audio listeners in the scene. Please
-      ensure there is always one audio listener in the scene
-
-      There are no
-      audio listeners in the scene. Please ensure there is always one audio listener
-      in the scene
-
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
-
-      There are no audio listeners
-      in the scene. Please ensure there is always one audio listener in the scene
-
-      There
-      are no audio listeners in the scene. Please ensure there is always one audio
-      listener in the scene
-
-      There are no audio listeners in the scene. Please
-      ensure there is always one audio listener in the scene
-
-      There are no
-      audio listeners in the scene. Please ensure there is always one audio listener
-      in the scene
-
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
-
-      There are no audio listeners
-      in the scene. Please ensure there is always one audio listener in the scene
-
-      There
-      are no audio listeners in the scene. Please ensure there is always one audio
-      listener in the scene
-
-      There are no audio listeners in the scene. Please
-      ensure there is always one audio listener in the scene
-
-      There are no
-      audio listeners in the scene. Please ensure there is always one audio listener
-      in the scene
-
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
-
-      There are no audio listeners
-      in the scene. Please ensure there is always one audio listener in the scene
-
-      There
-      are no audio listeners in the scene. Please ensure there is always one audio
-      listener in the scene
-
-      There are no audio listeners in the scene. Please
-      ensure there is always one audio listener in the scene
-
-      There are no
-      audio listeners in the scene. Please ensure there is always one audio listener
-      in the scene
-
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
-
-      There are no audio listeners
-      in the scene. Please ensure there is always one audio listener in the scene
-
-      There
-      are no audio listeners in the scene. Please ensure there is always one audio
-      listener in the scene
-
-      There are no audio listeners in the scene. Please
-      ensure there is always one audio listener in the scene
-
-      There are no
-      audio listeners in the scene. Please ensure there is always one audio listener
-      in the scene
-
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
-
-      There are no audio listeners
-      in the scene. Please ensure there is always one audio listener in the scene
-
-      There
-      are no audio listeners in the scene. Please ensure there is always one audio
-      listener in the scene
-
-      There are no audio listeners in the scene. Please
-      ensure there is always one audio listener in the scene
-
-      There are no
-      audio listeners in the scene. Please ensure there is always one audio listener
-      in the scene
-
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
-
-      There are no audio listeners
-      in the scene. Please ensure there is always one audio listener in the scene
-
-      There
-      are no audio listeners in the scene. Please ensure there is always one audio
-      listener in the scene
-
-      There are no audio listeners in the scene. Please
-      ensure there is always one audio listener in the scene
-
-      There are no
-      audio listeners in the scene. Please ensure there is always one audio listener
-      in the scene
-
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
-
-      There are no audio listeners
-      in the scene. Please ensure there is always one audio listener in the scene
-
-      There
-      are no audio listeners in the scene. Please ensure there is always one audio
-      listener in the scene
-
-      There are no audio listeners in the scene. Please
-      ensure there is always one audio listener in the scene
-
-      There are no
-      audio listeners in the scene. Please ensure there is always one audio listener
-      in the scene
-
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
-
-      There are no audio listeners
-      in the scene. Please ensure there is always one audio listener in the scene
-
-      There
-      are no audio listeners in the scene. Please ensure there is always one audio
-      listener in the scene
-
-      There are no audio listeners in the scene. Please
-      ensure there is always one audio listener in the scene
-
-      There are no
-      audio listeners in the scene. Please ensure there is always one audio listener
-      in the scene
-
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
-
-      There are no audio listeners
-      in the scene. Please ensure there is always one audio listener in the scene
-
-      There
-      are no audio listeners in the scene. Please ensure there is always one audio
-      listener in the scene
-
-      There are no audio listeners in the scene. Please
-      ensure there is always one audio listener in the scene
-
-      There are no
-      audio listeners in the scene. Please ensure there is always one audio listener
-      in the scene
-
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
-
-      There are no audio listeners
-      in the scene. Please ensure there is always one audio listener in the scene
-
-      There
-      are no audio listeners in the scene. Please ensure there is always one audio
-      listener in the scene
-
-      There are no audio listeners in the scene. Please
-      ensure there is always one audio listener in the scene
-
-      There are no
-      audio listeners in the scene. Please ensure there is always one audio listener
-      in the scene
-
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
-
-      There are no audio listeners
-      in the scene. Please ensure there is always one audio listener in the scene
-
-      There
-      are no audio listeners in the scene. Please ensure there is always one audio
-      listener in the scene
-
-      There are no audio listeners in the scene. Please
-      ensure there is always one audio listener in the scene
-
-      There are no
-      audio listeners in the scene. Please ensure there is always one audio listener
-      in the scene
-
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
-
-      There are no audio listeners
-      in the scene. Please ensure there is always one audio listener in the scene
-
-      There
-      are no audio listeners in the scene. Please ensure there is always one audio
-      listener in the scene
-
-      There are no audio listeners in the scene. Please
-      ensure there is always one audio listener in the scene
-
-      There are no
-      audio listeners in the scene. Please ensure there is always one audio listener
-      in the scene
-
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
-
-      There are no audio listeners
-      in the scene. Please ensure there is always one audio listener in the scene
-
-      There
-      are no audio listeners in the scene. Please ensure there is always one audio
-      listener in the scene
-
-      There are no audio listeners in the scene. Please
-      ensure there is always one audio listener in the scene
-
-      There are no
-      audio listeners in the scene. Please ensure there is always one audio listener
-      in the scene
-
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
-
-      There are no audio listeners
-      in the scene. Please ensure there is always one audio listener in the scene
-
-      There
-      are no audio listeners in the scene. Please ensure there is always one audio
-      listener in the scene
-
-      There are no audio listeners in the scene. Please
-      ensure there is always one audio listener in the scene
-
-      There are no
-      audio listeners in the scene. Please ensure there is always one audio listener
-      in the scene
-
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
-
-      There are no audio listeners
-      in the scene. Please ensure there is always one audio listener in the scene
-
-      There
-      are no audio listeners in the scene. Please ensure there is always one audio
-      listener in the scene
-
-      There are no audio listeners in the scene. Please
-      ensure there is always one audio listener in the scene
-
-      There are no
-      audio listeners in the scene. Please ensure there is always one audio listener
-      in the scene
-
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
-
-      There are no audio listeners
-      in the scene. Please ensure there is always one audio listener in the scene
-
-      There
-      are no audio listeners in the scene. Please ensure there is always one audio
-      listener in the scene
-
-      There are no audio listeners in the scene. Please
-      ensure there is always one audio listener in the scene
-
-      There are no
-      audio listeners in the scene. Please ensure there is always one audio listener
-      in the scene
-
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
-
-      There are no audio listeners
-      in the scene. Please ensure there is always one audio listener in the scene
-
-      There
-      are no audio listeners in the scene. Please ensure there is always one audio
-      listener in the scene
-
-      There are no audio listeners in the scene. Please
-      ensure there is always one audio listener in the scene
-
-      There are no
-      audio listeners in the scene. Please ensure there is always one audio listener
-      in the scene
-
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
-
-      There are no audio listeners
-      in the scene. Please ensure there is always one audio listener in the scene
-
-      There
-      are no audio listeners in the scene. Please ensure there is always one audio
-      listener in the scene
-
-      There are no audio listeners in the scene. Please
-      ensure there is always one audio listener in the scene
-
-      There are no
-      audio listeners in the scene. Please ensure there is always one audio listener
-      in the scene
-
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
-
-      There are no audio listeners
-      in the scene. Please ensure there is always one audio listener in the scene
-
-      There
-      are no audio listeners in the scene. Please ensure there is always one audio
-      listener in the scene
-
-      There are no audio listeners in the scene. Please
-      ensure there is always one audio listener in the scene
-
-      There are no
-      audio listeners in the scene. Please ensure there is always one audio listener
-      in the scene
-
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
-
-      There are no audio listeners
-      in the scene. Please ensure there is always one audio listener in the scene
-
-      There
-      are no audio listeners in the scene. Please ensure there is always one audio
-      listener in the scene
-
-      There are no audio listeners in the scene. Please
-      ensure there is always one audio listener in the scene
-
-      There are no
-      audio listeners in the scene. Please ensure there is always one audio listener
-      in the scene
-
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
-
-      There are no audio listeners
-      in the scene. Please ensure there is always one audio listener in the scene
-
-      There
-      are no audio listeners in the scene. Please ensure there is always one audio
-      listener in the scene
-
-      There are no audio listeners in the scene. Please
-      ensure there is always one audio listener in the scene
-
-      There are no
-      audio listeners in the scene. Please ensure there is always one audio listener
-      in the scene
-
-      There are no audio listeners in the scene. Please ensure
-      there is always one audio listener in the scene
-
-      There are no audio listeners
-      in the scene. Please ensure there is always one audio listener in the scene
-
-      There
-      are no audio listeners in the scene. Please ensure there is always one audio
-      listener in the scene
-
-      There are no audio listeners in the scene. Please
-      ensure there is always one audio listener in the scene
-
-      There are no
-      audio listeners in the scene. Ple...
-
-
-      ---MESSAGE TRUNCATED AT 15000
-      CHARACTERS---'
+    m_ResultText: TestRegisterLogger (0.001s)
     m_ResultStacktrace: 
     m_TestListState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 29d85471
-      m_LastClickedID: 1901385769
-      m_ExpandedIDs: bf76aebac61c70be6f866fcd29f7c9f569990b0e546af82627498529ffffff7f
+      m_SelectedIDs: f707a367
+      m_LastClickedID: 1738737655
+      m_ExpandedIDs: bf76aebac61c70be6f866fcd29f7c9f51cee13fe69990b0e46b01824546af82627498529ffffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 

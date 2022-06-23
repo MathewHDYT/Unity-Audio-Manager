@@ -8,7 +8,7 @@ public class TestServiceLocator {
     public void TestGetService() {
         // Checking if default is the NullAudioManager.
         IAudioManager audioManager = ServiceLocator.GetService();
-        Assert.IsNotNull(audioManager as NullAudioManager);
+        Assert.IsTrue(audioManager is NullAudioManager);
     }
 
     [Test]
@@ -16,13 +16,14 @@ public class TestServiceLocator {
         // Setting null and checking if it wasn't set.
         ServiceLocator.RegisterLogger(null, null);
         IAudioManager audioManager = ServiceLocator.GetService();
-        Assert.IsNull(audioManager as LoggedAudioManager);
+        Assert.IsTrue(audioManager is NullAudioManager);
+        Assert.IsFalse(audioManager is LoggedAudioManager);
 
         // Setting custom IAudioLogger implementation and checking if it was set.
         IAudioLogger logger = new AudioLogger(LoggingLevel.NONE);
         ServiceLocator.RegisterLogger(logger, null);
         audioManager = ServiceLocator.GetService();
-        Assert.IsNotNull(audioManager as LoggedAudioManager);
+        Assert.IsTrue(audioManager is LoggedAudioManager);
     }
 
     [Test]
@@ -30,11 +31,12 @@ public class TestServiceLocator {
         // Setting null and checking if the default was set.
         ServiceLocator.RegisterService(null);
         IAudioManager audioManager = ServiceLocator.GetService();
-        Assert.IsNotNull(audioManager as NullAudioManager);
+        Assert.IsTrue(audioManager is NullAudioManager);
+        Assert.IsFalse(audioManager is DummyAudioManager);
 
         // Setting custom IAudioManager implementation and checking if it was set.
         ServiceLocator.RegisterService(new DummyAudioManager());
         audioManager = ServiceLocator.GetService();
-        Assert.IsNotNull(audioManager as DummyAudioManager);
+        Assert.IsTrue(audioManager is DummyAudioManager);
     }
 }

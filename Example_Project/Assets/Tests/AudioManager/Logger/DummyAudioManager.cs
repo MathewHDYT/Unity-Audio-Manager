@@ -4,13 +4,6 @@ using UnityEngine;
 using UnityEngine.Audio;
 
 public class DummyAudioManager : IAudioManager {
-    /// <summary>
-    /// Empty Constructor.
-    /// </summary>
-    public DummyAudioManager() {
-        // Nothing to do.
-    }
-
     public AudioError AddSoundFromPath(string name, string path, float volume, float pitch, bool loop, AudioSource source, AudioMixerGroup mixerGroup) {
         return AudioError.OK;
     }

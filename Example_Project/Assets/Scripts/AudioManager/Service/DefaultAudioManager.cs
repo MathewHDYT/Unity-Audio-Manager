@@ -12,25 +12,24 @@ namespace AudioManager.Service {
         private readonly GameObject m_parentGameObject;
         private readonly MonoBehaviour m_parentBehaviour;
         private readonly Transform m_parentTransform;
-        private readonly AudioFinishedCallback m_resetStartTimeCallback;
 
         // Private member variables.
-        private IDictionary<AudioSource, IDictionary<string, AudioSource>> m_parentChildDictionary = new Dictionary<AudioSource, IDictionary<string, AudioSource>>();
-        private IDictionary<string, IDictionary<float, Coroutine>> m_soundProgressDictionary = new Dictionary<string, IDictionary<float, Coroutine>>();
-        private IDictionary<string, AudioSource> m_soundDictionary = new Dictionary<string, AudioSource>();
+        private IDictionary<AudioSource, IDictionary<string, AudioSource>> m_parentChildDictionary;
+        private IDictionary<string, IDictionary<float, Coroutine>> m_soundProgressDictionary;
+        private IDictionary<string, AudioSource> m_soundDictionary;
 
         public DefaultAudioManager(IDictionary<string, AudioSource> sounds, GameObject parentGameObject) {
-            m_resetStartTimeCallback = ResetStartTime;
+            m_parentChildDictionary = new Dictionary<AudioSource, IDictionary<string, AudioSource>>();
+            m_soundProgressDictionary = new Dictionary<string, IDictionary<float, Coroutine>>();
+            m_soundDictionary = new Dictionary<string, AudioSource>();
 
             if (sounds is object) {
                 m_soundDictionary = sounds;
             }
 
-            if (parentGameObject) {
-                m_parentGameObject = parentGameObject;
-                m_parentBehaviour = m_parentGameObject.GetComponent<MonoBehaviour>();
-                m_parentTransform = m_parentGameObject.transform;
-            }
+            m_parentGameObject = parentGameObject ? parentGameObject : null;
+            m_parentBehaviour = parentGameObject ? m_parentGameObject.GetComponent<MonoBehaviour>() : null;
+            m_parentTransform = parentGameObject ? m_parentGameObject.transform : null;
         }
 
         public AudioError AddSoundFromPath(string name, string path, float volume, float pitch, bool loop, AudioSource source, AudioMixerGroup mixerGroup) {
@@ -85,7 +84,7 @@ namespace AudioManager.Service {
             }
 
             float progress = source.IsReversePitch() ? Constants.MAX_PROGRESS : Constants.MIN_PROGRESS;
-            error = SubscribeProgressCoroutine(name, progress, m_resetStartTimeCallback);
+            error = SubscribeProgressCoroutine(name, progress, ResetStartTime);
             source.Play();
             return error;
         }

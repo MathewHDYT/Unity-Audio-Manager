@@ -34,6 +34,7 @@ namespace AudioManager.Logger {
             m_logContext = context;
             m_wrappedInstance = audioManager;
             m_logger = logger;
+            m_enterMethodTime = 0f;
         }
 
         public AudioError AddSoundFromPath(string name, string path, float volume, float pitch, bool loop, AudioSource source, AudioMixerGroup mixerGroup) {
