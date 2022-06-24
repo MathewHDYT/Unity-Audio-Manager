@@ -17,7 +17,7 @@ public class TestDefaultAudioManager {
     AudioClip m_clip;
     float m_clipStartTime;
     float m_clipEndTime;
-    Dictionary<string, AudioSource> m_sounds;
+    Dictionary<string, AudioSourceWrapper> m_sounds;
     GameObject m_gameObject;
     AudioSource m_source;
     AudioMixerGroup m_mixerGroup;
@@ -34,7 +34,7 @@ public class TestDefaultAudioManager {
         m_clip = Resources.Load<AudioClip>(m_clipPath);
         m_clipStartTime = m_clip.length / 100f;
         m_clipEndTime = m_clip.length * 0.95f;
-        m_sounds = new Dictionary<string, AudioSource>();
+        m_sounds = new Dictionary<string, AudioSourceWrapper>();
         m_gameObject = new GameObject();
         m_gameObject.AddComponent<DummyMonoBehvaiour>();
         m_source = m_gameObject.AddComponent<AudioSource>();
@@ -44,8 +44,8 @@ public class TestDefaultAudioManager {
         AudioMixer mixer = Resources.Load<AudioMixer>("Mixer");
         m_mixerGroup = mixer ? mixer.FindMatchingGroups("Master")[0] : null;
         m_sounds.Add(m_nullAudioSourceName, null);
-        m_sounds.Add(m_audioSourceName, m_source);
-        m_sounds.Add(m_InitalizedAudioSourceName, m_initalizedSource);
+        m_sounds.Add(m_audioSourceName, new AudioSourceWrapper(m_source));
+        m_sounds.Add(m_InitalizedAudioSourceName, new AudioSourceWrapper(m_initalizedSource));
         m_audioManager = new DefaultAudioManager(m_sounds, null);
         // Ensure AudioSource is stopped before attempting to play it.
         m_source.Stop();
@@ -71,7 +71,7 @@ public class TestDefaultAudioManager {
         AudioError error = m_audioManager.AddSoundFromPath(name, path, volume, pitch, loop, null, m_mixerGroup);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.INVALID_PATH, error);
-        m_audioManager.TryGetSource(name, out AudioSource source);
+        m_audioManager.TryGetSource(name, out var source);
         Assert.IsNull(source);
 
         /// ---------------------------------------------
@@ -101,11 +101,11 @@ public class TestDefaultAudioManager {
         Assert.AreEqual(AudioError.OK, error);
         m_audioManager.TryGetSource(name, out source);
         Assert.IsNotNull(source);
-        Assert.AreEqual(volume, source.volume);
-        Assert.AreEqual(pitch, source.volume);
-        Assert.AreEqual(loop, source.loop);
-        Assert.IsNotNull(source.clip);
-        Assert.IsNotNull(source.outputAudioMixerGroup);
+        Assert.AreEqual(volume, source.Volume);
+        Assert.AreEqual(pitch, source.Pitch);
+        Assert.AreEqual(loop, source.Loop);
+        Assert.IsNotNull(source.Source.clip);
+        Assert.IsNotNull(source.MixerGroup);
     }
 
     [Test]
@@ -1092,7 +1092,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.DOES_NOT_EXIST)
         /// ---------------------------------------------
-        AudioError error = m_audioManager.TryGetSource(m_unregisteredAudioSourceName, out AudioSource source);
+        AudioError error = m_audioManager.TryGetSource(m_unregisteredAudioSourceName, out var source);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.DOES_NOT_EXIST, error);
         Assert.IsNull(source);

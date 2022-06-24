@@ -225,6 +225,28 @@ namespace AudioManager.Logger {
             return error;
         }
 
+        public AudioError SubscribeSourceChanged(string name, SourceChangedCallback callback) {
+            const string enterLogBase = "Attempting to subscribe to the registered AudioSource entry being changed";
+            const string exitLogBase = "Subscribing to the registered AudioSource entry being changed";
+
+            OnMethodEnter(enterLogBase, name);
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.SubscribeSourceChanged(name, callback));
+            OnReceivedError(exitLogBase, error);
+            OnMethodExit(exitLogBase, error);
+            return error;
+        }
+
+        public AudioError UnsubscribeSourceChanged(string name, SourceChangedCallback callback) {
+            const string enterLogBase = "Attempting to unsubscribe to the registered AudioSource entry being changed";
+            const string exitLogBase = "Unsubscribing to the registered AudioSource entry being changed";
+
+            OnMethodEnter(enterLogBase, name);
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.UnsubscribeSourceChanged(name, callback));
+            OnReceivedError(exitLogBase, error);
+            OnMethodExit(exitLogBase, error);
+            return error;
+        }
+
         public AudioError SubscribeProgressCoroutine(string name, float progress, AudioFinishedCallback callback) {
             const string enterLogBase = "Attempting to subscribe to the registered AudioSource entry finishing to the given progress";
             const string exitLogBase = "Subscribing to the registered AudioSource entry finishing to the given progress";
@@ -259,7 +281,7 @@ namespace AudioManager.Logger {
             return error;
         }
 
-        public AudioError TryGetSource(string name, out AudioSource source) {
+        public AudioError TryGetSource(string name, out AudioSourceWrapper source) {
             const string enterLogBase = "Attempting to get registered AudioSource entry";
             const string exitLogBase = "Getting registered AudioSource entry";
             source = null;

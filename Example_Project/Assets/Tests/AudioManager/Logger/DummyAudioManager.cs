@@ -73,6 +73,14 @@ public class DummyAudioManager : IAudioManager {
         return AudioError.OK;
     }
 
+    public AudioError SubscribeSourceChanged(string name, SourceChangedCallback callback) {
+        return AudioError.OK;
+    }
+
+    public AudioError UnsubscribeSourceChanged(string name, SourceChangedCallback callback) {
+        return AudioError.OK;
+    }
+
     public AudioError SubscribeProgressCoroutine(string name, float progress, AudioFinishedCallback callback) {
         return AudioError.OK;
     }
@@ -86,7 +94,7 @@ public class DummyAudioManager : IAudioManager {
         return AudioError.OK;
     }
 
-    public AudioError TryGetSource(string name, out AudioSource source) {
+    public AudioError TryGetSource(string name, out AudioSourceWrapper source) {
         source = null;
         return AudioError.OK;
     }

@@ -38,7 +38,7 @@ public class TestAudioManagerSettings {
         m_settings.TestAwake();
         IAudioManager audioManager = ServiceLocator.GetService();
         Assert.IsTrue(audioManager is LoggedAudioManager);
-        audioManager.TryGetSource(m_soundName, out AudioSource source);
+        audioManager.TryGetSource(m_soundName, out var source);
         Assert.IsNotNull(source);
     }
 }

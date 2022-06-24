@@ -1,36 +1,38 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
 namespace AudioManager.Core {
     /// <summary>
     /// Subscribable callback that gets called whenever a value of the underlying AudioSource changes.
+    /// <param name="changedSource">Source that was accessed and some of its values changed.</param>
     /// </summary>
-    public delegate void SourceChangedCallback(AudioSource source);
+    public delegate void SourceChangedCallback(AudioSource changedSource);
     public class AudioSourceWrapper {
-        // Readonly private member variables.
-        private readonly AudioSource m_wrappedSource;
-
         // Private member variables.
         private SourceChangedCallback m_cb;
+        private AudioSource m_wrappedSource;
 
         // Private delegate helpers.
         private delegate void SetValueCallback<T>(T value, AudioSource source);
         private delegate T GetValueCallback<T>(AudioSource source);
 
-        public AudioSourceWrapper(AudioSource source, SourceChangedCallback callback) {
+        public AudioSourceWrapper(AudioSource source) {
+            m_cb = null;
             m_wrappedSource = source;
-            m_cb = callback;
         }
 
-        public void SetCallback(SourceChangedCallback callback) {
-            m_cb = callback;
+        public void RegisterCallback(SourceChangedCallback callback) {
+            m_cb += callback;
         }
 
-        public AudioSource Source => m_wrappedSource;
+        public void DeregisterCallback(SourceChangedCallback callback) {
+            m_cb -= callback;
+        }
 
-        public AudioClip Clip {
-            get { return GetC((s) => s.clip); }
-            set { Set(value, (x, s) => s.clip = x); }
+        public AudioSource Source {
+            get { return GetC((s) => s); }
         }
 
         public AudioMixerGroup MixerGroup {
@@ -46,6 +48,11 @@ namespace AudioManager.Core {
         public float Pitch {
             get { return GetS((s) => s.pitch); }
             set { Set(value, (x, s) => s.pitch = x); }
+        }
+
+        public float Time {
+            get { return GetS((s) => s.time); }
+            set { Set(value, (x, s) => s.time = x); }
         }
 
         public float SpatialBlend {
@@ -76,6 +83,21 @@ namespace AudioManager.Core {
         public float MaxDistance {
             get { return GetS((s) => s.maxDistance); }
             set { Set(value, (x, s) => s.maxDistance = x); }
+        }
+
+        public bool Loop {
+            get { return GetS((s) => s.loop); }
+            set { Set(value, (x, s) => s.loop = x); }
+        }
+
+        public bool Spatialize {
+            get { return GetS((s) => s.spatialize); }
+            set { Set(value, (x, s) => s.spatialize = x); }
+        }
+
+        public bool Mute {
+            get { return GetS((s) => s.mute); }
+            set { Set(value, (x, s) => s.mute = x); }
         }
 
         //************************************************************************************************************************

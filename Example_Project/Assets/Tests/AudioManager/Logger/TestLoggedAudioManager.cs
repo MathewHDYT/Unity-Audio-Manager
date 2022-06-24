@@ -805,7 +805,7 @@ public class TestLoggedAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.NOT_INITIALIZED) / Missing IAudioManager, IAudioLogger and Context
         /// ---------------------------------------------
-        AudioError error = m_loggedAudioManager.TryGetSource(m_name, out AudioSource source);
+        AudioError error = m_loggedAudioManager.TryGetSource(m_name, out var source);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
         Assert.IsNull(source);

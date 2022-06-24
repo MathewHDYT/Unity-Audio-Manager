@@ -1,5 +1,6 @@
 ﻿public enum AdvancedExample {
     NONE,
+    LERP_IN_3D_SOUND_AT_POS,
     LOOP_SONG_SUB_SECTION,
     REVERSE_LOOP_SONG_SUB_SECTION,
     TRANSITION_BETWEEN_SONGS,

@@ -168,6 +168,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   advancedExample: 0
+  sound3D: {fileID: 11400000, guid: aaec22540fea1d844a8cf055b1db334e, type: 2}
+  position3D: {x: 30, y: 0, z: 0}
+  fadeInTime3D: 10
+  fadeInGranularity3D: 10
   loopSound: {fileID: 11400000, guid: 4f6e895c788626e44add29b6a3f333fc, type: 2}
   loopStart: 0
   loopEnd: 10

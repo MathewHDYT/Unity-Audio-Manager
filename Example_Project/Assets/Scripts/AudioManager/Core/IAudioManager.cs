@@ -155,6 +155,23 @@ namespace AudioManager.Core {
         public AudioError TogglePause(string name);
 
         /// <summary>
+        /// Subscribes the given <see cref="SourceChangedCallback"/>, so that it will be called when the underlying source <see cref="AudioSourceWrapper"/> of the subscribed sound has been changed.
+        /// </summary>
+        /// <param name="name">Name of the registered sound.</param>
+        /// <param name="callback">Callback that should be called, once the sound has changed.</param>
+        /// <returns><see cref="AudioError"/>, showing wheter and how subscribing the callback failed.</returns>
+        public AudioError SubscribeSourceChanged(string name, SourceChangedCallback callback);
+
+        /// <summary>
+        /// Unsubscribes the previously via. <see cref="SubscribeSourceChanged"/> subscribed <see cref="SourceChangedCallback"/>,
+        /// so that it will not be called anymore when the sound with the given underlying <see cref="AudioSourceWrapper"/> source has been changed.
+        /// </summary>
+        /// <param name="name">Name of the registered sound.</param>
+        /// <param name="callback">Callback that should not be called aynmore, once the sound has changed.</param>
+        /// <returns><see cref="AudioError"/>, showing wheter and how unsubscribing the callback failed.</returns>
+        public AudioError UnsubscribeSourceChanged(string name, SourceChangedCallback callback);
+
+        /// <summary>
         /// Subscribes the given <see cref="AudioFinishedCallback"/>, so that it will be called with the given name and progress as a parameter,
         /// as soon as the sound has reached the given progress point in the clips runtime. Depeding on the return value of the callback,
         /// it will be subscribed again for the next time that progress is hit.
@@ -188,7 +205,7 @@ namespace AudioManager.Core {
         /// <param name="name">Name of the registered sound.</param>
         /// <param name="source">Variable source should be copied into.</param>
         /// <returns><see cref="AudioError"/>, showing wheter and how getting the source of the given sound failed.</returns>
-        public AudioError TryGetSource(string name, out AudioSource source);
+        public AudioError TryGetSource(string name, out AudioSourceWrapper source);
 
         /// <summary>
         /// Changes the pitch of the sound with the given name over the given amount of time to the given endValue.

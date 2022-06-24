@@ -149,7 +149,7 @@ public class TestNullAudioManager {
 
     [Test]
     public void TestTryGetSource() {
-        AudioError error = m_am.TryGetSource(m_text, out AudioSource source);
+        AudioError error = m_am.TryGetSource(m_text, out var source);
         Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
         Assert.IsNull(source);
     }

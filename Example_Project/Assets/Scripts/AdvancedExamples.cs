@@ -3,6 +3,7 @@ using AudioManager.Helper;
 using AudioManager.Locator;
 using AudioManager.Service;
 using AudioManager.Settings;
+using System;
 using System.Collections;
 using UnityEngine;
 
@@ -10,6 +11,20 @@ public class AdvancedExamples : MonoBehaviour {
 
     [SerializeField]
     private AdvancedExample advancedExample;
+
+    [Header("Lerp in 3d sound at position section:")]
+    [SerializeField]
+    [Tooltip("Song that should be looped between the given start and end position.")]
+    private AudioSourceSetting sound3D;
+    [SerializeField]
+    [Tooltip("Position we should play the song at.")]
+    private Vector3 position3D;
+    [SerializeField]
+    [Tooltip("Amount of time until the song is completly faded in.")]
+    private float fadeInTime3D;
+    [SerializeField]
+    [Tooltip("How many steps we take to decrease the volume more means a smoother decrease, normally around 5-10 is more than enough tough.")]
+    private int fadeInGranularity3D;
 
     [Header("Loop song sub-section:")]
     [SerializeField]
@@ -86,13 +101,16 @@ public class AdvancedExamples : MonoBehaviour {
     private IAudioManager am;
 
     private void Start() {
-        SettingsHelper.SetupSounds(out var sounds, new AudioSourceSetting[] { loopSound, reverseLoopSound, firstSound, secondSound, reverseSound, fadeInSong, fadeOutSong }, this.gameObject);
+        SettingsHelper.SetupSounds(out var sounds, new AudioSourceSetting[] { sound3D, loopSound, reverseLoopSound, firstSound, secondSound, reverseSound, fadeInSong, fadeOutSong }, this.gameObject);
         ServiceLocator.RegisterService(new DefaultAudioManager(sounds, this.gameObject));
         am = ServiceLocator.GetService();
 
         switch (advancedExample) {
             case AdvancedExample.NONE:
                 // Nothing to do.
+                break;
+            case AdvancedExample.LERP_IN_3D_SOUND_AT_POS:
+                InitLerpIn3DSoundAtPosExample();
                 break;
             case AdvancedExample.LOOP_SONG_SUB_SECTION:
                 InitLoopSubSectionExample();
@@ -119,13 +137,17 @@ public class AdvancedExamples : MonoBehaviour {
     }
 
     private ProgressResponse SongProgressCallback(string name, float progress) {
-        am.TryGetSource(name, out AudioSource source);
-        Debug.Log("Actual: " + source.time + ", Expected: " + (progress * source.clip.length));
+        if (am.TryGetSource(name, out var source) == AudioError.OK) {
+            Debug.Log("Actual: " + source.Time + ", Expected: " + (progress * source.Source.clip.length));
+        }
 
         ProgressResponse response = ProgressResponse.UNSUB;
         switch (advancedExample) {
             case AdvancedExample.NONE:
                 // Nothing to do.
+                break;
+            case AdvancedExample.LERP_IN_3D_SOUND_AT_POS:
+                response = HandleLerpIn3DSoundAtPosExample(name);
                 break;
             case AdvancedExample.LOOP_SONG_SUB_SECTION:
                 response = HandleLoopSubSectionExample(name);
@@ -152,10 +174,24 @@ public class AdvancedExamples : MonoBehaviour {
         return response;
     }
 
+    private void InitLerpIn3DSoundAtPosExample() {
+        am.PlayAt3DPosition(sound3D.soundName, position3D);
+        am.SubscribeProgressCoroutine(sound3D.soundName, 0f, SongProgressCallback);
+    }
+
+    private ProgressResponse HandleLerpIn3DSoundAtPosExample(string name) {
+        name = name.Split("/")[0];
+        am.TryGetSource(name, out var source);
+        float endValue = source.Volume;
+        source.Volume = 0f;
+        am.LerpVolume(name, endValue, fadeInTime3D, fadeInGranularity3D);
+        return ProgressResponse.RESUB_IN_LOOP;
+    }
+
     private void InitLoopSubSectionExample() {
-        am.TryGetSource(loopSound.soundName, out AudioSource source);
-        source.time = loopStart;
-        float progress = (loopEnd / source.clip.length);
+        am.TryGetSource(loopSound.soundName, out var source);
+        source.Time = loopStart;
+        float progress = (loopEnd / source.Source.clip.length);
         am.SubscribeProgressCoroutine(loopSound.soundName, progress, SongProgressCallback);
         am.Play(loopSound.soundName);
     }
@@ -168,9 +204,9 @@ public class AdvancedExamples : MonoBehaviour {
 
     private void InitReverseLoopSubSectionExample() {
         am.SetPlaybackDirection(reverseLoopSound.soundName);
-        am.TryGetSource(reverseLoopSound.soundName, out AudioSource source);
-        source.time = source.clip.length - reverseLoopStart;
-        float progress = (source.clip.length - reverseLoopEnd - reverseLoopStart) / source.clip.length;
+        am.TryGetSource(reverseLoopSound.soundName, out var source);
+        source.Time = source.Source.clip.length - reverseLoopStart;
+        float progress = (source.Source.clip.length - reverseLoopEnd - reverseLoopStart) / source.Source.clip.length;
         am.SubscribeProgressCoroutine(reverseLoopSound.soundName, progress, SongProgressCallback);
         am.Play(reverseLoopSound.soundName);
     }
@@ -187,10 +223,10 @@ public class AdvancedExamples : MonoBehaviour {
     }
 
     private ProgressResponse HandleTransitionBetweenSongsExample(string name, float progress) {
-        am.TryGetSource(name, out AudioSource source);
+        am.TryGetSource(name, out var source);
         am.LerpVolume(name, 0f, progress, transitionGranularity);
-        float endValue = source.volume;
-        source.volume = 0f;
+        float endValue = source.Volume;
+        source.Volume = 0f;
         StartCoroutine(DelayedPlay(endValue, progress));
         return ProgressResponse.UNSUB;
     }
@@ -206,22 +242,22 @@ public class AdvancedExamples : MonoBehaviour {
     }
 
     private ProgressResponse HandleFadeInSongExample(string name) {
-        am.TryGetSource(name, out AudioSource source);
-        source.volume = 0f;
+        am.TryGetSource(name, out var source);
+        source.Volume = 0f;
         am.LerpVolume(name, fadeInEndVolume, clipFadeInTime, fadeInGranularity);
         return ProgressResponse.RESUB_IN_LOOP;
     }
 
     private void InitFadeOutSongExample() {
-        am.TryGetSource(fadeOutSong.soundName, out AudioSource source);
-        float progress = ((source.clip.length - clipFadeOutTime) / source.clip.length);
+        am.TryGetSource(fadeOutSong.soundName, out var source);
+        float progress = ((source.Source.clip.length - clipFadeOutTime) / source.Source.clip.length);
         am.SubscribeProgressCoroutine(fadeOutSong.soundName, progress, SongProgressCallback);
         am.Play(fadeOutSong.soundName);
     }
 
     private ProgressResponse HandleFadeOutSongExample(string name, float progress) {
-        am.TryGetSource(name, out AudioSource source);
-        float endValue = source.volume;
+        am.TryGetSource(name, out var source);
+        float endValue = source.Volume;
         am.LerpVolume(name, 0f, progress, fadeOutGranularity);
         StartCoroutine(DelayedVolumeReset(endValue, progress));
         return ProgressResponse.RESUB_IN_LOOP;
@@ -235,7 +271,7 @@ public class AdvancedExamples : MonoBehaviour {
 
     private IEnumerator DelayedVolumeReset(float endValue, float progress) {
         yield return new WaitForSeconds(progress);
-        am.TryGetSource(fadeOutSong.soundName, out AudioSource source);
-        source.volume = endValue;
+        am.TryGetSource(fadeOutSong.soundName, out var source);
+        source.Volume = endValue;
     }
 }

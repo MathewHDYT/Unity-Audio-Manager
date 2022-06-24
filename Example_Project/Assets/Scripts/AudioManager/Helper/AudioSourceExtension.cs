@@ -4,21 +4,9 @@ using UnityEngine.Audio;
 
 namespace AudioManager.Helper {
     public static class AudioSourceExtension {
-        public static void SetTime(this AudioSource source, float timeStamp) {
-            source.time = timeStamp;
-        }
-
-        public static void SetPitch(this AudioSource source, float pitch) {
-            source.pitch = pitch;
-        }
 
         public static bool IsReversePitch(this AudioSource source) {
             return source.pitch < 0f;
-        }
-
-        public static void SetTimeFromCurrentPitch(this AudioSource source) {
-            float startTime = source.IsReversePitch() ? source.GetEndOfClip() : source.GetStartOfClip();
-            source.SetTime(startTime);
         }
 
         public static bool IsProgressValid(this AudioSource source, float progress) {
@@ -49,16 +37,6 @@ namespace AudioManager.Helper {
             return source.time + time < float.Epsilon;
         }
 
-        public static void IncreaseTime(this AudioSource source, float time) {
-            float currentTime = source.ExceedsClipEnd(time) ? source.GetEndOfClip() : source.time + time;
-            source.SetTime(currentTime);
-        }
-
-        public static void DecreaseTime(this AudioSource source, float time) {
-            float currentTime = source.ExceedsClipStart(time) ? 0f : source.time + time;
-            source.SetTime(currentTime);
-        }
-
         public static AudioError TryGetGroupValue(this AudioSource source, string exposedParameterName, out float currentValue) {
             AudioError error = AudioError.OK;
             if (!source.outputAudioMixerGroup.audioMixer.GetFloat(exposedParameterName, out currentValue)) {
@@ -86,10 +64,10 @@ namespace AudioManager.Helper {
         public static AudioError IsSoundValid(this AudioSource source) {
             AudioError error = AudioError.OK;
 
-            if (!source) {
+            if (source is null) {
                 error = AudioError.MISSING_SOURCE;
             }
-            else if (!source.clip) {
+            else if (source.clip is null) {
                 error = AudioError.MISSING_CLIP;
             }
             return error;
@@ -120,10 +98,6 @@ namespace AudioManager.Helper {
 
         public static float GetProgress(this AudioSource source) {
             return (float)source.timeSamples / (float)source.clip.samples;
-        }
-
-        public static void SetAudioMixerGroup(this AudioSource source, AudioMixerGroup mixerGroup) {
-            source.outputAudioMixerGroup = mixerGroup;
         }
 
         public static void CopyAudioSourceSettings(this AudioSource copyTo, AudioSource copyFrom) {
