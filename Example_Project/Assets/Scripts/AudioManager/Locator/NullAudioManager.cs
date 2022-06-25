@@ -85,7 +85,7 @@ namespace AudioManager.Locator {
             return AudioError.NOT_INITIALIZED;
         }
 
-        public AudioError SubscribeProgressCoroutine(string name, float progress, AudioFinishedCallback callback) {
+        public AudioError SubscribeProgressCoroutine(string name, float progress, ProgressCoroutineCallback callback) {
             return AudioError.NOT_INITIALIZED;
         }
 

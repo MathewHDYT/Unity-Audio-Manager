@@ -81,7 +81,7 @@ public class DummyAudioManager : IAudioManager {
         return AudioError.OK;
     }
 
-    public AudioError SubscribeProgressCoroutine(string name, float progress, AudioFinishedCallback callback) {
+    public AudioError SubscribeProgressCoroutine(string name, float progress, ProgressCoroutineCallback callback) {
         return AudioError.OK;
     }
 

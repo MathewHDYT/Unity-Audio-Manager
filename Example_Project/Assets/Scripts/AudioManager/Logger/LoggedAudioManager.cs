@@ -247,7 +247,7 @@ namespace AudioManager.Logger {
             return error;
         }
 
-        public AudioError SubscribeProgressCoroutine(string name, float progress, AudioFinishedCallback callback) {
+        public AudioError SubscribeProgressCoroutine(string name, float progress, ProgressCoroutineCallback callback) {
             const string enterLogBase = "Attempting to subscribe to the registered AudioSource entry finishing to the given progress";
             const string exitLogBase = "Subscribing to the registered AudioSource entry finishing to the given progress";
 

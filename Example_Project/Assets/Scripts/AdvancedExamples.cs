@@ -136,10 +136,9 @@ public class AdvancedExamples : MonoBehaviour {
         }
     }
 
-    private ProgressResponse SongProgressCallback(string name, float progress) {
-        if (am.TryGetSource(name, out var source) == AudioError.OK) {
-            Debug.Log("Actual: " + source.Time + ", Expected: " + (progress * source.Source.clip.length));
-        }
+    private ProgressResponse SongProgressCallback(string name, float progress, ChildType child) {
+        am.TryGetSource(name, out var source);
+        Debug.Log("ChildType: " + Enum.GetName(typeof(ChildType), child) + ", Actual: " + source.Time + ", Expected: " + (progress * source.Source.clip.length));
 
         ProgressResponse response = ProgressResponse.UNSUB;
         switch (advancedExample) {
@@ -175,12 +174,11 @@ public class AdvancedExamples : MonoBehaviour {
     }
 
     private void InitLerpIn3DSoundAtPosExample() {
-        am.PlayAt3DPosition(sound3D.soundName, position3D);
         am.SubscribeProgressCoroutine(sound3D.soundName, 0f, SongProgressCallback);
+        am.PlayAt3DPosition(sound3D.soundName, position3D);
     }
 
     private ProgressResponse HandleLerpIn3DSoundAtPosExample(string name) {
-        name = name.Split("/")[0];
         am.TryGetSource(name, out var source);
         float endValue = source.Volume;
         source.Volume = 0f;

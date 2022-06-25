@@ -36,8 +36,8 @@ namespace AudioManager.Helper {
             return startValue - endValue >= float.Epsilon || endValue - startValue >= float.Epsilon;
         }
 
-        public static GameObject CreateNewGameObject(string name) {
-            return new GameObject(name);
+        public static GameObject CreateNewGameObject() {
+            return new GameObject();
         }
 
         public static Transform GetTransform(GameObject gameObject) {

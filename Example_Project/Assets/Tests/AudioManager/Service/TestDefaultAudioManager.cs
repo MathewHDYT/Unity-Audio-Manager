@@ -824,22 +824,22 @@ public class TestDefaultAudioManager {
         int calledLoopCallbackCount = 0;
         int calledImdtCallbackCount = 0;
         int calledInvalidCallback = 0;
-        AudioFinishedCallback unsubCallback = (string n, float p) => {
+        ProgressCoroutineCallback unsubCallback = (string n, float p, ChildType c) => {
             calledUnsubCallbackCount++;
             Assert.AreEqual(progress, p);
             return ProgressResponse.UNSUB;
         };
-        AudioFinishedCallback resubLoopCallback = (string n, float p) => {
+        ProgressCoroutineCallback resubLoopCallback = (string n, float p, ChildType c) => {
             calledLoopCallbackCount++;
             Assert.AreEqual(progress, p);
             return ProgressResponse.RESUB_IN_LOOP;
         };
-        AudioFinishedCallback resubImdtCallback = (string n, float p) => {
+        ProgressCoroutineCallback resubImdtCallback = (string n, float p, ChildType c) => {
             calledImdtCallbackCount++;
             Assert.AreEqual(progress, p);
             return ProgressResponse.RESUB_IMMEDIATE;
         };
-        AudioFinishedCallback resubInvalidCallback = (string n, float p) => {
+        ProgressCoroutineCallback resubInvalidCallback = (string n, float p, ChildType c) => {
             calledInvalidCallback++;
             Assert.AreEqual(progress, p);
             return (ProgressResponse)(-1);
@@ -968,7 +968,7 @@ public class TestDefaultAudioManager {
     public IEnumerator TestUnsubscribeProgressCoroutine() {
         float progress = 1f;
         bool calledCallback = false;
-        AudioFinishedCallback unsub_callback = (string n, float p) => {
+        ProgressCoroutineCallback unsub_callback = (string n, float p, ChildType c) => {
             calledCallback = true;
             Assert.AreEqual(progress, p);
             return ProgressResponse.UNSUB;

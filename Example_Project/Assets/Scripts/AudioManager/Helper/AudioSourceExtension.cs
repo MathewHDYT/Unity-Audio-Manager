@@ -110,8 +110,8 @@ namespace AudioManager.Helper {
             Set3DAudioOptions(copyTo, spatialBlend, dopplerLevel, spreadAngle, rolloffMode, minDistance, maxDistance);
         }
 
-        public static void CreateEmptyGameObject(this AudioSource parentSource, string name, Vector3 position, Transform parent, out AudioSource newSource) {
-            GameObject newGameObject = AudioHelper.CreateNewGameObject(name);
+        public static void CreateEmptyGameObject(this AudioSource parentSource, Vector3 position, Transform parent, out AudioSource newSource) {
+            GameObject newGameObject = AudioHelper.CreateNewGameObject();
             Transform newTransform = AudioHelper.GetTransform(newGameObject);
             AudioHelper.SetTransformParent(newTransform, parent);
             AudioHelper.SetTransformPosition(newTransform, position);

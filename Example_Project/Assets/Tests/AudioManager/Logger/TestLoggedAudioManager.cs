@@ -683,7 +683,7 @@ public class TestLoggedAudioManager {
     [Test]
     public void TestSubscribeProgressCoroutine() {
         const float progress = float.NaN;
-        const AudioFinishedCallback callback = null;
+        const ProgressCoroutineCallback callback = null;
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.NOT_INITIALIZED) / Missing IAudioManager, IAudioLogger and Context

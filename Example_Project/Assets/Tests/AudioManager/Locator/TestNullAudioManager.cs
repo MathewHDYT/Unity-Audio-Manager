@@ -11,7 +11,7 @@ public class TestNullAudioManager {
     private float m_val;
     private Vector3 m_pos;
     private GameObject m_go;
-    private AudioFinishedCallback m_cb;
+    private ProgressCoroutineCallback m_cb;
     private AudioMixerGroup m_mixer;
 
     [SetUp]

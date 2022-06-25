@@ -4,12 +4,13 @@ using UnityEngine.Audio;
 
 namespace AudioManager.Core {
     /// <summary>
-    /// Subscribable callback that gets called with a given passed progress in a sounds total playtime.
+    /// Subscribable callback that gets called when the given progress has been achieved or passed in the songs runtime.
     /// </summary>
     /// <param name="name">Name of the registered sound the callback has been called for.</param>
     /// <param name="progress">Point in the songs playtime from 0 to 1 we should call the callback at.</param>
-    /// <returns><see cref="AudioError"/>, showing wheter and how we should subscribe the AudioFinishedCallback again for the same progress.</returns>
-    public delegate ProgressResponse AudioFinishedCallback(string name, float progress);
+    /// <param name="child">Object <see cref="ChildType"/> that called this method. Will always be ChildType.PARENT, besides when using with 3D methods.</param>
+    /// <returns><see cref="AudioError"/>, showing wheter and how we should subscribe the ProgressCoroutineCallback again for the same progress.</returns>
+    public delegate ProgressResponse ProgressCoroutineCallback(string name, float progress, ChildType child);
     public interface IAudioManager {
         /// <summary>
         /// Adds given 2D sound with the given settings to the possible playable sounds,
@@ -172,7 +173,7 @@ namespace AudioManager.Core {
         public AudioError UnsubscribeSourceChanged(string name, SourceChangedCallback callback);
 
         /// <summary>
-        /// Subscribes the given <see cref="AudioFinishedCallback"/>, so that it will be called with the given name and progress as a parameter,
+        /// Subscribes the given <see cref="ProgressCoroutineCallback"/>, so that it will be called with the given name and progress as a parameter,
         /// as soon as the sound has reached the given progress point in the clips runtime. Depeding on the return value of the callback,
         /// it will be subscribed again for the next time that progress is hit.
         /// </summary>
@@ -180,10 +181,10 @@ namespace AudioManager.Core {
         /// <param name="progress">Amount of progress from 0 to 1, we want to call the callback at.</param>
         /// <param name="callback">Callback that should be called, once the sound only has the given amount of time left.</param>
         /// <returns><see cref="AudioError"/>, showing wheter and how subscribing the callback failed.</returns>
-        public AudioError SubscribeProgressCoroutine(string name, float progress, AudioFinishedCallback callback);
+        public AudioError SubscribeProgressCoroutine(string name, float progress, ProgressCoroutineCallback callback);
 
         /// <summary>
-        /// Unsubscribes the previously via. <see cref="SubscribeProgressCoroutine"/> subscribed <see cref="AudioFinishedCallback"/>,
+        /// Unsubscribes the previously via. <see cref="SubscribeProgressCoroutine"/> subscribed <see cref="ProgressCoroutineCallback"/>,
         /// so that it will not be called anymore when the sound with the given name reaches the given progress.
         /// </summary>
         /// <param name="name">Name of the registered sound.</param>
