@@ -11,7 +11,8 @@ public class TestNullAudioManager {
     private float m_val;
     private Vector3 m_pos;
     private GameObject m_go;
-    private ProgressCoroutineCallback m_cb;
+    private ProgressCoroutineCallback m_pCb;
+    private SourceChangedCallback m_sCb;
     private AudioMixerGroup m_mixer;
 
     [SetUp]
@@ -20,7 +21,8 @@ public class TestNullAudioManager {
         m_val = float.NaN;
         m_pos = Vector3.zero;
         m_go = null;
-        m_cb = null;
+        m_pCb = null;
+        m_sCb = null;
         m_mixer = null;
         m_am = new NullAudioManager();
     }
@@ -129,8 +131,20 @@ public class TestNullAudioManager {
     }
 
     [Test]
+    public void TestSubscribeSourceChanged() {
+        AudioError error = m_am.SubscribeSourceChanged(m_text, m_sCb);
+        Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
+    }
+
+    [Test]
+    public void TestUnsubscribeSourceChanged() {
+        AudioError error = m_am.UnsubscribeSourceChanged(m_text, m_sCb);
+        Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
+    }
+
+    [Test]
     public void TestSubscribeProgressCoroutine() {
-        AudioError error = m_am.SubscribeProgressCoroutine(m_text, m_val, m_cb);
+        AudioError error = m_am.SubscribeProgressCoroutine(m_text, m_val, m_pCb);
         Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
     }
 

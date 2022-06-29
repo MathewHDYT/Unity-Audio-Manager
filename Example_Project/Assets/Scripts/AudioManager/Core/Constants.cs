@@ -29,6 +29,7 @@ namespace AudioManager.Core {
         public const float DEFAULT_BLEND = 1f;
         public const float DEFAULT_ANGLE = 0f;
         public const float DEFAULT_DOPPLER = 1f;
+        public const ChildType DEFAULT_CHILD_TYPE = ChildType.PARENT;
         public const AudioRolloffMode DEFAULT_MODE = AudioRolloffMode.Logarithmic;
     }
 }

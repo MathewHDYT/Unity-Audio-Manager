@@ -61,7 +61,7 @@ public class DummyAudioManager : IAudioManager {
         return AudioError.OK;
     }
 
-    public AudioError Stop(string name) {
+    public AudioError Stop(string name, ChildType child) {
         return AudioError.OK;
     }
 
@@ -69,7 +69,7 @@ public class DummyAudioManager : IAudioManager {
         return AudioError.OK;
     }
 
-    public AudioError TogglePause(string name) {
+    public AudioError TogglePause(string name, ChildType child) {
         return AudioError.OK;
     }
 
@@ -89,7 +89,7 @@ public class DummyAudioManager : IAudioManager {
         return AudioError.OK;
     }
 
-    public AudioError GetProgress(string name, out float progress) {
+    public AudioError GetProgress(string name, out float progress, ChildType child) {
         progress = Constants.NULL_VALUE;
         return AudioError.OK;
     }

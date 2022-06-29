@@ -135,11 +135,12 @@ namespace AudioManager.Core {
         public AudioError PlayScheduled(string name, double time);
 
         /// <summary>
-        /// Stops the sound with the given name.
+        /// Stops the sound with the given name and the given child type (only used with 3d sounds, because they don't play on the original AudioSource, but on a copy instead).
         /// </summary>
         /// <param name="name">Name of the registered sound.</param>
+        /// <param name="child">Child that will be stopped.</param>
         /// <returns><see cref="AudioError"/>, showing wheter and how stopping the sound failed.</returns>
-        public AudioError Stop(string name);
+        public AudioError Stop(string name, ChildType child = Constants.DEFAULT_CHILD_TYPE);
 
         /// <summary>
         /// Mutes or Unmutes the sound with the given name.
@@ -149,11 +150,12 @@ namespace AudioManager.Core {
         public AudioError ToggleMute(string name);
 
         /// <summary>
-        /// Pauses or Unpauses the sound with the given name.
+        /// Pauses or Unpauses the sound with the given name and the given child type (only used with 3d sounds, because they don't play on the original AudioSource, but on a copy instead).
         /// </summary>
         /// <param name="name">Name of the registered sound.</param>
+        /// <param name="child">Child that will be paused or unapuses.</param>
         /// <returns><see cref="AudioError"/>, showing wheter and how pausing or unpausing the sound failed.</returns>
-        public AudioError TogglePause(string name);
+        public AudioError TogglePause(string name, ChildType child = Constants.DEFAULT_CHILD_TYPE);
 
         /// <summary>
         /// Subscribes the given <see cref="SourceChangedCallback"/>, so that it will be called when the underlying source <see cref="AudioSourceWrapper"/> of the subscribed sound has been changed.
@@ -193,12 +195,14 @@ namespace AudioManager.Core {
         public AudioError UnsubscribeProgressCoroutine(string name, float progress);
 
         /// <summary>
-        /// Returns the progress of the sound with the given name from 0 to 1 where 1 is fully completed.
+        /// Returns the progress (from 0 to 1 where 1 is fully completed) of the sound with the given name and the given child type
+        /// (only used with 3d sounds, because they don't play on the original AudioSource, but on a copy instead).
         /// </summary>
         /// <param name="name">Name of the registered sound.</param>
         /// <param name="progress">Variable the progress will be copied into (<see cref="float.NaN"/> on failure).</param>
+        /// <param name="child">Child that we want to get the progress from.</param>
         /// <returns><see cref="AudioError"/>, showing wheter and how subscribing the callback failed, showing wheter and how getting the current progess of the sound failed.</returns>
-        public AudioError GetProgress(string name, out float progress);
+        public AudioError GetProgress(string name, out float progress, ChildType child = Constants.DEFAULT_CHILD_TYPE);
 
         /// <summary>
         /// Gets the corresponding source to the sound with the given name.

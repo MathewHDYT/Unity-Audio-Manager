@@ -61,18 +61,6 @@ namespace AudioManager.Helper {
             return error;
         }
 
-        public static AudioError IsSoundValid(this AudioSource source) {
-            AudioError error = AudioError.OK;
-
-            if (source is null) {
-                error = AudioError.MISSING_SOURCE;
-            }
-            else if (source.clip is null) {
-                error = AudioError.MISSING_CLIP;
-            }
-            return error;
-        }
-
         public static bool IsAudioMixerGroupValid(this AudioSource source) {
             return source.outputAudioMixerGroup;
         }

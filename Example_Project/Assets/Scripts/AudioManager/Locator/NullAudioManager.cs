@@ -65,7 +65,7 @@ namespace AudioManager.Locator {
             return AudioError.NOT_INITIALIZED;
         }
 
-        public AudioError Stop(string name) {
+        public AudioError Stop(string name, ChildType child) {
             return AudioError.NOT_INITIALIZED;
         }
 
@@ -73,7 +73,7 @@ namespace AudioManager.Locator {
             return AudioError.NOT_INITIALIZED;
         }
 
-        public AudioError TogglePause(string name) {
+        public AudioError TogglePause(string name, ChildType child) {
             return AudioError.NOT_INITIALIZED;
         }
 
@@ -93,7 +93,7 @@ namespace AudioManager.Locator {
             return AudioError.NOT_INITIALIZED;
         }
 
-        public AudioError GetProgress(string name, out float progress) {
+        public AudioError GetProgress(string name, out float progress, ChildType child) {
             progress = Constants.NULL_VALUE;
             return AudioError.NOT_INITIALIZED;
         }

@@ -243,7 +243,7 @@ namespace AudioManager.Service {
             return error;
         }
 
-        public AudioError Stop(string name) {
+        public AudioError Stop(string name, ChildType child) {
             AudioError error = TryGetSource(name, out var source);
 
             // Couldn't find source.
@@ -251,7 +251,19 @@ namespace AudioManager.Service {
                 return error;
             }
 
-            source.Source.Stop();
+            AudioSource childSource;
+            if (child == ChildType.PARENT) {
+                childSource = source.Source;
+            }
+            else if (!TryGetRegisteredChildren(source.Source, out var childDictionary)) {
+                error = AudioError.MISSING_CHILDREN;
+                return error;
+            }
+            else if (!TryGetRegisteredChild(childDictionary, child, out childSource)) {
+                error = AudioError.INVALID_CHILD;
+                return error;
+            }
+            childSource.Stop();
             return error;
         }
 
@@ -267,7 +279,7 @@ namespace AudioManager.Service {
             return error;
         }
 
-        public AudioError TogglePause(string name) {
+        public AudioError TogglePause(string name, ChildType child) {
             AudioError error = TryGetSource(name, out var source);
 
             // Couldn't find source.
@@ -275,13 +287,26 @@ namespace AudioManager.Service {
                 return error;
             }
 
-            // Check if the sound is playing right now.
-            if (source.Source.isPlaying) {
-                source.Source.Pause();
+            AudioSource childSource;
+            if (child == ChildType.PARENT) {
+                childSource = source.Source;
+            }
+            else if (!TryGetRegisteredChildren(source.Source, out var childDictionary)) {
+                error = AudioError.MISSING_CHILDREN;
+                return error;
+            }
+            else if (!TryGetRegisteredChild(childDictionary, child, out childSource)) {
+                error = AudioError.INVALID_CHILD;
                 return error;
             }
 
-            source.Source.UnPause();
+            // Check if the sound is playing right now.
+            if (childSource.isPlaying) {
+                childSource.Pause();
+                return error;
+            }
+
+            childSource.UnPause();
             return error;
         }
 
@@ -354,7 +379,7 @@ namespace AudioManager.Service {
             return error;
         }
 
-        public AudioError GetProgress(string name, out float progress) {
+        public AudioError GetProgress(string name, out float progress, ChildType child) {
             AudioError error = TryGetSource(name, out var source);
 
             // Couldn't find source.
@@ -363,7 +388,21 @@ namespace AudioManager.Service {
                 return error;
             }
 
-            progress = source.Source.GetProgress();
+            AudioSource childSource;
+            if (child == ChildType.PARENT) {
+                childSource = source.Source;
+            }
+            else if (!TryGetRegisteredChildren(source.Source, out var childDictionary)) {
+                error = AudioError.MISSING_CHILDREN;
+                progress = Constants.NULL_VALUE;
+                return error;
+            }
+            else if (!TryGetRegisteredChild(childDictionary, child, out childSource)) {
+                error = AudioError.INVALID_CHILD;
+                progress = Constants.NULL_VALUE;
+                return error;
+            }
+            progress = childSource.GetProgress();
             return error;
         }
 
@@ -375,7 +414,7 @@ namespace AudioManager.Service {
                 return error;
             }
 
-            error = source.Source.IsSoundValid();
+            error = source.IsSoundValid();
             return error;
         }
 
@@ -904,9 +943,9 @@ namespace AudioManager.Service {
             // this is done to ensure the sound doesn't replay,
             // when it is not set to looping.
             if (!source.Loop) {
-                source.Source.Stop();
+                Stop(name, child);
             }
-            source.SetTime(0f);
+            SetStartTime(name, 0f);
             return ProgressResponse.UNSUB;
         }
 

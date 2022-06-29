@@ -17,6 +17,9 @@ namespace AudioManager.Core {
         MISSING_PARENT,
         INVALID_PARENT,
         ALREADY_SUBSCRIBED,
-        NOT_SUBSCRIBED
+        NOT_SUBSCRIBED,
+        MISSING_WRAPPER,
+        MISSING_CHILDREN,
+        INVALID_CHILD
     }
 }

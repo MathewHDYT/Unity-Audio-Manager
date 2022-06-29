@@ -45,6 +45,12 @@ namespace AudioManager.Logger {
                     return "Callback with the exact same progress was already subscribed for this sound";
                 case AudioError.NOT_SUBSCRIBED:
                     return "Callback with the progress was not yet subscribed for this sound";
+                case AudioError.MISSING_WRAPPER:
+                    return "The given AudioSourceWrapper is null";
+                case AudioError.MISSING_CHILDREN:
+                    return "The given sound does not have any registered children.";
+                case AudioError.INVALID_CHILD:
+                    return "The given sound does not have a registered child of the given type.";
                 default:
                     // Unexpected AudioError argument.
                     return "";

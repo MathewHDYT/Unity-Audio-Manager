@@ -40,5 +40,20 @@ namespace AudioManager.Helper {
             source.MinDistance = minDistance;
             source.MaxDistance = maxDistance;
         }
+
+        public static AudioError IsSoundValid(this AudioSourceWrapper source) {
+            AudioError error = AudioError.OK;
+            
+            if (source is null) {
+                error = AudioError.MISSING_WRAPPER;
+            }
+            else if (source.Source is null) {
+                error = AudioError.MISSING_SOURCE;
+            }
+            else if (source.Source.clip is null) {
+                error = AudioError.MISSING_CLIP;
+            }
+            return error;
+        }
     }
 }

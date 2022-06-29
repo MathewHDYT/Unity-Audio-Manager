@@ -192,12 +192,12 @@ namespace AudioManager.Logger {
             return error;
         }
 
-        public AudioError Stop(string name) {
+        public AudioError Stop(string name, ChildType child) {
             const string enterLogBase = "Attempting to stop the registered AudioSource entry";
             const string exitLogBase = "Stopping the given registered AudioSource entry";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = ConvertToAudioError(m_wrappedInstance?.Stop(name));
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.Stop(name, child));
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -214,12 +214,12 @@ namespace AudioManager.Logger {
             return error;
         }
 
-        public AudioError TogglePause(string name) {
+        public AudioError TogglePause(string name, ChildType child) {
             const string enterLogBase = "Attempting to toggle pause the registered AudioSource entry";
             const string exitLogBase = "Toggling pause for the given registered AudioSource entry";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = ConvertToAudioError(m_wrappedInstance?.TogglePause(name));
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.TogglePause(name, child));
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -269,13 +269,13 @@ namespace AudioManager.Logger {
             return error;
         }
 
-        public AudioError GetProgress(string name, out float progress) {
+        public AudioError GetProgress(string name, out float progress, ChildType child) {
             const string enterLogBase = "Attempting to read the progress of the registered AudioSource entry";
             const string exitLogBase = "Reading the progress of the registered AudioSource entry";
 
             progress = Constants.NULL_VALUE;
             OnMethodEnter(enterLogBase, name);
-            AudioError error = ConvertToAudioError(m_wrappedInstance?.GetProgress(name, out progress));
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.GetProgress(name, out progress, child));
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
