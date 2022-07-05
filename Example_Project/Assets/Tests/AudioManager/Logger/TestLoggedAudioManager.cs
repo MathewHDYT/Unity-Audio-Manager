@@ -104,10 +104,12 @@ public class TestLoggedAudioManager {
 
     [Test]
     public void TestPlay() {
+        ChildType child = ChildType.PARENT;
+
         /// ---------------------------------------------
         /// Invalid case (AudioError.NOT_INITIALIZED) / Missing IAudioManager, IAudioLogger and Context
         /// ---------------------------------------------
-        AudioError error = m_loggedAudioManager.Play(m_name);
+        AudioError error = m_loggedAudioManager.Play(m_name, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
 
@@ -115,7 +117,7 @@ public class TestLoggedAudioManager {
         /// Valid case (AudioError.OK) / Missing IAudioLogger and Context
         /// ---------------------------------------------
         m_loggedAudioManager = new LoggedAudioManager(null, m_audioManager, null);
-        error = m_loggedAudioManager.Play(m_name);
+        error = m_loggedAudioManager.Play(m_name, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsFalse(m_audioLogger.Logged);
         Assert.IsNull(m_audioLogger.Context);
@@ -124,7 +126,7 @@ public class TestLoggedAudioManager {
         /// Valid case (AudioError.OK) / Missing Context
         /// ---------------------------------------------
         m_loggedAudioManager = new LoggedAudioManager(m_audioLogger, m_audioManager, null);
-        error = m_loggedAudioManager.Play(m_name);
+        error = m_loggedAudioManager.Play(m_name, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_audioLogger.Logged);
         Assert.IsNull(m_audioLogger.Context);
@@ -133,7 +135,7 @@ public class TestLoggedAudioManager {
         /// Valid case (AudioError.OK)
         /// ---------------------------------------------
         m_loggedAudioManager = new LoggedAudioManager(m_audioLogger, m_audioManager, m_context);
-        error = m_loggedAudioManager.Play(m_name);
+        error = m_loggedAudioManager.Play(m_name, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_audioLogger.Logged);
         Assert.IsNotNull(m_audioLogger.Context);
@@ -259,13 +261,13 @@ public class TestLoggedAudioManager {
     }
 
     [Test]
-    public void TestPlayAt3DPosition() {
+    public void TestRegisterChildAt3DPos() {
         Vector3 position = Vector3.zero;
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.NOT_INITIALIZED) / Missing IAudioManager, IAudioLogger and Context
         /// ---------------------------------------------
-        AudioError error = m_loggedAudioManager.PlayAt3DPosition(m_name, position);
+        AudioError error = m_loggedAudioManager.RegisterChildAt3DPos(m_name, position);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
 
@@ -273,7 +275,7 @@ public class TestLoggedAudioManager {
         /// Valid case (AudioError.OK) / Missing IAudioLogger and Context
         /// ---------------------------------------------
         m_loggedAudioManager = new LoggedAudioManager(null, m_audioManager, null);
-        error = m_loggedAudioManager.PlayAt3DPosition(m_name, position);
+        error = m_loggedAudioManager.RegisterChildAt3DPos(m_name, position);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsFalse(m_audioLogger.Logged);
         Assert.IsNull(m_audioLogger.Context);
@@ -282,7 +284,7 @@ public class TestLoggedAudioManager {
         /// Valid case (AudioError.OK) / Missing Context
         /// ---------------------------------------------
         m_loggedAudioManager = new LoggedAudioManager(m_audioLogger, m_audioManager, null);
-        error = m_loggedAudioManager.PlayAt3DPosition(m_name, position);
+        error = m_loggedAudioManager.RegisterChildAt3DPos(m_name, position);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_audioLogger.Logged);
         Assert.IsNull(m_audioLogger.Context);
@@ -291,59 +293,20 @@ public class TestLoggedAudioManager {
         /// Valid case (AudioError.OK)
         /// ---------------------------------------------
         m_loggedAudioManager = new LoggedAudioManager(m_audioLogger, m_audioManager, m_context);
-        error = m_loggedAudioManager.PlayAt3DPosition(m_name, position);
+        error = m_loggedAudioManager.RegisterChildAt3DPos(m_name, position);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_audioLogger.Logged);
         Assert.IsNotNull(m_audioLogger.Context);
     }
 
     [Test]
-    public void TestPlayOneShotAt3DPosition() {
-        Vector3 position = Vector3.zero;
-
-        /// ---------------------------------------------
-        /// Invalid case (AudioError.NOT_INITIALIZED) / Missing IAudioManager, IAudioLogger and Context
-        /// ---------------------------------------------
-        AudioError error = m_loggedAudioManager.PlayOneShotAt3DPosition(m_name, position);
-        Assert.AreNotEqual(AudioError.OK, error);
-        Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
-
-        /// ---------------------------------------------
-        /// Valid case (AudioError.OK) / Missing IAudioLogger and Context
-        /// ---------------------------------------------
-        m_loggedAudioManager = new LoggedAudioManager(null, m_audioManager, null);
-        error = m_loggedAudioManager.PlayOneShotAt3DPosition(m_name, position);
-        Assert.AreEqual(AudioError.OK, error);
-        Assert.IsFalse(m_audioLogger.Logged);
-        Assert.IsNull(m_audioLogger.Context);
-
-        /// ---------------------------------------------
-        /// Valid case (AudioError.OK) / Missing Context
-        /// ---------------------------------------------
-        m_loggedAudioManager = new LoggedAudioManager(m_audioLogger, m_audioManager, null);
-        error = m_loggedAudioManager.PlayOneShotAt3DPosition(m_name, position);
-        Assert.AreEqual(AudioError.OK, error);
-        Assert.IsTrue(m_audioLogger.Logged);
-        Assert.IsNull(m_audioLogger.Context);
-
-        /// ---------------------------------------------
-        /// Valid case (AudioError.OK)
-        /// ---------------------------------------------
-        m_loggedAudioManager = new LoggedAudioManager(m_audioLogger, m_audioManager, m_context);
-        error = m_loggedAudioManager.PlayOneShotAt3DPosition(m_name, position);
-        Assert.AreEqual(AudioError.OK, error);
-        Assert.IsTrue(m_audioLogger.Logged);
-        Assert.IsNotNull(m_audioLogger.Context);
-    }
-
-    [Test]
-    public void TestPlayAttachedToGameObject() {
+    public void TestRegisterChildAttachedToGo() {
         const GameObject gameObject = null;
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.NOT_INITIALIZED) / Missing IAudioManager, IAudioLogger and Context
         /// ---------------------------------------------
-        AudioError error = m_loggedAudioManager.PlayAttachedToGameObject(m_name, gameObject);
+        AudioError error = m_loggedAudioManager.RegisterChildAttachedToGo(m_name, gameObject);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
 
@@ -351,7 +314,7 @@ public class TestLoggedAudioManager {
         /// Valid case (AudioError.OK) / Missing IAudioLogger and Context
         /// ---------------------------------------------
         m_loggedAudioManager = new LoggedAudioManager(null, m_audioManager, null);
-        error = m_loggedAudioManager.PlayAttachedToGameObject(m_name, gameObject);
+        error = m_loggedAudioManager.RegisterChildAttachedToGo(m_name, gameObject);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsFalse(m_audioLogger.Logged);
         Assert.IsNull(m_audioLogger.Context);
@@ -360,7 +323,7 @@ public class TestLoggedAudioManager {
         /// Valid case (AudioError.OK) / Missing Context
         /// ---------------------------------------------
         m_loggedAudioManager = new LoggedAudioManager(m_audioLogger, m_audioManager, null);
-        error = m_loggedAudioManager.PlayAttachedToGameObject(m_name, gameObject);
+        error = m_loggedAudioManager.RegisterChildAttachedToGo(m_name, gameObject);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_audioLogger.Logged);
         Assert.IsNull(m_audioLogger.Context);
@@ -369,46 +332,7 @@ public class TestLoggedAudioManager {
         /// Valid case (AudioError.OK)
         /// ---------------------------------------------
         m_loggedAudioManager = new LoggedAudioManager(m_audioLogger, m_audioManager, m_context);
-        error = m_loggedAudioManager.PlayAttachedToGameObject(m_name, gameObject);
-        Assert.AreEqual(AudioError.OK, error);
-        Assert.IsTrue(m_audioLogger.Logged);
-        Assert.IsNotNull(m_audioLogger.Context);
-    }
-
-    [Test]
-    public void TestPlayOneShotAttachedToGameObject() {
-        const GameObject gameObject = null;
-
-        /// ---------------------------------------------
-        /// Invalid case (AudioError.NOT_INITIALIZED) / Missing IAudioManager, IAudioLogger and Context
-        /// ---------------------------------------------
-        AudioError error = m_loggedAudioManager.PlayOneShotAttachedToGameObject(m_name, gameObject);
-        Assert.AreNotEqual(AudioError.OK, error);
-        Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
-
-        /// ---------------------------------------------
-        /// Valid case (AudioError.OK) / Missing IAudioLogger and Context
-        /// ---------------------------------------------
-        m_loggedAudioManager = new LoggedAudioManager(null, m_audioManager, null);
-        error = m_loggedAudioManager.PlayOneShotAttachedToGameObject(m_name, gameObject);
-        Assert.AreEqual(AudioError.OK, error);
-        Assert.IsFalse(m_audioLogger.Logged);
-        Assert.IsNull(m_audioLogger.Context);
-
-        /// ---------------------------------------------
-        /// Valid case (AudioError.OK) / Missing Context
-        /// ---------------------------------------------
-        m_loggedAudioManager = new LoggedAudioManager(m_audioLogger, m_audioManager, null);
-        error = m_loggedAudioManager.PlayOneShotAttachedToGameObject(m_name, gameObject);
-        Assert.AreEqual(AudioError.OK, error);
-        Assert.IsTrue(m_audioLogger.Logged);
-        Assert.IsNull(m_audioLogger.Context);
-
-        /// ---------------------------------------------
-        /// Valid case (AudioError.OK)
-        /// ---------------------------------------------
-        m_loggedAudioManager = new LoggedAudioManager(m_audioLogger, m_audioManager, m_context);
-        error = m_loggedAudioManager.PlayOneShotAttachedToGameObject(m_name, gameObject);
+        error = m_loggedAudioManager.RegisterChildAttachedToGo(m_name, gameObject);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_audioLogger.Logged);
         Assert.IsNotNull(m_audioLogger.Context);
@@ -928,13 +852,13 @@ public class TestLoggedAudioManager {
     [Test]
     public void TestLerpPitch() {
         const float endValue = float.NaN;
-        const float waitTime = float.NaN;
-        const int granularity = 0;
+        const float duration = float.NaN;
+        ChildType child = ChildType.PARENT;
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.NOT_INITIALIZED) / Missing IAudioManager, IAudioLogger and Context
         /// ---------------------------------------------
-        AudioError error = m_loggedAudioManager.LerpPitch(m_name, endValue, waitTime, granularity);
+        AudioError error = m_loggedAudioManager.LerpPitch(m_name, endValue, duration, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
 
@@ -942,7 +866,7 @@ public class TestLoggedAudioManager {
         /// Valid case (AudioError.OK) / Missing IAudioLogger and Context
         /// ---------------------------------------------
         m_loggedAudioManager = new LoggedAudioManager(null, m_audioManager, null);
-        error = m_loggedAudioManager.LerpPitch(m_name, endValue, waitTime, granularity);
+        error = m_loggedAudioManager.LerpPitch(m_name, endValue, duration, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsFalse(m_audioLogger.Logged);
         Assert.IsNull(m_audioLogger.Context);
@@ -951,7 +875,7 @@ public class TestLoggedAudioManager {
         /// Valid case (AudioError.OK) / Missing Context
         /// ---------------------------------------------
         m_loggedAudioManager = new LoggedAudioManager(m_audioLogger, m_audioManager, null);
-        error = m_loggedAudioManager.LerpPitch(m_name, endValue, waitTime, granularity);
+        error = m_loggedAudioManager.LerpPitch(m_name, endValue, duration, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_audioLogger.Logged);
         Assert.IsNull(m_audioLogger.Context);
@@ -960,7 +884,7 @@ public class TestLoggedAudioManager {
         /// Valid case (AudioError.OK)
         /// ---------------------------------------------
         m_loggedAudioManager = new LoggedAudioManager(m_audioLogger, m_audioManager, m_context);
-        error = m_loggedAudioManager.LerpPitch(m_name, endValue, waitTime, granularity);
+        error = m_loggedAudioManager.LerpPitch(m_name, endValue, duration, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_audioLogger.Logged);
         Assert.IsNotNull(m_audioLogger.Context);
@@ -969,13 +893,13 @@ public class TestLoggedAudioManager {
     [Test]
     public void TestLerpVolume() {
         const float endValue = float.NaN;
-        const float waitTime = float.NaN;
-        const int granularity = 0;
+        const float duration = float.NaN;
+        ChildType child = ChildType.PARENT;
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.NOT_INITIALIZED) / Missing IAudioManager, IAudioLogger and Context
         /// ---------------------------------------------
-        AudioError error = m_loggedAudioManager.LerpVolume(m_name, endValue, waitTime, granularity);
+        AudioError error = m_loggedAudioManager.LerpVolume(m_name, endValue, duration, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
 
@@ -983,7 +907,7 @@ public class TestLoggedAudioManager {
         /// Valid case (AudioError.OK) / Missing IAudioLogger and Context
         /// ---------------------------------------------
         m_loggedAudioManager = new LoggedAudioManager(null, m_audioManager, null);
-        error = m_loggedAudioManager.LerpVolume(m_name, endValue, waitTime, granularity);
+        error = m_loggedAudioManager.LerpVolume(m_name, endValue, duration, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsFalse(m_audioLogger.Logged);
         Assert.IsNull(m_audioLogger.Context);
@@ -992,7 +916,7 @@ public class TestLoggedAudioManager {
         /// Valid case (AudioError.OK) / Missing Context
         /// ---------------------------------------------
         m_loggedAudioManager = new LoggedAudioManager(m_audioLogger, m_audioManager, null);
-        error = m_loggedAudioManager.LerpVolume(m_name, endValue, waitTime, granularity);
+        error = m_loggedAudioManager.LerpVolume(m_name, endValue, duration, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_audioLogger.Logged);
         Assert.IsNull(m_audioLogger.Context);
@@ -1001,7 +925,7 @@ public class TestLoggedAudioManager {
         /// Valid case (AudioError.OK)
         /// ---------------------------------------------
         m_loggedAudioManager = new LoggedAudioManager(m_audioLogger, m_audioManager, m_context);
-        error = m_loggedAudioManager.LerpVolume(m_name, endValue, waitTime, granularity);
+        error = m_loggedAudioManager.LerpVolume(m_name, endValue, duration, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_audioLogger.Logged);
         Assert.IsNotNull(m_audioLogger.Context);
@@ -1132,14 +1056,13 @@ public class TestLoggedAudioManager {
     [Test]
     public void TestLerpGroupValue() {
         const float endValue = float.NaN;
-        const float waitTime = float.NaN;
-        const int granularity = 0;
+        const float duration = float.NaN;
         string exposedParameterName = string.Empty;
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.NOT_INITIALIZED) / Missing IAudioManager, IAudioLogger and Context
         /// ---------------------------------------------
-        AudioError error = m_loggedAudioManager.LerpGroupValue(m_name, exposedParameterName, endValue, waitTime, granularity);
+        AudioError error = m_loggedAudioManager.LerpGroupValue(m_name, exposedParameterName, endValue, duration);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
 
@@ -1147,7 +1070,7 @@ public class TestLoggedAudioManager {
         /// Valid case (AudioError.OK) / Missing IAudioLogger and Context
         /// ---------------------------------------------
         m_loggedAudioManager = new LoggedAudioManager(null, m_audioManager, null);
-        error = m_loggedAudioManager.LerpGroupValue(m_name, exposedParameterName, endValue, waitTime, granularity);
+        error = m_loggedAudioManager.LerpGroupValue(m_name, exposedParameterName, endValue, duration);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsFalse(m_audioLogger.Logged);
         Assert.IsNull(m_audioLogger.Context);
@@ -1156,7 +1079,7 @@ public class TestLoggedAudioManager {
         /// Valid case (AudioError.OK) / Missing Context
         /// ---------------------------------------------
         m_loggedAudioManager = new LoggedAudioManager(m_audioLogger, m_audioManager, null);
-        error = m_loggedAudioManager.LerpGroupValue(m_name, exposedParameterName, endValue, waitTime, granularity);
+        error = m_loggedAudioManager.LerpGroupValue(m_name, exposedParameterName, endValue, duration);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_audioLogger.Logged);
         Assert.IsNull(m_audioLogger.Context);
@@ -1165,7 +1088,7 @@ public class TestLoggedAudioManager {
         /// Valid case (AudioError.OK)
         /// ---------------------------------------------
         m_loggedAudioManager = new LoggedAudioManager(m_audioLogger, m_audioManager, m_context);
-        error = m_loggedAudioManager.LerpGroupValue(m_name, exposedParameterName, endValue, waitTime, granularity);
+        error = m_loggedAudioManager.LerpGroupValue(m_name, exposedParameterName, endValue, duration);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_audioLogger.Logged);
         Assert.IsNotNull(m_audioLogger.Context);

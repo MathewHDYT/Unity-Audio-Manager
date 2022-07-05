@@ -12,7 +12,7 @@ public class DummyAudioManager : IAudioManager {
         return null;
     }
 
-    public AudioError Play(string name) {
+    public AudioError Play(string name, ChildType child) {
         return AudioError.OK;
     }
 
@@ -21,7 +21,7 @@ public class DummyAudioManager : IAudioManager {
     }
 
     public AudioError GetPlaybackPosition(string name, out float time) {
-        time = Constants.NULL_VALUE;
+        time = Constants.F_NULL_VALUE;
         return AudioError.OK;
     }
 
@@ -29,19 +29,11 @@ public class DummyAudioManager : IAudioManager {
         return AudioError.OK;
     }
 
-    public AudioError PlayAt3DPosition(string name, Vector3 position) {
+    public AudioError RegisterChildAt3DPos(string name, Vector3 position) {
         return AudioError.OK;
     }
 
-    public AudioError PlayOneShotAt3DPosition(string name, Vector3 position) {
-        return AudioError.OK;
-    }
-
-    public AudioError PlayAttachedToGameObject(string name, GameObject gameObject) {
-        return AudioError.OK;
-    }
-
-    public AudioError PlayOneShotAttachedToGameObject(string name, GameObject gameObject) {
+    public AudioError RegisterChildAttachedToGo(string name, GameObject gameObject) {
         return AudioError.OK;
     }
 
@@ -54,6 +46,11 @@ public class DummyAudioManager : IAudioManager {
     }
 
     public AudioError ChangePitch(string name, float minPitch, float maxPitch) {
+        return AudioError.OK;
+    }
+
+    public AudioError GetClipLength(string name, out double length, ChildType child) {
+        length = Constants.D_NULL_VALUE;
         return AudioError.OK;
     }
 
@@ -90,7 +87,7 @@ public class DummyAudioManager : IAudioManager {
     }
 
     public AudioError GetProgress(string name, out float progress, ChildType child) {
-        progress = Constants.NULL_VALUE;
+        progress = Constants.F_NULL_VALUE;
         return AudioError.OK;
     }
 
@@ -99,11 +96,11 @@ public class DummyAudioManager : IAudioManager {
         return AudioError.OK;
     }
 
-    public AudioError LerpPitch(string name, float endValue, float waitTime, int granularity) {
+    public AudioError LerpPitch(string name, float endValue, float duration, ChildType child) {
         return AudioError.OK;
     }
 
-    public AudioError LerpVolume(string name, float endValue, float waitTime, int granularity) {
+    public AudioError LerpVolume(string name, float endValue, float duration, ChildType child) {
         return AudioError.OK;
     }
 
@@ -112,7 +109,7 @@ public class DummyAudioManager : IAudioManager {
     }
 
     public AudioError GetGroupValue(string name, string exposedParameterName, out float currentValue) {
-        currentValue = Constants.NULL_VALUE;
+        currentValue = Constants.F_NULL_VALUE;
         return AudioError.OK;
     }
 
@@ -120,7 +117,7 @@ public class DummyAudioManager : IAudioManager {
         return AudioError.OK;
     }
 
-    public AudioError LerpGroupValue(string name, string exposedParameterName, float endValue, float waitTime, int granularity) {
+    public AudioError LerpGroupValue(string name, string exposedParameterName, float endValue, float duration) {
         return AudioError.OK;
     }
 

@@ -1,6 +1,7 @@
 using AudioManager.Core;
 using AudioManager.Locator;
 using AudioManager.Logger;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Video;
@@ -13,11 +14,11 @@ public class MethodCalls : MonoBehaviour {
     [SerializeField]
     private Dropdown soundNameDropDown;
     [SerializeField]
+    private Dropdown childDropDown;
+    [SerializeField]
     private InputField timeInput;
     [SerializeField]
     private InputField endValueInput;
-    [SerializeField]
-    private InputField granularityInput;
     [SerializeField]
     private InputField minPitchInput;
     [SerializeField]
@@ -58,8 +59,15 @@ public class MethodCalls : MonoBehaviour {
         panel.color = new Color(panel.color.r, panel.color.g, panel.color.b, 0f);
         fallbackImage.SetActive(true);
 #endif // UNITY_WEBGL
+        SetDropDownOptions();
         // Initally enable first tab.
         SwitchTab(0);
+    }
+
+    private void SetDropDownOptions() {
+        var children = System.Enum.GetNames(typeof(ChildType)).ToList();
+        childDropDown.AddOptions(children);
+        childDropDown.value = (int)ChildType.PARENT;
     }
 
     public void SwitchTab(int index) {
@@ -100,13 +108,9 @@ public class MethodCalls : MonoBehaviour {
             SetText(string.Join(" ", NOT_A_NUMBER, "Time"));
             return;
         }
-        if (!int.TryParse(granularityInput.text, out int granularity)) {
-            SetText(string.Join(" ", NOT_A_NUMBER, "Granularity"));
-            return;
-        }
 
         foreach (var name in am.GetEnumerator()) {
-            am.LerpVolume(name, endValue, time, granularity);
+            am.LerpVolume(name, endValue, time);
         }
     }
 
@@ -153,24 +157,24 @@ public class MethodCalls : MonoBehaviour {
         }
     }
 
-    public void PlayAt3DPositionClicked() {
+    public void RegisterChildAt3DPosClicked() {
         ClearText();
         float randomXPos = Random.Range(-15f, 15f);
         float randomYPos = Random.Range(-7.5f, 10f);
         var worldPosition = new Vector3(randomXPos, randomYPos, 5f);
 
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        am.PlayAt3DPosition(selectedSoundName, worldPosition);
+        am.RegisterChildAt3DPos(selectedSoundName, worldPosition);
     }
 
-    public void PlayAttachedToGameObjectClicked() {
+    public void RegisterAttachedToGoClicked() {
         ClearText();
         float randomXPos = Random.Range(-15f, 15f);
         float randomYPos = Random.Range(-7.5f, 10f);
         Vector3 worldPosition = new Vector3(randomXPos, randomYPos, 5f);
 
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        am.PlayAttachedToGameObject(selectedSoundName, radio);
+        am.RegisterChildAttachedToGo(selectedSoundName, radio);
         radio.transform.position = worldPosition;
     }
 
@@ -187,27 +191,6 @@ public class MethodCalls : MonoBehaviour {
 
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
         am.ChangePitch(selectedSoundName, minPitch, maxPitch);
-    }
-
-    public void PlayOneShotAt3DPositionClicked() {
-        ClearText();
-        float randomXPos = Random.Range(-15f, 15f);
-        float randomYPos = Random.Range(-7.5f, 10f);
-        var worldPosition = new Vector3(randomXPos, randomYPos, 5f);
-
-        var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        am.PlayOneShotAt3DPosition(selectedSoundName, worldPosition);
-    }
-
-    public void PlayOneShotAttachedToGameObjectClicked() {
-        ClearText();
-        float randomXPos = Random.Range(-15f, 15f);
-        float randomYPos = Random.Range(-7.5f, 10f);
-        Vector3 worldPosition = new Vector3(randomXPos, randomYPos, 5f);
-
-        var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        am.PlayOneShotAttachedToGameObject(selectedSoundName, radio);
-        radio.transform.position = worldPosition;
     }
 
     public void PlayDelayedClicked() {
@@ -282,13 +265,9 @@ public class MethodCalls : MonoBehaviour {
             SetText(string.Join(" ", NOT_A_NUMBER, "Time"));
             return;
         }
-        if (!int.TryParse(granularityInput.text, out int granularity)) {
-            SetText(string.Join(" ", NOT_A_NUMBER, "Granularity"));
-            return;
-        }
 
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        am.LerpPitch(selectedSoundName, endValue, time, granularity);
+        am.LerpPitch(selectedSoundName, endValue, time);
     }
 
     public void LerpVolumeClicked() {
@@ -301,13 +280,9 @@ public class MethodCalls : MonoBehaviour {
             SetText(string.Join(" ", NOT_A_NUMBER, "Time"));
             return;
         }
-        if (!int.TryParse(granularityInput.text, out int granularity)) {
-            SetText(string.Join(" ", NOT_A_NUMBER, "Granularity"));
-            return;
-        }
 
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        am.LerpVolume(selectedSoundName, endValue, time, granularity);
+        am.LerpVolume(selectedSoundName, endValue, time);
     }
 
     public void ChangeGroupValueClicked() {
@@ -347,13 +322,9 @@ public class MethodCalls : MonoBehaviour {
             SetText(string.Join(" ", NOT_A_NUMBER, "Time"));
             return;
         }
-        if (!int.TryParse(granularityInput.text, out int granularity)) {
-            SetText(string.Join(" ", NOT_A_NUMBER, "Granularity"));
-            return;
-        }
 
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        am.LerpGroupValue(selectedSoundName, EXPOSED_VOLUME_NAME, endValue, time, granularity);
+        am.LerpGroupValue(selectedSoundName, EXPOSED_VOLUME_NAME, endValue, time);
     }
 
     public void SetStartTimeClicked() {

@@ -59,12 +59,12 @@ namespace AudioManager.Logger {
             return value;
         }
 
-        public AudioError Play(string name) {
+        public AudioError Play(string name, ChildType child) {
             const string enterLogBase = "Attempting to play the registered AudioSource entry";
             const string exitLogBase = "Playing registered AudioSource entry";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = ConvertToAudioError(m_wrappedInstance?.Play(name));
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.Play(name, child));
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -85,7 +85,7 @@ namespace AudioManager.Logger {
             const string enterLogBase = "Attempting to read the playbackPosition of the registered AudioSource entry";
             const string exitLogBase = "Reading the playbackPosition of the given registered AudioSource entry";
 
-            time = Constants.NULL_VALUE;
+            time = Constants.F_NULL_VALUE;
             OnMethodEnter(enterLogBase, name);
             AudioError error = ConvertToAudioError(m_wrappedInstance?.GetPlaybackPosition(name, out time));
             OnReceivedError(exitLogBase, error);
@@ -104,45 +104,23 @@ namespace AudioManager.Logger {
             return error;
         }
 
-        public AudioError PlayAt3DPosition(string name, Vector3 position) {
-            const string enterLogBase = "Attempting to play the registered AudioSource entry at the given 3D position in space";
-            const string exitLogBase = "Playing the registered AudioSource entry at the given 3D position in space";
+        public AudioError RegisterChildAt3DPos(string name, Vector3 position) {
+            const string enterLogBase = "Attempting to register new chid sound at the given 3D position in space";
+            const string exitLogBase = "Registering the new chid sound at the given 3D position in space";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = ConvertToAudioError(m_wrappedInstance?.PlayAt3DPosition(name, position));
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.RegisterChildAt3DPos(name, position));
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
         }
 
-        public AudioError PlayOneShotAt3DPosition(string name, Vector3 position) {
-            const string enterLogBase = "Attempting to play the registered AudioSource entry once at the given 3D position in space";
-            const string exitLogBase = "Playing the registered AudioSource entry once at the given 3D position in space";
+        public AudioError RegisterChildAttachedToGo(string name, GameObject gameObject) {
+            const string enterLogBase = "Attempting to register new chid sound attached to the given gameObject";
+            const string exitLogBase = "Registering the new chid sound attached to the given gameObject";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = ConvertToAudioError(m_wrappedInstance?.PlayOneShotAt3DPosition(name, position));
-            OnReceivedError(exitLogBase, error);
-            OnMethodExit(exitLogBase, error);
-            return error;
-        }
-
-        public AudioError PlayAttachedToGameObject(string name, GameObject gameObject) {
-            const string enterLogBase = "Attempting to play the registered AudioSource entry attached to the given gameObject";
-            const string exitLogBase = "Playing the registered AudioSource entry attached to the given gameObject";
-
-            OnMethodEnter(enterLogBase, name);
-            AudioError error = ConvertToAudioError(m_wrappedInstance?.PlayAttachedToGameObject(name, gameObject));
-            OnReceivedError(exitLogBase, error);
-            OnMethodExit(exitLogBase, error);
-            return error;
-        }
-
-        public AudioError PlayOneShotAttachedToGameObject(string name, GameObject gameObject) {
-            const string enterLogBase = "Attempting to play the registered AudioSource entry once attached to the given gameObject";
-            const string exitLogBase = "Playing the registered AudioSource entry once attached to the given gameObject";
-
-            OnMethodEnter(enterLogBase, name);
-            AudioError error = ConvertToAudioError(m_wrappedInstance?.PlayOneShotAttachedToGameObject(name, gameObject));
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.RegisterChildAttachedToGo(name, gameObject));
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -176,6 +154,18 @@ namespace AudioManager.Logger {
 
             OnMethodEnter(enterLogBase, name);
             AudioError error = ConvertToAudioError(m_wrappedInstance?.ChangePitch(name, minPitch, maxPitch));
+            OnReceivedError(exitLogBase, error);
+            OnMethodExit(exitLogBase, error);
+            return error;
+        }
+
+        public AudioError GetClipLength(string name, out double length, ChildType child) {
+            const string enterLogBase = "Attempting to randomly change pitch of the registered AudioSource entry";
+            const string exitLogBase = "Randomly changing pitch of the given registered AudioSource entry to a random value between the given min and max values";
+
+            length = Constants.D_NULL_VALUE;
+            OnMethodEnter(enterLogBase, name);
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.GetClipLength(name, out length, child));
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -273,7 +263,7 @@ namespace AudioManager.Logger {
             const string enterLogBase = "Attempting to read the progress of the registered AudioSource entry";
             const string exitLogBase = "Reading the progress of the registered AudioSource entry";
 
-            progress = Constants.NULL_VALUE;
+            progress = Constants.F_NULL_VALUE;
             OnMethodEnter(enterLogBase, name);
             AudioError error = ConvertToAudioError(m_wrappedInstance?.GetProgress(name, out progress, child));
             OnReceivedError(exitLogBase, error);
@@ -293,23 +283,23 @@ namespace AudioManager.Logger {
             return error;
         }
 
-        public AudioError LerpPitch(string name, float endValue, float waitTime, int granularity) {
+        public AudioError LerpPitch(string name, float endValue, float duration, ChildType child) {
             const string enterLogBase = "Attempting to lerp pitch of the registered AudioSource entry";
             const string exitLogBase = "Lerping pitch of the registered AudioSource entry";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = ConvertToAudioError(m_wrappedInstance?.LerpPitch(name, endValue, waitTime, granularity));
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.LerpPitch(name, endValue, duration, child));
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
         }
 
-        public AudioError LerpVolume(string name, float endValue, float waitTime, int granularity) {
+        public AudioError LerpVolume(string name, float endValue, float duration, ChildType child) {
             const string enterLogBase = "Attempting to lerp volume of the registered AudioSource entry";
             const string exitLogBase = "Lerping volume of the registered AudioSource entry";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = ConvertToAudioError(m_wrappedInstance?.LerpVolume(name, endValue, waitTime, granularity));
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.LerpVolume(name, endValue, duration, child));
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -330,7 +320,7 @@ namespace AudioManager.Logger {
             string enterLogBase = string.Join(" ", "Attempting to get group value with the name:", exposedParameterName, "of the registered AudioSource entry");
             const string exitLogBase = "Getting group value of the registered AudioSource entry";
 
-            currentValue = Constants.NULL_VALUE;
+            currentValue = Constants.F_NULL_VALUE;
             OnMethodEnter(enterLogBase, name);
             AudioError error = ConvertToAudioError(m_wrappedInstance?.GetGroupValue(name, exposedParameterName, out currentValue));
             OnReceivedError(exitLogBase, error);
@@ -349,12 +339,12 @@ namespace AudioManager.Logger {
             return error;
         }
 
-        public AudioError LerpGroupValue(string name, string exposedParameterName, float endValue, float waitTime, int granularity) {
+        public AudioError LerpGroupValue(string name, string exposedParameterName, float endValue, float duration) {
             string enterLogBase = string.Join(" ", "Attempting to lerp group value with the name:", exposedParameterName, "of the registered AudioSource entry");
             const string exitLogBase = "Lerping group value of the registered AudioSource entry";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = ConvertToAudioError(m_wrappedInstance?.LerpGroupValue(name, exposedParameterName, endValue, waitTime, granularity));
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.LerpGroupValue(name, exposedParameterName, endValue, duration));
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;

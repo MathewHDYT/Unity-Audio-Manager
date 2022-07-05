@@ -19,8 +19,6 @@ namespace AudioManager.Logger {
                     return "Path does not lead to a valid audio clip";
                 case AudioError.INVALID_END_VALUE:
                     return "The given endValue is already the same as the current value";
-                case AudioError.INVALID_GRANULARITY:
-                    return "The given granularity is too small, has to be higher than or equal to 1";
                 case AudioError.INVALID_TIME:
                     return "The given time exceeds the actual length of the clip";
                 case AudioError.INVALID_PROGRESS:
@@ -47,8 +45,6 @@ namespace AudioManager.Logger {
                     return "Callback with the progress was not yet subscribed for this sound";
                 case AudioError.MISSING_WRAPPER:
                     return "The given AudioSourceWrapper is null";
-                case AudioError.MISSING_CHILDREN:
-                    return "The given sound does not have any registered children.";
                 case AudioError.INVALID_CHILD:
                     return "The given sound does not have a registered child of the given type.";
                 default:

@@ -1,9 +1,8 @@
 ﻿namespace AudioManager.Core {
     public enum ChildType {
+        ALL, // All children as well as the parent.
         PARENT, // Parent object children were copied from.
-        PLAY_AT_3D_POS, // Child for PlayAt3DPosition.
-        PLAY_OS_AT_3D_POS, // Child for PlayOneShotAt3DPosition.
-        PLAY_ATTCHD_TO_GO, // Child for PlayAttachedToGameObject.
-        PLAY_OS_ATTCHD_TO_GO // Child for PlayOneShotAttachedToGameObject.
+        AT_3D_POS, // Child for RegisterChildAt3DPosition.
+        ATTCHD_TO_GO, // Child for RegisterChildAttachedToGameObject.
     }
 }

@@ -1,18 +1,37 @@
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Audio;
 
 namespace AudioManager.Core {
     /// <summary>
-    /// Subscribable callback that gets called whenever a value of the underlying AudioSource changes.
-    /// <param name="changedSource">Source that was accessed and some of its values changed.</param>
+    /// Subscribable callback that gets called whenever a value of the underlying <see cref="AudioSource"/> changes.
     /// </summary>
-    public delegate void SourceChangedCallback(AudioSource changedSource);
+    /// <param name="changedSource">Source that was accessed and some of its values changed.</param>
+    public delegate void SourceChangedCallback(AudioSourceWrapper changedSource);
+    /// <summary>
+    /// Subscribable callback that gets called for all children that fit the given <see cref="ChildType"/>, whenever <see cref="AudioSourceWrapper.InvokeChild"/> get's called.
+    /// </summary>
+    /// <param name="childSource">Source that we want to invoke a method on.</param>
+    public delegate void InvokeCallback(AudioSource childSource);
+    /// <summary>
+    /// Subscribable callback that gets called for all children that fit the given <see cref="ChildType"/>, whenever <see cref="AudioSourceWrapper.InvokeChild"/> get's called
+    /// and expects a return value of the given type.
+    /// </summary>
+    /// <param name="childSource">Source that we want to invoke a method on and return the given value with.</param>
+    /// <returs>The value with the given type <see cref="T"/>.</returs>
+    public delegate T InvokeCallback<T>(AudioSource childSource);
+    /// <summary>
+    /// Subscribable callback that gets called, when we want to change the given <see cref="AudioSourceWrapper"/> to the given value.
+    /// </summary>
+    /// <param name="value">Value we want to set on the given source.</param>
+    /// <param name="source">Source that we want to change the given value on.</param>
+    public delegate void SetCallback<T>(T value, AudioSourceWrapper source);
     public class AudioSourceWrapper {
         // Private member variables.
         private SourceChangedCallback m_cb;
         private AudioSource m_wrappedSource;
+        private IDictionary<ChildType, AudioSource> m_childrenDictionary;
 
         // Private delegate helpers.
         private delegate void SetValueCallback<T>(T value, AudioSource source);
@@ -21,6 +40,23 @@ namespace AudioManager.Core {
         public AudioSourceWrapper(AudioSource source) {
             m_cb = null;
             m_wrappedSource = source;
+            m_childrenDictionary = new Dictionary<ChildType, AudioSource>();
+        }
+
+        public ICollection<AudioSource> GetChildren() {
+            return m_childrenDictionary.Values;
+        }
+
+        public IEnumerator<KeyValuePair<ChildType, AudioSource>> GetEnumerator() {
+            return m_childrenDictionary.GetEnumerator();
+        }
+
+        public bool TryGetRegisteredChild(ChildType child, out AudioSource childSource) {
+            return m_childrenDictionary.TryGetValue(child, out childSource);
+        }
+
+        public void RegisterNewChild(ChildType child, AudioSource childSource) {
+            m_childrenDictionary.Add(child, childSource);
         }
 
         public void RegisterCallback(SourceChangedCallback callback) {
@@ -33,6 +69,10 @@ namespace AudioManager.Core {
 
         public AudioSource Source {
             get { return GetC((s) => s); }
+        }
+
+        public AudioMixer Mixer {
+            get { return MixerGroup.audioMixer; }
         }
 
         public AudioMixerGroup MixerGroup {
@@ -113,7 +153,7 @@ namespace AudioManager.Core {
             }
 
             set?.Invoke(newValue, m_wrappedSource);
-            m_cb?.Invoke(m_wrappedSource);
+            m_cb?.Invoke(this);
         }
 
         // Restrain to classes needed. Because the compiler expects default(RetrunTypeOfRHS) for classes.

@@ -65,26 +65,14 @@ public class TestNullAudioManager {
     }
 
     [Test]
-    public void TestPlayAt3DPosition() {
-        AudioError error = m_am.PlayAt3DPosition(m_text, m_pos);
+    public void TestRegisterChildAt3DPos() {
+        AudioError error = m_am.RegisterChildAt3DPos(m_text, m_pos);
         Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
     }
 
     [Test]
-    public void TestPlayOneShotAt3DPosition() {
-        AudioError error = m_am.PlayOneShotAt3DPosition(m_text, m_pos);
-        Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
-    }
-
-    [Test]
-    public void TestPlayAttachedToGameObject() {
-        AudioError error = m_am.PlayAttachedToGameObject(m_text, m_go);
-        Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
-    }
-
-    [Test]
-    public void TestPlayOneShotAttachedToGameObject() {
-        AudioError error = m_am.PlayOneShotAttachedToGameObject(m_text, m_go);
+    public void TestRegisterAttachedToGo() {
+        AudioError error = m_am.RegisterChildAttachedToGo(m_text, m_go);
         Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
     }
 

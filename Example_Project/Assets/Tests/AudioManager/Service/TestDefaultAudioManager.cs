@@ -18,6 +18,7 @@ public class TestDefaultAudioManager {
     AudioClip m_clip;
     float m_clipStartTime;
     float m_clipEndTime;
+    float m_maxDifference;
     Dictionary<string, AudioSourceWrapper> m_sounds;
     GameObject m_gameObject;
     AudioSource m_source;
@@ -38,6 +39,7 @@ public class TestDefaultAudioManager {
         m_clip = Resources.Load<AudioClip>(m_clipPath);
         m_clipStartTime = m_clip.length / 100f;
         m_clipEndTime = m_clip.length * 0.95f;
+        m_maxDifference = 0.00002f;
         m_sounds = new Dictionary<string, AudioSourceWrapper>();
         m_gameObject = new GameObject();
         m_gameObject.AddComponent<DummyMonoBehvaiour>();
@@ -125,10 +127,11 @@ public class TestDefaultAudioManager {
 
     [Test]
     public void TestPlay() {
+        ChildType child = ChildType.AT_3D_POS;
         /// ---------------------------------------------
         /// Invalid case (AudioError.DOES_NOT_EXIST)
         /// ---------------------------------------------
-        AudioError error = m_audioManager.Play(m_unregisteredAudioSourceName);
+        AudioError error = m_audioManager.Play(m_unregisteredAudioSourceName, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.DOES_NOT_EXIST, error);
         Assert.IsFalse(m_source.isPlaying);
@@ -136,7 +139,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_WRAPPER)
         /// ---------------------------------------------
-        error = m_audioManager.Play(m_nullAudioSourceWrapperName);
+        error = m_audioManager.Play(m_nullAudioSourceWrapperName, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_WRAPPER, error);
         Assert.IsFalse(m_source.isPlaying);
@@ -144,7 +147,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_SOURCE)
         /// ---------------------------------------------
-        error = m_audioManager.Play(m_nullAudioSourceName);
+        error = m_audioManager.Play(m_nullAudioSourceName, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_SOURCE, error);
         Assert.IsFalse(m_source.isPlaying);
@@ -152,23 +155,30 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_CLIP)
         /// ---------------------------------------------
-        error = m_audioManager.Play(m_audioSourceName);
+        error = m_audioManager.Play(m_audioSourceName, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_CLIP, error);
         Assert.IsFalse(m_source.isPlaying);
 
         /// ---------------------------------------------
+        /// Invalid case (AudioError.INVALID_CHILD)
+        /// ---------------------------------------------
+        error = m_audioManager.Play(m_initalizedAudioSourceName, child);
+        Assert.AreNotEqual(AudioError.OK, error);
+        Assert.AreEqual(AudioError.INVALID_CHILD, error);
+        Assert.IsFalse(m_initalizedSource.isPlaying);
+
+        /// ---------------------------------------------
         /// Valid case (AudioError.OK)
         /// ---------------------------------------------
-        m_source.clip = m_clip;
-        error = m_audioManager.Play(m_audioSourceName);
+        child = ChildType.PARENT;
+        error = m_audioManager.Play(m_initalizedAudioSourceName, child);
         Assert.AreEqual(AudioError.OK, error);
-        Assert.IsTrue(m_source.isPlaying);
+        Assert.IsTrue(m_initalizedSource.isPlaying);
     }
 
     [UnityTest]
     public IEnumerator TestPlayAtTimeStamp() {
-        const float maxDifferenceStartTime = 0.00002f;
         float startTime = m_clip.length * 2f;
 
         /// ---------------------------------------------
@@ -228,7 +238,7 @@ public class TestDefaultAudioManager {
         error = m_audioManager.PlayAtTimeStamp(m_audioSourceName, startTime);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_source.isPlaying);
-        Assert.IsTrue(startTime - m_source.time <= maxDifferenceStartTime);
+        Assert.IsTrue(startTime - m_source.time <= m_maxDifference);
         // The startTime is only reset at the approximate end of the song, because a higher resolution isn't possible.
         // Therefore we wait a little bit more than the actual time, to ensure the startTime is actually reset.
         yield return new WaitForSeconds(m_clip.length - (startTime * Constants.MAX_PROGRESS));
@@ -287,7 +297,6 @@ public class TestDefaultAudioManager {
 
     [Test]
     public void TestSetPlaypbackDirection() {
-        const float maxDifferenceStartTime = 0.00002f;
         float pitch = 1f;
 
         /// ---------------------------------------------
@@ -333,43 +342,41 @@ public class TestDefaultAudioManager {
         Assert.AreEqual(AudioError.OK, error);
         Assert.AreEqual(pitch, m_source.pitch);
         // The clip needs to be played to have it's time actually assigned.
-        error = m_audioManager.Play(m_audioSourceName);
+        error = m_audioManager.Play(m_audioSourceName, ChildType.PARENT);
         Assert.AreEqual(AudioError.OK, error);
-        Assert.IsTrue(endOfClip - m_source.time <= maxDifferenceStartTime);
+        Assert.IsTrue(endOfClip - m_source.time <= m_maxDifference);
     }
 
     [Test]
-    public void TestPlayAt3DPosition() {
-        // We do not test if m_source is playing and the position of the attached gameObject m_source resides on,
-        // because 3D methods don't use the original AudioSource but make a copy of it and attach that to a new gameObject instead.
+    public void TestRegisterChildAt3DPos() {
         const float expectedSpatialBlend = 1f;
         Vector3 expectedPosition = Vector3.zero;
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.DOES_NOT_EXIST)
         /// ---------------------------------------------
-        AudioError error = m_audioManager.PlayAt3DPosition(m_unregisteredAudioSourceName, expectedPosition);
+        AudioError error = m_audioManager.RegisterChildAt3DPos(m_unregisteredAudioSourceName, expectedPosition);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.DOES_NOT_EXIST, error);
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_WRAPPER)
         /// ---------------------------------------------
-        error = m_audioManager.PlayAt3DPosition(m_nullAudioSourceWrapperName, expectedPosition);
+        error = m_audioManager.RegisterChildAt3DPos(m_nullAudioSourceWrapperName, expectedPosition);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_WRAPPER, error);
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_SOURCE)
         /// ---------------------------------------------
-        error = m_audioManager.PlayAt3DPosition(m_nullAudioSourceName, expectedPosition);
+        error = m_audioManager.RegisterChildAt3DPos(m_nullAudioSourceName, expectedPosition);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_SOURCE, error);
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_CLIP)
         /// ---------------------------------------------
-        error = m_audioManager.PlayAt3DPosition(m_audioSourceName, expectedPosition);
+        error = m_audioManager.RegisterChildAt3DPos(m_audioSourceName, expectedPosition);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_CLIP, error);
 
@@ -377,7 +384,7 @@ public class TestDefaultAudioManager {
         /// Valid case (AudioError.CAN_NOT_BE_3D)
         /// ---------------------------------------------
         m_source.clip = m_clip;
-        error = m_audioManager.PlayAt3DPosition(m_audioSourceName, expectedPosition);
+        error = m_audioManager.RegisterChildAt3DPos(m_audioSourceName, expectedPosition);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.CAN_NOT_BE_3D, error);
 
@@ -385,7 +392,7 @@ public class TestDefaultAudioManager {
         /// Invalid case (AudioError.INVALID_PARENT)
         /// ---------------------------------------------
         m_source.spatialBlend = expectedSpatialBlend;
-        error = m_audioManager.PlayAt3DPosition(m_audioSourceName, expectedPosition);
+        error = m_audioManager.RegisterChildAt3DPos(m_audioSourceName, expectedPosition);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.INVALID_PARENT, error);
 
@@ -393,122 +400,42 @@ public class TestDefaultAudioManager {
         /// Valid case (AudioError.OK)
         /// ---------------------------------------------
         m_audioManager = new DefaultAudioManager(m_sounds, m_gameObject);
-        error = m_audioManager.PlayAt3DPosition(m_audioSourceName, expectedPosition);
+        error = m_audioManager.RegisterChildAt3DPos(m_audioSourceName, expectedPosition);
         Assert.AreEqual(AudioError.OK, error);
-
-        error = m_audioManager.PlayAt3DPosition(m_audioSourceName, expectedPosition);
-        Assert.AreEqual(AudioError.OK, error);
-
-        expectedPosition = Vector3.one;
-        error = m_audioManager.PlayAt3DPosition(m_audioSourceName, expectedPosition);
-        Assert.AreEqual(AudioError.OK, error);
-
-        error = m_audioManager.PlayOneShotAt3DPosition(m_audioSourceName, expectedPosition);
-        Assert.AreEqual(AudioError.OK, error);
+        Assert.IsTrue(m_wrapper.TryGetRegisteredChild(ChildType.AT_3D_POS, out AudioSource childSource));
+        Assert.IsNotNull(childSource);
     }
 
     [Test]
-    public void TestPlayOneShotAt3DPosition() {
-        // We do not test if m_source is playing and the position of the attached gameObject m_source resides on,
-        // because 3D methods don't use the original AudioSource but make a copy of it and attach that to a new gameObject instead.
-        const float expectedSpatialBlend = 1f;
-        Vector3 expectedPosition = Vector3.zero;
-
-        /// ---------------------------------------------
-        /// Invalid case (AudioError.DOES_NOT_EXIST)
-        /// ---------------------------------------------
-        AudioError error = m_audioManager.PlayOneShotAt3DPosition(m_unregisteredAudioSourceName, expectedPosition);
-        Assert.AreNotEqual(AudioError.OK, error);
-        Assert.AreEqual(AudioError.DOES_NOT_EXIST, error);
-
-        /// ---------------------------------------------
-        /// Invalid case (AudioError.MISSING_WRAPPER)
-        /// ---------------------------------------------
-        error = m_audioManager.PlayOneShotAt3DPosition(m_nullAudioSourceWrapperName, expectedPosition);
-        Assert.AreNotEqual(AudioError.OK, error);
-        Assert.AreEqual(AudioError.MISSING_WRAPPER, error);
-
-        /// ---------------------------------------------
-        /// Invalid case (AudioError.MISSING_SOURCE)
-        /// ---------------------------------------------
-        error = m_audioManager.PlayOneShotAt3DPosition(m_nullAudioSourceName, expectedPosition);
-        Assert.AreNotEqual(AudioError.OK, error);
-        Assert.AreEqual(AudioError.MISSING_SOURCE, error);
-
-        /// ---------------------------------------------
-        /// Invalid case (AudioError.MISSING_CLIP)
-        /// ---------------------------------------------
-        error = m_audioManager.PlayOneShotAt3DPosition(m_audioSourceName, expectedPosition);
-        Assert.AreNotEqual(AudioError.OK, error);
-        Assert.AreEqual(AudioError.MISSING_CLIP, error);
-
-        /// ---------------------------------------------
-        /// Valid case (AudioError.CAN_NOT_BE_3D)
-        /// ---------------------------------------------
-        m_source.clip = m_clip;
-        error = m_audioManager.PlayOneShotAt3DPosition(m_audioSourceName, expectedPosition);
-        Assert.AreNotEqual(AudioError.OK, error);
-        Assert.AreEqual(AudioError.CAN_NOT_BE_3D, error);
-
-        /// ---------------------------------------------
-        /// Invalid case (AudioError.INVALID_PARENT)
-        /// ---------------------------------------------
-        m_source.spatialBlend = expectedSpatialBlend;
-        error = m_audioManager.PlayOneShotAt3DPosition(m_audioSourceName, expectedPosition);
-        Assert.AreNotEqual(AudioError.OK, error);
-        Assert.AreEqual(AudioError.INVALID_PARENT, error);
-
-        /// ---------------------------------------------
-        /// Valid case (AudioError.OK)
-        /// ---------------------------------------------
-        m_audioManager = new DefaultAudioManager(m_sounds, m_gameObject);
-        error = m_audioManager.PlayOneShotAt3DPosition(m_audioSourceName, expectedPosition);
-        Assert.AreEqual(AudioError.OK, error);
-
-        error = m_audioManager.PlayOneShotAt3DPosition(m_audioSourceName, expectedPosition);
-        Assert.AreEqual(AudioError.OK, error);
-
-        expectedPosition = Vector3.one;
-        error = m_audioManager.PlayOneShotAt3DPosition(m_audioSourceName, expectedPosition);
-        Assert.AreEqual(AudioError.OK, error);
-
-        Object.Destroy(m_gameObject);
-        error = m_audioManager.PlayAt3DPosition(m_audioSourceName, expectedPosition);
-        Assert.AreEqual(AudioError.OK, error);
-    }
-
-    [Test]
-    public void TestPlayAttachedToGameObject() {
-        // We do not test if m_source is playing and is attached to the given gameObject,
-        // because 3D methods don't use the original AudioSource but make a copy of it and attach that to a new gameObject instead.
+    public void TestRegisterChildAttachedToGo() {
         const float expectedSpatialBlend = 1f;
         GameObject expectedGameObject = null;
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.DOES_NOT_EXIST)
         /// ---------------------------------------------
-        AudioError error = m_audioManager.PlayAttachedToGameObject(m_unregisteredAudioSourceName, expectedGameObject);
+        AudioError error = m_audioManager.RegisterChildAttachedToGo(m_unregisteredAudioSourceName, expectedGameObject);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.DOES_NOT_EXIST, error);
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_WRAPPER)
         /// ---------------------------------------------
-        error = m_audioManager.PlayAttachedToGameObject(m_nullAudioSourceWrapperName, expectedGameObject);
+        error = m_audioManager.RegisterChildAttachedToGo(m_nullAudioSourceWrapperName, expectedGameObject);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_WRAPPER, error);
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_SOURCE)
         /// ---------------------------------------------
-        error = m_audioManager.PlayAttachedToGameObject(m_nullAudioSourceName, expectedGameObject);
+        error = m_audioManager.RegisterChildAttachedToGo(m_nullAudioSourceName, expectedGameObject);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_SOURCE, error);
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_CLIP)
         /// ---------------------------------------------
-        error = m_audioManager.PlayAttachedToGameObject(m_audioSourceName, expectedGameObject);
+        error = m_audioManager.RegisterChildAttachedToGo(m_audioSourceName, expectedGameObject);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_CLIP, error);
 
@@ -516,7 +443,7 @@ public class TestDefaultAudioManager {
         /// Valid case (AudioError.CAN_NOT_BE_3D)
         /// ---------------------------------------------
         m_source.clip = m_clip;
-        error = m_audioManager.PlayAttachedToGameObject(m_audioSourceName, expectedGameObject);
+        error = m_audioManager.RegisterChildAttachedToGo(m_audioSourceName, expectedGameObject);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.CAN_NOT_BE_3D, error);
 
@@ -524,7 +451,7 @@ public class TestDefaultAudioManager {
         /// Invalid case (AudioError.MISSING_PARENT)
         /// ---------------------------------------------
         m_source.spatialBlend = expectedSpatialBlend;
-        error = m_audioManager.PlayAttachedToGameObject(m_audioSourceName, expectedGameObject);
+        error = m_audioManager.RegisterChildAttachedToGo(m_audioSourceName, expectedGameObject);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.INVALID_PARENT, error);
 
@@ -533,88 +460,10 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         expectedGameObject = m_gameObject;
         m_audioManager = new DefaultAudioManager(m_sounds, m_gameObject);
-        error = m_audioManager.PlayAttachedToGameObject(m_audioSourceName, expectedGameObject);
+        error = m_audioManager.RegisterChildAttachedToGo(m_audioSourceName, expectedGameObject);
         Assert.AreEqual(AudioError.OK, error);
-
-        error = m_audioManager.PlayAttachedToGameObject(m_audioSourceName, expectedGameObject);
-        Assert.AreEqual(AudioError.OK, error);
-
-        expectedGameObject = new GameObject();
-        error = m_audioManager.PlayAttachedToGameObject(m_audioSourceName, expectedGameObject);
-        Assert.AreEqual(AudioError.OK, error);
-
-        error = m_audioManager.PlayOneShotAttachedToGameObject(m_audioSourceName, expectedGameObject);
-        Assert.AreEqual(AudioError.OK, error);
-    }
-
-    [Test]
-    public void TestPlayOneShotAttachedToGameObject() {
-        // We do not test if m_source is playing and is attached to the given gameObject,
-        // because 3D methods don't use the original AudioSource but make a copy of it and attach that to a new gameObject instead.
-        const float expectedSpatialBlend = 1f;
-        GameObject expectedGameObject = null;
-
-        /// ---------------------------------------------
-        /// Invalid case (AudioError.DOES_NOT_EXIST)
-        /// ---------------------------------------------
-        AudioError error = m_audioManager.PlayOneShotAttachedToGameObject(m_unregisteredAudioSourceName, expectedGameObject);
-        Assert.AreNotEqual(AudioError.OK, error);
-        Assert.AreEqual(AudioError.DOES_NOT_EXIST, error);
-
-        /// ---------------------------------------------
-        /// Invalid case (AudioError.MISSING_WRAPPER)
-        /// ---------------------------------------------
-        error = m_audioManager.PlayOneShotAttachedToGameObject(m_nullAudioSourceWrapperName, expectedGameObject);
-        Assert.AreNotEqual(AudioError.OK, error);
-        Assert.AreEqual(AudioError.MISSING_WRAPPER, error);
-
-        /// ---------------------------------------------
-        /// Invalid case (AudioError.MISSING_SOURCE)
-        /// ---------------------------------------------
-        error = m_audioManager.PlayOneShotAttachedToGameObject(m_nullAudioSourceName, expectedGameObject);
-        Assert.AreNotEqual(AudioError.OK, error);
-        Assert.AreEqual(AudioError.MISSING_SOURCE, error);
-
-        /// ---------------------------------------------
-        /// Invalid case (AudioError.MISSING_CLIP)
-        /// ---------------------------------------------
-        error = m_audioManager.PlayOneShotAttachedToGameObject(m_audioSourceName, expectedGameObject);
-        Assert.AreNotEqual(AudioError.OK, error);
-        Assert.AreEqual(AudioError.MISSING_CLIP, error);
-
-        /// ---------------------------------------------
-        /// Valid case (AudioError.CAN_NOT_BE_3D)
-        /// ---------------------------------------------
-        m_source.clip = m_clip;
-        error = m_audioManager.PlayOneShotAttachedToGameObject(m_audioSourceName, expectedGameObject);
-        Assert.AreNotEqual(AudioError.OK, error);
-        Assert.AreEqual(AudioError.CAN_NOT_BE_3D, error);
-
-        /// ---------------------------------------------
-        /// Invalid case (AudioError.MISSING_PARENT)
-        /// ---------------------------------------------
-        m_source.spatialBlend = expectedSpatialBlend;
-        error = m_audioManager.PlayOneShotAttachedToGameObject(m_audioSourceName, expectedGameObject);
-        Assert.AreNotEqual(AudioError.OK, error);
-        Assert.AreEqual(AudioError.INVALID_PARENT, error);
-
-        /// ---------------------------------------------
-        /// Valid case (AudioError.OK)
-        /// ---------------------------------------------
-        expectedGameObject = m_gameObject;
-        m_audioManager = new DefaultAudioManager(m_sounds, m_gameObject);
-        error = m_audioManager.PlayOneShotAttachedToGameObject(m_audioSourceName, expectedGameObject);
-        Assert.AreEqual(AudioError.OK, error);
-
-        error = m_audioManager.PlayOneShotAttachedToGameObject(m_audioSourceName, expectedGameObject);
-        Assert.AreEqual(AudioError.OK, error);
-
-        expectedGameObject = new GameObject();
-        error = m_audioManager.PlayOneShotAttachedToGameObject(m_audioSourceName, expectedGameObject);
-        Assert.AreEqual(AudioError.OK, error);
-
-        error = m_audioManager.PlayAttachedToGameObject(m_audioSourceName, expectedGameObject);
-        Assert.AreEqual(AudioError.OK, error);
+        Assert.IsTrue(m_wrapper.TryGetRegisteredChild(ChildType.ATTCHD_TO_GO, out AudioSource childSource));
+        Assert.IsNotNull(childSource);
     }
 
     [Test]
@@ -798,10 +647,10 @@ public class TestDefaultAudioManager {
 
     [Test]
     public void TestStop() {
-        // Start playing the given clip. So we can test if it was actually stop.
-        ChildType child = ChildType.PLAY_AT_3D_POS;
+        ChildType child = ChildType.AT_3D_POS;
         m_source.clip = m_clip;
-        AudioError error = m_audioManager.Play(m_initalizedAudioSourceName);
+        // Start playing the given clip. So we can test if it was actually stop.
+        AudioError error = m_audioManager.Play(m_initalizedAudioSourceName, ChildType.PARENT);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_initalizedSource.isPlaying);
 
@@ -837,19 +686,7 @@ public class TestDefaultAudioManager {
         // we therefore can not test if the actual Stop() method stopped the AudioSource or not.
 
         /// ---------------------------------------------
-        /// Valid case (AudioError.MISSING_CHILDREN)
-        /// ---------------------------------------------
-        error = m_audioManager.Stop(m_initalizedAudioSourceName, child);
-        Assert.AreNotEqual(AudioError.OK, error);
-        Assert.AreEqual(AudioError.MISSING_CHILDREN, error);
-        Assert.IsTrue(m_initalizedSource.isPlaying);
-
-        m_audioManager = new DefaultAudioManager(m_sounds, m_gameObject);
-        error = m_audioManager.PlayOneShotAt3DPosition(m_initalizedAudioSourceName, Vector3.zero);
-        Assert.AreEqual(AudioError.OK, error);
-
-        /// ---------------------------------------------
-        /// Valid case (AudioError.INVALID_CHILD)
+        /// Invalid case (AudioError.INVALID_CHILD)
         /// ---------------------------------------------
         error = m_audioManager.Stop(m_initalizedAudioSourceName, child);
         Assert.AreNotEqual(AudioError.OK, error);
@@ -913,11 +750,11 @@ public class TestDefaultAudioManager {
 
     [Test]
     public void TestTogglePause() {
-        ChildType child = ChildType.PLAY_AT_3D_POS;
+        ChildType child = ChildType.AT_3D_POS;
 
         // Start playing the given clip. So we can test if it was actually paused.
         m_source.clip = m_clip;
-        AudioError error = m_audioManager.Play(m_initalizedAudioSourceName);
+        AudioError error = m_audioManager.Play(m_initalizedAudioSourceName, ChildType.PARENT);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_initalizedSource.isPlaying);
 
@@ -953,19 +790,7 @@ public class TestDefaultAudioManager {
         // we therefore can not test if the actual TogglePause() method paused the AudioSource or not.
 
         /// ---------------------------------------------
-        /// Valid case (AudioError.MISSING_CHILDREN)
-        /// ---------------------------------------------
-        error = m_audioManager.TogglePause(m_initalizedAudioSourceName, child);
-        Assert.AreNotEqual(AudioError.OK, error);
-        Assert.AreEqual(AudioError.MISSING_CHILDREN, error);
-        Assert.IsTrue(m_initalizedSource.isPlaying);
-
-        m_audioManager = new DefaultAudioManager(m_sounds, m_gameObject);
-        error = m_audioManager.PlayOneShotAt3DPosition(m_initalizedAudioSourceName, Vector3.zero);
-        Assert.AreEqual(AudioError.OK, error);
-
-        /// ---------------------------------------------
-        /// Valid case (AudioError.INVALID_CHILD)
+        /// Invalid case (AudioError.INVALID_CHILD)
         /// ---------------------------------------------
         error = m_audioManager.TogglePause(m_initalizedAudioSourceName, child);
         Assert.AreNotEqual(AudioError.OK, error);
@@ -988,7 +813,7 @@ public class TestDefaultAudioManager {
     public void TestSubscribeSourceChanged() {
         int calledCount = 0;
         int calledCallback = 0;
-        SourceChangedCallback changedCallback = (AudioSource s) => {
+        SourceChangedCallback changedCallback = (s) => {
             calledCallback++;
             Assert.IsNotNull(s);
         };
@@ -1048,7 +873,7 @@ public class TestDefaultAudioManager {
         Assert.AreEqual(calledCount, calledCallback);
 
         m_source.spatialBlend = 1f;
-        error = m_audioManager.PlayAttachedToGameObject(m_audioSourceName, m_gameObject);
+        error = m_audioManager.RegisterChildAttachedToGo(m_audioSourceName, m_gameObject);
         Assert.AreEqual(AudioError.OK, error);
         Assert.AreEqual(calledCount++, calledCallback);
         m_wrapper.Mute = !m_wrapper.Mute;
@@ -1059,7 +884,7 @@ public class TestDefaultAudioManager {
     public void TestUnsubscribeSourceChanged() {
         int calledCount = 0;
         int calledCallbackCount = 0;
-        SourceChangedCallback changedCallback = (AudioSource s) => {
+        SourceChangedCallback changedCallback = (s) => {
             calledCallbackCount++;
             Assert.IsNotNull(s);
         };
@@ -1129,25 +954,25 @@ public class TestDefaultAudioManager {
         int calledImdtCallbackCount = 0;
         int calledInvalidCallback = 0;
         ChildType calledChild = ChildType.PARENT;
-        ProgressCoroutineCallback unsubCallback = (string n, float p, ChildType c) => {
+        ProgressCoroutineCallback unsubCallback = (n, p, c) => {
             calledUnsubCallbackCount++;
             calledChild = c;
             Assert.AreEqual(progress, p);
             return ProgressResponse.UNSUB;
         };
-        ProgressCoroutineCallback resubLoopCallback = (string n, float p, ChildType c) => {
+        ProgressCoroutineCallback resubLoopCallback = (n, p, c) => {
             calledLoopCallbackCount++;
             calledChild = c;
             Assert.AreEqual(progress, p);
             return ProgressResponse.RESUB_IN_LOOP;
         };
-        ProgressCoroutineCallback resubImdtCallback = (string n, float p, ChildType c) => {
+        ProgressCoroutineCallback resubImdtCallback = (n, p, c) => {
             calledImdtCallbackCount++;
             calledChild = c;
             Assert.AreEqual(progress, p);
             return ProgressResponse.RESUB_IMMEDIATE;
         };
-        ProgressCoroutineCallback resubInvalidCallback = (string n, float p, ChildType c) => {
+        ProgressCoroutineCallback resubInvalidCallback = (n, p, c) => {
             calledInvalidCallback++;
             calledChild = c;
             Assert.AreEqual(progress, p);
@@ -1220,7 +1045,7 @@ public class TestDefaultAudioManager {
         Assert.AreEqual(calledCount++, calledUnsubCallbackCount);
 
         // Start playing the given clip. So we can test if subscribing was successfull.
-        error = m_audioManager.Play(m_audioSourceName);
+        error = m_audioManager.Play(m_audioSourceName, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_source.isPlaying);
 
@@ -1233,7 +1058,7 @@ public class TestDefaultAudioManager {
         error = m_audioManager.SubscribeProgressCoroutine(m_audioSourceName, progress, resubInvalidCallback);
         Assert.AreEqual(AudioError.OK, error);
         // Start playing the given clip. So we can test if subscribing was successfull.
-        error = m_audioManager.Play(m_audioSourceName);
+        error = m_audioManager.Play(m_audioSourceName, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_source.isPlaying);
         yield return new WaitForSeconds(m_clip.length * Constants.MIN_PROGRESS);
@@ -1242,7 +1067,7 @@ public class TestDefaultAudioManager {
         error = m_audioManager.SubscribeProgressCoroutine(m_audioSourceName, progress, resubImdtCallback);
         Assert.AreEqual(AudioError.OK, error);
         // Start playing the given clip. So we can test if subscribing was successfull.
-        error = m_audioManager.Play(m_audioSourceName);
+        error = m_audioManager.Play(m_audioSourceName, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_source.isPlaying);
         yield return new WaitForSeconds(m_clip.length * Constants.MIN_PROGRESS);
@@ -1256,7 +1081,7 @@ public class TestDefaultAudioManager {
         error = m_audioManager.SubscribeProgressCoroutine(m_audioSourceName, progress, resubLoopCallback);
         Assert.AreEqual(AudioError.OK, error);
         // Start playing the given clip. So we can test if subscribing was successfull.
-        error = m_audioManager.Play(m_audioSourceName);
+        error = m_audioManager.Play(m_audioSourceName, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_source.isPlaying);
         Assert.AreEqual(0, calledLoopCallbackCount);
@@ -1265,11 +1090,13 @@ public class TestDefaultAudioManager {
         yield return new WaitForSeconds(m_clip.length + (m_clip.length * Constants.MIN_PROGRESS));
         Assert.AreEqual(2, calledLoopCallbackCount);
 
-        child = ChildType.PLAY_AT_3D_POS;
+        child = ChildType.AT_3D_POS;
         error = m_audioManager.SubscribeProgressCoroutine(m_initalizedAudioSourceName, progress, unsubCallback);
         Assert.AreEqual(AudioError.OK, error);
+        error = m_audioManager.RegisterChildAt3DPos(m_initalizedAudioSourceName, Vector3.zero);
+        Assert.AreEqual(AudioError.OK, error);
         // Start playing the given clip. So we can test if subscribing was successfull.
-        error = m_audioManager.PlayAt3DPosition(m_initalizedAudioSourceName, Vector3.zero);
+        error = m_audioManager.Play(m_initalizedAudioSourceName, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.AreEqual(calledCount++, calledUnsubCallbackCount);
         yield return new WaitForSeconds(m_clip.length * Constants.MIN_PROGRESS);
@@ -1282,11 +1109,13 @@ public class TestDefaultAudioManager {
         error = m_audioManager.Stop(m_initalizedAudioSourceName, child);
         Assert.AreEqual(AudioError.OK, error);
 
-        child = ChildType.PLAY_OS_AT_3D_POS;
+        child = ChildType.ATTCHD_TO_GO;
         error = m_audioManager.SubscribeProgressCoroutine(m_initalizedAudioSourceName, progress, unsubCallback);
         Assert.AreEqual(AudioError.OK, error);
+        error = m_audioManager.RegisterChildAttachedToGo(m_initalizedAudioSourceName, m_gameObject);
+        Assert.AreEqual(AudioError.OK, error);
         // Start playing the given clip. So we can test if subscribing was successfull.
-        error = m_audioManager.PlayOneShotAt3DPosition(m_initalizedAudioSourceName, Vector3.zero);
+        error = m_audioManager.Play(m_initalizedAudioSourceName, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.AreEqual(calledCount++, calledUnsubCallbackCount);
         yield return new WaitForSeconds(m_clip.length * Constants.MIN_PROGRESS);
@@ -1299,47 +1128,18 @@ public class TestDefaultAudioManager {
         error = m_audioManager.Stop(m_initalizedAudioSourceName, child);
         Assert.AreEqual(AudioError.OK, error);
 
-        child = ChildType.PLAY_ATTCHD_TO_GO;
+        child = ChildType.ATTCHD_TO_GO;
         error = m_audioManager.SubscribeProgressCoroutine(m_initalizedAudioSourceName, progress, unsubCallback);
         Assert.AreEqual(AudioError.OK, error);
-        // Start playing the given clip. So we can test if subscribing was successfull.
-        error = m_audioManager.PlayAttachedToGameObject(m_initalizedAudioSourceName, m_gameObject);
-        Assert.AreEqual(AudioError.OK, error);
-        Assert.AreEqual(calledCount++, calledUnsubCallbackCount);
-        yield return new WaitForSeconds(m_clip.length * Constants.MIN_PROGRESS);
-        Assert.AreEqual(calledCount, calledUnsubCallbackCount);
-        Assert.AreEqual(child, calledChild);
-
-        // Unsubscribe callback to ensure the other callback can be subscribed successfully.
-        m_audioManager.UnsubscribeProgressCoroutine(m_initalizedAudioSourceName, progress);
-        // Stop playing the given clip. So we can actually detect the next clip.
-        error = m_audioManager.Stop(m_initalizedAudioSourceName, child);
-        Assert.AreEqual(AudioError.OK, error);
-
-        child = ChildType.PLAY_OS_ATTCHD_TO_GO;
-        error = m_audioManager.SubscribeProgressCoroutine(m_initalizedAudioSourceName, progress, unsubCallback);
+        error = m_audioManager.RegisterChildAttachedToGo(m_initalizedAudioSourceName, m_gameObject);
         Assert.AreEqual(AudioError.OK, error);
         // Start playing the given clip. So we can test if subscribing was successfull.
-        error = m_audioManager.PlayOneShotAttachedToGameObject(m_initalizedAudioSourceName, m_gameObject);
+        error = m_audioManager.Play(m_initalizedAudioSourceName, child);
         Assert.AreEqual(AudioError.OK, error);
-        Assert.AreEqual(calledCount++, calledUnsubCallbackCount);
-        yield return new WaitForSeconds(m_clip.length * Constants.MIN_PROGRESS);
-        Assert.AreEqual(calledCount, calledUnsubCallbackCount);
-        Assert.AreEqual(child, calledChild);
-
-        // Unsubscribe callback to ensure the other callback can be subscribed successfully.
-        m_audioManager.UnsubscribeProgressCoroutine(m_initalizedAudioSourceName, progress);
-        // Stop playing the given clip. So we can actually detect the next clip.
-        error = m_audioManager.Stop(m_initalizedAudioSourceName, child);
-        Assert.AreEqual(AudioError.OK, error);
-
-        child = ChildType.PLAY_ATTCHD_TO_GO;
-        error = m_audioManager.SubscribeProgressCoroutine(m_initalizedAudioSourceName, progress, unsubCallback);
+        error = m_audioManager.RegisterChildAt3DPos(m_initalizedAudioSourceName, Vector3.zero);
         Assert.AreEqual(AudioError.OK, error);
         // Start playing the given clip. So we can test if subscribing was successfull.
-        error = m_audioManager.PlayAttachedToGameObject(m_initalizedAudioSourceName, m_gameObject);
-        Assert.AreEqual(AudioError.OK, error);
-        error = m_audioManager.PlayOneShotAttachedToGameObject(m_initalizedAudioSourceName, m_gameObject);
+        error = m_audioManager.Play(m_initalizedAudioSourceName, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.AreEqual(calledCount++, calledUnsubCallbackCount);
         yield return new WaitForSeconds(m_clip.length * Constants.MIN_PROGRESS);
@@ -1351,7 +1151,7 @@ public class TestDefaultAudioManager {
     public IEnumerator TestUnsubscribeProgressCoroutine() {
         float progress = 1f;
         bool calledCallback = false;
-        ProgressCoroutineCallback unsub_callback = (string n, float p, ChildType c) => {
+        ProgressCoroutineCallback unsubCallback = (n, p, c) => {
             calledCallback = true;
             Assert.AreEqual(progress, p);
             return ProgressResponse.UNSUB;
@@ -1419,14 +1219,14 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Valid case (AudioError.OK)
         /// ---------------------------------------------
-        error = m_audioManager.SubscribeProgressCoroutine(m_audioSourceName, progress, unsub_callback);
+        error = m_audioManager.SubscribeProgressCoroutine(m_audioSourceName, progress, unsubCallback);
         Assert.AreEqual(AudioError.OK, error);
 
         error = m_audioManager.UnsubscribeProgressCoroutine(m_audioSourceName, progress);
         Assert.AreEqual(AudioError.OK, error);
 
         // Start playing the given clip. So we can test if subscribing then unsubscribing was successfull.
-        error = m_audioManager.Play(m_audioSourceName);
+        error = m_audioManager.Play(m_audioSourceName, ChildType.PARENT);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_source.isPlaying);
 
@@ -1436,7 +1236,7 @@ public class TestDefaultAudioManager {
 
     [UnityTest]
     public IEnumerator TestGetProgress() {
-        ChildType child = ChildType.PLAY_AT_3D_POS;
+        ChildType child = ChildType.AT_3D_POS;
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.DOES_NOT_EXIST)
@@ -1475,26 +1275,13 @@ public class TestDefaultAudioManager {
         Assert.AreNotEqual(m_source.time / m_clip.length, progress);
 
         // Start playing the given clip. So we can test if getting the progress was successfull.
-        error = m_audioManager.Play(m_initalizedAudioSourceName);
+        error = m_audioManager.Play(m_initalizedAudioSourceName, ChildType.PARENT);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_initalizedSource.isPlaying);
         yield return new WaitForSeconds(m_clipStartTime);
 
         /// ---------------------------------------------
-        /// Valid case (AudioError.MISSING_CHILDREN)
-        /// ---------------------------------------------
-        error = m_audioManager.GetProgress(m_initalizedAudioSourceName, out progress, child);
-        Assert.AreNotEqual(AudioError.OK, error);
-        Assert.AreEqual(AudioError.MISSING_CHILDREN, error);
-        Assert.IsNaN(progress);
-        Assert.AreNotEqual(m_initalizedSource.time / m_clip.length, progress);
-
-        m_audioManager = new DefaultAudioManager(m_sounds, m_gameObject);
-        error = m_audioManager.PlayOneShotAt3DPosition(m_initalizedAudioSourceName, Vector3.zero);
-        Assert.AreEqual(AudioError.OK, error);
-
-        /// ---------------------------------------------
-        /// Valid case (AudioError.INVALID_CHILD)
+        /// Invalid case (AudioError.INVALID_CHILD)
         /// ---------------------------------------------
         error = m_audioManager.GetProgress(m_initalizedAudioSourceName, out progress, child);
         Assert.AreNotEqual(AudioError.OK, error);
@@ -1556,16 +1343,15 @@ public class TestDefaultAudioManager {
 
     [UnityTest]
     public IEnumerator TestLerpPitch() {
-        const int validGranularity = 5;
+        ChildType child = ChildType.AT_3D_POS;
         const float validEndValue = 0f;
-        const float waitTime = 0f;
+        const float duration = 0f;
         float endValue = 1f;
-        int granularity = 0;
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.DOES_NOT_EXIST)
         /// ---------------------------------------------
-        AudioError error = m_audioManager.LerpPitch(m_unregisteredAudioSourceName, endValue, waitTime, granularity);
+        AudioError error = m_audioManager.LerpPitch(m_unregisteredAudioSourceName, endValue, duration, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.DOES_NOT_EXIST, error);
         Assert.AreEqual(endValue, m_source.pitch);
@@ -1573,7 +1359,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_WRAPPER)
         /// ---------------------------------------------
-        error = m_audioManager.LerpPitch(m_nullAudioSourceWrapperName, endValue, waitTime, granularity);
+        error = m_audioManager.LerpPitch(m_nullAudioSourceWrapperName, endValue, duration, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_WRAPPER, error);
         Assert.AreEqual(endValue, m_source.pitch);
@@ -1581,7 +1367,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_SOURCE)
         /// ---------------------------------------------
-        error = m_audioManager.LerpPitch(m_nullAudioSourceName, endValue, waitTime, granularity);
+        error = m_audioManager.LerpPitch(m_nullAudioSourceName, endValue, duration, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_SOURCE, error);
         Assert.AreEqual(endValue, m_source.pitch);
@@ -1589,7 +1375,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_CLIP)
         /// ---------------------------------------------
-        error = m_audioManager.LerpPitch(m_audioSourceName, endValue, waitTime, granularity);
+        error = m_audioManager.LerpPitch(m_audioSourceName, endValue, duration, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_CLIP, error);
         Assert.AreEqual(endValue, m_source.pitch);
@@ -1598,25 +1384,16 @@ public class TestDefaultAudioManager {
         /// Invalid case (AudioError.INVALID_END_VALUE)
         /// ---------------------------------------------
         m_source.clip = m_clip;
-        error = m_audioManager.LerpPitch(m_audioSourceName, endValue, waitTime, granularity);
+        error = m_audioManager.LerpPitch(m_audioSourceName, endValue, duration, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.INVALID_END_VALUE, error);
         Assert.AreEqual(endValue, m_source.pitch);
 
         /// ---------------------------------------------
-        /// Invalid case (AudioError.INVALID_GRANULARITY)
-        /// ---------------------------------------------
-        endValue = validEndValue;
-        error = m_audioManager.LerpPitch(m_audioSourceName, endValue, waitTime, granularity);
-        Assert.AreNotEqual(AudioError.OK, error);
-        Assert.AreEqual(AudioError.INVALID_GRANULARITY, error);
-        Assert.AreNotEqual(endValue, m_source.pitch);
-
-        /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_PARENT)
         /// ---------------------------------------------
-        granularity = validGranularity;
-        error = m_audioManager.LerpPitch(m_audioSourceName, endValue, waitTime, granularity);
+        endValue = validEndValue;
+        error = m_audioManager.LerpPitch(m_audioSourceName, endValue, duration, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_PARENT, error);
         Assert.AreNotEqual(endValue, m_source.pitch);
@@ -1625,26 +1402,25 @@ public class TestDefaultAudioManager {
         /// Valid case (AudioError.OK)
         /// ---------------------------------------------
         m_audioManager = new DefaultAudioManager(m_sounds, m_gameObject);
-        error = m_audioManager.LerpPitch(m_audioSourceName, endValue, waitTime, granularity);
+        error = m_audioManager.LerpPitch(m_audioSourceName, endValue, duration, child);
         Assert.AreEqual(AudioError.OK, error);
         // Wait a little bit more than the actual time,
-        // to ensure the endValue has enough time to achieve it's value and get rounded as well.
-        yield return new WaitForSeconds(waitTime + 0.05f);
+        // to ensure the endValue has enough time to achieve its value.
+        yield return new WaitForSeconds(duration + 0.05f);
         Assert.AreEqual(endValue, m_source.pitch);
     }
 
     [UnityTest]
     public IEnumerator TestLerpVolume() {
-        const int validGranularity = 5;
+        ChildType child = ChildType.AT_3D_POS;
         const float validEndValue = 0f;
-        const float waitTime = 0f;
+        const float duration = 0f;
         float endValue = 1f;
-        int granularity = 0;
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.DOES_NOT_EXIST)
         /// ---------------------------------------------
-        AudioError error = m_audioManager.LerpVolume(m_unregisteredAudioSourceName, endValue, waitTime, granularity);
+        AudioError error = m_audioManager.LerpVolume(m_unregisteredAudioSourceName, endValue, duration, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.DOES_NOT_EXIST, error);
         Assert.AreEqual(endValue, m_source.volume);
@@ -1652,7 +1428,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_WRAPPER)
         /// ---------------------------------------------
-        error = m_audioManager.LerpVolume(m_nullAudioSourceWrapperName, endValue, waitTime, granularity);
+        error = m_audioManager.LerpVolume(m_nullAudioSourceWrapperName, endValue, duration, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_WRAPPER, error);
         Assert.AreEqual(endValue, m_source.volume);
@@ -1660,7 +1436,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_SOURCE)
         /// ---------------------------------------------
-        error = m_audioManager.LerpVolume(m_nullAudioSourceName, endValue, waitTime, granularity);
+        error = m_audioManager.LerpVolume(m_nullAudioSourceName, endValue, duration, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_SOURCE, error);
         Assert.AreEqual(endValue, m_source.volume);
@@ -1668,7 +1444,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_CLIP)
         /// ---------------------------------------------
-        error = m_audioManager.LerpVolume(m_audioSourceName, endValue, waitTime, granularity);
+        error = m_audioManager.LerpVolume(m_audioSourceName, endValue, duration, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_CLIP, error);
         Assert.AreEqual(endValue, m_source.volume);
@@ -1677,25 +1453,16 @@ public class TestDefaultAudioManager {
         /// Invalid case (AudioError.INVALID_END_VALUE)
         /// ---------------------------------------------
         m_source.clip = m_clip;
-        error = m_audioManager.LerpVolume(m_audioSourceName, endValue, waitTime, granularity);
+        error = m_audioManager.LerpVolume(m_audioSourceName, endValue, duration, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.INVALID_END_VALUE, error);
         Assert.AreEqual(endValue, m_source.volume);
 
         /// ---------------------------------------------
-        /// Invalid case (AudioError.INVALID_GRANULARITY)
-        /// ---------------------------------------------
-        endValue = validEndValue;
-        error = m_audioManager.LerpVolume(m_audioSourceName, endValue, waitTime, granularity);
-        Assert.AreNotEqual(AudioError.OK, error);
-        Assert.AreEqual(AudioError.INVALID_GRANULARITY, error);
-        Assert.AreNotEqual(endValue, m_source.volume);
-
-        /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_PARENT)
         /// ---------------------------------------------
-        granularity = validGranularity;
-        error = m_audioManager.LerpVolume(m_audioSourceName, endValue, waitTime, granularity);
+        endValue = validEndValue;
+        error = m_audioManager.LerpVolume(m_audioSourceName, endValue, duration, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_PARENT, error);
         Assert.AreNotEqual(endValue, m_source.volume);
@@ -1704,11 +1471,11 @@ public class TestDefaultAudioManager {
         /// Valid case (AudioError.OK)
         /// ---------------------------------------------
         m_audioManager = new DefaultAudioManager(m_sounds, m_gameObject);
-        error = m_audioManager.LerpVolume(m_audioSourceName, endValue, waitTime, granularity);
+        error = m_audioManager.LerpVolume(m_audioSourceName, endValue, duration, child);
         Assert.AreEqual(AudioError.OK, error);
         // Wait a little bit more than the actual time,
-        // to ensure the endValue has enough time to achieve it's value and get rounded as well.
-        yield return new WaitForSeconds(waitTime + 0.05f);
+        // to ensure the endValue has enough time to achieve its value.
+        yield return new WaitForSeconds(duration + 0.05f);
         Assert.AreEqual(endValue, m_source.volume);
     }
 
@@ -1927,10 +1694,8 @@ public class TestDefaultAudioManager {
 
     [UnityTest]
     public IEnumerator TestLerpGroupValue() {
-        const int validGranularity = 5;
         const float validEndValue = 0.5f;
-        const float waitTime = 0f;
-        int granularity = 0;
+        const float duration = 0f;
 
         // Get group value, to ensure we get an invalid end value before changing it.
         string parameterName = m_parameterName;
@@ -1940,28 +1705,28 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.DOES_NOT_EXIST)
         /// ---------------------------------------------
-        AudioError error = m_audioManager.LerpGroupValue(m_unregisteredAudioSourceName, parameterName, endValue, waitTime, granularity);
+        AudioError error = m_audioManager.LerpGroupValue(m_unregisteredAudioSourceName, parameterName, endValue, duration);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.DOES_NOT_EXIST, error);
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_WRAPPER)
         /// ---------------------------------------------
-        error = m_audioManager.LerpGroupValue(m_nullAudioSourceWrapperName, parameterName, endValue, waitTime, granularity);
+        error = m_audioManager.LerpGroupValue(m_nullAudioSourceWrapperName, parameterName, endValue, duration);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_WRAPPER, error);
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_SOURCE)
         /// ---------------------------------------------
-        error = m_audioManager.LerpGroupValue(m_nullAudioSourceName, parameterName, endValue, waitTime, granularity);
+        error = m_audioManager.LerpGroupValue(m_nullAudioSourceName, parameterName, endValue, duration);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_SOURCE, error);
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_CLIP)
         /// ---------------------------------------------
-        error = m_audioManager.LerpGroupValue(m_audioSourceName, parameterName, endValue, waitTime, granularity);
+        error = m_audioManager.LerpGroupValue(m_audioSourceName, parameterName, endValue, duration);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_CLIP, error);
 
@@ -1969,7 +1734,7 @@ public class TestDefaultAudioManager {
         /// Invalid case (AudioError.MISSING_MIXER_GROUP)
         /// ---------------------------------------------
         m_source.clip = m_clip;
-        error = m_audioManager.LerpGroupValue(m_audioSourceName, parameterName, endValue, waitTime, granularity);
+        error = m_audioManager.LerpGroupValue(m_audioSourceName, parameterName, endValue, duration);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_MIXER_GROUP, error);
 
@@ -1977,7 +1742,7 @@ public class TestDefaultAudioManager {
         /// Invalid case (AudioError.MISSING_PARENT)
         /// ---------------------------------------------
         m_source.outputAudioMixerGroup = m_mixerGroup;
-        error = m_audioManager.LerpGroupValue(m_audioSourceName, parameterName, endValue, waitTime, granularity);
+        error = m_audioManager.LerpGroupValue(m_audioSourceName, parameterName, endValue, duration);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_PARENT, error);
 
@@ -1985,7 +1750,7 @@ public class TestDefaultAudioManager {
         /// Invalid case (AudioError.MIXER_NOT_EXPOSED)
         /// ---------------------------------------------
         m_audioManager = new DefaultAudioManager(m_sounds, m_gameObject);
-        error = m_audioManager.LerpGroupValue(m_audioSourceName, parameterName, endValue, waitTime, granularity);
+        error = m_audioManager.LerpGroupValue(m_audioSourceName, parameterName, endValue, duration);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MIXER_NOT_EXPOSED, error);
 
@@ -1993,27 +1758,19 @@ public class TestDefaultAudioManager {
         /// Invalid case (AudioError.INVALID_END_VALUE)
         /// ---------------------------------------------
         parameterName = m_parameterName;
-        error = m_audioManager.LerpGroupValue(m_audioSourceName, parameterName, endValue, waitTime, granularity);
+        error = m_audioManager.LerpGroupValue(m_audioSourceName, parameterName, endValue, duration);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.INVALID_END_VALUE, error);
 
         /// ---------------------------------------------
-        /// Invalid case (AudioError.INVALID_GRANULARITY)
-        /// ---------------------------------------------
-        endValue = validEndValue;
-        error = m_audioManager.LerpGroupValue(m_audioSourceName, parameterName, endValue, waitTime, granularity);
-        Assert.AreNotEqual(AudioError.OK, error);
-        Assert.AreEqual(AudioError.INVALID_GRANULARITY, error);
-
-        /// ---------------------------------------------
         /// Valid case (AudioError.OK)
         /// ---------------------------------------------
-        granularity = validGranularity;
-        error = m_audioManager.LerpGroupValue(m_audioSourceName, parameterName, endValue, waitTime, granularity);
+        endValue = validEndValue;
+        error = m_audioManager.LerpGroupValue(m_audioSourceName, parameterName, endValue, duration);
         Assert.AreEqual(AudioError.OK, error);
         // Wait a little bit more than the actual time,
-        // to ensure the endValue has enough time to achieve it's value and get rounded as well.
-        yield return new WaitForSeconds(waitTime + 0.05f);
+        // to ensure the endValue has enough time to achieve its value.
+        yield return new WaitForSeconds(duration + 0.05f);
         m_mixerGroup.audioMixer.GetFloat(parameterName, out float currentValue);
         Assert.AreEqual(endValue, currentValue);
     }
@@ -2183,7 +1940,6 @@ public class TestDefaultAudioManager {
 
     [Test]
     public void TestSetStartTime() {
-        const float maxDifferenceStartTime = 0.00002f;
         float startTime = m_clip.length * 2f;
 
         /// ---------------------------------------------
@@ -2234,14 +1990,13 @@ public class TestDefaultAudioManager {
         error = m_audioManager.SetStartTime(m_audioSourceName, startTime);
         Assert.AreEqual(AudioError.OK, error);
         // The clip needs to be played to have it's time actually assigned.
-        error = m_audioManager.Play(m_audioSourceName);
+        error = m_audioManager.Play(m_audioSourceName, ChildType.PARENT);
         Assert.AreEqual(AudioError.OK, error);
-        Assert.IsTrue(startTime - m_source.time <= maxDifferenceStartTime);
+        Assert.IsTrue(startTime - m_source.time <= m_maxDifference);
     }
 
     [Test]
     public void TestSkipTime() {
-        const float maxDifferenceStartTime = 0.00002f;
         float backwardStartTime = m_clip.length / 2f;
         float forwardStartTime = (m_clip.length * Constants.MAX_PROGRESS);
         float time = -1f;
@@ -2285,19 +2040,19 @@ public class TestDefaultAudioManager {
         error = m_audioManager.SkipTime(m_audioSourceName, time);
         Assert.AreEqual(AudioError.OK, error);
         // The clip needs to be played to have it's time actually assigned.
-        error = m_audioManager.Play(m_audioSourceName);
+        error = m_audioManager.Play(m_audioSourceName, ChildType.PARENT);
         Assert.AreEqual(AudioError.OK, error);
         Assert.AreEqual(0f, m_source.time);
 
         m_source.time = backwardStartTime;
         error = m_audioManager.SkipTime(m_audioSourceName, time);
         Assert.AreEqual(AudioError.OK, error);
-        Assert.IsTrue(m_source.time - (backwardStartTime + time) <= maxDifferenceStartTime);
+        Assert.IsTrue(m_source.time - (backwardStartTime + time) <= m_maxDifference);
 
         m_source.time = forwardStartTime;
         time *= -1;
         error = m_audioManager.SkipTime(m_audioSourceName, time);
         Assert.AreEqual(AudioError.OK, error);
-        Assert.IsTrue(m_source.time - (forwardStartTime + time) <= maxDifferenceStartTime);
+        Assert.IsTrue(m_source.time - (forwardStartTime + time) <= m_maxDifference);
     }
 }

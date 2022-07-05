@@ -35,11 +35,12 @@ namespace AudioManager.Core {
         public IEnumerable<string> GetEnumerator();
 
         /// <summary>
-        /// Plays the sound with the given name.
+        /// Plays the sound with the given name and the given <see cref="ChildType"/>.
         /// </summary>
         /// <param name="name">Name of the registered sound.</param>
+        /// <param name="child">Child that will be played.</param>
         /// <returns><see cref="AudioError"/>, showing wheter and how playing the sound failed.</returns>
-        public AudioError Play(string name);
+        public AudioError Play(string name, ChildType child = Constants.DEFAULT_CHILD_TYPE);
 
         /// <summary>
         /// Plays the sound with the given name starting at the given startTime in the sound.
@@ -67,38 +68,20 @@ namespace AudioManager.Core {
         public AudioError SetPlaybackDirection(string name, float pitch = Constants.DEFAULT_REVERSE_PITCH);
 
         /// <summary>
-        /// Plays the sound with the given name at a 3D position in space.
+        /// Registers a new child sound at a 3D position in space, so it can later be referenced via. the corresponding <see cref="ChildType"/> value.
         /// </summary>
         /// <param name="name">Name of the registered sound.</param>
-        /// <param name="position">Position we want to create an empty <see cref="GameObject"/> and play the given sound at.</param>
-        /// <returns><see cref="AudioError"/>, showing wheter and how playing the sound at the given position failed.</returns>
-        public AudioError PlayAt3DPosition(string name, Vector3 position);
+        /// <param name="position">Position we want to create an empty <see cref="GameObject"/> on.</param>
+        /// <returns><see cref="AudioError"/>, showing wheter and how registering the child sound at the given position failed.</returns>
+        public AudioError RegisterChildAt3DPos(string name, Vector3 position);
 
         /// <summary>
-        /// Plays the sound with the given name once at a 3D position in space.
-        /// Multiple instances of the same sound can be run at the same time with this method.
+        /// Registers a new child sound attached to the given <see cref="GameObject"/>, so it can later be referenced via. the corresponding <see cref="ChildType"/> value.
         /// </summary>
         /// <param name="name">Name of the registered sound.</param>
-        /// <param name="position">Position we want to create an empty <see cref="GameObject"/> and play the given sound at.</param>
-        /// <returns><see cref="AudioError"/>, showing wheter and how playing the sound at the given position once failed.</returns>
-        public AudioError PlayOneShotAt3DPosition(string name, Vector3 position);
-
-        /// <summary>
-        /// Plays the sound with the given name attached to a <see cref="GameObject"/>.
-        /// </summary>
-        /// <param name="name">Name of the registered sound.</param>
-        /// <param name="attachGameObject"><see cref="GameObject"/> we want to attach our sound too.</param>
-        /// <returns><see cref="AudioError"/>, showing wheter and how playing the sound attached to the given <see cref="GameObject"/> failed.</returns>
-        public AudioError PlayAttachedToGameObject(string name, GameObject attachGameObject);
-
-        /// <summary>
-        /// Plays the sound with the given name attached to a <see cref="GameObject"/>.
-        /// Multiple instances of the same sound can be run at the same time with this method.
-        /// </summary>
-        /// <param name="name">Name of the registered sound.</param>
-        /// <param name="attachGameObject"><see cref="GameObject"/> we want to attach our sound too.</param>
-        /// <returns><see cref="AudioError"/>, showing wheter and how playing the sound attached to the given <see cref="GameObject"/> once failed.</returns>
-        public AudioError PlayOneShotAttachedToGameObject(string name, GameObject attachGameObject);
+        /// <param name="attachGameObject"><see cref="GameObject"/> we want to attach our child sound too.</param>
+        /// <returns><see cref="AudioError"/>, showing wheter and how registering the child sound attached to the given <see cref="GameObject"/> failed.</returns>
+        public AudioError RegisterChildAttachedToGo(string name, GameObject attachGameObject);
 
         /// <summary>
         /// Plays the sound with the given name after the given delay time.
@@ -126,16 +109,26 @@ namespace AudioManager.Core {
         public AudioError ChangePitch(string name, float minPitch, float maxPitch);
 
         /// <summary>
-        /// Plays the sound with the given name after the given delay time.
-        /// Additionally buffer time is added to the waitTime to prepare the playback and fetch it from media.
+        /// Gets the clip length of the underlying <see cref="AudioClip"/> for the given sound and the given <see cref="ChildType"/>.
         /// </summary>
         /// <param name="name">Name of the registered sound.</param>
-        /// <param name="time">Delay until sound is played.</param>
+        /// <param name="time">Variable the clip length will be copied into (<see cref="float.NaN"/> on failure).</param>
+        /// <param name="child">Child that we want to get the clip length from.</param>
+        /// <returns><see cref="AudioError"/>, showing wheter and how getting the clip length of the sound failed.</returns>
+        public AudioError GetClipLength(string name, out double length, ChildType child = Constants.DEFAULT_CHILD_TYPE);
+
+        /// <summary>
+        /// Plays the sound with the given name at the exact given time in the future.
+        /// Uses the Audio System’s DSP Time in the background meaning it is much more accurate,
+        /// then <see cref="PlayDelayed"/>, <see cref="Time.time"/> and <see cref="WaitForSeconds"/>.
+        /// </summary>
+        /// <param name="name">Name of the registered sound.</param>
+        /// <param name="time">Time until the given sound will be played.</param>
         /// <returns><see cref="AudioError"/>, showing wheter and how playing the sound after the given amount of time failed.</returns>
         public AudioError PlayScheduled(string name, double time);
 
         /// <summary>
-        /// Stops the sound with the given name and the given child type (only used with 3d sounds, because they don't play on the original AudioSource, but on a copy instead).
+        /// Stops the sound with the given name and the given <see cref="ChildType"/>.
         /// </summary>
         /// <param name="name">Name of the registered sound.</param>
         /// <param name="child">Child that will be stopped.</param>
@@ -150,7 +143,7 @@ namespace AudioManager.Core {
         public AudioError ToggleMute(string name);
 
         /// <summary>
-        /// Pauses or Unpauses the sound with the given name and the given child type (only used with 3d sounds, because they don't play on the original AudioSource, but on a copy instead).
+        /// Pauses or Unpauses the sound with the given name and the given <see cref="ChildType"/>.
         /// </summary>
         /// <param name="name">Name of the registered sound.</param>
         /// <param name="child">Child that will be paused or unapuses.</param>
@@ -195,8 +188,7 @@ namespace AudioManager.Core {
         public AudioError UnsubscribeProgressCoroutine(string name, float progress);
 
         /// <summary>
-        /// Returns the progress (from 0 to 1 where 1 is fully completed) of the sound with the given name and the given child type
-        /// (only used with 3d sounds, because they don't play on the original AudioSource, but on a copy instead).
+        /// Returns the progress (from 0 to 1 where 1 is fully completed) of the sound with the given name and the given <see cref="ChildType"/>.
         /// </summary>
         /// <param name="name">Name of the registered sound.</param>
         /// <param name="progress">Variable the progress will be copied into (<see cref="float.NaN"/> on failure).</param>
@@ -213,27 +205,28 @@ namespace AudioManager.Core {
         public AudioError TryGetSource(string name, out AudioSourceWrapper source);
 
         /// <summary>
-        /// Changes the pitch of the sound with the given name over the given amount of time to the given endValue.
+        /// Changes the pitch of the sound with the given name and the given <see cref="ChildType"/>, over the given amount of time to the given endValue.
         /// </summary>
         /// <param name="name">Name of the registered sound.</param>
-        /// <param name="endValue">Value we wan't to have at the end.</param>
-        /// <param name="waitTime">Total time needed to reach the given endValue.</param>
-        /// <param name="granularity">Amount of steps that will be taken to decrease to the endValue (Setting to high is not advised).</param>
+        /// <param name="endValue">Value we want to have at the end.</param>
+        /// <param name="duration">Total time needed to reach the given endValue.</param>
+        /// <param name="child">Child that we want to lerp the value for.</param>
         /// <returns><see cref="AudioError"/>, showing wheter and how changing the pitch of the given sound failed.</returns>
-        public AudioError LerpPitch(string name, float endValue, float waitTime = Constants.DEFAULT_WAIT_TIME, int granularity = Constants.DEFAULT_GRANULARITY);
+        public AudioError LerpPitch(string name, float endValue, float duration = Constants.DEFAULT_DURATION, ChildType child = Constants.DEFAULT_CHILD_TYPE);
 
         /// <summary>
-        /// Changes the volume of the sound with the given name over the given amount of time to the given endValue.
+        /// Changes the volume of the sound with the given name and the given <see cref="ChildType"/>, over the given amount of time to the given endValue.
         /// </summary>
         /// <param name="name">Name of the registered sound.</param>
-        /// <param name="endValue">Value we wan't to have at the end.</param>
-        /// <param name="waitTime">Total time needed to reach the given endValue.</param>
-        /// <param name="granularity">Amount of steps that will be taken to decrease to the endValue (Setting to high is not advised).</param>
+        /// <param name="endValue">Value we want to have at the end.</param>
+        /// <param name="duration">Total time needed to reach the given endValue.</param>
+        /// <param name="child">Child that we want to lerp the value for.</param>
         /// <returns><see cref="AudioError"/>, showing wheter and how changing the volume of the given sound failed.</returns>
-        public AudioError LerpVolume(string name, float endValue, float waitTime = Constants.DEFAULT_WAIT_TIME, int granularity = Constants.DEFAULT_GRANULARITY);
+        public AudioError LerpVolume(string name, float endValue, float duration = Constants.DEFAULT_DURATION, ChildType child = Constants.DEFAULT_CHILD_TYPE);
 
         /// <summary>
         /// Changes the value of the given exposed parameter for the complete <see cref="AudioMixerGroup"/> of the given sound to the given newValue.
+        /// Be aware that some value like the volume of the <see cref="AudioMixerGroup"/> work on a logarithmic scale so to accurately change the value like expected use <see cref="Mathf.Log10()"/> on the value you pass.
         /// </summary>
         /// <param name="name">Name of the registered sound.</param>
         /// <param name="exposedParameterName">Name of the exposed parameter we want to change.</param>
@@ -260,14 +253,14 @@ namespace AudioManager.Core {
 
         /// <summary>
         /// Changes the value of the given exposed parameter for the complete <see cref="AudioMixerGroup"/> of the given sound over the given amount of time to the given endValue.
+        /// Additionaly produces a more smooth result than <see cref="LerpVolume"/> or <see cref="LerpPitch"/> because of additonaly smoothing applied by the AudioMixer.
         /// </summary>
         /// <param name="name">Name of the registered sound.</param>
         /// <param name="exposedParameterName">Name of the exposed parameter we want to change.</param>
-        /// <param name="endValue">Value we wan't to have at the end.</param>
-        /// <param name="waitTime">Total time needed to reach the given endValue.</param>
-        /// <param name="granularity">Amount of steps that will be taken to decrease to the endValue (Setting to high is not advised).</param>
+        /// <param name="endValue">Value we want to have at the end.</param>
+        /// <param name="duration">Total time needed to reach the given endValue.</param>
         /// <returns><see cref="AudioError"/>, showing wheter and how changing the given exposed parameter for the complete <see cref="AudioMixerGroup"/> of the given sound failed.</returns>
-        public AudioError LerpGroupValue(string name, string exposedParameterName, float endValue, float waitTime = Constants.DEFAULT_WAIT_TIME, int granularity = Constants.DEFAULT_GRANULARITY);
+        public AudioError LerpGroupValue(string name, string exposedParameterName, float endValue, float duration = Constants.DEFAULT_DURATION);
 
         /// <summary>
         /// Removes the <see cref="AudioMixerGroup"/> from the sound with the given name,

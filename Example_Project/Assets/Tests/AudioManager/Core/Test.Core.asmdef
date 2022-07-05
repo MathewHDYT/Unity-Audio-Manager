@@ -4,7 +4,8 @@
     "references": [
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner",
-        "AudioManager.Core"
+        "AudioManager.Core",
+        "AudioManager.Helper"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

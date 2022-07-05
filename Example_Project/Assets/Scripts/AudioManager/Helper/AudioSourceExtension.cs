@@ -17,8 +17,12 @@ namespace AudioManager.Helper {
             return (source.clip.length * Constants.MAX_PROGRESS);
         }
 
-        public static float GetStartOfClip(this AudioSource source) {
-            return (source.clip.length * Constants.MIN_PROGRESS);
+        public static void TogglePause(this AudioSource source) {
+            if (source.isPlaying) {
+                source.Pause();
+                return;
+            }
+            source.UnPause();
         }
 
         public static bool IsSameVolume(this AudioSource source, float volume) {
@@ -76,6 +80,10 @@ namespace AudioManager.Helper {
             return source.IsReversePitch() ? (source.clip.length + remainingTime) : remainingTime;
         }
 
+        public static double GetClipLength(this AudioSource source) {
+            return (double)source.clip.samples / source.clip.frequency;
+        }
+
         public static bool IsSound2D(this AudioSource source) {
             return AudioHelper.IsSound2D(source.spatialBlend);
         }
@@ -85,7 +93,7 @@ namespace AudioManager.Helper {
         }
 
         public static float GetProgress(this AudioSource source) {
-            return (float)source.timeSamples / (float)source.clip.samples;
+            return (float)source.timeSamples / source.clip.samples;
         }
 
         public static void CopyAudioSourceSettings(this AudioSource copyTo, AudioSource copyFrom) {

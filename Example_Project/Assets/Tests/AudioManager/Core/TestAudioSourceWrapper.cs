@@ -1,10 +1,12 @@
 using AudioManager.Core;
+using AudioManager.Helper;
 using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.Audio;
 
 public class TestAudioSourceWrapper {
     AudioSource m_source;
+    AudioSource m_groupSource;
     AudioMixerGroup m_mixerGroup;
     AudioSourceWrapper m_wrapper;
     AudioSourceWrapper m_initalizedWrapper;
@@ -13,8 +15,10 @@ public class TestAudioSourceWrapper {
     public void TestSetUp() {
         GameObject gameObject = new GameObject();
         m_source = gameObject.AddComponent<AudioSource>();
+        m_groupSource = gameObject.AddComponent<AudioSource>();
         AudioMixer mixer = Resources.Load<AudioMixer>("Mixer");
         m_mixerGroup = mixer ? mixer.FindMatchingGroups("Master")[0] : null;
+        m_groupSource.outputAudioMixerGroup = m_mixerGroup;
         m_wrapper = new AudioSourceWrapper(null);
         m_initalizedWrapper = new AudioSourceWrapper(m_source);
     }
@@ -23,9 +27,89 @@ public class TestAudioSourceWrapper {
     public void TestConstructor() {
         var wrapper = new AudioSourceWrapper(null);
         Assert.IsNull(wrapper.Source);
+        Assert.IsNull(wrapper.MixerGroup);
 
         wrapper = new AudioSourceWrapper(m_source);
         Assert.IsNotNull(wrapper.Source);
+        Assert.IsNull(wrapper.MixerGroup);
+
+        wrapper = new AudioSourceWrapper(m_groupSource);
+        Assert.IsNotNull(wrapper.Source);
+        Assert.IsNotNull(wrapper.Mixer);
+    }
+
+    [Test]
+    public void TestInvokeChild() {
+        int calledCount = 0;
+        int validcalledCallbackCount = 0;
+        int invalidCalledCallbackCount = 0;
+        ChildType child = ChildType.ALL;
+        InvokeCallback validCallback = (s) => {
+            validcalledCallbackCount++;
+            Assert.IsNotNull(s);
+        };
+        InvokeCallback invalidCallback = (s) => {
+            invalidCalledCallbackCount++;
+            Assert.IsNull(s);
+        };
+
+        // Register child to test ChildType.ALL.
+        m_wrapper.RegisterNewChild(ChildType.AT_3D_POS, null);
+        m_wrapper.RegisterNewChild(ChildType.ATTCHD_TO_GO, null);
+
+        Assert.AreEqual(calledCount, invalidCalledCallbackCount);
+        m_wrapper.InvokeChild(child, invalidCallback);
+        Assert.AreEqual(calledCount += 3, invalidCalledCallbackCount);
+
+        Assert.AreEqual(calledCount++, invalidCalledCallbackCount);
+        child = ChildType.PARENT;
+        m_wrapper.InvokeChild(child, invalidCallback);
+        Assert.AreEqual(calledCount, invalidCalledCallbackCount);
+
+        Assert.AreEqual(calledCount++, invalidCalledCallbackCount);
+        child = ChildType.AT_3D_POS;
+        m_wrapper.InvokeChild(child, invalidCallback);
+        Assert.AreEqual(calledCount, invalidCalledCallbackCount);
+
+        Assert.AreEqual(calledCount++, invalidCalledCallbackCount);
+        child = ChildType.ATTCHD_TO_GO;
+        m_wrapper.InvokeChild(child, invalidCallback);
+        Assert.AreEqual(calledCount, invalidCalledCallbackCount);
+
+        Assert.AreEqual(calledCount, invalidCalledCallbackCount);
+        child = (ChildType)(-1);
+        m_wrapper.InvokeChild(child, invalidCallback);
+        Assert.AreEqual(calledCount, invalidCalledCallbackCount);
+
+        calledCount = 0;
+        // Register child to test ChildType.ALL.
+        m_initalizedWrapper.RegisterNewChild(ChildType.AT_3D_POS, m_source);
+        m_initalizedWrapper.RegisterNewChild(ChildType.ATTCHD_TO_GO, m_source);
+
+        Assert.AreEqual(calledCount, validcalledCallbackCount);
+        child = ChildType.ALL;
+        m_initalizedWrapper.InvokeChild(child, validCallback);
+        Assert.AreEqual(calledCount += 3, validcalledCallbackCount);
+
+        Assert.AreEqual(calledCount++, validcalledCallbackCount);
+        child = ChildType.PARENT;
+        m_initalizedWrapper.InvokeChild(child, validCallback);
+        Assert.AreEqual(calledCount, validcalledCallbackCount);
+
+        Assert.AreEqual(calledCount++, validcalledCallbackCount);
+        child = ChildType.AT_3D_POS;
+        m_initalizedWrapper.InvokeChild(child, validCallback);
+        Assert.AreEqual(calledCount, validcalledCallbackCount);
+
+        Assert.AreEqual(calledCount++, validcalledCallbackCount);
+        child = ChildType.ATTCHD_TO_GO;
+        m_initalizedWrapper.InvokeChild(child, validCallback);
+        Assert.AreEqual(calledCount, validcalledCallbackCount);
+
+        Assert.AreEqual(calledCount, validcalledCallbackCount);
+        child = (ChildType)(-1);
+        m_initalizedWrapper.InvokeChild(child, validCallback);
+        Assert.AreEqual(calledCount, validcalledCallbackCount);
     }
 
     [Test]
