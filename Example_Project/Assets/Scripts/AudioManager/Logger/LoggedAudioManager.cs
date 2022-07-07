@@ -70,35 +70,35 @@ namespace AudioManager.Logger {
             return error;
         }
 
-        public AudioError PlayAtTimeStamp(string name, float startTime) {
+        public AudioError PlayAtTimeStamp(string name, float startTime, ChildType child) {
             const string enterLogBase = "Attempting to play the registered AudioSource entry at the given timeStamp";
             const string exitLogBase = "Playing registered AudioSource entry at the given timeStamp";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = ConvertToAudioError(m_wrappedInstance?.PlayAtTimeStamp(name, startTime));
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.PlayAtTimeStamp(name, startTime, child));
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
         }
 
-        public AudioError GetPlaybackPosition(string name, out float time) {
+        public AudioError GetPlaybackPosition(string name, out float time, ChildType child) {
             const string enterLogBase = "Attempting to read the playbackPosition of the registered AudioSource entry";
             const string exitLogBase = "Reading the playbackPosition of the given registered AudioSource entry";
 
             time = Constants.F_NULL_VALUE;
             OnMethodEnter(enterLogBase, name);
-            AudioError error = ConvertToAudioError(m_wrappedInstance?.GetPlaybackPosition(name, out time));
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.GetPlaybackPosition(name, out time, child));
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
         }
 
-        public AudioError SetPlaybackDirection(string name, float pitch) {
+        public AudioError SetPlaybackDirection(string name, float pitch, ChildType child) {
             const string enterLogBase = "Attempting to set the playback direction of the registered AudioSource entry";
             const string exitLogBase = "Setting playback direction of the given registered AudioSource entry";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = ConvertToAudioError(m_wrappedInstance?.SetPlaybackDirection(name, pitch));
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.SetPlaybackDirection(name, pitch, child));
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -126,34 +126,34 @@ namespace AudioManager.Logger {
             return error;
         }
 
-        public AudioError PlayDelayed(string name, float delay) {
+        public AudioError PlayDelayed(string name, float delay, ChildType child) {
             const string enterLogBase = "Attempting to play the registered AudioSource entry delayed";
             const string exitLogBase = "Starting to play the given registered AudioSource entry delayed";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = ConvertToAudioError(m_wrappedInstance?.PlayDelayed(name, delay));
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.PlayDelayed(name, delay, child));
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
         }
 
-        public AudioError PlayOneShot(string name) {
+        public AudioError PlayOneShot(string name, ChildType child) {
             const string enterLogBase = "Attempting to play the registered AudioSource entry once";
             const string exitLogBase = "Starting to play the given registered AudioSource entry once";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = ConvertToAudioError(m_wrappedInstance?.PlayOneShot(name));
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.PlayOneShot(name, child));
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
         }
 
-        public AudioError ChangePitch(string name, float minPitch, float maxPitch) {
+        public AudioError ChangePitch(string name, float minPitch, float maxPitch, ChildType child) {
             const string enterLogBase = "Attempting to randomly change pitch of the registered AudioSource entry";
             const string exitLogBase = "Randomly changing pitch of the given registered AudioSource entry to a random value between the given min and max values";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = ConvertToAudioError(m_wrappedInstance?.ChangePitch(name, minPitch, maxPitch));
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.ChangePitch(name, minPitch, maxPitch, child));
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -171,12 +171,12 @@ namespace AudioManager.Logger {
             return error;
         }
 
-        public AudioError PlayScheduled(string name, double time) {
+        public AudioError PlayScheduled(string name, double time, ChildType child) {
             const string enterLogBase = "Attempting to play the registered AudioSource entry scheduled";
             const string exitLogBase = "Starting to play the given registered AudioSource entry scheduled";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = ConvertToAudioError(m_wrappedInstance?.PlayScheduled(name, time));
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.PlayScheduled(name, time, child));
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -193,12 +193,12 @@ namespace AudioManager.Logger {
             return error;
         }
 
-        public AudioError ToggleMute(string name) {
+        public AudioError ToggleMute(string name, ChildType child) {
             const string enterLogBase = "Attempting to toggle mute the registered AudioSource entry";
             const string exitLogBase = "Toggling mute for the given registered AudioSource entry";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = ConvertToAudioError(m_wrappedInstance?.ToggleMute(name));
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.ToggleMute(name, child));
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -350,23 +350,23 @@ namespace AudioManager.Logger {
             return error;
         }
 
-        public AudioError RemoveGroup(string name) {
+        public AudioError RemoveGroup(string name, ChildType child) {
             const string enterLogBase = "Attempting to remove group from the registered AudioSource entry";
             const string exitLogBase = "Removing group from the registered AudioSource entry";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = ConvertToAudioError(m_wrappedInstance?.RemoveGroup(name));
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.RemoveGroup(name, child));
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
         }
 
-        public AudioError AddGroup(string name, AudioMixerGroup mixerGroup) {
+        public AudioError AddGroup(string name, AudioMixerGroup mixerGroup, ChildType child) {
             const string enterLogBase = "Attempting to add group to the registered AudioSource entry";
             const string exitLogBase = "Adding group to the registered AudioSource entry";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = ConvertToAudioError(m_wrappedInstance?.AddGroup(name, mixerGroup));
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.AddGroup(name, mixerGroup, child));
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
@@ -383,34 +383,34 @@ namespace AudioManager.Logger {
             return error;
         }
 
-        public AudioError Set3DAudioOptions(string name, float minDistance, float maxDistance, float spatialBlend, float spreadAngle, float dopplerLevel, AudioRolloffMode rolloffMode) {
+        public AudioError Set3DAudioOptions(string name, float minDistance, float maxDistance, ChildType child, float spatialBlend, float spreadAngle, float dopplerLevel, AudioRolloffMode rolloffMode) {
             const string enterLogBase = "Attempting to set 3D audio options of the registered AudioSource entry";
             const string exitLogBase = "Setting 3D audio options of the registered AudioSource entry";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = ConvertToAudioError(m_wrappedInstance?.Set3DAudioOptions(name, minDistance, maxDistance, spatialBlend, spreadAngle, dopplerLevel, rolloffMode));
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.Set3DAudioOptions(name, minDistance, maxDistance, child, spatialBlend, spreadAngle, dopplerLevel, rolloffMode));
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
         }
 
-        public AudioError SetStartTime(string name, float startTime) {
+        public AudioError SetStartTime(string name, float startTime, ChildType child) {
             const string enterLogBase = "Attempting to set start time of the registered AudioSource entry";
             const string exitLogBase = "Setting start time of the given registered AudioSource entry";
 
             OnMethodEnter(enterLogBase, name);
-            AudioError error = ConvertToAudioError(m_wrappedInstance?.SetStartTime(name, startTime));
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.SetStartTime(name, startTime, child));
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
         }
 
-        public AudioError SkipTime(string name, float time) {
+        public AudioError SkipTime(string name, float time, ChildType child) {
             const string enterLogBase = "Attempting to skip the registered AudioSource entries forward or backward";
             const string exitLogBase = "Skipping the given registered AudioSource entry forward or backward";
 
             OnMethodEnter(enterLogBase);
-            AudioError error = ConvertToAudioError(m_wrappedInstance?.SkipTime(name, time));
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.SkipTime(name, time, child));
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;

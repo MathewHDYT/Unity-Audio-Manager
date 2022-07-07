@@ -16,16 +16,16 @@ public class DummyAudioManager : IAudioManager {
         return AudioError.NOT_INITIALIZED;
     }
 
-    public AudioError PlayAtTimeStamp(string name, float startTime) {
+    public AudioError PlayAtTimeStamp(string name, float startTime, ChildType child) {
         return AudioError.NOT_INITIALIZED;
     }
 
-    public AudioError GetPlaybackPosition(string name, out float time) {
+    public AudioError GetPlaybackPosition(string name, out float time, ChildType child) {
         time = Constants.F_NULL_VALUE;
         return AudioError.NOT_INITIALIZED;
     }
 
-    public AudioError SetPlaybackDirection(string name, float pitch) {
+    public AudioError SetPlaybackDirection(string name, float pitch, ChildType child) {
         return AudioError.NOT_INITIALIZED;
     }
 
@@ -37,15 +37,15 @@ public class DummyAudioManager : IAudioManager {
         return AudioError.NOT_INITIALIZED;
     }
 
-    public AudioError PlayDelayed(string name, float delay) {
+    public AudioError PlayDelayed(string name, float delay, ChildType child) {
         return AudioError.NOT_INITIALIZED;
     }
 
-    public AudioError PlayOneShot(string name) {
+    public AudioError PlayOneShot(string name, ChildType child) {
         return AudioError.NOT_INITIALIZED;
     }
 
-    public AudioError ChangePitch(string name, float minPitch, float maxPitch) {
+    public AudioError ChangePitch(string name, float minPitch, float maxPitch, ChildType child) {
         return AudioError.NOT_INITIALIZED;
     }
 
@@ -54,7 +54,7 @@ public class DummyAudioManager : IAudioManager {
         return AudioError.NOT_INITIALIZED;
     }
 
-    public AudioError PlayScheduled(string name, double time) {
+    public AudioError PlayScheduled(string name, double time, ChildType child) {
         return AudioError.NOT_INITIALIZED;
     }
 
@@ -62,7 +62,7 @@ public class DummyAudioManager : IAudioManager {
         return AudioError.NOT_INITIALIZED;
     }
 
-    public AudioError ToggleMute(string name) {
+    public AudioError ToggleMute(string name, ChildType child) {
         return AudioError.NOT_INITIALIZED;
     }
 
@@ -121,11 +121,11 @@ public class DummyAudioManager : IAudioManager {
         return AudioError.NOT_INITIALIZED;
     }
 
-    public AudioError RemoveGroup(string name) {
+    public AudioError RemoveGroup(string name, ChildType child) {
         return AudioError.NOT_INITIALIZED;
     }
 
-    public AudioError AddGroup(string name, AudioMixerGroup mixerGroup) {
+    public AudioError AddGroup(string name, AudioMixerGroup mixerGroup, ChildType child) {
         return AudioError.NOT_INITIALIZED;
     }
 
@@ -133,15 +133,15 @@ public class DummyAudioManager : IAudioManager {
         return AudioError.NOT_INITIALIZED;
     }
 
-    public AudioError Set3DAudioOptions(string name, float minDistance, float maxDistance, float spatialBlend, float spread, float dopplerLevel, AudioRolloffMode rolloffMode) {
+    public AudioError Set3DAudioOptions(string name, float minDistance, float maxDistance, ChildType child, float spatialBlend, float spread, float dopplerLevel, AudioRolloffMode rolloffMode) {
         return AudioError.NOT_INITIALIZED;
     }
 
-    public AudioError SetStartTime(string name, float startTime) {
+    public AudioError SetStartTime(string name, float startTime, ChildType child) {
         return AudioError.NOT_INITIALIZED;
     }
 
-    public AudioError SkipTime(string name, float time) {
+    public AudioError SkipTime(string name, float time, ChildType child) {
         return AudioError.NOT_INITIALIZED;
     }
 }

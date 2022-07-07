@@ -65,7 +65,7 @@ namespace AudioManager.Service {
             return error;
         }
 
-        public AudioError PlayAtTimeStamp(string name, float startTime) {
+        public AudioError PlayAtTimeStamp(string name, float startTime, ChildType child) {
             AudioError error = TryGetSource(name, out var source);
 
             // Couldn't find source.
@@ -77,18 +77,18 @@ namespace AudioManager.Service {
                 return error;
             }
 
-            error = SetStartTime(name, startTime);
+            error = SetStartTime(name, startTime, child);
             if (error != AudioError.OK) {
                 return error;
             }
 
             float progress = source.Source.IsReversePitch() ? Constants.MAX_PROGRESS : Constants.MIN_PROGRESS;
             error = SubscribeProgressCoroutine(name, progress, ResetStartTime);
-            source.Source.Play();
+            error = Play(name, child);
             return error;
         }
 
-        public AudioError GetPlaybackPosition(string name, out float time) {
+        public AudioError GetPlaybackPosition(string name, out float time, ChildType child) {
             AudioError error = TryGetSource(name, out var source);
 
             // Couldn't find source.
@@ -97,11 +97,11 @@ namespace AudioManager.Service {
                 return error;
             }
 
-            time = source.Time;
+            error = source.InvokeChild(child, (s) => s.time, out time);
             return error;
         }
 
-        public AudioError SetPlaybackDirection(string name, float pitch) {
+        public AudioError SetPlaybackDirection(string name, float pitch, ChildType child) {
             AudioError error = TryGetSource(name, out var source);
 
             // Couldn't find source.
@@ -109,8 +109,10 @@ namespace AudioManager.Service {
                 return error;
             }
 
-            source.SetPitch(pitch);
-            source.SetTimeFromCurrentPitch();
+            error = source.InvokeChild(child, (s) => {
+                s.SetPitch(pitch);
+                s.SetTimeFromCurrentPitch();
+            });
             return error;
         }
 
@@ -154,7 +156,7 @@ namespace AudioManager.Service {
             return error;
         }
 
-        public AudioError PlayDelayed(string name, float delay) {
+        public AudioError PlayDelayed(string name, float delay, ChildType child) {
             AudioError error = TryGetSource(name, out var source);
 
             // Couldn't find source.
@@ -162,11 +164,11 @@ namespace AudioManager.Service {
                 return error;
             }
 
-            source.Source.PlayDelayed(delay);
+            error = source.InvokeChild(child, (s) => s.PlayDelayed(delay));
             return error;
         }
 
-        public AudioError PlayOneShot(string name) {
+        public AudioError PlayOneShot(string name, ChildType child) {
             AudioError error = TryGetSource(name, out var source);
 
             // Couldn't find source.
@@ -174,21 +176,13 @@ namespace AudioManager.Service {
                 return error;
             }
 
-            source.Source.PlayOneShot(source.Source.clip);
+            error = source.InvokeChild(child, (s) => s.PlayOneShot(s.clip));
             return error;
         }
 
-        public AudioError ChangePitch(string name, float minPitch, float maxPitch) {
-            AudioError error = TryGetSource(name, out var source);
-
-            // Couldn't find source.
-            if (error != AudioError.OK) {
-                return error;
-            }
-
+        public AudioError ChangePitch(string name, float minPitch, float maxPitch, ChildType child) {
             float pitch = Random.Range(minPitch, maxPitch);
-            error = SetPlaybackDirection(name, pitch);
-            return error;
+            return SetPlaybackDirection(name, pitch, child);
         }
 
         public AudioError GetClipLength(string name, out double length, ChildType child) {
@@ -204,7 +198,7 @@ namespace AudioManager.Service {
             return error;
         }
 
-        public AudioError PlayScheduled(string name, double time) {
+        public AudioError PlayScheduled(string name, double time, ChildType child) {
             AudioError error = TryGetSource(name, out var source);
 
             // Couldn't find source.
@@ -213,7 +207,7 @@ namespace AudioManager.Service {
             }
 
             time += AudioSettings.dspTime;
-            source.Source.PlayScheduled(time);
+            error = source.InvokeChild(child, (s) => s.PlayScheduled(time));
             return error;
         }
 
@@ -229,7 +223,7 @@ namespace AudioManager.Service {
             return error;
         }
 
-        public AudioError ToggleMute(string name) {
+        public AudioError ToggleMute(string name, ChildType child) {
             AudioError error = TryGetSource(name, out var source);
 
             // Couldn't find source.
@@ -237,7 +231,7 @@ namespace AudioManager.Service {
                 return error;
             }
 
-            source.Mute = !source.Mute;
+            error = source.InvokeChild(child, (s) => s.ToggleMute());
             return error;
         }
 
@@ -425,7 +419,7 @@ namespace AudioManager.Service {
                 return error;
             }
 
-            error = source.Source.TrySetGroupValue(exposedParameterName, newValue);
+            error = source.TrySetGroupValue(exposedParameterName, newValue);
             return error;
         }
 
@@ -442,7 +436,7 @@ namespace AudioManager.Service {
                 return error;
             }
 
-            error = source.Source.TryGetGroupValue(exposedParameterName, out currentValue);
+            error = source.TryGetGroupValue(exposedParameterName, out currentValue);
             return error;
         }
 
@@ -458,7 +452,7 @@ namespace AudioManager.Service {
                 return error;
             }
 
-            error = source.Source.TryClearGroupValue(exposedParameterName);
+            error = source.TryClearGroupValue(exposedParameterName);
             return error;
         }
 
@@ -478,7 +472,7 @@ namespace AudioManager.Service {
                 return error;
             }
 
-            error = source.Source.TryGetGroupValue(exposedParameterName, out float currentValue);
+            error = source.TryGetGroupValue(exposedParameterName, out float currentValue);
             if (error != AudioError.OK) {
                 return error;
             }
@@ -486,11 +480,11 @@ namespace AudioManager.Service {
                 error = AudioError.INVALID_END_VALUE;
             }
 
-            m_parentBehaviour.StartCoroutine(AudioHelper.LerpGroupValueCoroutine(source.Mixer, exposedParameterName, endValue, duration));
+            m_parentBehaviour.StartCoroutine(source.LerpGroupValueCoroutine(exposedParameterName, endValue, duration));
             return error;
         }
 
-        public AudioError RemoveGroup(string name) {
+        public AudioError RemoveGroup(string name, ChildType child) {
             AudioError error = TryGetSource(name, out var source);
 
             // Couldn't find source.
@@ -498,11 +492,11 @@ namespace AudioManager.Service {
                 return error;
             }
 
-            source.SetAudioMixerGroup(null);
+            error = source.InvokeChild(child, (s) => s.SetAudioMixerGroup(null));
             return error;
         }
 
-        public AudioError AddGroup(string name, AudioMixerGroup mixerGroup) {
+        public AudioError AddGroup(string name, AudioMixerGroup mixerGroup, ChildType child) {
             AudioError error = TryGetSource(name, out var source);
 
             // Couldn't find source.
@@ -510,7 +504,7 @@ namespace AudioManager.Service {
                 return error;
             }
 
-            source.SetAudioMixerGroup(mixerGroup);
+            error = source.InvokeChild(child, (s) => s.SetAudioMixerGroup(mixerGroup));
             return error;
         }
 
@@ -523,7 +517,7 @@ namespace AudioManager.Service {
             return error;
         }
 
-        public AudioError Set3DAudioOptions(string name, float minDistance, float maxDistance, float spatialBlend, float spreadAngle, float dopplerLevel, AudioRolloffMode rolloffMode) {
+        public AudioError Set3DAudioOptions(string name, float minDistance, float maxDistance, ChildType child, float spatialBlend, float spreadAngle, float dopplerLevel, AudioRolloffMode rolloffMode) {
             AudioError error = TryGetSource(name, out var source);
 
             // Couldn't find source.
@@ -535,11 +529,11 @@ namespace AudioManager.Service {
                 return error;
             }
 
-            source.Set3DAudioOptions(spatialBlend, dopplerLevel, spreadAngle, rolloffMode, minDistance, maxDistance);
+            error = source.InvokeChild(child, (s) => s.Set3DAudioOptions(spatialBlend, dopplerLevel, spreadAngle, rolloffMode, minDistance, maxDistance));
             return error;
         }
 
-        public AudioError SetStartTime(string name, float startTime) {
+        public AudioError SetStartTime(string name, float startTime, ChildType child) {
             AudioError error = TryGetSource(name, out var source);
 
             // Couldn't find source.
@@ -551,24 +545,19 @@ namespace AudioManager.Service {
                 return error;
             }
 
-            source.SetTime(startTime);
+            error = source.InvokeChild(child, (s) => s.SetTime(startTime));
             return error;
         }
 
-        public AudioError SkipTime(string name, float time) {
+        public AudioError SkipTime(string name, float time, ChildType child) {
             AudioError error = TryGetSource(name, out var source);
 
             // Couldn't find source.
             if (error != AudioError.OK) {
                 return error;
             }
-            else if (time < 0f) {
-                source.DecreaseTime(time);
-            }
-            else {
-                source.IncreaseTime(time);
-            }
 
+            error = source.InvokeChild(child, (s) => s.SkipTime(time));
             return error;
         }
 
@@ -774,10 +763,11 @@ namespace AudioManager.Service {
             // Stop the sound if it isn't set to looping,
             // this is done to ensure the sound doesn't replay,
             // when it is not set to looping.
-            if (!source.Loop) {
+            AudioError error = source.InvokeChild(child, (s) => s.loop, out bool looping);
+            if (error == AudioError.OK && !looping) {
                 Stop(name, child); 
             }
-            SetStartTime(name, 0f);
+            SetStartTime(name, 0f, child);
             return ProgressResponse.UNSUB;
         }
 

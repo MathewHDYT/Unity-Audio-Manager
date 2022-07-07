@@ -4,9 +4,43 @@ using UnityEngine.Audio;
 
 namespace AudioManager.Helper {
     public static class AudioSourceExtension {
+        public static void ToggleMute(this AudioSource source) {
+            source.mute = !source.mute;
+        }
+
+        public static void SetTime(this AudioSource source, float timeStamp) {
+            source.time = timeStamp;
+        }
+
+        public static void SetPitch(this AudioSource source, float pitch) {
+            source.pitch = pitch;
+        }
+
+        public static void SetTimeFromCurrentPitch(this AudioSource source) {
+            float startTime = source.IsReversePitch() ? source.GetEndOfClip() : 0f;
+            source.SetTime(startTime);
+        }
+
+        public static void SkipTime(this AudioSource source, float time) {
+            if (float.IsNegative(time)) {
+                source.DecreaseTime(time);
+                return;
+            }
+            source.IncreaseTime(time);
+        }
+
+        public static void IncreaseTime(this AudioSource source, float time) {
+            float currentTime = source.ExceedsClipEnd(time) ? source.GetEndOfClip() : source.time + time;
+            source.SetTime(currentTime);
+        }
+
+        public static void DecreaseTime(this AudioSource source, float time) {
+            float currentTime = source.ExceedsClipStart(time) ? 0f : source.time + time;
+            source.SetTime(currentTime);
+        }
 
         public static bool IsReversePitch(this AudioSource source) {
-            return source.pitch < 0f;
+            return float.IsNegative(source.pitch);
         }
 
         public static bool IsProgressValid(this AudioSource source, float progress) {
@@ -41,28 +75,8 @@ namespace AudioManager.Helper {
             return source.time + time < float.Epsilon;
         }
 
-        public static AudioError TryGetGroupValue(this AudioSource source, string exposedParameterName, out float currentValue) {
-            AudioError error = AudioError.OK;
-            if (!source.outputAudioMixerGroup.audioMixer.GetFloat(exposedParameterName, out currentValue)) {
-                error = AudioError.MIXER_NOT_EXPOSED;
-            }
-            return error;
-        }
-
-        public static AudioError TrySetGroupValue(this AudioSource source, string exposedParameterName, float newValue) {
-            AudioError error = AudioError.OK;
-            if (!source.outputAudioMixerGroup.audioMixer.SetFloat(exposedParameterName, newValue)) {
-                error = AudioError.MIXER_NOT_EXPOSED;
-            }
-            return error;
-        }
-
-        public static AudioError TryClearGroupValue(this AudioSource source, string exposedParameterName) {
-            AudioError error = AudioError.OK;
-            if (!source.outputAudioMixerGroup.audioMixer.ClearFloat(exposedParameterName)) {
-                error = AudioError.MIXER_NOT_EXPOSED;
-            }
-            return error;
+        public static void SetAudioMixerGroup(this AudioSource source, AudioMixerGroup mixerGroup) {
+            source.outputAudioMixerGroup = mixerGroup;
         }
 
         public static bool IsAudioMixerGroupValid(this AudioSource source) {

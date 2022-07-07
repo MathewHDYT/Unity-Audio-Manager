@@ -179,12 +179,13 @@ public class TestDefaultAudioManager {
 
     [UnityTest]
     public IEnumerator TestPlayAtTimeStamp() {
+        ChildType child = ChildType.AT_3D_POS;
         float startTime = m_clip.length * 2f;
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.DOES_NOT_EXIST)
         /// ---------------------------------------------
-        AudioError error = m_audioManager.PlayAtTimeStamp(m_unregisteredAudioSourceName, startTime);
+        AudioError error = m_audioManager.PlayAtTimeStamp(m_unregisteredAudioSourceName, startTime, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.DOES_NOT_EXIST, error);
         Assert.IsFalse(m_source.isPlaying);
@@ -192,7 +193,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_WRAPPER)
         /// ---------------------------------------------
-        error = m_audioManager.PlayAtTimeStamp(m_nullAudioSourceWrapperName, startTime);
+        error = m_audioManager.PlayAtTimeStamp(m_nullAudioSourceWrapperName, startTime, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_WRAPPER, error);
         Assert.IsFalse(m_source.isPlaying);
@@ -200,7 +201,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_SOURCE)
         /// ---------------------------------------------
-        error = m_audioManager.PlayAtTimeStamp(m_nullAudioSourceName, startTime);
+        error = m_audioManager.PlayAtTimeStamp(m_nullAudioSourceName, startTime, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_SOURCE, error);
         Assert.IsFalse(m_source.isPlaying);
@@ -208,7 +209,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_CLIP)
         /// ---------------------------------------------
-        error = m_audioManager.PlayAtTimeStamp(m_audioSourceName, startTime);
+        error = m_audioManager.PlayAtTimeStamp(m_audioSourceName, startTime, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_CLIP, error);
         Assert.IsFalse(m_source.isPlaying);
@@ -217,7 +218,7 @@ public class TestDefaultAudioManager {
         /// Invalid case (AudioError.MISSING_PARENT)
         /// ---------------------------------------------
         m_source.clip = m_clip;
-        error = m_audioManager.PlayAtTimeStamp(m_audioSourceName, startTime);
+        error = m_audioManager.PlayAtTimeStamp(m_audioSourceName, startTime, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_PARENT, error);
         Assert.IsFalse(m_source.isPlaying);
@@ -226,7 +227,7 @@ public class TestDefaultAudioManager {
         /// Invalid case (AudioError.INVALID_TIME)
         /// ---------------------------------------------
         m_audioManager = new DefaultAudioManager(m_sounds, m_gameObject);
-        error = m_audioManager.PlayAtTimeStamp(m_audioSourceName, startTime);
+        error = m_audioManager.PlayAtTimeStamp(m_audioSourceName, startTime, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.INVALID_TIME, error);
         Assert.IsFalse(m_source.isPlaying);
@@ -235,7 +236,7 @@ public class TestDefaultAudioManager {
         /// Valid case (AudioError.OK)
         /// ---------------------------------------------
         startTime = m_clipEndTime;
-        error = m_audioManager.PlayAtTimeStamp(m_audioSourceName, startTime);
+        error = m_audioManager.PlayAtTimeStamp(m_audioSourceName, startTime, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_source.isPlaying);
         Assert.IsTrue(startTime - m_source.time <= m_maxDifference);
@@ -248,12 +249,13 @@ public class TestDefaultAudioManager {
 
     [Test]
     public void TestGetPlaybackPosition() {
+        ChildType child = ChildType.AT_3D_POS;
         float expectedTime = m_source.time;
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.DOES_NOT_EXIST)
         /// ---------------------------------------------
-        AudioError error = m_audioManager.GetPlaybackPosition(m_unregisteredAudioSourceName, out float time);
+        AudioError error = m_audioManager.GetPlaybackPosition(m_unregisteredAudioSourceName, out float time, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.DOES_NOT_EXIST, error);
         Assert.IsNaN(time);
@@ -262,7 +264,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_WRAPPER)
         /// ---------------------------------------------
-        error = m_audioManager.GetPlaybackPosition(m_nullAudioSourceWrapperName, out time);
+        error = m_audioManager.GetPlaybackPosition(m_nullAudioSourceWrapperName, out time, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_WRAPPER, error);
         Assert.IsNaN(time);
@@ -271,7 +273,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_SOURCE)
         /// ---------------------------------------------
-        error = m_audioManager.GetPlaybackPosition(m_nullAudioSourceName, out time);
+        error = m_audioManager.GetPlaybackPosition(m_nullAudioSourceName, out time, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_SOURCE, error);
         Assert.IsNaN(time);
@@ -280,7 +282,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_CLIP)
         /// ---------------------------------------------
-        error = m_audioManager.GetPlaybackPosition(m_audioSourceName, out time);
+        error = m_audioManager.GetPlaybackPosition(m_audioSourceName, out time, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_CLIP, error);
         Assert.IsNaN(time);
@@ -290,40 +292,41 @@ public class TestDefaultAudioManager {
         /// Valid case (AudioError.OK)
         /// ---------------------------------------------
         m_source.clip = m_clip;
-        error = m_audioManager.GetPlaybackPosition(m_audioSourceName, out time);
+        error = m_audioManager.GetPlaybackPosition(m_audioSourceName, out time, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.AreEqual(expectedTime, time);
     }
 
     [Test]
     public void TestSetPlaypbackDirection() {
+        ChildType child = ChildType.AT_3D_POS;
         float pitch = 1f;
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.DOES_NOT_EXIST)
         /// ---------------------------------------------
-        AudioError error = m_audioManager.SetPlaybackDirection(m_unregisteredAudioSourceName, pitch);
+        AudioError error = m_audioManager.SetPlaybackDirection(m_unregisteredAudioSourceName, pitch, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.DOES_NOT_EXIST, error);
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_WRAPPER)
         /// ---------------------------------------------
-        error = m_audioManager.SetPlaybackDirection(m_nullAudioSourceWrapperName, pitch);
+        error = m_audioManager.SetPlaybackDirection(m_nullAudioSourceWrapperName, pitch, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_WRAPPER, error);
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_SOURCE)
         /// ---------------------------------------------
-        error = m_audioManager.SetPlaybackDirection(m_nullAudioSourceName, pitch);
+        error = m_audioManager.SetPlaybackDirection(m_nullAudioSourceName, pitch, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_SOURCE, error);
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_CLIP)
         /// ---------------------------------------------
-        error = m_audioManager.SetPlaybackDirection(m_audioSourceName, pitch);
+        error = m_audioManager.SetPlaybackDirection(m_audioSourceName, pitch, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_CLIP, error);
 
@@ -332,13 +335,13 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         m_source.clip = m_clip;
         float endOfClip = (m_source.clip.length * Constants.MAX_PROGRESS);
-        error = m_audioManager.SetPlaybackDirection(m_audioSourceName, pitch);
+        error = m_audioManager.SetPlaybackDirection(m_audioSourceName, pitch, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.AreEqual(pitch, m_source.pitch);
         Assert.AreEqual(0f, m_source.time);
 
         pitch = -1f;
-        error = m_audioManager.SetPlaybackDirection(m_audioSourceName, pitch);
+        error = m_audioManager.SetPlaybackDirection(m_audioSourceName, pitch, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.AreEqual(pitch, m_source.pitch);
         // The clip needs to be played to have it's time actually assigned.
@@ -468,12 +471,13 @@ public class TestDefaultAudioManager {
 
     [Test]
     public void TestPlayDelayed() {
+        ChildType child = ChildType.AT_3D_POS;
         const float delay = 1f;
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.DOES_NOT_EXIST)
         /// ---------------------------------------------
-        AudioError error = m_audioManager.PlayDelayed(m_unregisteredAudioSourceName, delay);
+        AudioError error = m_audioManager.PlayDelayed(m_unregisteredAudioSourceName, delay, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.DOES_NOT_EXIST, error);
         Assert.IsFalse(m_source.isPlaying);
@@ -481,7 +485,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_WRAPPER)
         /// ---------------------------------------------
-        error = m_audioManager.PlayDelayed(m_nullAudioSourceWrapperName, delay);
+        error = m_audioManager.PlayDelayed(m_nullAudioSourceWrapperName, delay, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_WRAPPER, error);
         Assert.IsFalse(m_source.isPlaying);
@@ -489,7 +493,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_SOURCE)
         /// ---------------------------------------------
-        error = m_audioManager.PlayDelayed(m_nullAudioSourceName, delay);
+        error = m_audioManager.PlayDelayed(m_nullAudioSourceName, delay, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_SOURCE, error);
         Assert.IsFalse(m_source.isPlaying);
@@ -497,7 +501,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_CLIP)
         /// ---------------------------------------------
-        error = m_audioManager.PlayDelayed(m_audioSourceName, delay);
+        error = m_audioManager.PlayDelayed(m_audioSourceName, delay, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_CLIP, error);
         Assert.IsFalse(m_source.isPlaying);
@@ -506,17 +510,18 @@ public class TestDefaultAudioManager {
         /// Valid case (AudioError.OK)
         /// --------------------------------------------- 
         m_source.clip = m_clip;
-        error = m_audioManager.PlayDelayed(m_audioSourceName, delay);
+        error = m_audioManager.PlayDelayed(m_audioSourceName, delay, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_source.isPlaying);
     }
 
     [Test]
     public void TestPlayOneShot() {
+        ChildType child = ChildType.AT_3D_POS;
         /// ---------------------------------------------
         /// Invalid case (AudioError.DOES_NOT_EXIST)
         /// ---------------------------------------------
-        AudioError error = m_audioManager.PlayOneShot(m_unregisteredAudioSourceName);
+        AudioError error = m_audioManager.PlayOneShot(m_unregisteredAudioSourceName, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.DOES_NOT_EXIST, error);
         Assert.IsFalse(m_source.isPlaying);
@@ -524,7 +529,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_WRAPPER)
         /// ---------------------------------------------
-        error = m_audioManager.PlayOneShot(m_nullAudioSourceWrapperName);
+        error = m_audioManager.PlayOneShot(m_nullAudioSourceWrapperName, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_WRAPPER, error);
         Assert.IsFalse(m_source.isPlaying);
@@ -532,7 +537,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_SOURCE)
         /// ---------------------------------------------
-        error = m_audioManager.PlayOneShot(m_nullAudioSourceName);
+        error = m_audioManager.PlayOneShot(m_nullAudioSourceName, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_SOURCE, error);
         Assert.IsFalse(m_source.isPlaying);
@@ -540,7 +545,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_CLIP)
         /// ---------------------------------------------
-        error = m_audioManager.PlayOneShot(m_audioSourceName);
+        error = m_audioManager.PlayOneShot(m_audioSourceName, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_CLIP, error);
         Assert.IsFalse(m_source.isPlaying);
@@ -549,20 +554,21 @@ public class TestDefaultAudioManager {
         /// Valid case (AudioError.OK)
         /// --------------------------------------------- 
         m_source.clip = m_clip;
-        error = m_audioManager.PlayOneShot(m_audioSourceName);
+        error = m_audioManager.PlayOneShot(m_audioSourceName, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_source.isPlaying);
     }
 
     [Test]
     public void TestChangePitch() {
+        ChildType child = ChildType.AT_3D_POS;
         const float minPitch = 0.1f;
         const float maxPitch = 0.9f;
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.DOES_NOT_EXIST)
         /// ---------------------------------------------
-        AudioError error = m_audioManager.ChangePitch(m_unregisteredAudioSourceName, minPitch, maxPitch);
+        AudioError error = m_audioManager.ChangePitch(m_unregisteredAudioSourceName, minPitch, maxPitch, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.DOES_NOT_EXIST, error);
         Assert.IsFalse(m_source.pitch >= minPitch && m_source.pitch <= maxPitch);
@@ -570,7 +576,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_WRAPPER)
         /// ---------------------------------------------
-        error = m_audioManager.ChangePitch(m_nullAudioSourceWrapperName, minPitch, maxPitch);
+        error = m_audioManager.ChangePitch(m_nullAudioSourceWrapperName, minPitch, maxPitch, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_WRAPPER, error);
         Assert.IsFalse(m_source.pitch >= minPitch && m_source.pitch <= maxPitch);
@@ -578,7 +584,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_SOURCE)
         /// ---------------------------------------------
-        error = m_audioManager.ChangePitch(m_nullAudioSourceName, minPitch, maxPitch);
+        error = m_audioManager.ChangePitch(m_nullAudioSourceName, minPitch, maxPitch, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_SOURCE, error);
         Assert.IsFalse(m_source.pitch >= minPitch && m_source.pitch <= maxPitch);
@@ -586,7 +592,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_CLIP)
         /// ---------------------------------------------
-        error = m_audioManager.ChangePitch(m_audioSourceName, minPitch, maxPitch);
+        error = m_audioManager.ChangePitch(m_audioSourceName, minPitch, maxPitch, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_CLIP, error);
         Assert.IsFalse(m_source.pitch >= minPitch && m_source.pitch <= maxPitch);
@@ -595,19 +601,20 @@ public class TestDefaultAudioManager {
         /// Valid case (AudioError.OK)
         /// --------------------------------------------- 
         m_source.clip = m_clip;
-        error = m_audioManager.ChangePitch(m_audioSourceName, minPitch, maxPitch);
+        error = m_audioManager.ChangePitch(m_audioSourceName, minPitch, maxPitch, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_source.pitch >= minPitch && m_source.pitch <= maxPitch);
     }
 
     [Test]
     public void TestPlayScheduled() {
+        ChildType child = ChildType.AT_3D_POS;
         const float delay = 1f;
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.DOES_NOT_EXIST)
         /// ---------------------------------------------
-        AudioError error = m_audioManager.PlayScheduled(m_unregisteredAudioSourceName, delay);
+        AudioError error = m_audioManager.PlayScheduled(m_unregisteredAudioSourceName, delay, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.DOES_NOT_EXIST, error);
         Assert.IsFalse(m_source.isPlaying);
@@ -615,7 +622,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_WRAPPER)
         /// ---------------------------------------------
-        error = m_audioManager.PlayScheduled(m_nullAudioSourceWrapperName, delay);
+        error = m_audioManager.PlayScheduled(m_nullAudioSourceWrapperName, delay, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_WRAPPER, error);
         Assert.IsFalse(m_source.isPlaying);
@@ -623,7 +630,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_SOURCE)
         /// ---------------------------------------------
-        error = m_audioManager.PlayScheduled(m_nullAudioSourceName, delay);
+        error = m_audioManager.PlayScheduled(m_nullAudioSourceName, delay, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_SOURCE, error);
         Assert.IsFalse(m_source.isPlaying);
@@ -631,7 +638,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_CLIP)
         /// ---------------------------------------------
-        error = m_audioManager.PlayScheduled(m_audioSourceName, delay);
+        error = m_audioManager.PlayScheduled(m_audioSourceName, delay, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_CLIP, error);
         Assert.IsFalse(m_source.isPlaying);
@@ -640,7 +647,7 @@ public class TestDefaultAudioManager {
         /// Valid case (AudioError.OK)
         /// --------------------------------------------- 
         m_source.clip = m_clip;
-        error = m_audioManager.PlayScheduled(m_audioSourceName, delay);
+        error = m_audioManager.PlayScheduled(m_audioSourceName, delay, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_source.isPlaying);
     }
@@ -704,10 +711,11 @@ public class TestDefaultAudioManager {
 
     [Test]
     public void TestToggleMute() {
+        ChildType child = ChildType.AT_3D_POS;
         /// ---------------------------------------------
         /// Invalid case (AudioError.DOES_NOT_EXIST)
         /// ---------------------------------------------
-        AudioError error = m_audioManager.ToggleMute(m_unregisteredAudioSourceName);
+        AudioError error = m_audioManager.ToggleMute(m_unregisteredAudioSourceName, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.DOES_NOT_EXIST, error);
         Assert.IsFalse(m_source.mute);
@@ -715,7 +723,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_WRAPPER)
         /// ---------------------------------------------
-        error = m_audioManager.ToggleMute(m_nullAudioSourceWrapperName);
+        error = m_audioManager.ToggleMute(m_nullAudioSourceWrapperName, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_WRAPPER, error);
         Assert.IsFalse(m_source.mute);
@@ -723,7 +731,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_SOURCE)
         /// ---------------------------------------------
-        error = m_audioManager.ToggleMute(m_nullAudioSourceName);
+        error = m_audioManager.ToggleMute(m_nullAudioSourceName, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_SOURCE, error);
         Assert.IsFalse(m_source.mute);
@@ -731,7 +739,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_CLIP)
         /// ---------------------------------------------
-        error = m_audioManager.ToggleMute(m_audioSourceName);
+        error = m_audioManager.ToggleMute(m_audioSourceName, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_CLIP, error);
         Assert.IsFalse(m_source.mute);
@@ -740,10 +748,10 @@ public class TestDefaultAudioManager {
         /// Valid case (AudioError.OK)
         /// ---------------------------------------------
         m_source.clip = m_clip;
-        error = m_audioManager.ToggleMute(m_audioSourceName);
+        error = m_audioManager.ToggleMute(m_audioSourceName, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_source.mute);
-        error = m_audioManager.ToggleMute(m_audioSourceName);
+        error = m_audioManager.ToggleMute(m_audioSourceName, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsFalse(m_source.mute);
     }
@@ -1777,11 +1785,12 @@ public class TestDefaultAudioManager {
 
     [Test]
     public void TestRemoveGroup() {
+        ChildType child = ChildType.AT_3D_POS;
         /// ---------------------------------------------
         /// Invalid case (AudioError.DOES_NOT_EXIST)
         /// ---------------------------------------------
         m_source.outputAudioMixerGroup = m_mixerGroup;
-        AudioError error = m_audioManager.RemoveGroup(m_unregisteredAudioSourceName);
+        AudioError error = m_audioManager.RemoveGroup(m_unregisteredAudioSourceName, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.DOES_NOT_EXIST, error);
         Assert.IsNotNull(m_source.outputAudioMixerGroup);
@@ -1789,7 +1798,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_WRAPPER)
         /// ---------------------------------------------
-        error = m_audioManager.RemoveGroup(m_nullAudioSourceWrapperName);
+        error = m_audioManager.RemoveGroup(m_nullAudioSourceWrapperName, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_WRAPPER, error);
         Assert.IsNotNull(m_source.outputAudioMixerGroup);
@@ -1797,7 +1806,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_SOURCE)
         /// ---------------------------------------------
-        error = m_audioManager.RemoveGroup(m_nullAudioSourceName);
+        error = m_audioManager.RemoveGroup(m_nullAudioSourceName, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_SOURCE, error);
         Assert.IsNotNull(m_source.outputAudioMixerGroup);
@@ -1805,7 +1814,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_CLIP)
         /// ---------------------------------------------
-        error = m_audioManager.RemoveGroup(m_audioSourceName);
+        error = m_audioManager.RemoveGroup(m_audioSourceName, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_CLIP, error);
         Assert.IsNotNull(m_source.outputAudioMixerGroup);
@@ -1814,17 +1823,18 @@ public class TestDefaultAudioManager {
         /// Valid case (AudioError.OK)
         /// ---------------------------------------------
         m_source.clip = m_clip;
-        error = m_audioManager.RemoveGroup(m_audioSourceName);
+        error = m_audioManager.RemoveGroup(m_audioSourceName, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsNull(m_source.outputAudioMixerGroup);
     }
 
     [Test]
     public void TestAddGroup() {
+        ChildType child = ChildType.AT_3D_POS;
         /// ---------------------------------------------
         /// Invalid case (AudioError.DOES_NOT_EXIST)
         /// ---------------------------------------------
-        AudioError error = m_audioManager.AddGroup(m_unregisteredAudioSourceName, m_mixerGroup);
+        AudioError error = m_audioManager.AddGroup(m_unregisteredAudioSourceName, m_mixerGroup, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.DOES_NOT_EXIST, error);
         Assert.IsNull(m_source.outputAudioMixerGroup);
@@ -1832,7 +1842,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_WRAPPER)
         /// ---------------------------------------------
-        error = m_audioManager.AddGroup(m_nullAudioSourceWrapperName, m_mixerGroup);
+        error = m_audioManager.AddGroup(m_nullAudioSourceWrapperName, m_mixerGroup, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_WRAPPER, error);
         Assert.IsNull(m_source.outputAudioMixerGroup);
@@ -1840,7 +1850,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_SOURCE)
         /// ---------------------------------------------
-        error = m_audioManager.AddGroup(m_nullAudioSourceName, m_mixerGroup);
+        error = m_audioManager.AddGroup(m_nullAudioSourceName, m_mixerGroup, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_SOURCE, error);
         Assert.IsNull(m_source.outputAudioMixerGroup);
@@ -1848,7 +1858,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_CLIP)
         /// ---------------------------------------------
-        error = m_audioManager.AddGroup(m_audioSourceName, m_mixerGroup);
+        error = m_audioManager.AddGroup(m_audioSourceName, m_mixerGroup, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_CLIP, error);
         Assert.IsNull(m_source.outputAudioMixerGroup);
@@ -1857,7 +1867,7 @@ public class TestDefaultAudioManager {
         /// Valid case (AudioError.OK)
         /// ---------------------------------------------
         m_source.clip = m_clip;
-        error = m_audioManager.AddGroup(m_audioSourceName, m_mixerGroup);
+        error = m_audioManager.AddGroup(m_audioSourceName, m_mixerGroup, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsNotNull(m_source.outputAudioMixerGroup);
     }
@@ -1881,6 +1891,7 @@ public class TestDefaultAudioManager {
 
     [Test]
     public void TestSet3DAudioOptions() {
+        ChildType child = ChildType.AT_3D_POS;
         const float minDistance = 10f;
         const float maxDistance = 25f;
         const float spreadAngle = 20f;
@@ -1891,28 +1902,28 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.DOES_NOT_EXIST)
         /// ---------------------------------------------
-        AudioError error = m_audioManager.Set3DAudioOptions(m_unregisteredAudioSourceName, minDistance, maxDistance, spatialBlend, spreadAngle, dopplerLevel, rolloffMode);
+        AudioError error = m_audioManager.Set3DAudioOptions(m_unregisteredAudioSourceName, minDistance, maxDistance, child, spatialBlend, spreadAngle, dopplerLevel, rolloffMode);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.DOES_NOT_EXIST, error);
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_WRAPPER)
         /// ---------------------------------------------
-        error = m_audioManager.Set3DAudioOptions(m_nullAudioSourceWrapperName, minDistance, maxDistance, spatialBlend, spreadAngle, dopplerLevel, rolloffMode);
+        error = m_audioManager.Set3DAudioOptions(m_nullAudioSourceWrapperName, minDistance, maxDistance, child, spatialBlend, spreadAngle, dopplerLevel, rolloffMode);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_WRAPPER, error);
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_SOURCE)
         /// ---------------------------------------------
-        error = m_audioManager.Set3DAudioOptions(m_nullAudioSourceName, minDistance, maxDistance, spatialBlend, spreadAngle, dopplerLevel, rolloffMode);
+        error = m_audioManager.Set3DAudioOptions(m_nullAudioSourceName, minDistance, maxDistance, child, spatialBlend, spreadAngle, dopplerLevel, rolloffMode);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_SOURCE, error);
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_CLIP)
         /// ---------------------------------------------
-        error = m_audioManager.Set3DAudioOptions(m_audioSourceName, minDistance, maxDistance, spatialBlend, spreadAngle, dopplerLevel, rolloffMode);
+        error = m_audioManager.Set3DAudioOptions(m_audioSourceName, minDistance, maxDistance, child, spatialBlend, spreadAngle, dopplerLevel, rolloffMode);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_CLIP, error);
 
@@ -1920,7 +1931,7 @@ public class TestDefaultAudioManager {
         /// Invalid case (AudioError.CAN_NOT_BE_3D)
         /// ---------------------------------------------
         m_source.clip = m_clip;
-        error = m_audioManager.Set3DAudioOptions(m_audioSourceName, minDistance, maxDistance, spatialBlend, spreadAngle, dopplerLevel, rolloffMode);
+        error = m_audioManager.Set3DAudioOptions(m_audioSourceName, minDistance, maxDistance, child, spatialBlend, spreadAngle, dopplerLevel, rolloffMode);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.CAN_NOT_BE_3D, error);
 
@@ -1928,7 +1939,7 @@ public class TestDefaultAudioManager {
         /// Valid case (AudioError.OK)
         /// ---------------------------------------------
         spatialBlend = 0.5f;
-        error = m_audioManager.Set3DAudioOptions(m_audioSourceName, minDistance, maxDistance, spatialBlend, spreadAngle, dopplerLevel, rolloffMode);
+        error = m_audioManager.Set3DAudioOptions(m_audioSourceName, minDistance, maxDistance, child, spatialBlend, spreadAngle, dopplerLevel, rolloffMode);
         Assert.AreEqual(AudioError.OK, error);
         Assert.AreEqual(minDistance, m_source.minDistance);
         Assert.AreEqual(maxDistance, m_source.maxDistance);
@@ -1940,12 +1951,13 @@ public class TestDefaultAudioManager {
 
     [Test]
     public void TestSetStartTime() {
+        ChildType child = ChildType.AT_3D_POS;
         float startTime = m_clip.length * 2f;
 
         /// ---------------------------------------------
         /// Invalid case (AudioError.DOES_NOT_EXIST)
         /// ---------------------------------------------
-        AudioError error = m_audioManager.SetStartTime(m_unregisteredAudioSourceName, startTime);
+        AudioError error = m_audioManager.SetStartTime(m_unregisteredAudioSourceName, startTime, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.DOES_NOT_EXIST, error);
         Assert.AreNotEqual(startTime, m_source.time);
@@ -1953,7 +1965,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_WRAPPER)
         /// ---------------------------------------------
-        error = m_audioManager.SetStartTime(m_nullAudioSourceWrapperName, startTime);
+        error = m_audioManager.SetStartTime(m_nullAudioSourceWrapperName, startTime, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_WRAPPER, error);
         Assert.AreNotEqual(startTime, m_source.time);
@@ -1961,7 +1973,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_SOURCE)
         /// ---------------------------------------------
-        error = m_audioManager.SetStartTime(m_nullAudioSourceName, startTime);
+        error = m_audioManager.SetStartTime(m_nullAudioSourceName, startTime, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_SOURCE, error);
         Assert.AreNotEqual(startTime, m_source.time);
@@ -1969,7 +1981,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_CLIP)
         /// ---------------------------------------------
-        error = m_audioManager.SetStartTime(m_audioSourceName, startTime);
+        error = m_audioManager.SetStartTime(m_audioSourceName, startTime, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_CLIP, error);
         Assert.AreNotEqual(startTime, m_source.time);
@@ -1978,7 +1990,7 @@ public class TestDefaultAudioManager {
         /// Invalid case (AudioError.INVALID_TIME)
         /// ---------------------------------------------
         m_source.clip = m_clip;
-        error = m_audioManager.SetStartTime(m_audioSourceName, startTime);
+        error = m_audioManager.SetStartTime(m_audioSourceName, startTime, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.INVALID_TIME, error);
         Assert.AreNotEqual(startTime, m_source.time);
@@ -1987,7 +1999,7 @@ public class TestDefaultAudioManager {
         /// Valid case (AudioError.OK)
         /// ---------------------------------------------
         startTime = m_clipEndTime;
-        error = m_audioManager.SetStartTime(m_audioSourceName, startTime);
+        error = m_audioManager.SetStartTime(m_audioSourceName, startTime, child);
         Assert.AreEqual(AudioError.OK, error);
         // The clip needs to be played to have it's time actually assigned.
         error = m_audioManager.Play(m_audioSourceName, ChildType.PARENT);
@@ -1997,6 +2009,7 @@ public class TestDefaultAudioManager {
 
     [Test]
     public void TestSkipTime() {
+        ChildType child = ChildType.AT_3D_POS;
         float backwardStartTime = m_clip.length / 2f;
         float forwardStartTime = (m_clip.length * Constants.MAX_PROGRESS);
         float time = -1f;
@@ -2004,7 +2017,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.DOES_NOT_EXIST)
         /// ---------------------------------------------
-        AudioError error = m_audioManager.SkipTime(m_unregisteredAudioSourceName, time);
+        AudioError error = m_audioManager.SkipTime(m_unregisteredAudioSourceName, time, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.DOES_NOT_EXIST, error);
         Assert.AreNotEqual(time, m_source.time);
@@ -2012,7 +2025,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_WRAPPER)
         /// ---------------------------------------------
-        error = m_audioManager.SkipTime(m_nullAudioSourceWrapperName, time);
+        error = m_audioManager.SkipTime(m_nullAudioSourceWrapperName, time, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_WRAPPER, error);
         Assert.AreNotEqual(time, m_source.time);
@@ -2020,7 +2033,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_SOURCE)
         /// ---------------------------------------------
-        error = m_audioManager.SkipTime(m_nullAudioSourceName, time);
+        error = m_audioManager.SkipTime(m_nullAudioSourceName, time, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_SOURCE, error);
         Assert.AreNotEqual(time, m_source.time);
@@ -2028,7 +2041,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.MISSING_CLIP)
         /// ---------------------------------------------
-        error = m_audioManager.SkipTime(m_audioSourceName, time);
+        error = m_audioManager.SkipTime(m_audioSourceName, time, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.MISSING_CLIP, error);
         Assert.AreNotEqual(time, m_source.time);
@@ -2037,7 +2050,7 @@ public class TestDefaultAudioManager {
         /// Valid case (AudioError.OK)
         /// ---------------------------------------------
         m_source.clip = m_clip;
-        error = m_audioManager.SkipTime(m_audioSourceName, time);
+        error = m_audioManager.SkipTime(m_audioSourceName, time, child);
         Assert.AreEqual(AudioError.OK, error);
         // The clip needs to be played to have it's time actually assigned.
         error = m_audioManager.Play(m_audioSourceName, ChildType.PARENT);
@@ -2045,13 +2058,13 @@ public class TestDefaultAudioManager {
         Assert.AreEqual(0f, m_source.time);
 
         m_source.time = backwardStartTime;
-        error = m_audioManager.SkipTime(m_audioSourceName, time);
+        error = m_audioManager.SkipTime(m_audioSourceName, time, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_source.time - (backwardStartTime + time) <= m_maxDifference);
 
         m_source.time = forwardStartTime;
         time *= -1;
-        error = m_audioManager.SkipTime(m_audioSourceName, time);
+        error = m_audioManager.SkipTime(m_audioSourceName, time, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_source.time - (forwardStartTime + time) <= m_maxDifference);
     }

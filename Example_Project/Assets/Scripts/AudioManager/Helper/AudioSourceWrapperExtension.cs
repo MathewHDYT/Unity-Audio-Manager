@@ -105,6 +105,39 @@ namespace AudioManager.Helper {
             return error;
         }
 
+        public static AudioError InvokeChild(this AudioSourceWrapper source, ChildType child, InvokeCallback<bool> cb, out bool value) {
+            AudioError error = AudioError.OK;
+            value = false;
+
+            if (cb is null) {
+                return error;
+            }
+
+            switch (child) {
+                case ChildType.ALL:
+                    foreach (var s in source.GetChildren()) {
+                        value = value || cb.Invoke(s);
+                    }
+                    goto case ChildType.PARENT;
+                case ChildType.PARENT:
+                    value = value || cb.Invoke(source.Source);
+                    break;
+                case ChildType.AT_3D_POS:
+                    goto case ChildType.ATTCHD_TO_GO;
+                case ChildType.ATTCHD_TO_GO:
+                    if (!source.TryGetRegisteredChild(child, out var childSource)) {
+                        error = AudioError.INVALID_CHILD;
+                        return error;
+                    }
+                    value = value || cb.Invoke(childSource);
+                    break;
+                default:
+                    // Unexpected ChildType argument.
+                    break;
+            }
+            return error;
+        }
+
         public static AudioError GetChildSource(this AudioSourceWrapper source, ChildType child, out AudioSource childSource) {
             AudioError error = AudioError.OK;
             childSource = null;
@@ -130,41 +163,28 @@ namespace AudioManager.Helper {
             return error;
         }
 
-        public static void SetTime(this AudioSourceWrapper source, float timeStamp) {
-            source.Time = timeStamp;
+        public static AudioError TryGetGroupValue(this AudioSourceWrapper source, string exposedParameterName, out float currentValue) {
+            AudioError error = AudioError.OK;
+            if (!source.Mixer.GetFloat(exposedParameterName, out currentValue)) {
+                error = AudioError.MIXER_NOT_EXPOSED;
+            }
+            return error;
         }
 
-        public static void SetPitch(this AudioSourceWrapper source, float pitch) {
-            source.Pitch = pitch;
+        public static AudioError TrySetGroupValue(this AudioSourceWrapper source, string exposedParameterName, float newValue) {
+            AudioError error = AudioError.OK;
+            if (!source.Mixer.SetFloat(exposedParameterName, newValue)) {
+                error = AudioError.MIXER_NOT_EXPOSED;
+            }
+            return error;
         }
 
-        public static void SetTimeFromCurrentPitch(this AudioSourceWrapper source) {
-            float startTime = source.Source.IsReversePitch() ? source.Source.GetEndOfClip() : 0f;
-            source.SetTime(startTime);
-        }
-
-        public static void IncreaseTime(this AudioSourceWrapper source, float time) {
-            float currentTime = source.Source.ExceedsClipEnd(time) ? source.Source.GetEndOfClip() : source.Time + time;
-            source.SetTime(currentTime);
-        }
-
-        public static void DecreaseTime(this AudioSourceWrapper source, float time) {
-            float currentTime = source.Source.ExceedsClipStart(time) ? 0f : source.Time + time;
-            source.SetTime(currentTime);
-        }
-
-        public static void SetAudioMixerGroup(this AudioSourceWrapper source, AudioMixerGroup mixerGroup) {
-            source.MixerGroup = mixerGroup;
-        }
-
-        public static void Set3DAudioOptions(this AudioSourceWrapper source, float spatialBlend, float dopplerLevel, float spreadAngle, AudioRolloffMode rolloffMode, float minDistance, float maxDistance) {
-            source.Spatialize = true;
-            source.SpatialBlend = spatialBlend;
-            source.DopplerLevel = dopplerLevel;
-            source.Spread = spreadAngle;
-            source.RolloffMode = rolloffMode;
-            source.MinDistance = minDistance;
-            source.MaxDistance = maxDistance;
+        public static AudioError TryClearGroupValue(this AudioSourceWrapper source, string exposedParameterName) {
+            AudioError error = AudioError.OK;
+            if (!source.Mixer.ClearFloat(exposedParameterName)) {
+                error = AudioError.MIXER_NOT_EXPOSED;
+            }
+            return error;
         }
 
         public static AudioError IsSoundValid(this AudioSourceWrapper source) {
@@ -190,6 +210,21 @@ namespace AudioManager.Helper {
             while (time <= duration) {
                 time += Time.deltaTime;
                 cb?.Invoke(Mathf.Lerp(currValue, endValue, time / duration), source);
+                yield return null;
+            }
+        }
+
+        // Originally from John Leonard French's blog with an article about different methods to fade audio in and out.
+        // See https://johnleonardfrench.com/how-to-fade-audio-in-unity-i-tested-every-method-this-ones-the-best/.
+        public static IEnumerator LerpGroupValueCoroutine(this AudioSourceWrapper source, string exposedParameterName, float endValue, float duration) {
+            float time = 0;
+
+            source.Mixer.GetFloat(exposedParameterName, out float currValue);
+
+            while (time <= duration) {
+                time += Time.deltaTime;
+                float newValue = Mathf.Lerp(currValue, endValue, time / duration);
+                source.Mixer.SetFloat(exposedParameterName, newValue);
                 yield return null;
             }
         }
