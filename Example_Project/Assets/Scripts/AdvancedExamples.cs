@@ -4,12 +4,10 @@ using AudioManager.Locator;
 using AudioManager.Service;
 using AudioManager.Settings;
 using System;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class AdvancedExamples : MonoBehaviour {
-
     [SerializeField]
     private AdvancedExample advancedExample;
 

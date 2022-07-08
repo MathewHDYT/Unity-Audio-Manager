@@ -59,7 +59,7 @@ public class TestNullAudioManager {
     }
 
     [Test]
-    public void TestSetPlaypbackDirection() {
+    public void TestSetPlaybackDirection() {
         AudioError error = m_am.SetPlaybackDirection(m_text, m_val);
         Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
     }
@@ -214,6 +214,12 @@ public class TestNullAudioManager {
     [Test]
     public void TestSet3DAudioOptions() {
         AudioError error = m_am.Set3DAudioOptions(m_text);
+        Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
+    }
+
+    [Test]
+    public void TestGetClipLength() {
+        AudioError error = m_am.GetClipLength(m_text, out _);
         Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
     }
 
