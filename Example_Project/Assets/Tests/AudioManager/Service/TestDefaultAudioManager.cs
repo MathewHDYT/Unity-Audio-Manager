@@ -237,7 +237,7 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Invalid case (AudioError.INVALID_CHILD)
         /// ---------------------------------------------
-        startTime = m_clipEndTime;
+        startTime = 0f;
         error = m_audioManager.PlayAtTimeStamp(m_audioSourceName, startTime, child);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.INVALID_CHILD, error);
@@ -253,7 +253,7 @@ public class TestDefaultAudioManager {
         Assert.IsTrue(startTime - m_source.time <= m_maxDifference);
         // The startTime is only reset at the approximate end of the song, because a higher resolution isn't possible.
         // Therefore we wait a little bit more than the actual time, to ensure the startTime is actually reset.
-        yield return new WaitForSeconds(m_clip.length - (startTime * Constants.MAX_PROGRESS));
+        yield return new WaitForSeconds(m_clip.length);
         Assert.IsFalse(m_source.isPlaying);
         Assert.AreEqual(0f, m_source.time);
     }
@@ -363,7 +363,7 @@ public class TestDefaultAudioManager {
         /// Valid case (AudioError.OK)
         /// ---------------------------------------------
         child = ChildType.PARENT;
-        float endOfClip = (m_source.clip.length * Constants.MAX_PROGRESS);
+        float endOfClip = (m_clip.length * Constants.MAX_PROGRESS);
         error = m_audioManager.SetPlaybackDirection(m_audioSourceName, pitch, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.AreEqual(pitch, m_source.pitch);
@@ -975,6 +975,8 @@ public class TestDefaultAudioManager {
         Assert.AreEqual(calledCount++, calledCallback);
         m_initalizedWrapper.Mute = !m_initalizedWrapper.Mute;
         Assert.AreEqual(calledCount, calledCallback);
+
+        m_audioManager.UnsubscribeSourceChanged(m_initalizedAudioSourceName, changedCallback);
     }
 
     [Test]
@@ -1127,27 +1129,18 @@ public class TestDefaultAudioManager {
         Assert.AreEqual(calledCount, calledUnsubCallbackCount);
 
         /// ---------------------------------------------
-        /// Valid case (AudioError.OK)
+        /// Invalid case (AudioError.ALREADY_SUBSCRIBED)
         /// ---------------------------------------------
         progress = 0f;
         error = m_audioManager.SubscribeProgressCoroutine(m_audioSourceName, progress, unsubCallback);
         Assert.AreEqual(AudioError.OK, error);
-
-        /// ---------------------------------------------
-        /// Invalid case (AudioError.ALREADY_SUBSCRIBED)
-        /// ---------------------------------------------
         error = m_audioManager.SubscribeProgressCoroutine(m_audioSourceName, progress, unsubCallback);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.ALREADY_SUBSCRIBED, error);
-        Assert.AreEqual(calledCount++, calledUnsubCallbackCount);
-
-        // Start playing the given clip. So we can test if subscribing was successfull.
-        error = m_audioManager.Play(m_audioSourceName, child);
-        Assert.AreEqual(AudioError.OK, error);
-        Assert.IsTrue(m_source.isPlaying);
-
-        yield return new WaitForSeconds(m_clip.length * Constants.MIN_PROGRESS);
         Assert.AreEqual(calledCount, calledUnsubCallbackCount);
+
+        // Unsubscribe callback to ensure the other callback can be subscribed successfully.
+        m_audioManager.UnsubscribeProgressCoroutine(m_audioSourceName, progress);
 
         /// ---------------------------------------------
         /// Valid case (AudioError.OK)
@@ -1158,7 +1151,7 @@ public class TestDefaultAudioManager {
         error = m_audioManager.Play(m_audioSourceName, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_source.isPlaying);
-        yield return new WaitForSeconds(m_clip.length * Constants.MIN_PROGRESS);
+        yield return new WaitForSeconds(m_clip.length);
         Assert.AreEqual(1, calledInvalidCallback);
 
         error = m_audioManager.SubscribeProgressCoroutine(m_audioSourceName, progress, resubImdtCallback);
@@ -1167,11 +1160,14 @@ public class TestDefaultAudioManager {
         error = m_audioManager.Play(m_audioSourceName, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_source.isPlaying);
-        yield return new WaitForSeconds(m_clip.length * Constants.MIN_PROGRESS);
-        Assert.IsTrue(calledImdtCallbackCount > 1);
+        yield return new WaitForSeconds(m_clip.length);
+        Assert.IsTrue(calledImdtCallbackCount >= 1);
 
         // Unsubscribe callback to ensure the other callback can be subscribed successfully.
         m_audioManager.UnsubscribeProgressCoroutine(m_audioSourceName, progress);
+        // Stop playing the given clip. So we can actually detect the next clip.
+        error = m_audioManager.Stop(m_audioSourceName, child);
+        Assert.AreEqual(AudioError.OK, error);
 
         // Ensure song loops to test if it recalls callback next loop iteration.
         m_source.loop = true;
@@ -1182,21 +1178,26 @@ public class TestDefaultAudioManager {
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_source.isPlaying);
         Assert.AreEqual(0, calledLoopCallbackCount);
-        yield return new WaitForSeconds(m_clip.length * Constants.MIN_PROGRESS);
-        Assert.AreEqual(1, calledLoopCallbackCount);
-        yield return new WaitForSeconds(m_clip.length + (m_clip.length * Constants.MIN_PROGRESS));
-        Assert.AreEqual(2, calledLoopCallbackCount);
+        yield return new WaitForSeconds(m_clip.length);
+        Assert.IsTrue(calledLoopCallbackCount >= 1);
+        yield return new WaitForSeconds(m_clip.length);
+        Assert.IsTrue(calledLoopCallbackCount >= 2);
 
-        child = ChildType.AT_3D_POS;
+        // Unsubscribe callback to ensure the other callback can be subscribed successfully.
+        m_audioManager.UnsubscribeProgressCoroutine(m_audioSourceName, progress);
+        // Stop playing the given clip. So we can actually detect the next clip.
+        error = m_audioManager.Stop(m_audioSourceName, child);
+        Assert.AreEqual(AudioError.OK, error);
+
         error = m_audioManager.SubscribeProgressCoroutine(m_initalizedAudioSourceName, progress, unsubCallback);
         Assert.AreEqual(AudioError.OK, error);
-        error = m_audioManager.RegisterChildAt3DPos(m_initalizedAudioSourceName, Vector3.zero, out _);
+        error = m_audioManager.RegisterChildAt3DPos(m_initalizedAudioSourceName, Vector3.zero, out child);
         Assert.AreEqual(AudioError.OK, error);
         // Start playing the given clip. So we can test if subscribing was successfull.
         error = m_audioManager.Play(m_initalizedAudioSourceName, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.AreEqual(calledCount++, calledUnsubCallbackCount);
-        yield return new WaitForSeconds(m_clip.length * Constants.MIN_PROGRESS);
+        yield return new WaitForSeconds(m_clip.length);
         Assert.AreEqual(calledCount, calledUnsubCallbackCount);
         Assert.AreEqual(child, calledChild);
 
@@ -1206,16 +1207,15 @@ public class TestDefaultAudioManager {
         error = m_audioManager.Stop(m_initalizedAudioSourceName, child);
         Assert.AreEqual(AudioError.OK, error);
 
-        child = ChildType.ATTCHD_TO_GO;
         error = m_audioManager.SubscribeProgressCoroutine(m_initalizedAudioSourceName, progress, unsubCallback);
         Assert.AreEqual(AudioError.OK, error);
-        error = m_audioManager.RegisterChildAttachedToGo(m_initalizedAudioSourceName, m_gameObject, out _);
+        error = m_audioManager.RegisterChildAttachedToGo(m_initalizedAudioSourceName, m_gameObject, out child);
         Assert.AreEqual(AudioError.OK, error);
         // Start playing the given clip. So we can test if subscribing was successfull.
         error = m_audioManager.Play(m_initalizedAudioSourceName, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.AreEqual(calledCount++, calledUnsubCallbackCount);
-        yield return new WaitForSeconds(m_clip.length * Constants.MIN_PROGRESS);
+        yield return new WaitForSeconds(m_clip.length);
         Assert.AreEqual(calledCount, calledUnsubCallbackCount);
         Assert.AreEqual(child, calledChild);
 
@@ -1225,10 +1225,9 @@ public class TestDefaultAudioManager {
         error = m_audioManager.Stop(m_initalizedAudioSourceName, child);
         Assert.AreEqual(AudioError.OK, error);
 
-        child = ChildType.ATTCHD_TO_GO;
         error = m_audioManager.SubscribeProgressCoroutine(m_initalizedAudioSourceName, progress, unsubCallback);
         Assert.AreEqual(AudioError.OK, error);
-        error = m_audioManager.RegisterChildAttachedToGo(m_initalizedAudioSourceName, m_gameObject, out _);
+        error = m_audioManager.RegisterChildAttachedToGo(m_initalizedAudioSourceName, m_gameObject, out child);
         Assert.AreEqual(AudioError.OK, error);
         // Start playing the given clip. So we can test if subscribing was successfull.
         error = m_audioManager.Play(m_initalizedAudioSourceName, child);
@@ -1239,9 +1238,15 @@ public class TestDefaultAudioManager {
         error = m_audioManager.Play(m_initalizedAudioSourceName, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.AreEqual(calledCount++, calledUnsubCallbackCount);
-        yield return new WaitForSeconds(m_clip.length * Constants.MIN_PROGRESS);
+        yield return new WaitForSeconds(m_clip.length);
         Assert.AreEqual(calledCount, calledUnsubCallbackCount);
         Assert.AreEqual(child, calledChild);
+
+        // Unsubscribe callback to ensure the other callback can be subscribed successfully.
+        m_audioManager.UnsubscribeProgressCoroutine(m_initalizedAudioSourceName, progress);
+        // Stop playing the given clip. So we can actually detect the next clip.
+        error = m_audioManager.Stop(m_initalizedAudioSourceName, child);
+        Assert.AreEqual(AudioError.OK, error);
     }
 
     [UnityTest]
@@ -1392,7 +1397,7 @@ public class TestDefaultAudioManager {
         child = ChildType.PARENT;
         error = m_audioManager.GetProgress(m_initalizedAudioSourceName, out progress, child);
         Assert.AreEqual(AudioError.OK, error);
-        Assert.AreEqual(m_initalizedSource.time / m_clip.length, progress);
+        Assert.IsTrue(progress - m_initalizedSource.time / m_clip.length <= m_maxDifference);
     }
 
     [Test]
