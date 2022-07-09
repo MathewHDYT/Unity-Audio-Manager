@@ -1130,27 +1130,18 @@ public class TestDefaultAudioManager {
         Assert.AreEqual(calledCount, calledUnsubCallbackCount);
 
         /// ---------------------------------------------
-        /// Valid case (AudioError.OK)
+        /// Invalid case (AudioError.ALREADY_SUBSCRIBED)
         /// ---------------------------------------------
         progress = 0f;
         error = m_audioManager.SubscribeProgressCoroutine(m_audioSourceName, progress, unsubCallback);
         Assert.AreEqual(AudioError.OK, error);
-
-        /// ---------------------------------------------
-        /// Invalid case (AudioError.ALREADY_SUBSCRIBED)
-        /// ---------------------------------------------
         error = m_audioManager.SubscribeProgressCoroutine(m_audioSourceName, progress, unsubCallback);
         Assert.AreNotEqual(AudioError.OK, error);
         Assert.AreEqual(AudioError.ALREADY_SUBSCRIBED, error);
-        Assert.AreEqual(calledCount++, calledUnsubCallbackCount);
-
-        // Start playing the given clip. So we can test if subscribing was successfull.
-        error = m_audioManager.Play(m_audioSourceName, child);
-        Assert.AreEqual(AudioError.OK, error);
-        Assert.IsTrue(m_source.isPlaying);
-
-        yield return new WaitForSeconds(m_clip.length);
         Assert.AreEqual(calledCount, calledUnsubCallbackCount);
+
+        // Unsubscribe callback to ensure the other callback can be subscribed successfully.
+        m_audioManager.UnsubscribeProgressCoroutine(m_audioSourceName, progress);
 
         /// ---------------------------------------------
         /// Valid case (AudioError.OK)
