@@ -30,7 +30,6 @@ public class TestDefaultAudioManager {
 
     [SetUp]
     public void TestSetUp() {
-        Application.targetFrameRate = 1;
         m_unregisteredAudioSourceName = "Test1";
         m_nullAudioSourceWrapperName = "Test2";
         m_nullAudioSourceName = "Test3";
@@ -1179,10 +1178,10 @@ public class TestDefaultAudioManager {
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_source.isPlaying);
         Assert.AreEqual(0, calledLoopCallbackCount);
-        yield return new WaitForSeconds(m_clip.length / 2);
-        Assert.AreEqual(1, calledLoopCallbackCount);
-        yield return new WaitForSeconds(m_clip.length / 2);
-        Assert.AreEqual(2, calledLoopCallbackCount);
+        yield return new WaitForSeconds(m_clip.length);
+        Assert.IsTrue(calledLoopCallbackCount >= 1);
+        yield return new WaitForSeconds(m_clip.length);
+        Assert.IsTrue(calledLoopCallbackCount >= 2);
 
         // Unsubscribe callback to ensure the other callback can be subscribed successfully.
         m_audioManager.UnsubscribeProgressCoroutine(m_audioSourceName, progress);
@@ -1398,7 +1397,7 @@ public class TestDefaultAudioManager {
         child = ChildType.PARENT;
         error = m_audioManager.GetProgress(m_initalizedAudioSourceName, out progress, child);
         Assert.AreEqual(AudioError.OK, error);
-        Assert.IsTrue(m_initalizedSource.time / m_clip.length - progress <= m_maxDifference);
+        Assert.IsTrue(progress - m_initalizedSource.time / m_clip.length <= m_maxDifference);
     }
 
     [Test]
