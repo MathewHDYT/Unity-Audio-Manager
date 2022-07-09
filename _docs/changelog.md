@@ -13,6 +13,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Released]
 
+## [2.0.0](https://github.com/MathewHDYT/Unity-Audio-Manager/releases/tag/v2.0.0) - 2022-07-09
+
+### Added
+- Added new method ```SubscribeSourceChanged```
+- Added new method ```UnsubscribeSourceChanged```
+- Added new method ```RegisterChildAt3DPos```
+- Added new method ```RegisterChildAttachedToGo```
+- Added ```AudioSourceWrapper``` that makes to possible to detect changes on the ```AudioSource``` itself
+
+### Changed
+- Removed ```PlayAt3DPosition```, ```PlayOneShotAt3DPosition```, ```PlayAttachedToGameObject```, ```PlayOneShotAttachedToGameObject```
+- Overhauled nearly all methods of the AudioManager with a additonal parameter ```ChildType``` that allows using that method for an ```AudioSource``` created by either ```RegisterChildAttachedToGo``` (```ChildType.ATTCHD_TO_GO```) or ```RegisterChildAt3DPos``` (```ChildType.AT_3D_POS```), the main original ```AudioSource``` (```ChildType.PARENT```) or all at once (```ChildType.ALL```)
+- Overhauled the Example scene to reflect the new changes
+
 ## [1.9.0](https://github.com/MathewHDYT/Unity-Audio-Manager/releases/tag/v1.9.0) - 2022-06-19
 
 ### Added
