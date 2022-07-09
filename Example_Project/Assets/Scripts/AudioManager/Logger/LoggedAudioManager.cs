@@ -104,23 +104,25 @@ namespace AudioManager.Logger {
             return error;
         }
 
-        public AudioError RegisterChildAt3DPos(string name, Vector3 position) {
+        public AudioError RegisterChildAt3DPos(string name, Vector3 position, out ChildType child) {
             const string enterLogBase = "Attempting to register new chid sound at the given 3D position in space";
             const string exitLogBase = "Registering the new chid sound at the given 3D position in space";
 
+            child = ChildType.AT_3D_POS;
             OnMethodEnter(enterLogBase, name);
-            AudioError error = ConvertToAudioError(m_wrappedInstance?.RegisterChildAt3DPos(name, position));
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.RegisterChildAt3DPos(name, position, out child));
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;
         }
 
-        public AudioError RegisterChildAttachedToGo(string name, GameObject gameObject) {
+        public AudioError RegisterChildAttachedToGo(string name, GameObject gameObject, out ChildType child) {
             const string enterLogBase = "Attempting to register new chid sound attached to the given gameObject";
             const string exitLogBase = "Registering the new chid sound attached to the given gameObject";
 
+            child = ChildType.ATTCHD_TO_GO;
             OnMethodEnter(enterLogBase, name);
-            AudioError error = ConvertToAudioError(m_wrappedInstance?.RegisterChildAttachedToGo(name, gameObject));
+            AudioError error = ConvertToAudioError(m_wrappedInstance?.RegisterChildAttachedToGo(name, gameObject, out child));
             OnReceivedError(exitLogBase, error);
             OnMethodExit(exitLogBase, error);
             return error;

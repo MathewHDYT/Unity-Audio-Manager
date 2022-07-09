@@ -95,7 +95,8 @@ public class MethodCalls : MonoBehaviour {
     public void PlayClicked() {
         ClearText();
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        am.Play(selectedSoundName);
+        var selectedChild = (ChildType)childDropDown.value;
+        am.Play(selectedSoundName, selectedChild);
     }
 
     public void GetEnumeratorClicked() {
@@ -122,7 +123,8 @@ public class MethodCalls : MonoBehaviour {
         }
 
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        am.SkipTime(selectedSoundName, timeStamp);
+        var selectedChild = (ChildType)childDropDown.value;
+        am.SkipTime(selectedSoundName, timeStamp, selectedChild);
     }
 
     public void SetPlaybackDirection() {
@@ -133,7 +135,8 @@ public class MethodCalls : MonoBehaviour {
         }
 
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        am.SetPlaybackDirection(selectedSoundName, minPitch);
+        var selectedChild = (ChildType)childDropDown.value;
+        am.SetPlaybackDirection(selectedSoundName, minPitch, selectedChild);
     }
 
     public void PlayAtTimeStampClicked() {
@@ -144,13 +147,15 @@ public class MethodCalls : MonoBehaviour {
         }
 
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        am.PlayAtTimeStamp(selectedSoundName, timeStamp);
+        var selectedChild = (ChildType)childDropDown.value;
+        am.PlayAtTimeStamp(selectedSoundName, timeStamp, selectedChild);
     }
 
     public void GetPlayBackPositionClicked() {
         ClearText();
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        AudioError error = am.GetPlaybackPosition(selectedSoundName, out float time);
+        var selectedChild = (ChildType)childDropDown.value;
+        AudioError error = am.GetPlaybackPosition(selectedSoundName, out float time, selectedChild);
 
         if (CheckSuccess(error)) {
             AppendText(string.Join(" ", "Current playback position being:", time.ToString("0.00"), "seconds"));
@@ -164,7 +169,7 @@ public class MethodCalls : MonoBehaviour {
         var worldPosition = new Vector3(randomXPos, randomYPos, 5f);
 
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        am.RegisterChildAt3DPos(selectedSoundName, worldPosition);
+        am.RegisterChildAt3DPos(selectedSoundName, worldPosition, out _);
     }
 
     public void RegisterAttachedToGoClicked() {
@@ -174,7 +179,7 @@ public class MethodCalls : MonoBehaviour {
         Vector3 worldPosition = new Vector3(randomXPos, randomYPos, 5f);
 
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        am.RegisterChildAttachedToGo(selectedSoundName, radio);
+        am.RegisterChildAttachedToGo(selectedSoundName, radio, out _);
         radio.transform.position = worldPosition;
     }
 
@@ -190,7 +195,8 @@ public class MethodCalls : MonoBehaviour {
         }
 
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        am.ChangePitch(selectedSoundName, minPitch, maxPitch);
+        var selectedChild = (ChildType)childDropDown.value;
+        am.ChangePitch(selectedSoundName, minPitch, maxPitch, selectedChild);
     }
 
     public void PlayDelayedClicked() {
@@ -201,13 +207,15 @@ public class MethodCalls : MonoBehaviour {
         }
 
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        am.PlayDelayed(selectedSoundName, delay);
+        var selectedChild = (ChildType)childDropDown.value;
+        am.PlayDelayed(selectedSoundName, delay, selectedChild);
     }
 
     public void PlayOneShotClicked() {
         ClearText();
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        am.PlayOneShot(selectedSoundName);
+        var selectedChild = (ChildType)childDropDown.value;
+        am.PlayOneShot(selectedSoundName, selectedChild);
     }
 
     public void PlayScheduledClicked() {
@@ -218,31 +226,36 @@ public class MethodCalls : MonoBehaviour {
         }
 
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        am.PlayScheduled(selectedSoundName, delay);
+        var selectedChild = (ChildType)childDropDown.value;
+        am.PlayScheduled(selectedSoundName, delay, selectedChild);
     }
 
     public void StopClicked() {
         ClearText();
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        am.Stop(selectedSoundName);
+        var selectedChild = (ChildType)childDropDown.value;
+        am.Stop(selectedSoundName, selectedChild);
     }
 
     public void ToggleMuteClicked() {
         ClearText();
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        am.ToggleMute(selectedSoundName);
+        var selectedChild = (ChildType)childDropDown.value;
+        am.ToggleMute(selectedSoundName, selectedChild);
     }
 
     public void TogglePauseClicked() {
         ClearText();
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        am.TogglePause(selectedSoundName);
+        var selectedChild = (ChildType)childDropDown.value;
+        am.TogglePause(selectedSoundName, selectedChild);
     }
 
     public void GetProgressClicked() {
         ClearText();
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        AudioError error = am.GetProgress(selectedSoundName, out float progress);
+        var selectedChild = (ChildType)childDropDown.value;
+        AudioError error = am.GetProgress(selectedSoundName, out float progress, selectedChild);
 
         if (CheckSuccess(error)) {
             AppendText(string.Join(" ", "Current progress being:", (progress * 100).ToString("0.00"), "%"));
@@ -267,7 +280,8 @@ public class MethodCalls : MonoBehaviour {
         }
 
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        am.LerpPitch(selectedSoundName, endValue, time);
+        var selectedChild = (ChildType)childDropDown.value;
+        am.LerpPitch(selectedSoundName, endValue, time, selectedChild);
     }
 
     public void LerpVolumeClicked() {
@@ -282,7 +296,8 @@ public class MethodCalls : MonoBehaviour {
         }
 
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        am.LerpVolume(selectedSoundName, endValue, time);
+        var selectedChild = (ChildType)childDropDown.value;
+        am.LerpVolume(selectedSoundName, endValue, time, selectedChild);
     }
 
     public void ChangeGroupValueClicked() {
@@ -335,7 +350,8 @@ public class MethodCalls : MonoBehaviour {
         }
 
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
-        am.SetStartTime(selectedSoundName, time);
+        var selectedChild = (ChildType)childDropDown.value;
+        am.SetStartTime(selectedSoundName, time, selectedChild);
     }
 
     private bool CheckSuccess(AudioError error) {

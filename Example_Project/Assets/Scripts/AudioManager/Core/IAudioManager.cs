@@ -75,16 +75,18 @@ namespace AudioManager.Core {
         /// </summary>
         /// <param name="name">Name of the registered sound.</param>
         /// <param name="position">Position we want to create an empty <see cref="GameObject"/> on.</param>
+        /// <param name="child">Variable the created <see cref="ChildType"/> will be copied into.</param>
         /// <returns><see cref="AudioError"/>, showing wheter and how registering the child sound at the given position failed.</returns>
-        public AudioError RegisterChildAt3DPos(string name, Vector3 position);
+        public AudioError RegisterChildAt3DPos(string name, Vector3 position, out ChildType child);
 
         /// <summary>
         /// Registers a new child sound attached to the given <see cref="GameObject"/>, so it can later be referenced via. the corresponding <see cref="ChildType"/> value.
         /// </summary>
         /// <param name="name">Name of the registered sound.</param>
         /// <param name="attachGameObject"><see cref="GameObject"/> we want to attach our child sound too.</param>
+        /// <param name="child">Variable the created <see cref="ChildType"/> will be copied into.</param>
         /// <returns><see cref="AudioError"/>, showing wheter and how registering the child sound attached to the given <see cref="GameObject"/> failed.</returns>
-        public AudioError RegisterChildAttachedToGo(string name, GameObject attachGameObject);
+        public AudioError RegisterChildAttachedToGo(string name, GameObject attachGameObject, out ChildType child);
 
         /// <summary>
         /// Plays the sound with the given <see cref="ChildType"/> after the given delay time.

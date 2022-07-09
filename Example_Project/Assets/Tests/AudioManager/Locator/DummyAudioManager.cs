@@ -29,11 +29,13 @@ public class DummyAudioManager : IAudioManager {
         return AudioError.NOT_INITIALIZED;
     }
 
-    public AudioError RegisterChildAt3DPos(string name, Vector3 position) {
+    public AudioError RegisterChildAt3DPos(string name, Vector3 position, out ChildType child) {
+        child = ChildType.ATTCHD_TO_GO;
         return AudioError.NOT_INITIALIZED;
     }
 
-    public AudioError RegisterChildAttachedToGo(string name, GameObject gameObject) {
+    public AudioError RegisterChildAttachedToGo(string name, GameObject gameObject, out ChildType child) {
+        child = ChildType.ATTCHD_TO_GO;
         return AudioError.NOT_INITIALIZED;
     }
 

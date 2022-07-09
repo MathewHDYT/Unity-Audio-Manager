@@ -66,14 +66,16 @@ public class TestNullAudioManager {
 
     [Test]
     public void TestRegisterChildAt3DPos() {
-        AudioError error = m_am.RegisterChildAt3DPos(m_text, m_pos);
+        AudioError error = m_am.RegisterChildAt3DPos(m_text, m_pos, out ChildType child);
         Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
+        Assert.AreEqual(ChildType.AT_3D_POS, child);
     }
 
     [Test]
     public void TestRegisterAttachedToGo() {
-        AudioError error = m_am.RegisterChildAttachedToGo(m_text, m_go);
+        AudioError error = m_am.RegisterChildAttachedToGo(m_text, m_go, out ChildType child);
         Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
+        Assert.AreEqual(ChildType.ATTCHD_TO_GO, child);
     }
 
     [Test]

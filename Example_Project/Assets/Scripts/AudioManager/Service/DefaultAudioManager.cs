@@ -116,8 +116,9 @@ namespace AudioManager.Service {
             return error;
         }
 
-        public AudioError RegisterChildAt3DPos(string name, Vector3 position) {
+        public AudioError RegisterChildAt3DPos(string name, Vector3 position, out ChildType child) {
             AudioError error = TryGetSource(name, out var parentSource);
+            child = ChildType.AT_3D_POS;
 
             // Couldn't find source.
             if (error != AudioError.OK) {
@@ -132,12 +133,13 @@ namespace AudioManager.Service {
                 return error;
             }
 
-            RegisterAt3DPosition(parentSource, position, ChildType.AT_3D_POS);
+            RegisterAt3DPosition(parentSource, position, child);
             return error;
         }
 
-        public AudioError RegisterChildAttachedToGo(string name, GameObject attachGameObject) {
+        public AudioError RegisterChildAttachedToGo(string name, GameObject attachGameObject, out ChildType child) {
             AudioError error = TryGetSource(name, out var parentSource);
+            child = ChildType.ATTCHD_TO_GO;
 
             // Couldn't find source.
             if (error != AudioError.OK) {
@@ -152,7 +154,7 @@ namespace AudioManager.Service {
                 return error;
             }
 
-            RegisterAttachedToGameObject(parentSource, attachGameObject, ChildType.ATTCHD_TO_GO);
+            RegisterAttachedToGameObject(parentSource, attachGameObject, child);
             return error;
         }
 
@@ -370,7 +372,7 @@ namespace AudioManager.Service {
                 childSource.pitch = x;
             };
 
-            m_parentBehaviour.StartCoroutine(source.LerpValueCoroutine(source.Pitch, endValue, duration, (x, s) => s.Pitch = x));
+            m_parentBehaviour.StartCoroutine(source.LerpValueCoroutine(source.Pitch, endValue, duration, cb));
             return error;
         }
 

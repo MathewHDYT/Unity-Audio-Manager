@@ -29,11 +29,13 @@ public class DummyAudioManager : IAudioManager {
         return AudioError.OK;
     }
 
-    public AudioError RegisterChildAt3DPos(string name, Vector3 position) {
+    public AudioError RegisterChildAt3DPos(string name, Vector3 position, out ChildType child) {
+        child = ChildType.AT_3D_POS;
         return AudioError.OK;
     }
 
-    public AudioError RegisterChildAttachedToGo(string name, GameObject gameObject) {
+    public AudioError RegisterChildAttachedToGo(string name, GameObject gameObject, out ChildType child) {
+        child = ChildType.ATTCHD_TO_GO;
         return AudioError.OK;
     }
 

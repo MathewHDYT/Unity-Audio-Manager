@@ -1802,7 +1802,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6236931959610247875, guid: 8fc4f077cdf664e49a91ea7b30fa73d8, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 350
+      value: 355
       objectReference: {fileID: 0}
     - target: {fileID: 6236931959692987693, guid: 8fc4f077cdf664e49a91ea7b30fa73d8, type: 3}
       propertyPath: m_Pivot.x
@@ -1898,7 +1898,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6236931961114714740, guid: 8fc4f077cdf664e49a91ea7b30fa73d8, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 330
+      value: 335
       objectReference: {fileID: 0}
     - target: {fileID: 6236931961114714743, guid: 8fc4f077cdf664e49a91ea7b30fa73d8, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -2420,7 +2420,7 @@ MonoBehaviour:
   minPitchInput: {fileID: 1262510393}
   maxPitchInput: {fileID: 164859781}
   outputText: {fileID: 149554677}
-  loggingLevel: 3
+  loggingLevel: 2
   panel: {fileID: 208051290}
   fallbackImage: {fileID: 837147991}
   uiPanels:

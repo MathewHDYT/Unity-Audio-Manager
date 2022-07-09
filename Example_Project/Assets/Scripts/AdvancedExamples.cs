@@ -5,6 +5,7 @@ using AudioManager.Service;
 using AudioManager.Settings;
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class AdvancedExamples : MonoBehaviour {
@@ -130,7 +131,7 @@ public class AdvancedExamples : MonoBehaviour {
         }
     }
 
-    private ProgressResponse SongProgressCallback(string name, float progress, ChildType child) {
+    public ProgressResponse SongProgressCallback(string name, float progress, ChildType child) {
         am.TryGetSource(name, out var source);
         Debug.Log("ChildType: " + Enum.GetName(typeof(ChildType), child) + ", Actual: " + source.Time + ", Expected: " + (progress * source.Source.clip.length));
 
@@ -172,8 +173,8 @@ public class AdvancedExamples : MonoBehaviour {
 
     private void InitLerpIn3DSoundAtPosExample() {
         am.SubscribeProgressCoroutine(sound3D.soundName, 0f, SongProgressCallback);
-        am.RegisterChildAt3DPos(sound3D.soundName, position3D);
-        am.Play(sound3D.soundName, ChildType.AT_3D_POS);
+        am.RegisterChildAt3DPos(sound3D.soundName, position3D, out ChildType child);
+        am.Play(sound3D.soundName, child);
     }
 
     private ProgressResponse HandleLerpIn3DSoundAtPosExample(string name) {
