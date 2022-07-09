@@ -1,22 +1,14 @@
 ﻿using AudioManager.Core;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.Audio;
 
 namespace AudioManager.Helper {
     public static class AudioHelper {
-        public static void GetStepValueAndTime(float startValue, float endValue, float waitTime, float granularity, out float stepValue, out float stepTime) {
-            float difference = endValue - startValue;
-            stepValue = difference / granularity;
-            stepTime = waitTime / granularity;
-        }
 
         public static AudioError LoadAudioClipFromPath(string path, out AudioClip clip) {
             clip = Resources.Load<AudioClip>(path);
             return clip ? AudioError.OK : AudioError.INVALID_PATH;
-        }
-
-        public static bool IsGranularityValid(int granularity) {
-            return granularity >= Constants.MIN_GRANULARITY;
         }
 
         public static void AttachAudioSource(out AudioSource newSource, GameObject newGameObject, AudioClip clip, AudioMixerGroup mixerGroup, bool loop, float volume, float pitch, float spatialBlend, float dopplerLevel, float spreadAngle, AudioRolloffMode rolloffMode, float minDistance, float maxDistance) {
@@ -36,8 +28,8 @@ namespace AudioManager.Helper {
             return startValue - endValue >= float.Epsilon || endValue - startValue >= float.Epsilon;
         }
 
-        public static GameObject CreateNewGameObject(string name) {
-            return new GameObject(name);
+        public static GameObject CreateNewGameObject() {
+            return new GameObject();
         }
 
         public static Transform GetTransform(GameObject gameObject) {

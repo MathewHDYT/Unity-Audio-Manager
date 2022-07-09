@@ -5,7 +5,6 @@ namespace AudioManager.Core {
         ALREADY_EXISTS,
         INVALID_PATH,
         INVALID_END_VALUE,
-        INVALID_GRANULARITY,
         INVALID_TIME,
         INVALID_PROGRESS,
         MIXER_NOT_EXPOSED,
@@ -17,6 +16,8 @@ namespace AudioManager.Core {
         MISSING_PARENT,
         INVALID_PARENT,
         ALREADY_SUBSCRIBED,
-        NOT_SUBSCRIBED
+        NOT_SUBSCRIBED,
+        MISSING_WRAPPER,
+        INVALID_CHILD
     }
 }

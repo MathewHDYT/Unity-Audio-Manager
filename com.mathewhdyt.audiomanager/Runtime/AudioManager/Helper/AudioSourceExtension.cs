@@ -4,6 +4,10 @@ using UnityEngine.Audio;
 
 namespace AudioManager.Helper {
     public static class AudioSourceExtension {
+        public static void ToggleMute(this AudioSource source) {
+            source.mute = !source.mute;
+        }
+
         public static void SetTime(this AudioSource source, float timeStamp) {
             source.time = timeStamp;
         }
@@ -12,13 +16,31 @@ namespace AudioManager.Helper {
             source.pitch = pitch;
         }
 
-        public static bool IsReversePitch(this AudioSource source) {
-            return source.pitch < 0f;
+        public static void SetTimeFromCurrentPitch(this AudioSource source) {
+            float startTime = source.IsReversePitch() ? source.GetEndOfClip() : 0f;
+            source.SetTime(startTime);
         }
 
-        public static void SetTimeFromCurrentPitch(this AudioSource source) {
-            float startTime = source.IsReversePitch() ? source.GetEndOfClip() : source.GetStartOfClip();
-            source.SetTime(startTime);
+        public static void SkipTime(this AudioSource source, float time) {
+            if (float.IsNegative(time)) {
+                source.DecreaseTime(time);
+                return;
+            }
+            source.IncreaseTime(time);
+        }
+
+        public static void IncreaseTime(this AudioSource source, float time) {
+            float currentTime = source.ExceedsClipEnd(time) ? source.GetEndOfClip() : source.time + time;
+            source.SetTime(currentTime);
+        }
+
+        public static void DecreaseTime(this AudioSource source, float time) {
+            float currentTime = source.ExceedsClipStart(time) ? 0f : source.time + time;
+            source.SetTime(currentTime);
+        }
+
+        public static bool IsReversePitch(this AudioSource source) {
+            return float.IsNegative(source.pitch);
         }
 
         public static bool IsProgressValid(this AudioSource source, float progress) {
@@ -29,8 +51,12 @@ namespace AudioManager.Helper {
             return (source.clip.length * Constants.MAX_PROGRESS);
         }
 
-        public static float GetStartOfClip(this AudioSource source) {
-            return (source.clip.length * Constants.MIN_PROGRESS);
+        public static void TogglePause(this AudioSource source) {
+            if (source.isPlaying) {
+                source.Pause();
+                return;
+            }
+            source.UnPause();
         }
 
         public static bool IsSameVolume(this AudioSource source, float volume) {
@@ -49,50 +75,8 @@ namespace AudioManager.Helper {
             return source.time + time < float.Epsilon;
         }
 
-        public static void IncreaseTime(this AudioSource source, float time) {
-            float currentTime = source.ExceedsClipEnd(time) ? source.GetEndOfClip() : source.time + time;
-            source.SetTime(currentTime);
-        }
-
-        public static void DecreaseTime(this AudioSource source, float time) {
-            float currentTime = source.ExceedsClipStart(time) ? 0f : source.time + time;
-            source.SetTime(currentTime);
-        }
-
-        public static AudioError TryGetGroupValue(this AudioSource source, string exposedParameterName, out float currentValue) {
-            AudioError error = AudioError.OK;
-            if (!source.outputAudioMixerGroup.audioMixer.GetFloat(exposedParameterName, out currentValue)) {
-                error = AudioError.MIXER_NOT_EXPOSED;
-            }
-            return error;
-        }
-
-        public static AudioError TrySetGroupValue(this AudioSource source, string exposedParameterName, float newValue) {
-            AudioError error = AudioError.OK;
-            if (!source.outputAudioMixerGroup.audioMixer.SetFloat(exposedParameterName, newValue)) {
-                error = AudioError.MIXER_NOT_EXPOSED;
-            }
-            return error;
-        }
-
-        public static AudioError TryClearGroupValue(this AudioSource source, string exposedParameterName) {
-            AudioError error = AudioError.OK;
-            if (!source.outputAudioMixerGroup.audioMixer.ClearFloat(exposedParameterName)) {
-                error = AudioError.MIXER_NOT_EXPOSED;
-            }
-            return error;
-        }
-
-        public static AudioError IsSoundValid(this AudioSource source) {
-            AudioError error = AudioError.OK;
-
-            if (!source) {
-                error = AudioError.MISSING_SOURCE;
-            }
-            else if (!source.clip) {
-                error = AudioError.MISSING_CLIP;
-            }
-            return error;
+        public static void SetAudioMixerGroup(this AudioSource source, AudioMixerGroup mixerGroup) {
+            source.outputAudioMixerGroup = mixerGroup;
         }
 
         public static bool IsAudioMixerGroupValid(this AudioSource source) {
@@ -110,6 +94,10 @@ namespace AudioManager.Helper {
             return source.IsReversePitch() ? (source.clip.length + remainingTime) : remainingTime;
         }
 
+        public static double GetClipLength(this AudioSource source) {
+            return (double)source.clip.samples / source.clip.frequency;
+        }
+
         public static bool IsSound2D(this AudioSource source) {
             return AudioHelper.IsSound2D(source.spatialBlend);
         }
@@ -119,11 +107,7 @@ namespace AudioManager.Helper {
         }
 
         public static float GetProgress(this AudioSource source) {
-            return (float)source.timeSamples / (float)source.clip.samples;
-        }
-
-        public static void SetAudioMixerGroup(this AudioSource source, AudioMixerGroup mixerGroup) {
-            source.outputAudioMixerGroup = mixerGroup;
+            return (float)source.timeSamples / source.clip.samples;
         }
 
         public static void CopyAudioSourceSettings(this AudioSource copyTo, AudioSource copyFrom) {
@@ -136,8 +120,8 @@ namespace AudioManager.Helper {
             Set3DAudioOptions(copyTo, spatialBlend, dopplerLevel, spreadAngle, rolloffMode, minDistance, maxDistance);
         }
 
-        public static void CreateEmptyGameObject(this AudioSource parentSource, string name, Vector3 position, Transform parent, out AudioSource newSource) {
-            GameObject newGameObject = AudioHelper.CreateNewGameObject(name);
+        public static void CreateEmptyGameObject(this AudioSource parentSource, Vector3 position, Transform parent, out AudioSource newSource) {
+            GameObject newGameObject = AudioHelper.CreateNewGameObject();
             Transform newTransform = AudioHelper.GetTransform(newGameObject);
             AudioHelper.SetTransformParent(newTransform, parent);
             AudioHelper.SetTransformPosition(newTransform, position);

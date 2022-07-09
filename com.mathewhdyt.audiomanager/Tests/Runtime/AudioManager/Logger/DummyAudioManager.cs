@@ -4,13 +4,6 @@ using UnityEngine;
 using UnityEngine.Audio;
 
 public class DummyAudioManager : IAudioManager {
-    /// <summary>
-    /// Empty Constructor.
-    /// </summary>
-    public DummyAudioManager() {
-        // Nothing to do.
-    }
-
     public AudioError AddSoundFromPath(string name, string path, float volume, float pitch, bool loop, AudioSource source, AudioMixerGroup mixerGroup) {
         return AudioError.OK;
     }
@@ -19,68 +12,75 @@ public class DummyAudioManager : IAudioManager {
         return null;
     }
 
-    public AudioError Play(string name) {
+    public AudioError Play(string name, ChildType child) {
         return AudioError.OK;
     }
 
-    public AudioError PlayAtTimeStamp(string name, float startTime) {
+    public AudioError PlayAtTimeStamp(string name, float startTime, ChildType child) {
         return AudioError.OK;
     }
 
-    public AudioError GetPlaybackPosition(string name, out float time) {
-        time = Constants.NULL_VALUE;
+    public AudioError GetPlaybackPosition(string name, out float time, ChildType child) {
+        time = Constants.F_NULL_VALUE;
         return AudioError.OK;
     }
 
-    public AudioError SetPlaypbackDirection(string name, float pitch) {
+    public AudioError SetPlaybackDirection(string name, float pitch, ChildType child) {
         return AudioError.OK;
     }
 
-    public AudioError PlayAt3DPosition(string name, Vector3 position) {
+    public AudioError RegisterChildAt3DPos(string name, Vector3 position, out ChildType child) {
+        child = ChildType.AT_3D_POS;
         return AudioError.OK;
     }
 
-    public AudioError PlayOneShotAt3DPosition(string name, Vector3 position) {
+    public AudioError RegisterChildAttachedToGo(string name, GameObject gameObject, out ChildType child) {
+        child = ChildType.ATTCHD_TO_GO;
         return AudioError.OK;
     }
 
-    public AudioError PlayAttachedToGameObject(string name, GameObject gameObject) {
+    public AudioError PlayDelayed(string name, float delay, ChildType child) {
         return AudioError.OK;
     }
 
-    public AudioError PlayOneShotAttachedToGameObject(string name, GameObject gameObject) {
+    public AudioError PlayOneShot(string name, ChildType child) {
         return AudioError.OK;
     }
 
-    public AudioError PlayDelayed(string name, float delay) {
+    public AudioError ChangePitch(string name, float minPitch, float maxPitch, ChildType child) {
         return AudioError.OK;
     }
 
-    public AudioError PlayOneShot(string name) {
+    public AudioError GetClipLength(string name, out double length, ChildType child) {
+        length = Constants.D_NULL_VALUE;
         return AudioError.OK;
     }
 
-    public AudioError ChangePitch(string name, float minPitch, float maxPitch) {
+    public AudioError PlayScheduled(string name, double time, ChildType child) {
         return AudioError.OK;
     }
 
-    public AudioError PlayScheduled(string name, double time) {
+    public AudioError Stop(string name, ChildType child) {
         return AudioError.OK;
     }
 
-    public AudioError Stop(string name) {
+    public AudioError ToggleMute(string name, ChildType child) {
         return AudioError.OK;
     }
 
-    public AudioError ToggleMute(string name) {
+    public AudioError TogglePause(string name, ChildType child) {
         return AudioError.OK;
     }
 
-    public AudioError TogglePause(string name) {
+    public AudioError SubscribeSourceChanged(string name, SourceChangedCallback callback) {
         return AudioError.OK;
     }
 
-    public AudioError SubscribeProgressCoroutine(string name, float progress, AudioFinishedCallback callback) {
+    public AudioError UnsubscribeSourceChanged(string name, SourceChangedCallback callback) {
+        return AudioError.OK;
+    }
+
+    public AudioError SubscribeProgressCoroutine(string name, float progress, ProgressCoroutineCallback callback) {
         return AudioError.OK;
     }
 
@@ -88,21 +88,21 @@ public class DummyAudioManager : IAudioManager {
         return AudioError.OK;
     }
 
-    public AudioError GetProgress(string name, out float progress) {
-        progress = Constants.NULL_VALUE;
+    public AudioError GetProgress(string name, out float progress, ChildType child) {
+        progress = Constants.F_NULL_VALUE;
         return AudioError.OK;
     }
 
-    public AudioError TryGetSource(string name, out AudioSource source) {
+    public AudioError TryGetSource(string name, out AudioSourceWrapper source) {
         source = null;
         return AudioError.OK;
     }
 
-    public AudioError LerpPitch(string name, float endValue, float waitTime, int granularity) {
+    public AudioError LerpPitch(string name, float endValue, float duration, ChildType child) {
         return AudioError.OK;
     }
 
-    public AudioError LerpVolume(string name, float endValue, float waitTime, int granularity) {
+    public AudioError LerpVolume(string name, float endValue, float duration, ChildType child) {
         return AudioError.OK;
     }
 
@@ -111,7 +111,7 @@ public class DummyAudioManager : IAudioManager {
     }
 
     public AudioError GetGroupValue(string name, string exposedParameterName, out float currentValue) {
-        currentValue = Constants.NULL_VALUE;
+        currentValue = Constants.F_NULL_VALUE;
         return AudioError.OK;
     }
 
@@ -119,15 +119,15 @@ public class DummyAudioManager : IAudioManager {
         return AudioError.OK;
     }
 
-    public AudioError LerpGroupValue(string name, string exposedParameterName, float endValue, float waitTime, int granularity) {
+    public AudioError LerpGroupValue(string name, string exposedParameterName, float endValue, float duration) {
         return AudioError.OK;
     }
 
-    public AudioError RemoveGroup(string name) {
+    public AudioError RemoveGroup(string name, ChildType child) {
         return AudioError.OK;
     }
 
-    public AudioError AddGroup(string name, AudioMixerGroup mixerGroup) {
+    public AudioError AddGroup(string name, AudioMixerGroup mixerGroup, ChildType child) {
         return AudioError.OK;
     }
 
@@ -135,15 +135,15 @@ public class DummyAudioManager : IAudioManager {
         return AudioError.OK;
     }
 
-    public AudioError Set3DAudioOptions(string name, float minDistance, float maxDistance, float spatialBlend, float spread, float dopplerLevel, AudioRolloffMode rolloffMode) {
+    public AudioError Set3DAudioOptions(string name, float minDistance, float maxDistance, ChildType child, float spatialBlend, float spread, float dopplerLevel, AudioRolloffMode rolloffMode) {
         return AudioError.OK;
     }
 
-    public AudioError SetStartTime(string name, float startTime) {
+    public AudioError SetStartTime(string name, float startTime, ChildType child) {
         return AudioError.OK;
     }
 
-    public AudioError SkipTime(string name, float time) {
+    public AudioError SkipTime(string name, float time, ChildType child) {
         return AudioError.OK;
     }
 }
