@@ -11,7 +11,8 @@ public class TestNullAudioManager {
     private float m_val;
     private Vector3 m_pos;
     private GameObject m_go;
-    private AudioFinishedCallback m_cb;
+    private ProgressCoroutineCallback m_pCb;
+    private SourceChangedCallback m_sCb;
     private AudioMixerGroup m_mixer;
 
     [SetUp]
@@ -20,7 +21,8 @@ public class TestNullAudioManager {
         m_val = float.NaN;
         m_pos = Vector3.zero;
         m_go = null;
-        m_cb = null;
+        m_pCb = null;
+        m_sCb = null;
         m_mixer = null;
         m_am = new NullAudioManager();
     }
@@ -57,33 +59,23 @@ public class TestNullAudioManager {
     }
 
     [Test]
-    public void TestSetPlaypbackDirection() {
-        AudioError error = m_am.SetPlaypbackDirection(m_text, m_val);
+    public void TestSetPlaybackDirection() {
+        AudioError error = m_am.SetPlaybackDirection(m_text, m_val);
         Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
     }
 
     [Test]
-    public void TestPlayAt3DPosition() {
-        AudioError error = m_am.PlayAt3DPosition(m_text, m_pos);
+    public void TestRegisterChildAt3DPos() {
+        AudioError error = m_am.RegisterChildAt3DPos(m_text, m_pos, out ChildType child);
         Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
+        Assert.AreEqual(ChildType.AT_3D_POS, child);
     }
 
     [Test]
-    public void TestPlayOneShotAt3DPosition() {
-        AudioError error = m_am.PlayOneShotAt3DPosition(m_text, m_pos);
+    public void TestRegisterAttachedToGo() {
+        AudioError error = m_am.RegisterChildAttachedToGo(m_text, m_go, out ChildType child);
         Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
-    }
-
-    [Test]
-    public void TestPlayAttachedToGameObject() {
-        AudioError error = m_am.PlayAttachedToGameObject(m_text, m_go);
-        Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
-    }
-
-    [Test]
-    public void TestPlayOneShotAttachedToGameObject() {
-        AudioError error = m_am.PlayOneShotAttachedToGameObject(m_text, m_go);
-        Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
+        Assert.AreEqual(ChildType.ATTCHD_TO_GO, child);
     }
 
     [Test]
@@ -129,8 +121,20 @@ public class TestNullAudioManager {
     }
 
     [Test]
+    public void TestSubscribeSourceChanged() {
+        AudioError error = m_am.SubscribeSourceChanged(m_text, m_sCb);
+        Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
+    }
+
+    [Test]
+    public void TestUnsubscribeSourceChanged() {
+        AudioError error = m_am.UnsubscribeSourceChanged(m_text, m_sCb);
+        Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
+    }
+
+    [Test]
     public void TestSubscribeProgressCoroutine() {
-        AudioError error = m_am.SubscribeProgressCoroutine(m_text, m_val, m_cb);
+        AudioError error = m_am.SubscribeProgressCoroutine(m_text, m_val, m_pCb);
         Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
     }
 
@@ -149,7 +153,7 @@ public class TestNullAudioManager {
 
     [Test]
     public void TestTryGetSource() {
-        AudioError error = m_am.TryGetSource(m_text, out AudioSource source);
+        AudioError error = m_am.TryGetSource(m_text, out var source);
         Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
         Assert.IsNull(source);
     }
@@ -212,6 +216,12 @@ public class TestNullAudioManager {
     [Test]
     public void TestSet3DAudioOptions() {
         AudioError error = m_am.Set3DAudioOptions(m_text);
+        Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
+    }
+
+    [Test]
+    public void TestGetClipLength() {
+        AudioError error = m_am.GetClipLength(m_text, out _);
         Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
     }
 
