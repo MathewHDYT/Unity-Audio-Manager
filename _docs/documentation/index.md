@@ -18,16 +18,17 @@ Shows all the possible ```AudioError``` enum values that can be returned by the 
 | 2      | ALREADY_EXISTS                | There already exists a sound with that name                                 					  |
 | 3      | INVALID_PATH                  | Path does not lead to a valid audio clip                           							  |
 | 4      | INVALID_END_VALUE             | The given endValue is already the same as the current value                                    |
-| 5      | INVALID_GRANULARITY           | The given granularity is too small, has to be higher than or equal to 1                        |
-| 6      | INVALID_TIME                  | The given time exceeds the actual length of the clip                                           |
-| 7      | INVALID_PROGRESS              | The given value is to close to the end or the start of the actual clip length, because playing audio is frame rate independent |
-| 8      | MIXER_NOT_EXPOSED             | The given parameter in the AudioMixer is not exposed or does not exist                         |
-| 9      | MISSING_SOURCE                | Sound does not have an AudioSource component on the GameObject the AudioManager resides on     |
-| 10     | MISSING_MIXER_GROUP           | Group methods may only be called with a sound that has a set AudioMixerGroup                   |
-| 11     | CAN_NOT_BE_3D                 | The sound can not be 3D, because spatialBlend is set to be 2D instead of 3D                    |
-| 12     | NOT_INITIALIZED               | No IAudioManager has been registered with the ServiceLocator ensure a GameObject with the AudioManagerSettings script is in your scene |
-| 13     | MISSING_CLIP                  | Sound does not have an AudioClip component that can be played                                  |
-| 14     | MISSING_PARENT                | AudioManager did not get passed a valid parent gameObject with the needed components. (MonoBehaviour, Transform) |
-| 15     | INVALID_PARENT                | The given gameObject passed to the method was null and therefore no AudioSource component can be attached and played on it |
-| 16     | ALREADY_SUBSCRIBED            | Callback with the exact same progress was already subscribed for this sound					  |
-| 17     | NOT_SUBSCRIBED                | Callback with the progress was not yet subscribed for this sound								  |
+| 5      | INVALID_TIME                  | The given time exceeds the actual length of the clip                                           |
+| 6      | INVALID_PROGRESS              | The given value is to close to the end or the start of the actual clip length, because playing audio is frame rate independent |
+| 7      | MIXER_NOT_EXPOSED             | The given parameter in the AudioMixer is not exposed or does not exist                         |
+| 8      | MISSING_SOURCE                | Sound does not have an AudioSource component on the GameObject the AudioManager resides on     |
+| 9      | MISSING_MIXER_GROUP           | Group methods may only be called with a sound that has a set AudioMixerGroup                   |
+| 10     | CAN_NOT_BE_3D                 | The sound can not be 3D, because spatialBlend is set to be 2D instead of 3D                    |
+| 11     | NOT_INITIALIZED               | No IAudioManager has been registered with the ServiceLocator ensure a GameObject with the AudioManagerSettings script is in your scene |
+| 12     | MISSING_CLIP                  | Sound does not have an AudioClip component that can be played                                  |
+| 13     | MISSING_PARENT                | AudioManager did not get passed a valid parent gameObject with the needed components. (MonoBehaviour, Transform) |
+| 14     | INVALID_PARENT                | The given gameObject passed to the method was null and therefore no AudioSource component can be attached and played on it |
+| 15     | ALREADY_SUBSCRIBED            | Callback with the exact same progress was already subscribed for this sound					  |
+| 16     | NOT_SUBSCRIBED                | Callback with the progress was not yet subscribed for this sound								  |
+| 17     | MISSING_WRAPPER               | The given AudioSourceWrapper is null								  							  |
+| 18     | INVALID_CHILD                 | The given sound does not have a registered child of the given type.							  |
