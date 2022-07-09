@@ -254,7 +254,7 @@ public class TestDefaultAudioManager {
         Assert.IsTrue(startTime - m_source.time <= m_maxDifference);
         // The startTime is only reset at the approximate end of the song, because a higher resolution isn't possible.
         // Therefore we wait a little bit more than the actual time, to ensure the startTime is actually reset.
-        yield return new WaitForSeconds(m_source.clip.length);
+        yield return new WaitForSeconds(m_clip.length);
         Assert.IsFalse(m_source.isPlaying);
         Assert.AreEqual(0f, m_source.time);
     }
@@ -364,7 +364,7 @@ public class TestDefaultAudioManager {
         /// Valid case (AudioError.OK)
         /// ---------------------------------------------
         child = ChildType.PARENT;
-        float endOfClip = (m_source.clip.length * Constants.MAX_PROGRESS);
+        float endOfClip = (m_clip.length * Constants.MAX_PROGRESS);
         error = m_audioManager.SetPlaybackDirection(m_audioSourceName, pitch, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.AreEqual(pitch, m_source.pitch);
@@ -1149,7 +1149,7 @@ public class TestDefaultAudioManager {
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_source.isPlaying);
 
-        yield return new WaitForSeconds(m_clip.length * Constants.MIN_PROGRESS);
+        yield return new WaitForSeconds(m_clip.length);
         Assert.AreEqual(calledCount, calledUnsubCallbackCount);
 
         /// ---------------------------------------------
@@ -1161,7 +1161,7 @@ public class TestDefaultAudioManager {
         error = m_audioManager.Play(m_audioSourceName, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_source.isPlaying);
-        yield return new WaitForSeconds(m_clip.length * Constants.MIN_PROGRESS);
+        yield return new WaitForSeconds(m_clip.length);
         Assert.AreEqual(1, calledInvalidCallback);
 
         error = m_audioManager.SubscribeProgressCoroutine(m_audioSourceName, progress, resubImdtCallback);
@@ -1170,7 +1170,7 @@ public class TestDefaultAudioManager {
         error = m_audioManager.Play(m_audioSourceName, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_source.isPlaying);
-        yield return new WaitForSeconds(m_clip.length * Constants.MIN_PROGRESS);
+        yield return new WaitForSeconds(m_clip.length);
         Assert.IsTrue(calledImdtCallbackCount >= 1);
 
         // Unsubscribe callback to ensure the other callback can be subscribed successfully.
@@ -1188,9 +1188,9 @@ public class TestDefaultAudioManager {
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsTrue(m_source.isPlaying);
         Assert.AreEqual(0, calledLoopCallbackCount);
-        yield return new WaitForSeconds(m_clip.length * Constants.MIN_PROGRESS);
+        yield return new WaitForSeconds(m_clip.length / 2);
         Assert.AreEqual(1, calledLoopCallbackCount);
-        yield return new WaitForSeconds(m_clip.length + (m_clip.length * Constants.MIN_PROGRESS));
+        yield return new WaitForSeconds(m_clip.length / 2);
         Assert.AreEqual(2, calledLoopCallbackCount);
 
         // Unsubscribe callback to ensure the other callback can be subscribed successfully.
@@ -1207,7 +1207,7 @@ public class TestDefaultAudioManager {
         error = m_audioManager.Play(m_initalizedAudioSourceName, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.AreEqual(calledCount++, calledUnsubCallbackCount);
-        yield return new WaitForSeconds(m_clip.length * Constants.MIN_PROGRESS);
+        yield return new WaitForSeconds(m_clip.length);
         Assert.AreEqual(calledCount, calledUnsubCallbackCount);
         Assert.AreEqual(child, calledChild);
 
@@ -1225,7 +1225,7 @@ public class TestDefaultAudioManager {
         error = m_audioManager.Play(m_initalizedAudioSourceName, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.AreEqual(calledCount++, calledUnsubCallbackCount);
-        yield return new WaitForSeconds(m_clip.length * Constants.MIN_PROGRESS);
+        yield return new WaitForSeconds(m_clip.length);
         Assert.AreEqual(calledCount, calledUnsubCallbackCount);
         Assert.AreEqual(child, calledChild);
 
@@ -1248,7 +1248,7 @@ public class TestDefaultAudioManager {
         error = m_audioManager.Play(m_initalizedAudioSourceName, child);
         Assert.AreEqual(AudioError.OK, error);
         Assert.AreEqual(calledCount++, calledUnsubCallbackCount);
-        yield return new WaitForSeconds(m_clip.length * Constants.MIN_PROGRESS);
+        yield return new WaitForSeconds(m_clip.length);
         Assert.AreEqual(calledCount, calledUnsubCallbackCount);
         Assert.AreEqual(child, calledChild);
 
