@@ -154,17 +154,17 @@ using AudioManager.Core;
 using AudioManager.Locator;
 
 public class AudioHandler {
-	// Set the cachedInstance to NullAudioManager per default,
-	// to ensure EnableAudio doesn't register null and disable audio completly.
-	private IAudioManager cachedInstance = NullAudioManager;
+    // Set the cachedInstance to NullAudioManager per default,
+    // to ensure EnableAudio doesn't register null and disable audio completly.
+    private IAudioManager cachedInstance = NullAudioManager;
 
     public static void DisableAudio() {
-    	cachedInstance = ServiceLocator.GetService();
-    	ServiceLocator.RegisterService(null);
+        cachedInstance = ServiceLocator.GetService();
+        ServiceLocator.RegisterService(null);
     }
 
-	public static void EnableAudio() {
-    	ServiceLocator.RegisterService(cachedInstance);
-	}
+    public static void EnableAudio() {
+        ServiceLocator.RegisterService(cachedInstance);
+    }
 }
 ```

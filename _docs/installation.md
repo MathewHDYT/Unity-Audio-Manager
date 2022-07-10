@@ -48,7 +48,7 @@ private IAudioManager am;
 private void Start() {
     am = ServiceLocator.GetService();
     // Calling method in AudioManager
-	am.Play("SoundName");
+    am.Play("SoundName");
 }
 ```
 

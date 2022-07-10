@@ -13,7 +13,7 @@ Additonally seperate assemblies and namespaces for the different parts of the Au
 
 ### Service Locator pattern
 
-A more detailed description on the [```Service Locator```](https://gameprogrammingpatterns.com/service-locator.html) pattern and other patterns invaluable for game design can be found on https://gameprogrammingpatterns.com/. As well as examples on all the patterns can be found in this github repository [Unity Design Patterns](https://github.com/QianMo/Unity-Design-Pattern).
+A more detailed description on the [```Service Locator```](https://gameprogrammingpatterns.com/service-locator.html) pattern and other patterns invaluable for game design can be found on [Game Programming Pattern](https://gameprogrammingpatterns.com/). As well as examples on all the patterns can be found in this github repository [Unity Design Patterns](https://github.com/QianMo/Unity-Design-Pattern).
 
 The short explantion tough is that this pattern makes it possible to make a service globally accessible, which isn't always a good idea but very helpful for an ```AudioManager``` which might be entangled with a lot of your code. Without directly coupling to the class that actually implements the behaviour.
 Meaning you use the static ```ServiceLocator``` to get an instance of ```IAudioManager```, which could be a custom implementation the ```NullAudioManager``` if an error occured more simply the ```DefaultAudioManager``` or even the ```LoggedAudioManager```. As you can hopefully see this makes it much easier to write your own implementation see ([Custom AudioManager](https://mathewhdyt.github.io/Unity-Audio-Manager/custom_audio_manager)) if you want to know more.
