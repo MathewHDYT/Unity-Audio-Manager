@@ -7,10 +7,13 @@ grand_parent: Documentation
 
 ## Change Group Value
 **What it does:**
-Changes the value of the given exposed parameter for the complete [```AudioMixerGroup```](https://docs.unity3d.com/ScriptReference/Audio.AudioMixerGroup.html) of a given sound to the given newValue and returns an AudioError (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)), showing wheter and how changing the value of the given exposed parameter failed.
+Changes the value of the given exposed parameter for the complete [```AudioMixerGroup```](https://docs.unity3d.com/ScriptReference/Audio.AudioMixerGroup.html) of the given sound to the given newValue
+and returns an AudioError (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)), showing wheter and how changing the value of the given exposed parameter failed.
+Be aware that the values work on a logarithmic scale so to accurately change the value like expected use ```Mathf.Log10()``` on the value you pass beforehand.
 
 [**Possible Errors:**](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)
 - DOES_NOT_EXIST
+- MISSING_WRAPPER
 - MISSING_SOURCE
 - MISSING_CLIP
 - MISSING_MIXER_GROUP
@@ -24,7 +27,8 @@ Changes the value of the given exposed parameter for the complete [```AudioMixer
 ```csharp
 string soundName = "SoundName";
 string exposedParameterName = "Volume";
-float newValue = -80f;
+float newValue = 0.0001f;
+newValue = Mathf.Log10(newValue) * 20; // Transforms a range from 0.0001 to 1 into -80 to 0.
 
 AudioError error = am.ChangeGroupValue(soundName, exposedParameterName, newValue);
 if (error != AudioError.OK) {

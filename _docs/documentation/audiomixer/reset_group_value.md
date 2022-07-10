@@ -11,6 +11,7 @@ Reset the value of the given exposed parameter for the complete [```AudioMixerGr
 
 [**Possible Errors:**](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)
 - DOES_NOT_EXIST
+- MISSING_WRAPPER
 - MISSING_SOURCE
 - MISSING_CLIP
 - MISSING_MIXER_GROUP

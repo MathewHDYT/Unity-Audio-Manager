@@ -11,6 +11,7 @@ Adds the given [```AudioMixerGroup```](https://docs.unity3d.com/ScriptReference/
 
 [**Possible Errors:**](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)
 - DOES_NOT_EXIST
+- MISSING_WRAPPER
 - MISSING_SOURCE
 - MISSING_CLIP
 

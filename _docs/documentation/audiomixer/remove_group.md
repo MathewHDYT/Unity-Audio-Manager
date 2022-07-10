@@ -7,10 +7,11 @@ grand_parent: Documentation
 
 ## Remove Group
 **What it does:**
-Remove the [```AudioMixerGroup```](https://docs.unity3d.com/ScriptReference/Audio.AudioMixerGroup.html) of a given sound and returns an AudioError (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)), showing wheter and how removing the group failed.
+Remove the [```AudioMixerGroup```](https://docs.unity3d.com/ScriptReference/Audio.AudioMixerGroup.html) of the given sound and returns an AudioError (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)), showing wheter and how removing the group failed.
 
 [**Possible Errors:**](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)
 - DOES_NOT_EXIST
+- MISSING_WRAPPER
 - MISSING_SOURCE
 - MISSING_CLIP
 
