@@ -1,5 +1,6 @@
 using AudioManager.Core;
 using AudioManager.Locator;
+using AudioManager.Service;
 using AudioManager.Logger;
 using AudioManager.Provider;
 using AudioManager.Settings;
@@ -37,7 +38,11 @@ public class TestAudioManagerSettings {
     public void TestAwake() {
         m_settings.TestAwake();
         IAudioManager audioManager = ServiceLocator.GetService();
+#if UNITY_EDITOR
         Assert.IsTrue(audioManager is LoggedAudioManager);
+#else
+        Assert.IsTrue(audioManager is DefaultAudioManager);
+#endif // UNITY_EDITOR
         audioManager.TryGetSource(m_soundName, out var source);
         Assert.IsNotNull(source);
     }

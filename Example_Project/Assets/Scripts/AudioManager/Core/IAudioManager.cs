@@ -247,8 +247,8 @@ namespace AudioManager.Core {
         /// Gets the value of the given exposed parameter for the complete <see cref="AudioMixerGroup"/> of the given sound.
         /// </summary>
         /// <param name="name">Name of the registered sound.</param>
-        /// <param name="value">Variable the current exposed parameter will be copied into (<see cref="float.NaN"/> on failure).</param>
         /// <param name="exposedParameterName">Name of the exposed parameter we want to get.</param>
+        /// <param name="currentValue">Variable the current exposed parameter will be copied into (<see cref="float.NaN"/> on failure).</param>
         /// <returns><see cref="AudioError"/>, showing wheter and how getting the current exposed parameter value failed.</returns>
         public AudioError GetGroupValue(string name, string exposedParameterName, out float currentValue);
 

@@ -1,6 +1,7 @@
 using AudioManager.Core;
 using AudioManager.Locator;
 using AudioManager.Logger;
+using AudioManager.Service;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -176,7 +177,7 @@ public class MethodCalls : MonoBehaviour {
         ClearText();
         float randomXPos = Random.Range(-15f, 15f);
         float randomYPos = Random.Range(-7.5f, 10f);
-        Vector3 worldPosition = new Vector3(randomXPos, randomYPos, 5f);
+        var worldPosition = new Vector3(randomXPos, randomYPos, 5f);
 
         var selectedSoundName = soundNameDropDown.options[soundNameDropDown.value].text;
         am.RegisterChildAttachedToGo(selectedSoundName, radio, out _);

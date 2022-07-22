@@ -87,15 +87,15 @@ namespace AudioManager.Logger {
         }
 
         private bool CanLog(LoggingLevel level, params object[] args) {
-            return args is object && level <= m_logLevel;
+            return args is not null && level <= m_logLevel;
         }
 
         private bool CanLog(object message, LoggingLevel level) {
-            return message is object && level <= m_logLevel;
+            return message is not null && level <= m_logLevel;
         }
 
         private bool CanLog(System.Exception exception, LoggingLevel level) {
-            return exception is object && level <= m_logLevel;
+            return exception is not null && level <= m_logLevel;
         }
     }
 }

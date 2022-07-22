@@ -13,8 +13,8 @@ namespace AudioManager.Service {
         private readonly Transform m_parentTransform;
 
         // Private member variables.
-        private IDictionary<string, IDictionary<float, Coroutine>> m_soundProgressDictionary;
-        private IDictionary<string, AudioSourceWrapper> m_soundDictionary;
+        private readonly IDictionary<string, IDictionary<float, Coroutine>> m_soundProgressDictionary;
+        private readonly IDictionary<string, AudioSourceWrapper> m_soundDictionary;
 
         public DefaultAudioManager(IDictionary<string, AudioSourceWrapper> sounds, GameObject parentGameObject) {
             m_soundProgressDictionary = new Dictionary<string, IDictionary<float, Coroutine>>();

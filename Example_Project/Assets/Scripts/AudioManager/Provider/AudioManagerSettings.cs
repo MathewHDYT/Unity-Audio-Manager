@@ -22,7 +22,7 @@ namespace AudioManager.Provider {
         [Tooltip("Inital sounds that should be registered on Awake with the AudioManager and the given settings.")]
         private AudioSourceSetting[] settings;
 
-        private static AudioManagerSettings instance;
+        private static AudioManagerSettings m_instace;
 
         private void OnEnable() {
             // When the gameObject first gets enabled we set the given hideFlags.
@@ -36,11 +36,11 @@ namespace AudioManager.Provider {
 
             // Ensure this is the only instance that has been registered as DontDestroyOnLoad, if not detroy this instance.
             // This is done to ensure we don't create a new instance each time we reload the scene.
-            if (instance is not null) {
+            if (m_instace is not null) {
                 Destroy(gameObject);
                 return;
             }
-            instance = this;
+            m_instace = this;
 
             SettingsHelper.SetupSounds(out var sounds, settings, this.gameObject);
             ServiceLocator.RegisterService(new DefaultAudioManager(sounds, this.gameObject));
@@ -72,6 +72,7 @@ namespace AudioManager.Provider {
         }
 
         public void TestAwake() {
+            m_instace = null;
             Awake();
         }
 #endif // UNITY_EDITOR

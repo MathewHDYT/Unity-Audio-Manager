@@ -13,7 +13,7 @@ public class TestAudioSourceWrapper {
 
     [SetUp]
     public void TestSetUp() {
-        GameObject gameObject = new GameObject();
+        var gameObject = new GameObject();
         m_source = gameObject.AddComponent<AudioSource>();
         m_groupSource = gameObject.AddComponent<AudioSource>();
         AudioMixer mixer = Resources.Load<AudioMixer>("Mixer");
