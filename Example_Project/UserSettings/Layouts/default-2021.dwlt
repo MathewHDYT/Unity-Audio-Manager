@@ -19,7 +19,7 @@ MonoBehaviour:
     width: 1920
     height: 997
   m_ShowMode: 4
-  m_Title: Hierarchy
+  m_Title: Project
   m_RootView: {fileID: 2}
   m_MinSize: {x: 875, y: 300}
   m_MaxSize: {x: 10000, y: 10000}
@@ -119,7 +119,7 @@ MonoBehaviour:
   m_MinSize: {x: 300, y: 200}
   m_MaxSize: {x: 24288, y: 16192}
   vertical: 0
-  controlID: 25
+  controlID: 21
 --- !u!114 &6
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 200}
   m_MaxSize: {x: 16192, y: 16192}
   vertical: 1
-  controlID: 32
+  controlID: 54
 --- !u!114 &7
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -169,7 +169,7 @@ MonoBehaviour:
   m_MinSize: {x: 200, y: 100}
   m_MaxSize: {x: 16192, y: 8096}
   vertical: 0
-  controlID: 33
+  controlID: 55
 --- !u!114 &8
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -233,7 +233,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 1
   m_Script: {fileID: 12006, guid: 0000000000000000e000000000000000, type: 0}
-  m_Name: TestRunnerWindow
+  m_Name: ProjectBrowser
   m_EditorClassIdentifier: 
   m_Children: []
   m_Position:
@@ -242,9 +242,9 @@ MonoBehaviour:
     y: 557
     width: 1348
     height: 390
-  m_MinSize: {x: 101, y: 121}
-  m_MaxSize: {x: 4001, y: 4021}
-  m_ActualView: {fileID: 18}
+  m_MinSize: {x: 231, y: 271}
+  m_MaxSize: {x: 10001, y: 10021}
+  m_ActualView: {fileID: 16}
   m_Panes:
   - {fileID: 16}
   - {fileID: 17}
@@ -252,8 +252,8 @@ MonoBehaviour:
   - {fileID: 19}
   - {fileID: 20}
   - {fileID: 12}
-  m_Selected: 2
-  m_LastSelected: 3
+  m_Selected: 0
+  m_LastSelected: 2
 --- !u!114 &11
 MonoBehaviour:
   m_ObjectHideFlags: 52
@@ -583,7 +583,7 @@ MonoBehaviour:
       scrollPos: {x: 0, y: 0}
       m_SelectedIDs: 
       m_LastClickedID: 0
-      m_ExpandedIDs: 26edffff66edffffc0f4ffff26fbffff
+      m_ExpandedIDs: 6ad3feffaad3feff0edcfeffaae9feffeae9feff4ef2feff02fbfeff42fbfeffa603ffffde11ffff1e12ffff621affff9020ffffd020ffff1429ffffb62efffff62effff3a37ffff2e6effff6e6effffc276ffff5a98ffff9a98ffffeea0ffff16a7ffff56a7ffffaaafffff4cb5ffff8cb5ffffe0bdffff72c3ffffb2c3ffff86caffff22e8ffff62e8ffff22f2ffff26fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -953,22 +953,22 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Tests/AudioManager/Provider
+    - Assets/Tests/AudioManager/Service
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets/Tests/AudioManager/Provider
+  - Assets/Tests/AudioManager/Service
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\Mathew\Unity-Audio-Manager\Example_Project
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 311}
-    m_SelectedIDs: f64d0000
-    m_LastClickedID: 19958
-    m_ExpandedIDs: 00000000c84d0000ca4d0000cc4d0000ce4d0000d04d0000
+    scrollPos: {x: 0, y: 151}
+    m_SelectedIDs: fe4d0000
+    m_LastClickedID: 19966
+    m_ExpandedIDs: 00000000c84d0000ca4d0000cc4d0000ce4d0000d04d000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -1023,7 +1023,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c623000000000000ce4a0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -1109,7 +1109,7 @@ MonoBehaviour:
     m_LastAppliedPresetName: Default
     m_SaveData: []
   m_Spl:
-    ID: 115
+    ID: 103
     splitterInitialOffset: 264
     currentActiveSplitter: -1
     realSizes:
@@ -1141,7 +1141,7 @@ MonoBehaviour:
       name: Example Project
       fullName: Example Project
       resultStatus: 1
-      duration: 18.578632
+      duration: 18.653883
       messages: 
       output: 
       stacktrace: 
@@ -1157,7 +1157,7 @@ MonoBehaviour:
       name: Tests.Core.dll
       fullName: C:/Users/Mathew/Unity-Audio-Manager/Example_Project/Library/ScriptAssemblies/Tests.Core.dll
       resultStatus: 1
-      duration: 0.0473993
+      duration: 0.0571959
       messages: 
       output: 
       stacktrace: 
@@ -1173,7 +1173,7 @@ MonoBehaviour:
       name: TestAudioSourceWrapper
       fullName: TestAudioSourceWrapper
       resultStatus: 1
-      duration: 0.0413479
+      duration: 0.0507654
       messages: 
       output: 
       stacktrace: 
@@ -1189,7 +1189,7 @@ MonoBehaviour:
       name: TestConstructor
       fullName: TestAudioSourceWrapper.TestConstructor
       resultStatus: 1
-      duration: 0.0121364
+      duration: 0.013852
       messages: 
       output: 
       stacktrace: 
@@ -1206,7 +1206,7 @@ MonoBehaviour:
       name: TestGet
       fullName: TestAudioSourceWrapper.TestGet
       resultStatus: 1
-      duration: 0.0063355
+      duration: 0.0079467
       messages: 
       output: 
       stacktrace: 
@@ -1223,7 +1223,7 @@ MonoBehaviour:
       name: TestGetChildSource
       fullName: TestAudioSourceWrapper.TestGetChildSource
       resultStatus: 1
-      duration: 0.0012136
+      duration: 0.0012511
       messages: 
       output: 
       stacktrace: 
@@ -1240,7 +1240,7 @@ MonoBehaviour:
       name: TestInvokeChild
       fullName: TestAudioSourceWrapper.TestInvokeChild
       resultStatus: 1
-      duration: 0.0012757
+      duration: 0.0013201
       messages: 
       output: 
       stacktrace: 
@@ -1257,7 +1257,7 @@ MonoBehaviour:
       name: TestInvokeChildBool
       fullName: TestAudioSourceWrapper.TestInvokeChildBool
       resultStatus: 1
-      duration: 0.0012299
+      duration: 0.0012797
       messages: 
       output: 
       stacktrace: 
@@ -1274,7 +1274,7 @@ MonoBehaviour:
       name: TestInvokeChildDouble
       fullName: TestAudioSourceWrapper.TestInvokeChildDouble
       resultStatus: 1
-      duration: 0.0020696
+      duration: 0.002217
       messages: 
       output: 
       stacktrace: 
@@ -1291,7 +1291,7 @@ MonoBehaviour:
       name: TestInvokeChildFloat
       fullName: TestAudioSourceWrapper.TestInvokeChildFloat
       resultStatus: 1
-      duration: 0.0015179
+      duration: 0.0015902
       messages: 
       output: 
       stacktrace: 
@@ -1308,7 +1308,7 @@ MonoBehaviour:
       name: TestSet
       fullName: TestAudioSourceWrapper.TestSet
       resultStatus: 1
-      duration: 0.0030756
+      duration: 0.0049604
       messages: 
       output: 
       stacktrace: 
@@ -1325,7 +1325,7 @@ MonoBehaviour:
       name: Tests.Locator.dll
       fullName: C:/Users/Mathew/Unity-Audio-Manager/Example_Project/Library/ScriptAssemblies/Tests.Locator.dll
       resultStatus: 1
-      duration: 0.0211817
+      duration: 0.0235589
       messages: 
       output: 'There are no audio listeners in the scene. Please ensure there is
         always one audio listener in the scene
@@ -1344,7 +1344,7 @@ MonoBehaviour:
       name: TestNullAudioManager
       fullName: TestNullAudioManager
       resultStatus: 1
-      duration: 0.0134825
+      duration: 0.0158082
       messages: 
       output: 
       stacktrace: 
@@ -1360,7 +1360,7 @@ MonoBehaviour:
       name: TestAddGroup
       fullName: TestNullAudioManager.TestAddGroup
       resultStatus: 1
-      duration: 0.0005551
+      duration: 0.0006044
       messages: 
       output: 
       stacktrace: 
@@ -1377,7 +1377,7 @@ MonoBehaviour:
       name: TestAddSoundFromPath
       fullName: TestNullAudioManager.TestAddSoundFromPath
       resultStatus: 1
-      duration: 0.000214
+      duration: 0.000207
       messages: 
       output: 
       stacktrace: 
@@ -1394,7 +1394,7 @@ MonoBehaviour:
       name: TestChangeGroupValue
       fullName: TestNullAudioManager.TestChangeGroupValue
       resultStatus: 1
-      duration: 0.0002036
+      duration: 0.0001991
       messages: 
       output: 
       stacktrace: 
@@ -1411,7 +1411,7 @@ MonoBehaviour:
       name: TestChangePitch
       fullName: TestNullAudioManager.TestChangePitch
       resultStatus: 1
-      duration: 0.0002002
+      duration: 0.0001992
       messages: 
       output: 
       stacktrace: 
@@ -1428,7 +1428,7 @@ MonoBehaviour:
       name: TestGetClipLength
       fullName: TestNullAudioManager.TestGetClipLength
       resultStatus: 1
-      duration: 0.000209
+      duration: 0.0002077
       messages: 
       output: 
       stacktrace: 
@@ -1445,7 +1445,7 @@ MonoBehaviour:
       name: TestGetEnumerator
       fullName: TestNullAudioManager.TestGetEnumerator
       resultStatus: 1
-      duration: 0.0001931
+      duration: 0.0001928
       messages: 
       output: 
       stacktrace: 
@@ -1462,7 +1462,7 @@ MonoBehaviour:
       name: TestGetGroupValue
       fullName: TestNullAudioManager.TestGetGroupValue
       resultStatus: 1
-      duration: 0.0002312
+      duration: 0.0001986
       messages: 
       output: 
       stacktrace: 
@@ -1479,7 +1479,7 @@ MonoBehaviour:
       name: TestGetPlaybackPosition
       fullName: TestNullAudioManager.TestGetPlaybackPosition
       resultStatus: 1
-      duration: 0.0002113
+      duration: 0.0002044
       messages: 
       output: 
       stacktrace: 
@@ -1496,7 +1496,7 @@ MonoBehaviour:
       name: TestGetProgress
       fullName: TestNullAudioManager.TestGetProgress
       resultStatus: 1
-      duration: 0.0002232
+      duration: 0.0001938
       messages: 
       output: 
       stacktrace: 
@@ -1513,7 +1513,7 @@ MonoBehaviour:
       name: TestLerpGroupValue
       fullName: TestNullAudioManager.TestLerpGroupValue
       resultStatus: 1
-      duration: 0.0001899
+      duration: 0.0001842
       messages: 
       output: 
       stacktrace: 
@@ -1530,7 +1530,7 @@ MonoBehaviour:
       name: TestLerpPitch
       fullName: TestNullAudioManager.TestLerpPitch
       resultStatus: 1
-      duration: 0.0001937
+      duration: 0.0001895
       messages: 
       output: 
       stacktrace: 
@@ -1547,7 +1547,7 @@ MonoBehaviour:
       name: TestLerpVolume
       fullName: TestNullAudioManager.TestLerpVolume
       resultStatus: 1
-      duration: 0.0001936
+      duration: 0.0001952
       messages: 
       output: 
       stacktrace: 
@@ -1564,7 +1564,7 @@ MonoBehaviour:
       name: TestPlay
       fullName: TestNullAudioManager.TestPlay
       resultStatus: 1
-      duration: 0.0001869
+      duration: 0.0001845
       messages: 
       output: 
       stacktrace: 
@@ -1581,7 +1581,7 @@ MonoBehaviour:
       name: TestPlayAtTimeStamp
       fullName: TestNullAudioManager.TestPlayAtTimeStamp
       resultStatus: 1
-      duration: 0.0001859
+      duration: 0.0001836
       messages: 
       output: 
       stacktrace: 
@@ -1598,7 +1598,7 @@ MonoBehaviour:
       name: TestPlayDelayed
       fullName: TestNullAudioManager.TestPlayDelayed
       resultStatus: 1
-      duration: 0.0001814
+      duration: 0.0001934
       messages: 
       output: 
       stacktrace: 
@@ -1615,7 +1615,7 @@ MonoBehaviour:
       name: TestPlayOneShot
       fullName: TestNullAudioManager.TestPlayOneShot
       resultStatus: 1
-      duration: 0.0002135
+      duration: 0.0001923
       messages: 
       output: 
       stacktrace: 
@@ -1632,7 +1632,7 @@ MonoBehaviour:
       name: TestPlayScheduled
       fullName: TestNullAudioManager.TestPlayScheduled
       resultStatus: 1
-      duration: 0.0001842
+      duration: 0.0001839
       messages: 
       output: 
       stacktrace: 
@@ -1649,7 +1649,7 @@ MonoBehaviour:
       name: TestRegisterAttachedToGo
       fullName: TestNullAudioManager.TestRegisterAttachedToGo
       resultStatus: 1
-      duration: 0.000208
+      duration: 0.000211
       messages: 
       output: 
       stacktrace: 
@@ -1666,7 +1666,7 @@ MonoBehaviour:
       name: TestRegisterChildAt3DPos
       fullName: TestNullAudioManager.TestRegisterChildAt3DPos
       resultStatus: 1
-      duration: 0.0002092
+      duration: 0.0002076
       messages: 
       output: 
       stacktrace: 
@@ -1683,7 +1683,7 @@ MonoBehaviour:
       name: TestRemoveGroup
       fullName: TestNullAudioManager.TestRemoveGroup
       resultStatus: 1
-      duration: 0.0001808
+      duration: 0.0001832
       messages: 
       output: 
       stacktrace: 
@@ -1700,7 +1700,7 @@ MonoBehaviour:
       name: TestRemoveSound
       fullName: TestNullAudioManager.TestRemoveSound
       resultStatus: 1
-      duration: 0.0001915
+      duration: 0.0001884
       messages: 
       output: 
       stacktrace: 
@@ -1717,7 +1717,7 @@ MonoBehaviour:
       name: TestResetGroupValue
       fullName: TestNullAudioManager.TestResetGroupValue
       resultStatus: 1
-      duration: 0.0001878
+      duration: 0.0001882
       messages: 
       output: 
       stacktrace: 
@@ -1734,7 +1734,7 @@ MonoBehaviour:
       name: TestSet3DAudioOptions
       fullName: TestNullAudioManager.TestSet3DAudioOptions
       resultStatus: 1
-      duration: 0.0001944
+      duration: 0.0001882
       messages: 
       output: 
       stacktrace: 
@@ -1751,7 +1751,7 @@ MonoBehaviour:
       name: TestSetPlaybackDirection
       fullName: TestNullAudioManager.TestSetPlaybackDirection
       resultStatus: 1
-      duration: 0.0001837
+      duration: 0.0001804
       messages: 
       output: 
       stacktrace: 
@@ -1768,7 +1768,7 @@ MonoBehaviour:
       name: TestSetStartTime
       fullName: TestNullAudioManager.TestSetStartTime
       resultStatus: 1
-      duration: 0.000188
+      duration: 0.0001835
       messages: 
       output: 
       stacktrace: 
@@ -1785,7 +1785,7 @@ MonoBehaviour:
       name: TestSkipTime
       fullName: TestNullAudioManager.TestSkipTime
       resultStatus: 1
-      duration: 0.0001821
+      duration: 0.0001792
       messages: 
       output: 
       stacktrace: 
@@ -1802,7 +1802,7 @@ MonoBehaviour:
       name: TestStop
       fullName: TestNullAudioManager.TestStop
       resultStatus: 1
-      duration: 0.0001897
+      duration: 0.0001923
       messages: 
       output: 
       stacktrace: 
@@ -1819,7 +1819,7 @@ MonoBehaviour:
       name: TestSubscribeProgressCoroutine
       fullName: TestNullAudioManager.TestSubscribeProgressCoroutine
       resultStatus: 1
-      duration: 0.0001829
+      duration: 0.0001825
       messages: 
       output: 
       stacktrace: 
@@ -1836,7 +1836,7 @@ MonoBehaviour:
       name: TestSubscribeSourceChanged
       fullName: TestNullAudioManager.TestSubscribeSourceChanged
       resultStatus: 1
-      duration: 0.0001936
+      duration: 0.0001894
       messages: 
       output: 
       stacktrace: 
@@ -1853,7 +1853,7 @@ MonoBehaviour:
       name: TestToggleMute
       fullName: TestNullAudioManager.TestToggleMute
       resultStatus: 1
-      duration: 0.000179
+      duration: 0.0001808
       messages: 
       output: 
       stacktrace: 
@@ -1870,7 +1870,7 @@ MonoBehaviour:
       name: TestTogglePause
       fullName: TestNullAudioManager.TestTogglePause
       resultStatus: 1
-      duration: 0.0001863
+      duration: 0.0001841
       messages: 
       output: 
       stacktrace: 
@@ -1887,7 +1887,7 @@ MonoBehaviour:
       name: TestTryGetSource
       fullName: TestNullAudioManager.TestTryGetSource
       resultStatus: 1
-      duration: 0.0002002
+      duration: 0.0002032
       messages: 
       output: 
       stacktrace: 
@@ -1904,7 +1904,7 @@ MonoBehaviour:
       name: TestUnsubscribeProgressCoroutine
       fullName: TestNullAudioManager.TestUnsubscribeProgressCoroutine
       resultStatus: 1
-      duration: 0.0001823
+      duration: 0.0001846
       messages: 
       output: 
       stacktrace: 
@@ -1921,7 +1921,7 @@ MonoBehaviour:
       name: TestUnsubscribeSourceChanged
       fullName: TestNullAudioManager.TestUnsubscribeSourceChanged
       resultStatus: 1
-      duration: 0.0001793
+      duration: 0.0001752
       messages: 
       output: 
       stacktrace: 
@@ -1938,7 +1938,7 @@ MonoBehaviour:
       name: TestServiceLocator
       fullName: TestServiceLocator
       resultStatus: 1
-      duration: 0.0031278
+      duration: 0.0040464
       messages: 
       output: 
       stacktrace: 
@@ -1954,7 +1954,7 @@ MonoBehaviour:
       name: TestGetService
       fullName: TestServiceLocator.TestGetService
       resultStatus: 1
-      duration: 0.0004405
+      duration: 0.0004851
       messages: 
       output: 
       stacktrace: 
@@ -1971,7 +1971,7 @@ MonoBehaviour:
       name: TestRegisterLogger
       fullName: TestServiceLocator.TestRegisterLogger
       resultStatus: 1
-      duration: 0.000408
+      duration: 0.0004625
       messages: 
       output: 
       stacktrace: 
@@ -1988,7 +1988,7 @@ MonoBehaviour:
       name: TestRegisterService
       fullName: TestServiceLocator.TestRegisterService
       resultStatus: 1
-      duration: 0.0002689
+      duration: 0.0002804
       messages: 
       output: 
       stacktrace: 
@@ -2005,7 +2005,7 @@ MonoBehaviour:
       name: Tests.Logger.dll
       fullName: C:/Users/Mathew/Unity-Audio-Manager/Example_Project/Library/ScriptAssemblies/Tests.Logger.dll
       resultStatus: 1
-      duration: 0.0822726
+      duration: 0.0961912
       messages: 
       output: 
       stacktrace: 
@@ -2021,7 +2021,7 @@ MonoBehaviour:
       name: TestAudioLogger
       fullName: TestAudioLogger
       resultStatus: 1
-      duration: 0.0537465
+      duration: 0.0594609
       messages: 
       output: 
       stacktrace: 
@@ -2037,7 +2037,7 @@ MonoBehaviour:
       name: TestLog
       fullName: TestAudioLogger.TestLog
       resultStatus: 1
-      duration: 0.0175163
+      duration: 0.0217383
       messages: 
       output: '
 
@@ -2150,7 +2150,7 @@ MonoBehaviour:
       name: TestLogAssert
       fullName: TestAudioLogger.TestLogAssert
       resultStatus: 1
-      duration: 0.0036377
+      duration: 0.0040531
       messages: 
       output: '
 
@@ -2191,7 +2191,7 @@ MonoBehaviour:
       name: TestLogAssertFormat
       fullName: TestAudioLogger.TestLogAssertFormat
       resultStatus: 1
-      duration: 0.0037762
+      duration: 0.0041182
       messages: 
       output: '
 
@@ -2232,7 +2232,7 @@ MonoBehaviour:
       name: TestLogException
       fullName: TestAudioLogger.TestLogException
       resultStatus: 1
-      duration: 0.0094187
+      duration: 0.0099606
       messages: 
       output: 'NullReferenceException: Object reference not set to an instance of
         an object.
@@ -2285,7 +2285,7 @@ MonoBehaviour:
       name: TestLogFormat
       fullName: TestAudioLogger.TestLogFormat
       resultStatus: 1
-      duration: 0.0170416
+      duration: 0.0167118
       messages: 
       output: '
 
@@ -2398,7 +2398,7 @@ MonoBehaviour:
       name: TestErrorToStringConvertor
       fullName: TestErrorToStringConvertor
       resultStatus: 1
-      duration: 0.0033787
+      duration: 0.0040931
       messages: 
       output: 
       stacktrace: 
@@ -2414,7 +2414,7 @@ MonoBehaviour:
       name: TestErrorToMessage
       fullName: TestErrorToStringConvertor.TestErrorToMessage
       resultStatus: 1
-      duration: 0.0014391
+      duration: 0.001601
       messages: 
       output: 
       stacktrace: 
@@ -2431,7 +2431,7 @@ MonoBehaviour:
       name: TestLoggedAudioManager
       fullName: TestLoggedAudioManager
       resultStatus: 1
-      duration: 0.0229068
+      duration: 0.0298493
       messages: 
       output: 
       stacktrace: 
@@ -2447,7 +2447,7 @@ MonoBehaviour:
       name: TestAddGroup
       fullName: TestLoggedAudioManager.TestAddGroup
       resultStatus: 1
-      duration: 0.0014354
+      duration: 0.001657
       messages: 
       output: 
       stacktrace: 
@@ -2464,7 +2464,7 @@ MonoBehaviour:
       name: TestAddSoundFromPath
       fullName: TestLoggedAudioManager.TestAddSoundFromPath
       resultStatus: 1
-      duration: 0.0004959
+      duration: 0.0005174
       messages: 
       output: 
       stacktrace: 
@@ -2481,7 +2481,7 @@ MonoBehaviour:
       name: TestChangeGroupValue
       fullName: TestLoggedAudioManager.TestChangeGroupValue
       resultStatus: 1
-      duration: 0.000491
+      duration: 0.0005017
       messages: 
       output: 
       stacktrace: 
@@ -2498,7 +2498,7 @@ MonoBehaviour:
       name: TestChangePitch
       fullName: TestLoggedAudioManager.TestChangePitch
       resultStatus: 1
-      duration: 0.0004582
+      duration: 0.0004814
       messages: 
       output: 
       stacktrace: 
@@ -2515,7 +2515,7 @@ MonoBehaviour:
       name: TestGetClipLength
       fullName: TestLoggedAudioManager.TestGetClipLength
       resultStatus: 1
-      duration: 0.0005033
+      duration: 0.0005096
       messages: 
       output: 
       stacktrace: 
@@ -2532,7 +2532,7 @@ MonoBehaviour:
       name: TestGetEnumerator
       fullName: TestLoggedAudioManager.TestGetEnumerator
       resultStatus: 1
-      duration: 0.0004127
+      duration: 0.0004435
       messages: 
       output: 
       stacktrace: 
@@ -2549,7 +2549,7 @@ MonoBehaviour:
       name: TestGetGroupValue
       fullName: TestLoggedAudioManager.TestGetGroupValue
       resultStatus: 1
-      duration: 0.0005121
+      duration: 0.0005483
       messages: 
       output: 
       stacktrace: 
@@ -2566,7 +2566,7 @@ MonoBehaviour:
       name: TestGetPlaybackPosition
       fullName: TestLoggedAudioManager.TestGetPlaybackPosition
       resultStatus: 1
-      duration: 0.0004956
+      duration: 0.0005237
       messages: 
       output: 
       stacktrace: 
@@ -2583,7 +2583,7 @@ MonoBehaviour:
       name: TestGetProgress
       fullName: TestLoggedAudioManager.TestGetProgress
       resultStatus: 1
-      duration: 0.0004762
+      duration: 0.0005002
       messages: 
       output: 
       stacktrace: 
@@ -2600,7 +2600,7 @@ MonoBehaviour:
       name: TestLerpGroupValue
       fullName: TestLoggedAudioManager.TestLerpGroupValue
       resultStatus: 1
-      duration: 0.0004671
+      duration: 0.0005172
       messages: 
       output: 
       stacktrace: 
@@ -2617,7 +2617,7 @@ MonoBehaviour:
       name: TestLerpPitch
       fullName: TestLoggedAudioManager.TestLerpPitch
       resultStatus: 1
-      duration: 0.000453
+      duration: 0.0005252
       messages: 
       output: 
       stacktrace: 
@@ -2634,7 +2634,7 @@ MonoBehaviour:
       name: TestLerpVolume
       fullName: TestLoggedAudioManager.TestLerpVolume
       resultStatus: 1
-      duration: 0.0004563
+      duration: 0.0004718
       messages: 
       output: 
       stacktrace: 
@@ -2651,7 +2651,7 @@ MonoBehaviour:
       name: TestPlay
       fullName: TestLoggedAudioManager.TestPlay
       resultStatus: 1
-      duration: 0.0004317
+      duration: 0.0004631
       messages: 
       output: 
       stacktrace: 
@@ -2668,7 +2668,7 @@ MonoBehaviour:
       name: TestPlayAtTimeStamp
       fullName: TestLoggedAudioManager.TestPlayAtTimeStamp
       resultStatus: 1
-      duration: 0.0004405
+      duration: 0.0004687
       messages: 
       output: 
       stacktrace: 
@@ -2685,7 +2685,7 @@ MonoBehaviour:
       name: TestPlayDelayed
       fullName: TestLoggedAudioManager.TestPlayDelayed
       resultStatus: 1
-      duration: 0.0004326
+      duration: 0.0004569
       messages: 
       output: 
       stacktrace: 
@@ -2702,7 +2702,7 @@ MonoBehaviour:
       name: TestPlayOneShot
       fullName: TestLoggedAudioManager.TestPlayOneShot
       resultStatus: 1
-      duration: 0.0004575
+      duration: 0.0004593
       messages: 
       output: 
       stacktrace: 
@@ -2719,7 +2719,7 @@ MonoBehaviour:
       name: TestPlayScheduled
       fullName: TestLoggedAudioManager.TestPlayScheduled
       resultStatus: 1
-      duration: 0.0004409
+      duration: 0.00046
       messages: 
       output: 
       stacktrace: 
@@ -2736,7 +2736,7 @@ MonoBehaviour:
       name: TestRegisterChildAt3DPos
       fullName: TestLoggedAudioManager.TestRegisterChildAt3DPos
       resultStatus: 1
-      duration: 0.0005225
+      duration: 0.0005139
       messages: 
       output: 
       stacktrace: 
@@ -2753,7 +2753,7 @@ MonoBehaviour:
       name: TestRegisterChildAttachedToGo
       fullName: TestLoggedAudioManager.TestRegisterChildAttachedToGo
       resultStatus: 1
-      duration: 0.000485
+      duration: 0.0004834
       messages: 
       output: 
       stacktrace: 
@@ -2770,7 +2770,7 @@ MonoBehaviour:
       name: TestRemoveGroup
       fullName: TestLoggedAudioManager.TestRemoveGroup
       resultStatus: 1
-      duration: 0.0004286
+      duration: 0.0034373
       messages: 
       output: 
       stacktrace: 
@@ -2787,7 +2787,7 @@ MonoBehaviour:
       name: TestRemoveSound
       fullName: TestLoggedAudioManager.TestRemoveSound
       resultStatus: 1
-      duration: 0.0004333
+      duration: 0.0004996
       messages: 
       output: 
       stacktrace: 
@@ -2804,7 +2804,7 @@ MonoBehaviour:
       name: TestResetGroupValue
       fullName: TestLoggedAudioManager.TestResetGroupValue
       resultStatus: 1
-      duration: 0.0004513
+      duration: 0.0004932
       messages: 
       output: 
       stacktrace: 
@@ -2821,7 +2821,7 @@ MonoBehaviour:
       name: TestSet3DAudioOptions
       fullName: TestLoggedAudioManager.TestSet3DAudioOptions
       resultStatus: 1
-      duration: 0.0004519
+      duration: 0.0004977
       messages: 
       output: 
       stacktrace: 
@@ -2838,7 +2838,7 @@ MonoBehaviour:
       name: TestSetPlaybackDirection
       fullName: TestLoggedAudioManager.TestSetPlaybackDirection
       resultStatus: 1
-      duration: 0.0004312
+      duration: 0.0005188
       messages: 
       output: 
       stacktrace: 
@@ -2855,7 +2855,7 @@ MonoBehaviour:
       name: TestSetStartTime
       fullName: TestLoggedAudioManager.TestSetStartTime
       resultStatus: 1
-      duration: 0.000435
+      duration: 0.0004784
       messages: 
       output: 
       stacktrace: 
@@ -2872,7 +2872,7 @@ MonoBehaviour:
       name: TestSkipTime
       fullName: TestLoggedAudioManager.TestSkipTime
       resultStatus: 1
-      duration: 0.0004335
+      duration: 0.0004651
       messages: 
       output: 
       stacktrace: 
@@ -2889,7 +2889,7 @@ MonoBehaviour:
       name: TestStop
       fullName: TestLoggedAudioManager.TestStop
       resultStatus: 1
-      duration: 0.0004292
+      duration: 0.0004607
       messages: 
       output: 
       stacktrace: 
@@ -2906,7 +2906,7 @@ MonoBehaviour:
       name: TestSubscribeProgressCoroutine
       fullName: TestLoggedAudioManager.TestSubscribeProgressCoroutine
       resultStatus: 1
-      duration: 0.0004391
+      duration: 0.0004773
       messages: 
       output: 
       stacktrace: 
@@ -2923,7 +2923,7 @@ MonoBehaviour:
       name: TestSubscribeSourceChanged
       fullName: TestLoggedAudioManager.TestSubscribeSourceChanged
       resultStatus: 1
-      duration: 0.0004425
+      duration: 0.0004715
       messages: 
       output: 
       stacktrace: 
@@ -2940,7 +2940,7 @@ MonoBehaviour:
       name: TestToggleMute
       fullName: TestLoggedAudioManager.TestToggleMute
       resultStatus: 1
-      duration: 0.0004217
+      duration: 0.0004487
       messages: 
       output: 
       stacktrace: 
@@ -2957,7 +2957,7 @@ MonoBehaviour:
       name: TestTogglePause
       fullName: TestLoggedAudioManager.TestTogglePause
       resultStatus: 1
-      duration: 0.0004637
+      duration: 0.0004496
       messages: 
       output: 
       stacktrace: 
@@ -2974,7 +2974,7 @@ MonoBehaviour:
       name: TestTryGetSource
       fullName: TestLoggedAudioManager.TestTryGetSource
       resultStatus: 1
-      duration: 0.0004735
+      duration: 0.0004918
       messages: 
       output: 
       stacktrace: 
@@ -2991,7 +2991,7 @@ MonoBehaviour:
       name: TestUnsubscribeProgressCoroutine
       fullName: TestLoggedAudioManager.TestUnsubscribeProgressCoroutine
       resultStatus: 1
-      duration: 0.0004299
+      duration: 0.0004634
       messages: 
       output: 
       stacktrace: 
@@ -3008,7 +3008,7 @@ MonoBehaviour:
       name: TestUnsubscribeSourceChanged
       fullName: TestLoggedAudioManager.TestUnsubscribeSourceChanged
       resultStatus: 1
-      duration: 0.0004188
+      duration: 0.0004541
       messages: 
       output: 
       stacktrace: 
@@ -3025,7 +3025,7 @@ MonoBehaviour:
       name: Tests.Provider.dll
       fullName: C:/Users/Mathew/Unity-Audio-Manager/Example_Project/Library/ScriptAssemblies/Tests.Provider.dll
       resultStatus: 1
-      duration: 0.0132724
+      duration: 0.016478
       messages: 
       output: 
       stacktrace: 
@@ -3041,7 +3041,7 @@ MonoBehaviour:
       name: TestAudioManagerSettings
       fullName: TestAudioManagerSettings
       resultStatus: 1
-      duration: 0.0116856
+      duration: 0.012136
       messages: 
       output: 
       stacktrace: 
@@ -3057,7 +3057,7 @@ MonoBehaviour:
       name: TestAwake
       fullName: TestAudioManagerSettings.TestAwake
       resultStatus: 1
-      duration: 0.0036385
+      duration: 0.0040065
       messages: 
       output: 'Getting registered AudioSource entry failed.
 
@@ -3079,7 +3079,7 @@ MonoBehaviour:
       name: TestOnEnable
       fullName: TestAudioManagerSettings.TestOnEnable
       resultStatus: 1
-      duration: 0.0002843
+      duration: 0.0003074
       messages: 
       output: 
       stacktrace: 
@@ -3096,7 +3096,7 @@ MonoBehaviour:
       name: Tests.Service.dll
       fullName: C:/Users/Mathew/Unity-Audio-Manager/Example_Project/Library/ScriptAssemblies/Tests.Service.dll
       resultStatus: 1
-      duration: 18.303144
+      duration: 18.341553
       messages: 
       output: 'There are no audio listeners in the scene. Please ensure there is
         always one audio listener in the scene
@@ -3110,12 +3110,96 @@ MonoBehaviour:
       categories: []
       parentId: 1004
       parentUniqueId: '[Example Project][suite]'
+    - id: 1099
+      uniqueId: Tests.Service.dll/[Tests.Service][TestAudioChainer][suite]
+      name: TestAudioChainer
+      fullName: TestAudioChainer
+      resultStatus: 1
+      duration: 0.007449
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1170
+      parentUniqueId: '[Tests.Service][C:/Users/Mathew/Unity-Audio-Manager/Example_Project/Library/ScriptAssemblies/Tests.Service.dll][suite]'
+    - id: 1100
+      uniqueId: Tests.Service.dll/TestAudioChainer/[Tests.Service][TestAudioChainer.TestAddSoundFromPath]
+      name: TestAddSoundFromPath
+      fullName: TestAudioChainer.TestAddSoundFromPath
+      resultStatus: 1
+      duration: 0.0007025
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1099
+      parentUniqueId: Tests.Service.dll/[Tests.Service][TestAudioChainer][suite]
+    - id: 1101
+      uniqueId: Tests.Service.dll/TestAudioChainer/[Tests.Service][TestAudioChainer.TestRegisterChildAt3DPos]
+      name: TestRegisterChildAt3DPos
+      fullName: TestAudioChainer.TestRegisterChildAt3DPos
+      resultStatus: 1
+      duration: 0.0004174
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1099
+      parentUniqueId: Tests.Service.dll/[Tests.Service][TestAudioChainer][suite]
+    - id: 1102
+      uniqueId: Tests.Service.dll/TestAudioChainer/[Tests.Service][TestAudioChainer.TestRegisterChildAttachedToGo]
+      name: TestRegisterChildAttachedToGo
+      fullName: TestAudioChainer.TestRegisterChildAttachedToGo
+      resultStatus: 1
+      duration: 0.0003269
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1099
+      parentUniqueId: Tests.Service.dll/[Tests.Service][TestAudioChainer][suite]
+    - id: 1103
+      uniqueId: Tests.Service.dll/TestAudioChainer/[Tests.Service][TestAudioChainer.TestSelectSound]
+      name: TestSelectSound
+      fullName: TestAudioChainer.TestSelectSound
+      resultStatus: 1
+      duration: 0.0002445
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1099
+      parentUniqueId: Tests.Service.dll/[Tests.Service][TestAudioChainer][suite]
     - id: 1087
       uniqueId: Tests.Service.dll/[Tests.Service][TestDefaultAudioManager][suite]
       name: TestDefaultAudioManager
       fullName: TestDefaultAudioManager
       resultStatus: 1
-      duration: 18.29782
+      duration: 18.308342
       messages: 
       output: 
       stacktrace: 
@@ -3131,7 +3215,7 @@ MonoBehaviour:
       name: TestAddGroup
       fullName: TestDefaultAudioManager.TestAddGroup
       resultStatus: 1
-      duration: 0.0036687
+      duration: 0.0042691
       messages: 
       output: 
       stacktrace: 
@@ -3148,7 +3232,7 @@ MonoBehaviour:
       name: TestAddSoundFromPath
       fullName: TestDefaultAudioManager.TestAddSoundFromPath
       resultStatus: 1
-      duration: 0.0008819
+      duration: 0.0010527
       messages: 
       output: 
       stacktrace: 
@@ -3165,7 +3249,7 @@ MonoBehaviour:
       name: TestChangeGroupValue
       fullName: TestDefaultAudioManager.TestChangeGroupValue
       resultStatus: 1
-      duration: 0.0028978
+      duration: 0.0034344
       messages: 
       output: "Exposed name does not exist: \r\nExposed name does not exist: \r\nExposed
         name does not exist: \r\nExposed name does not exist: \r\nExposed name does
@@ -3185,7 +3269,7 @@ MonoBehaviour:
       name: TestChangePitch
       fullName: TestDefaultAudioManager.TestChangePitch
       resultStatus: 1
-      duration: 0.0009418
+      duration: 0.0010488
       messages: 
       output: 
       stacktrace: 
@@ -3202,7 +3286,7 @@ MonoBehaviour:
       name: TestGetClipLength
       fullName: TestDefaultAudioManager.TestGetClipLength
       resultStatus: 1
-      duration: 0.0009843
+      duration: 0.0011928
       messages: 
       output: 
       stacktrace: 
@@ -3219,7 +3303,7 @@ MonoBehaviour:
       name: TestGetEnumerator
       fullName: TestDefaultAudioManager.TestGetEnumerator
       resultStatus: 1
-      duration: 0.0002797
+      duration: 0.0003088
       messages: 
       output: 
       stacktrace: 
@@ -3236,7 +3320,7 @@ MonoBehaviour:
       name: TestGetGroupValue
       fullName: TestDefaultAudioManager.TestGetGroupValue
       resultStatus: 1
-      duration: 0.0027614
+      duration: 0.0029082
       messages: 
       output: "Exposed name does not exist: \r\nExposed name does not exist: \r\nExposed
         name does not exist: \r\nExposed name does not exist: \r\nExposed name does
@@ -3256,7 +3340,7 @@ MonoBehaviour:
       name: TestGetPlaybackPosition
       fullName: TestDefaultAudioManager.TestGetPlaybackPosition
       resultStatus: 1
-      duration: 0.0006895
+      duration: 0.0007634
       messages: 
       output: 
       stacktrace: 
@@ -3273,20 +3357,13 @@ MonoBehaviour:
       name: TestGetProgress
       fullName: TestDefaultAudioManager.TestGetProgress
       resultStatus: 1
-      duration: 0.041116
+      duration: 0.0438952
       messages: 
       output: 'There are no audio listeners in the scene. Please ensure there is
         always one audio listener in the scene
 
         There are no audio listeners
         in the scene. Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
 
         There
         are no audio listeners in the scene. Please ensure there is always one audio
@@ -3314,7 +3391,7 @@ MonoBehaviour:
       name: TestLerpGroupValue
       fullName: TestDefaultAudioManager.TestLerpGroupValue
       resultStatus: 1
-      duration: 0.0559872
+      duration: 0.0593
       messages: 
       output: "Exposed name does not exist: \r\n"
       stacktrace: 
@@ -3331,7 +3408,7 @@ MonoBehaviour:
       name: TestLerpPitch
       fullName: TestDefaultAudioManager.TestLerpPitch
       resultStatus: 1
-      duration: 0.1075153
+      duration: 0.1074443
       messages: 
       output: 
       stacktrace: 
@@ -3348,7 +3425,7 @@ MonoBehaviour:
       name: TestLerpVolume
       fullName: TestDefaultAudioManager.TestLerpVolume
       resultStatus: 1
-      duration: 0.1076199
+      duration: 0.1072942
       messages: 
       output: 
       stacktrace: 
@@ -3365,7 +3442,7 @@ MonoBehaviour:
       name: TestPlay
       fullName: TestDefaultAudioManager.TestPlay
       resultStatus: 1
-      duration: 0.0006014
+      duration: 0.0006392
       messages: 
       output: 
       stacktrace: 
@@ -3382,34 +3459,13 @@ MonoBehaviour:
       name: TestPlayAtTimeStamp
       fullName: TestDefaultAudioManager.TestPlayAtTimeStamp
       resultStatus: 1
-      duration: 2.243063
+      duration: 2.2435668
       messages: 
       output: 'There are no audio listeners in the scene. Please ensure there is
         always one audio listener in the scene
 
         There are no audio listeners
         in the scene. Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
 
         There
         are no audio listeners in the scene. Please ensure there is always one audio
@@ -3507,7 +3563,7 @@ MonoBehaviour:
       name: TestPlayDelayed
       fullName: TestDefaultAudioManager.TestPlayDelayed
       resultStatus: 1
-      duration: 0.0009665
+      duration: 0.0009666
       messages: 
       output: 
       stacktrace: 
@@ -3524,7 +3580,7 @@ MonoBehaviour:
       name: TestPlayOneShot
       fullName: TestDefaultAudioManager.TestPlayOneShot
       resultStatus: 1
-      duration: 0.0007595
+      duration: 0.0007986
       messages: 
       output: 
       stacktrace: 
@@ -3541,7 +3597,7 @@ MonoBehaviour:
       name: TestPlayScheduled
       fullName: TestDefaultAudioManager.TestPlayScheduled
       resultStatus: 1
-      duration: 0.0008005
+      duration: 0.0007339
       messages: 
       output: 
       stacktrace: 
@@ -3558,7 +3614,7 @@ MonoBehaviour:
       name: TestRegisterChildAt3DPos
       fullName: TestDefaultAudioManager.TestRegisterChildAt3DPos
       resultStatus: 1
-      duration: 0.0006762
+      duration: 0.0006772
       messages: 
       output: 
       stacktrace: 
@@ -3575,7 +3631,7 @@ MonoBehaviour:
       name: TestRegisterChildAttachedToGo
       fullName: TestDefaultAudioManager.TestRegisterChildAttachedToGo
       resultStatus: 1
-      duration: 0.0008299
+      duration: 0.0008987
       messages: 
       output: 
       stacktrace: 
@@ -3592,7 +3648,7 @@ MonoBehaviour:
       name: TestRemoveGroup
       fullName: TestDefaultAudioManager.TestRemoveGroup
       resultStatus: 1
-      duration: 0.0006401
+      duration: 0.0006343
       messages: 
       output: 
       stacktrace: 
@@ -3609,7 +3665,7 @@ MonoBehaviour:
       name: TestRemoveSound
       fullName: TestDefaultAudioManager.TestRemoveSound
       resultStatus: 1
-      duration: 0.0004083
+      duration: 0.000397
       messages: 
       output: 
       stacktrace: 
@@ -3626,7 +3682,7 @@ MonoBehaviour:
       name: TestResetGroupValue
       fullName: TestDefaultAudioManager.TestResetGroupValue
       resultStatus: 1
-      duration: 0.0011126
+      duration: 0.0011479
       messages: 
       output: "Exposed name does not exist: \r\n"
       stacktrace: 
@@ -3643,7 +3699,7 @@ MonoBehaviour:
       name: TestSet3DAudioOptions
       fullName: TestDefaultAudioManager.TestSet3DAudioOptions
       resultStatus: 1
-      duration: 0.0007328
+      duration: 0.0007324
       messages: 
       output: 
       stacktrace: 
@@ -3660,7 +3716,7 @@ MonoBehaviour:
       name: TestSetPlaybackDirection
       fullName: TestDefaultAudioManager.TestSetPlaybackDirection
       resultStatus: 1
-      duration: 0.000571
+      duration: 0.0005688
       messages: 
       output: 
       stacktrace: 
@@ -3677,7 +3733,7 @@ MonoBehaviour:
       name: TestSetStartTime
       fullName: TestDefaultAudioManager.TestSetStartTime
       resultStatus: 1
-      duration: 0.0005666
+      duration: 0.0005596
       messages: 
       output: 
       stacktrace: 
@@ -3694,7 +3750,7 @@ MonoBehaviour:
       name: TestSkipTime
       fullName: TestDefaultAudioManager.TestSkipTime
       resultStatus: 1
-      duration: 0.0010587
+      duration: 0.0009607
       messages: 
       output: 
       stacktrace: 
@@ -3711,7 +3767,7 @@ MonoBehaviour:
       name: TestStop
       fullName: TestDefaultAudioManager.TestStop
       resultStatus: 1
-      duration: 0.0004443
+      duration: 0.0004318
       messages: 
       output: 
       stacktrace: 
@@ -3728,160 +3784,13 @@ MonoBehaviour:
       name: TestSubscribeProgressCoroutine
       fullName: TestDefaultAudioManager.TestSubscribeProgressCoroutine
       resultStatus: 1
-      duration: 15.670331
+      duration: 15.670485
       messages: 
       output: 'There are no audio listeners in the scene. Please ensure there is
         always one audio listener in the scene
 
         There are no audio listeners
         in the scene. Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
-        There
-        are no audio listeners in the scene. Please ensure there is always one audio
-        listener in the scene
-
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
 
         There
         are no audio listeners in the scene. Please ensure there is always one audio
@@ -50669,7 +50578,7 @@ MonoBehaviour:
       name: TestSubscribeSourceChanged
       fullName: TestDefaultAudioManager.TestSubscribeSourceChanged
       resultStatus: 1
-      duration: 0.0013049
+      duration: 0.0012624
       messages: 
       output: 
       stacktrace: 
@@ -50686,7 +50595,7 @@ MonoBehaviour:
       name: TestToggleMute
       fullName: TestDefaultAudioManager.TestToggleMute
       resultStatus: 1
-      duration: 0.0006422
+      duration: 0.0006721
       messages: 
       output: 
       stacktrace: 
@@ -50703,7 +50612,7 @@ MonoBehaviour:
       name: TestTogglePause
       fullName: TestDefaultAudioManager.TestTogglePause
       resultStatus: 1
-      duration: 0.0007809
+      duration: 0.0007877
       messages: 
       output: 
       stacktrace: 
@@ -50720,7 +50629,7 @@ MonoBehaviour:
       name: TestTryGetSource
       fullName: TestDefaultAudioManager.TestTryGetSource
       resultStatus: 1
-      duration: 0.0004157
+      duration: 0.0004734
       messages: 
       output: 
       stacktrace: 
@@ -50737,7 +50646,7 @@ MonoBehaviour:
       name: TestUnsubscribeProgressCoroutine
       fullName: TestDefaultAudioManager.TestUnsubscribeProgressCoroutine
       resultStatus: 1
-      duration: 0.0298888
+      duration: 0.0308349
       messages: 
       output: 'There are no audio listeners in the scene. Please ensure there is
         always one audio listener in the scene
@@ -50805,9 +50714,6 @@ MonoBehaviour:
         are no audio listeners in the scene. Please ensure there is always one audio
         listener in the scene
 
-        There are no audio listeners in the scene.
-        Please ensure there is always one audio listener in the scene
-
 '
       stacktrace: 
       notRunnable: 0
@@ -50823,7 +50729,7 @@ MonoBehaviour:
       name: TestUnsubscribeSourceChanged
       fullName: TestDefaultAudioManager.TestUnsubscribeSourceChanged
       resultStatus: 1
-      duration: 0.0007301
+      duration: 0.0007461
       messages: 
       output: 
       stacktrace: 
@@ -50835,12 +50741,538 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1091
       parentUniqueId: Tests.Service.dll/[Tests.Service][TestDefaultAudioManager][suite]
+    - id: 1134
+      uniqueId: Tests.Service.dll/[Tests.Service][TestFluentAudioManager][suite]
+      name: TestFluentAudioManager
+      fullName: TestFluentAudioManager
+      resultStatus: 1
+      duration: 0.0203838
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 1
+      categories: []
+      parentId: 1169
+      parentUniqueId: '[Tests.Service][C:/Users/Mathew/Unity-Audio-Manager/Example_Project/Library/ScriptAssemblies/Tests.Service.dll][suite]'
+    - id: 1163
+      uniqueId: Tests.Service.dll/TestFluentAudioManager/[Tests.Service][TestFluentAudioManager.TestAddGroup]
+      name: TestAddGroup
+      fullName: TestFluentAudioManager.TestAddGroup
+      resultStatus: 1
+      duration: 0.0005137
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1134
+      parentUniqueId: Tests.Service.dll/[Tests.Service][TestFluentAudioManager][suite]
+    - id: 1158
+      uniqueId: Tests.Service.dll/TestFluentAudioManager/[Tests.Service][TestFluentAudioManager.TestChangeGroupValue]
+      name: TestChangeGroupValue
+      fullName: TestFluentAudioManager.TestChangeGroupValue
+      resultStatus: 1
+      duration: 0.0003533
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1134
+      parentUniqueId: Tests.Service.dll/[Tests.Service][TestFluentAudioManager][suite]
+    - id: 1145
+      uniqueId: Tests.Service.dll/TestFluentAudioManager/[Tests.Service][TestFluentAudioManager.TestChangePitch]
+      name: TestChangePitch
+      fullName: TestFluentAudioManager.TestChangePitch
+      resultStatus: 1
+      duration: 0.0003525
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1134
+      parentUniqueId: Tests.Service.dll/[Tests.Service][TestFluentAudioManager][suite]
+    - id: 1166
+      uniqueId: Tests.Service.dll/TestFluentAudioManager/[Tests.Service][TestFluentAudioManager.TestGetClipLength]
+      name: TestGetClipLength
+      fullName: TestFluentAudioManager.TestGetClipLength
+      resultStatus: 1
+      duration: 0.0003656
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1134
+      parentUniqueId: Tests.Service.dll/[Tests.Service][TestFluentAudioManager][suite]
+    - id: 1159
+      uniqueId: Tests.Service.dll/TestFluentAudioManager/[Tests.Service][TestFluentAudioManager.TestGetGroupValue]
+      name: TestGetGroupValue
+      fullName: TestFluentAudioManager.TestGetGroupValue
+      resultStatus: 1
+      duration: 0.000361
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1134
+      parentUniqueId: Tests.Service.dll/[Tests.Service][TestFluentAudioManager][suite]
+    - id: 1139
+      uniqueId: Tests.Service.dll/TestFluentAudioManager/[Tests.Service][TestFluentAudioManager.TestGetPlaybackPosition]
+      name: TestGetPlaybackPosition
+      fullName: TestFluentAudioManager.TestGetPlaybackPosition
+      resultStatus: 1
+      duration: 0.0003511
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1134
+      parentUniqueId: Tests.Service.dll/[Tests.Service][TestFluentAudioManager][suite]
+    - id: 1154
+      uniqueId: Tests.Service.dll/TestFluentAudioManager/[Tests.Service][TestFluentAudioManager.TestGetProgress]
+      name: TestGetProgress
+      fullName: TestFluentAudioManager.TestGetProgress
+      resultStatus: 1
+      duration: 0.0003402
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1134
+      parentUniqueId: Tests.Service.dll/[Tests.Service][TestFluentAudioManager][suite]
+    - id: 1161
+      uniqueId: Tests.Service.dll/TestFluentAudioManager/[Tests.Service][TestFluentAudioManager.TestLerpGroupValue]
+      name: TestLerpGroupValue
+      fullName: TestFluentAudioManager.TestLerpGroupValue
+      resultStatus: 1
+      duration: 0.000333
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1134
+      parentUniqueId: Tests.Service.dll/[Tests.Service][TestFluentAudioManager][suite]
+    - id: 1156
+      uniqueId: Tests.Service.dll/TestFluentAudioManager/[Tests.Service][TestFluentAudioManager.TestLerpPitch]
+      name: TestLerpPitch
+      fullName: TestFluentAudioManager.TestLerpPitch
+      resultStatus: 1
+      duration: 0.0003526
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1134
+      parentUniqueId: Tests.Service.dll/[Tests.Service][TestFluentAudioManager][suite]
+    - id: 1157
+      uniqueId: Tests.Service.dll/TestFluentAudioManager/[Tests.Service][TestFluentAudioManager.TestLerpVolume]
+      name: TestLerpVolume
+      fullName: TestFluentAudioManager.TestLerpVolume
+      resultStatus: 1
+      duration: 0.0003306
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1134
+      parentUniqueId: Tests.Service.dll/[Tests.Service][TestFluentAudioManager][suite]
+    - id: 1137
+      uniqueId: Tests.Service.dll/TestFluentAudioManager/[Tests.Service][TestFluentAudioManager.TestPlay]
+      name: TestPlay
+      fullName: TestFluentAudioManager.TestPlay
+      resultStatus: 1
+      duration: 0.0003225
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1134
+      parentUniqueId: Tests.Service.dll/[Tests.Service][TestFluentAudioManager][suite]
+    - id: 1138
+      uniqueId: Tests.Service.dll/TestFluentAudioManager/[Tests.Service][TestFluentAudioManager.TestPlayAtTimeStamp]
+      name: TestPlayAtTimeStamp
+      fullName: TestFluentAudioManager.TestPlayAtTimeStamp
+      resultStatus: 1
+      duration: 0.0003139
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1134
+      parentUniqueId: Tests.Service.dll/[Tests.Service][TestFluentAudioManager][suite]
+    - id: 1143
+      uniqueId: Tests.Service.dll/TestFluentAudioManager/[Tests.Service][TestFluentAudioManager.TestPlayDelayed]
+      name: TestPlayDelayed
+      fullName: TestFluentAudioManager.TestPlayDelayed
+      resultStatus: 1
+      duration: 0.0003212
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1134
+      parentUniqueId: Tests.Service.dll/[Tests.Service][TestFluentAudioManager][suite]
+    - id: 1144
+      uniqueId: Tests.Service.dll/TestFluentAudioManager/[Tests.Service][TestFluentAudioManager.TestPlayOneShot]
+      name: TestPlayOneShot
+      fullName: TestFluentAudioManager.TestPlayOneShot
+      resultStatus: 1
+      duration: 0.0003184
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1134
+      parentUniqueId: Tests.Service.dll/[Tests.Service][TestFluentAudioManager][suite]
+    - id: 1146
+      uniqueId: Tests.Service.dll/TestFluentAudioManager/[Tests.Service][TestFluentAudioManager.TestPlayScheduled]
+      name: TestPlayScheduled
+      fullName: TestFluentAudioManager.TestPlayScheduled
+      resultStatus: 1
+      duration: 0.0003131
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1134
+      parentUniqueId: Tests.Service.dll/[Tests.Service][TestFluentAudioManager][suite]
+    - id: 1162
+      uniqueId: Tests.Service.dll/TestFluentAudioManager/[Tests.Service][TestFluentAudioManager.TestRemoveGroup]
+      name: TestRemoveGroup
+      fullName: TestFluentAudioManager.TestRemoveGroup
+      resultStatus: 1
+      duration: 0.0003751
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1134
+      parentUniqueId: Tests.Service.dll/[Tests.Service][TestFluentAudioManager][suite]
+    - id: 1164
+      uniqueId: Tests.Service.dll/TestFluentAudioManager/[Tests.Service][TestFluentAudioManager.TestRemoveSound]
+      name: TestRemoveSound
+      fullName: TestFluentAudioManager.TestRemoveSound
+      resultStatus: 1
+      duration: 0.0003122
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1134
+      parentUniqueId: Tests.Service.dll/[Tests.Service][TestFluentAudioManager][suite]
+    - id: 1160
+      uniqueId: Tests.Service.dll/TestFluentAudioManager/[Tests.Service][TestFluentAudioManager.TestResetGroupValue]
+      name: TestResetGroupValue
+      fullName: TestFluentAudioManager.TestResetGroupValue
+      resultStatus: 1
+      duration: 0.0003195
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1134
+      parentUniqueId: Tests.Service.dll/[Tests.Service][TestFluentAudioManager][suite]
+    - id: 1165
+      uniqueId: Tests.Service.dll/TestFluentAudioManager/[Tests.Service][TestFluentAudioManager.TestSet3DAudioOptions]
+      name: TestSet3DAudioOptions
+      fullName: TestFluentAudioManager.TestSet3DAudioOptions
+      resultStatus: 1
+      duration: 0.000342
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1134
+      parentUniqueId: Tests.Service.dll/[Tests.Service][TestFluentAudioManager][suite]
+    - id: 1140
+      uniqueId: Tests.Service.dll/TestFluentAudioManager/[Tests.Service][TestFluentAudioManager.TestSetPlaybackDirection]
+      name: TestSetPlaybackDirection
+      fullName: TestFluentAudioManager.TestSetPlaybackDirection
+      resultStatus: 1
+      duration: 0.0003129
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1134
+      parentUniqueId: Tests.Service.dll/[Tests.Service][TestFluentAudioManager][suite]
+    - id: 1167
+      uniqueId: Tests.Service.dll/TestFluentAudioManager/[Tests.Service][TestFluentAudioManager.TestSetStartTime]
+      name: TestSetStartTime
+      fullName: TestFluentAudioManager.TestSetStartTime
+      resultStatus: 1
+      duration: 0.0003127
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1134
+      parentUniqueId: Tests.Service.dll/[Tests.Service][TestFluentAudioManager][suite]
+    - id: 1168
+      uniqueId: Tests.Service.dll/TestFluentAudioManager/[Tests.Service][TestFluentAudioManager.TestSkipTime]
+      name: TestSkipTime
+      fullName: TestFluentAudioManager.TestSkipTime
+      resultStatus: 1
+      duration: 0.0003145
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1134
+      parentUniqueId: Tests.Service.dll/[Tests.Service][TestFluentAudioManager][suite]
+    - id: 1147
+      uniqueId: Tests.Service.dll/TestFluentAudioManager/[Tests.Service][TestFluentAudioManager.TestStop]
+      name: TestStop
+      fullName: TestFluentAudioManager.TestStop
+      resultStatus: 1
+      duration: 0.0003079
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1134
+      parentUniqueId: Tests.Service.dll/[Tests.Service][TestFluentAudioManager][suite]
+    - id: 1152
+      uniqueId: Tests.Service.dll/TestFluentAudioManager/[Tests.Service][TestFluentAudioManager.TestSubscribeProgressCoroutine]
+      name: TestSubscribeProgressCoroutine
+      fullName: TestFluentAudioManager.TestSubscribeProgressCoroutine
+      resultStatus: 1
+      duration: 0.0003229
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1134
+      parentUniqueId: Tests.Service.dll/[Tests.Service][TestFluentAudioManager][suite]
+    - id: 1150
+      uniqueId: Tests.Service.dll/TestFluentAudioManager/[Tests.Service][TestFluentAudioManager.TestSubscribeSourceChanged]
+      name: TestSubscribeSourceChanged
+      fullName: TestFluentAudioManager.TestSubscribeSourceChanged
+      resultStatus: 1
+      duration: 0.0003206
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1134
+      parentUniqueId: Tests.Service.dll/[Tests.Service][TestFluentAudioManager][suite]
+    - id: 1148
+      uniqueId: Tests.Service.dll/TestFluentAudioManager/[Tests.Service][TestFluentAudioManager.TestToggleMute]
+      name: TestToggleMute
+      fullName: TestFluentAudioManager.TestToggleMute
+      resultStatus: 1
+      duration: 0.0003158
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1134
+      parentUniqueId: Tests.Service.dll/[Tests.Service][TestFluentAudioManager][suite]
+    - id: 1149
+      uniqueId: Tests.Service.dll/TestFluentAudioManager/[Tests.Service][TestFluentAudioManager.TestTogglePause]
+      name: TestTogglePause
+      fullName: TestFluentAudioManager.TestTogglePause
+      resultStatus: 1
+      duration: 0.0003046
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1134
+      parentUniqueId: Tests.Service.dll/[Tests.Service][TestFluentAudioManager][suite]
+    - id: 1155
+      uniqueId: Tests.Service.dll/TestFluentAudioManager/[Tests.Service][TestFluentAudioManager.TestTryGetSource]
+      name: TestTryGetSource
+      fullName: TestFluentAudioManager.TestTryGetSource
+      resultStatus: 1
+      duration: 0.0003521
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1134
+      parentUniqueId: Tests.Service.dll/[Tests.Service][TestFluentAudioManager][suite]
+    - id: 1153
+      uniqueId: Tests.Service.dll/TestFluentAudioManager/[Tests.Service][TestFluentAudioManager.TestUnsubscribeProgressCoroutine]
+      name: TestUnsubscribeProgressCoroutine
+      fullName: TestFluentAudioManager.TestUnsubscribeProgressCoroutine
+      resultStatus: 1
+      duration: 0.0003241
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1134
+      parentUniqueId: Tests.Service.dll/[Tests.Service][TestFluentAudioManager][suite]
+    - id: 1151
+      uniqueId: Tests.Service.dll/TestFluentAudioManager/[Tests.Service][TestFluentAudioManager.TestUnsubscribeSourceChanged]
+      name: TestUnsubscribeSourceChanged
+      fullName: TestFluentAudioManager.TestUnsubscribeSourceChanged
+      resultStatus: 1
+      duration: 0.0003101
+      messages: 
+      output: 
+      stacktrace: 
+      notRunnable: 0
+      ignoredOrSkipped: 0
+      description: 
+      isSuite: 0
+      categories:
+      - Uncategorized
+      parentId: 1134
+      parentUniqueId: Tests.Service.dll/[Tests.Service][TestFluentAudioManager][suite]
     - id: 1120
       uniqueId: '[Tests.Settings][C:/Users/Mathew/Unity-Audio-Manager/Example_Project/Library/ScriptAssemblies/Tests.Settings.dll][suite]'
       name: Tests.Settings.dll
       fullName: C:/Users/Mathew/Unity-Audio-Manager/Example_Project/Library/ScriptAssemblies/Tests.Settings.dll
       resultStatus: 1
-      duration: 0.0052442
+      duration: 0.0080221
       messages: 
       output: 
       stacktrace: 
@@ -50856,7 +51288,7 @@ MonoBehaviour:
       name: TestShowIfAttribute
       fullName: TestShowIfAttribute
       resultStatus: 1
-      duration: 0.002167
+      duration: 0.0044591
       messages: 
       output: 
       stacktrace: 
@@ -50872,7 +51304,7 @@ MonoBehaviour:
       name: TestConstructor
       fullName: TestShowIfAttribute.TestConstructor
       resultStatus: 1
-      duration: 0.0004981
+      duration: 0.0005488
       messages: 
       output: 
       stacktrace: 
@@ -50884,21 +51316,13 @@ MonoBehaviour:
       - Uncategorized
       parentId: 1118
       parentUniqueId: Tests.Settings.dll/[Tests.Settings][TestShowIfAttribute][suite]
-    m_ResultText: 'TestAwake (0.004s)
-
-      ---
-
-      Getting registered AudioSource
-      entry failed.
-
-      <color=yellow>Sound does not have an AudioClip component
-      that can be played</color>'
+    m_ResultText: TestAddSoundFromPath (0.001s)
     m_ResultStacktrace: 
     m_TestListState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 17429b0e
-      m_LastClickedID: 245056023
-      m_ExpandedIDs: 53704a9abf76aeba6f866fcd29f7c9f51cee13fe546af82627498529ffffff7f
+      m_SelectedIDs: 57215412
+      m_LastClickedID: 307503447
+      m_ExpandedIDs: 53704a9abf76aebac61c70be6f866fcd29f7c9f51cee13fe546af826274985291e03e5450b174a55ffffff7f
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 

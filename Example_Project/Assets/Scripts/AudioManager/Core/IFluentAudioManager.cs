@@ -4,6 +4,12 @@ using UnityEngine.Audio;
 namespace AudioManager.Core {
     public interface IFluentAudioManager {
         /// <summary>
+        /// Stops the chaining of methods and returns if any the error we received that stopped the other methods from being called.
+        /// </summary>
+        /// <returns><see cref="AudioError"/>, showing wheter and how calling the previously called method failed.</returns>
+        public AudioError Execute();
+
+        /// <summary>
         /// <see cref="IAudioManager.Play"/>
         /// </summary>
         /// <returns><see cref="AudioError"/>, showing wheter and how playing the sound failed.</returns>
