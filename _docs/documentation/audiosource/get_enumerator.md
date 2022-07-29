@@ -15,7 +15,6 @@ IEnumerable<string> sounds = am.GetEnumerator();
 
 foreach (var name in sounds) {
 	// Do something with the registered sound name.
-    am.LerpVolume(name, 0f, 5f, 5f);
 }
 ```
 

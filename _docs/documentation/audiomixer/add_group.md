@@ -18,6 +18,23 @@ Adds the given [```AudioMixerGroup```](https://docs.unity3d.com/ScriptReference/
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to add the [```AudioMixerGroup```](https://docs.unity3d.com/ScriptReference/Audio.AudioMixerGroup.html) on
 - ```MixerGroup``` is the [```AudioMixerGroup```](https://docs.unity3d.com/ScriptReference/Audio.AudioMixerGroup.html) settings the sound should be influenced by
+- ```Child``` is the [```ChildType```](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-children) that we want to call this method on
+
+```csharp
+string soundName = "SoundName";
+AudioMixerGroup mixerGroup = null;
+ChildType child = ChildType.PARENT;
+
+AudioError error = am.AddGroup(soundName, mixerGroup, child);
+if (error != AudioError.OK) {
+    Debug.Log("Adding AudioMixerGroup on the sound called: " + soundName + " failed with error id: " + err);
+}
+else {
+    Debug.Log("Adding AudioMixerGroup on the sound called: " + soundName + " succesfull");
+}
+```
+
+Alternatively you can call the methods with less paramters as some of them have default arguments.
 
 ```csharp
 string soundName = "SoundName";

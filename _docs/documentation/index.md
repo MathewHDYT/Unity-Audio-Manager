@@ -9,7 +9,8 @@ has_children: true
 This section explains all public accessible methods, especially what they do, how to call them and when using them might be advantageous instead of other methods. We always assume AudioManager instance has been already referenced in the script. If you haven't done that already see [Reference to Audio Manager Script](https://mathewhdyt.github.io/Unity-Audio-Manager/installation#reference-to-audio-manager-script).
 
 ## Possible Errors
-Shows all the possible ```AudioError``` enum values that can be returned by the AudioManager methods. Where the ```ID``` is the value that is actually returned, the ```CONSTANT``` is the name that value was given in the ```AudioError``` enum and where the ```MEANING``` is how and why the error was produced in the first place.
+Shows all the possible ```AudioError``` enum values that can be returned by the AudioManager methods.
+Where the ```ID``` is the value that is actually returned, the ```CONSTANT``` is the name that value was given in the ```AudioError``` enum and where the ```MEANING``` is how and why the error was produced in the first place.
 
 | **ID** | **CONSTANT**                  | **MEANING**                                                                                    |
 | -------| ------------------------------| -----------------------------------------------------------------------------------------------|
@@ -32,3 +33,16 @@ Shows all the possible ```AudioError``` enum values that can be returned by the 
 | 16     | NOT_SUBSCRIBED                | Callback with the progress was not yet subscribed for this sound								  |
 | 17     | MISSING_WRAPPER               | The given AudioSourceWrapper is null								  							  |
 | 18     | INVALID_CHILD                 | The given sound does not have a registered child of the given type.							  |
+
+## Possible Children
+Shows all the possible ```ChildType``` enum values that can be passed into AudioManager methods, that allow executing the given action for different generated ```AudioSources```.
+Where the ```ID``` is the value that is actually returned, the ```CONSTANT``` is the name that value was given in the ```ChildType``` enum and where the ```MEANING``` is how and what it will do.
+This is an option because [```RegisterChildAt3DPos```](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/audiosource/register_child_at_3d_pos/) and [```RegisterChildAttachedToGo```](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/audiosource/register_child_attached_to_go/) can't use the original ```AudioSource``` because the position or the partet ```GameObject``` have to be changed,
+meaning we have to create a copy of the ```AudioSource``` instead and use that.
+
+| **ID** | **CONSTANT**                  | **MEANING**                                                                                    |
+| -------| ------------------------------| -----------------------------------------------------------------------------------------------|
+| 0      | ALL                           | All children as well as the parent                                                             |
+| 1      | DOES_NOT_EXIST                | Parent object children were copied from                                                        |
+| 2      | ALREADY_EXISTS                | Child for RegisterChildAt3DPosition                                 					          |
+| 3      | INVALID_PATH                  | Child for RegisterChildAttachedToGameObject                          					      |

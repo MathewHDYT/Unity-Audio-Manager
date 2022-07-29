@@ -7,7 +7,8 @@ grand_parent: Documentation
 
 ## Remove Sound
 **What it does:**
-Remove and deregisters a sound with the given name from the AudioManager and returns an AudioError (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)), showing wheter and how removing the sound failed.
+Deregisters and deletes the underlying AudioSource component of a sound with the AudioManager so it can't be played anymore
+and returns an AudioError (see [Possible Errors](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)), showing wheter and how removing the sound failed.
 
 [**Possible Errors:**](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-errors)
 - DOES_NOT_EXIST
@@ -28,4 +29,4 @@ else {
 ```
 
 **When to use it:**
-When you want to remove a sound, because it will not be called anymore.
+When you want to remove a sound, because it will not be called anymore. Also deletes the underlying ```AudioSource``` component.

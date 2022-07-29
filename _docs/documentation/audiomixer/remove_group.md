@@ -17,6 +17,22 @@ Remove the [```AudioMixerGroup```](https://docs.unity3d.com/ScriptReference/Audi
 
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to remove the [```AudioMixerGroup```](https://docs.unity3d.com/ScriptReference/Audio.AudioMixerGroup.html) on
+- ```Child``` is the [```ChildType```](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/index/#possible-children) that we want to call this method on
+
+```csharp
+string soundName = "SoundName";
+ChildType child = ChildType.PARENT;
+
+AudioError error = am.RemoveGroup(soundName, child);
+if (error != AudioError.OK) {
+    Debug.Log("Removing AudioMixerGroup on the sound called: " + soundName + " failed with error id: " + err);
+}
+else {
+    Debug.Log("Removing AudioMixerGroup on the sound called: " + soundName + " succesfull");
+}
+```
+
+Alternatively you can call the methods with less paramters as some of them have default arguments.
 
 ```csharp
 string soundName = "SoundName";

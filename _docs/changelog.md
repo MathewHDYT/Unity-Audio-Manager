@@ -13,6 +13,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Released]
 
+## [2.1.0](https://github.com/MathewHDYT/Unity-Audio-Manager/releases/tag/v2.1.0) - 2022-07-30
+
+### Added
+- Added new decorator ```FluentAudioManager```, that similarly to the ```LoggedAudioManager``` wraps an ```IAudioManager```, in this case instead of returning an AudioError directly, we get the instance of the class on which we can then call more functions. Allowing usage as a fluent interface
+- Added new static class ```AudioChainer```, that allows starting a chain of methods and reuses the same class instance between different chains to decrease garbage allocation
+- Added new method ```DeregisterChild```
+
+### Changed
+- Adjusted ```AudioManagerSettings``` GameObject to have a safety check for when we load a scene and there is already another ```AudioManagerSettings``` GameObject the scene
+- Adjusted ```RemoveSound``` to actually delete the underlying ```AudioSource``` component and deregister and delete all registered children
+
 ## [2.0.0](https://github.com/MathewHDYT/Unity-Audio-Manager/releases/tag/v2.0.0) - 2022-07-09
 
 ### Added

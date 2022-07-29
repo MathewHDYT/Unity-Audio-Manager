@@ -20,12 +20,14 @@ Returns the current value of the given exposed parameter for the complete [```Au
 **How to call it:**
 - ```SoundName``` is the ```name``` we have given the sound we want to get the [```AudioMixerGroup```](https://docs.unity3d.com/ScriptReference/Audio.AudioMixerGroup.html) parameter on
 - ```ExposedParameterName``` is the name we have given the exposed parameter on the [```AudioMixer```](https://docs.unity3d.com/ScriptReference/Audio.AudioMixer.html)
+- ```CurrentValue``` is the ```variable``` the current exposed parameter will be copied into ```float.NaN``` on failure
 
 ```csharp
 string soundName = "SoundName";
 string exposedParameterName = "Volume";
+float currentValue = float.NaN;
 
-AudioError error = am.GetGroupValue(soundName, exposedParameterName, out float currentValue);
+AudioError error = am.GetGroupValue(soundName, exposedParameterName, out currentValue);
 if (error != AudioError.OK) {
     Debug.Log("Getting AudioMixerGroup volume of the sound called: " + soundName + " failed with error id: " + error);
 }
