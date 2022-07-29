@@ -1,11 +1,11 @@
 ---
 layout: default
-title: Unsubscribe Progress Coroutine
+title: Unsubscribe Source Changed
 parent: AudioSource
 grand_parent: Documentation
 ---
 
-## Unsubscribe Progress Coroutine
+## Unsubscribe Source Changed
 **What it does:**
 Unsubscribes the previously via. [```SubscribeSourceChanged```](https://mathewhdyt.github.io/Unity-Audio-Manager/docs/documentation/audiosource/subscribe_source_changed/) subscribed ```SourceChangedCallback```,
 so that it will not be called anymore when the underlying ```AudioSourceWrapper``` of the subscribed sound has been changed
