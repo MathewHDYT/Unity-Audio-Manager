@@ -9,6 +9,7 @@ public class TestNullAudioManager {
     private IAudioManager m_am;
     private string m_text;
     private float m_val;
+    private ChildType m_child;
     private Vector3 m_pos;
     private GameObject m_go;
     private ProgressCoroutineCallback m_pCb;
@@ -19,6 +20,7 @@ public class TestNullAudioManager {
     public void TestSetUp() {
         m_text = string.Empty;
         m_val = float.NaN;
+        m_child = ChildType.ALL;
         m_pos = Vector3.zero;
         m_go = null;
         m_pCb = null;
@@ -93,6 +95,12 @@ public class TestNullAudioManager {
     [Test]
     public void TestChangePitch() {
         AudioError error = m_am.ChangePitch(m_text, m_val, m_val);
+        Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
+    }
+
+    [Test]
+    public void TestDeregisterChild() {
+        AudioError error = m_am.DeregisterChild(m_text, m_child);
         Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
     }
 

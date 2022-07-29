@@ -461,6 +461,45 @@ public class TestLoggedAudioManager {
     }
 
     [Test]
+    public void TestDeregisterChild() {
+        ChildType child = ChildType.PARENT;
+
+        /// ---------------------------------------------
+        /// Invalid case (AudioError.NOT_INITIALIZED) / Missing IAudioManager, IAudioLogger and Context
+        /// ---------------------------------------------
+        AudioError error = m_loggedAudioManager.DeregisterChild(m_name, child);
+        Assert.AreNotEqual(AudioError.OK, error);
+        Assert.AreEqual(AudioError.NOT_INITIALIZED, error);
+
+        /// ---------------------------------------------
+        /// Valid case (AudioError.OK) / Missing IAudioLogger and Context
+        /// ---------------------------------------------
+        m_loggedAudioManager = new LoggedAudioManager(null, m_audioManager, null);
+        error = m_loggedAudioManager.DeregisterChild(m_name, child);
+        Assert.AreEqual(AudioError.OK, error);
+        Assert.IsFalse(m_audioLogger.Logged);
+        Assert.IsNull(m_audioLogger.Context);
+
+        /// ---------------------------------------------
+        /// Valid case (AudioError.OK) / Missing Context
+        /// ---------------------------------------------
+        m_loggedAudioManager = new LoggedAudioManager(m_audioLogger, m_audioManager, null);
+        error = m_loggedAudioManager.DeregisterChild(m_name, child);
+        Assert.AreEqual(AudioError.OK, error);
+        Assert.IsTrue(m_audioLogger.Logged);
+        Assert.IsNull(m_audioLogger.Context);
+
+        /// ---------------------------------------------
+        /// Valid case (AudioError.OK)
+        /// ---------------------------------------------
+        m_loggedAudioManager = new LoggedAudioManager(m_audioLogger, m_audioManager, m_context);
+        error = m_loggedAudioManager.DeregisterChild(m_name, child);
+        Assert.AreEqual(AudioError.OK, error);
+        Assert.IsTrue(m_audioLogger.Logged);
+        Assert.IsNotNull(m_audioLogger.Context);
+    }
+
+    [Test]
     public void TestPlayScheduled() {
         ChildType child = ChildType.PARENT;
         const float delay = float.NaN;

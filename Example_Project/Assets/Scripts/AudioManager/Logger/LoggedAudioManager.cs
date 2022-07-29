@@ -126,6 +126,18 @@ namespace AudioManager.Logger {
             return error;
         }
 
+        public AudioError DeregisterChild(string name, ChildType child) {
+            const string enterLogBase = "Attempting to deregister previously registered child";
+            const string exitLogBase = "Deregistering the previously registered child";
+
+            OnMethodEnter(enterLogBase, name);
+            AudioError error = AudioHelper.ConvertToAudioError(m_wrappedInstance?.DeregisterChild(name, child));
+            OnReceivedError(exitLogBase, error);
+            OnMethodExit(exitLogBase, error);
+            return error;
+
+        }
+
         public AudioError PlayDelayed(string name, float delay, ChildType child) {
             const string enterLogBase = "Attempting to play the registered AudioSource entry delayed";
             const string exitLogBase = "Starting to play the given registered AudioSource entry delayed";

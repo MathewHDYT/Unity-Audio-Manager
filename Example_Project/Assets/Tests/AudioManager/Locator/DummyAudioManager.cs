@@ -39,6 +39,10 @@ public class DummyAudioManager : IAudioManager {
         return AudioError.NOT_INITIALIZED;
     }
 
+    public AudioError DeregisterChild(string name, ChildType child) {
+        return AudioError.NOT_INITIALIZED;
+    }
+
     public AudioError PlayDelayed(string name, float delay, ChildType child) {
         return AudioError.NOT_INITIALIZED;
     }

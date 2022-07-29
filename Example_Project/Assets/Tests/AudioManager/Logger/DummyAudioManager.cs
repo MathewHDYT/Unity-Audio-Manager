@@ -39,6 +39,10 @@ public class DummyAudioManager : IAudioManager {
         return AudioError.OK;
     }
 
+    public AudioError DeregisterChild(string name, ChildType child) {
+        return AudioError.OK;
+    }
+
     public AudioError PlayDelayed(string name, float delay, ChildType child) {
         return AudioError.OK;
     }

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -28,10 +27,12 @@ namespace AudioManager.Core {
     /// <param name="source">Source that we want to change the given value on.</param>
     public delegate void SetCallback<T>(T value, AudioSourceWrapper source);
     public class AudioSourceWrapper {
+        // Private readonly member variables.
+        private readonly AudioSource m_wrappedSource;
+        private readonly IDictionary<ChildType, AudioSource> m_childrenDictionary;
+
         // Private member variables.
         private SourceChangedCallback m_cb;
-        private AudioSource m_wrappedSource;
-        private IDictionary<ChildType, AudioSource> m_childrenDictionary;
 
         // Private delegate helpers.
         private delegate void SetValueCallback<T>(T value, AudioSource source);
@@ -53,6 +54,24 @@ namespace AudioManager.Core {
 
         public bool TryGetRegisteredChild(ChildType child, out AudioSource childSource) {
             return m_childrenDictionary.TryGetValue(child, out childSource);
+        }
+
+        public void DeregisterChildren() {
+            foreach (var childSource in GetChildren()) {
+                Object.Destroy(childSource);
+            }
+            m_childrenDictionary.Clear();
+        }
+
+        public AudioError DeregisterChild(ChildType child) {
+            AudioError error = AudioError.OK;
+            if (!TryGetRegisteredChild(child, out var childSource)) {
+                error = AudioError.INVALID_CHILD;
+                return error;
+            }
+            Object.Destroy(childSource);
+            m_childrenDictionary.Remove(child);
+            return error;
         }
 
         public void RegisterNewChild(ChildType child, AudioSource childSource) {
@@ -176,7 +195,7 @@ namespace AudioManager.Core {
 
         private bool HasSameValue<T>(T newValue, T currValue) {
             bool? result = currValue?.Equals(newValue);
-            return result.HasValue ? result.Value : (newValue is null);
+            return result ?? newValue is null;
         }
     }
 }
