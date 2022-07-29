@@ -178,6 +178,24 @@ public class TestFluentAudioManager {
     }
 
     [Test]
+    public void TestDeregisterChild() {
+        /// ---------------------------------------------
+        /// Invalid case (Method skipped)
+        /// ---------------------------------------------
+        AudioError error = m_fluentAudioManager.DeregisterChild().Execute();
+        Assert.AreNotEqual(AudioError.OK, error);
+        Assert.AreEqual(m_audioError, error);
+
+        /// ---------------------------------------------
+        /// Valid case (Method executed)
+        /// ---------------------------------------------
+        m_audioError = AudioError.OK;
+        m_fluentAudioManager.ReuseInstance(m_audioManager, m_audioSourceName, m_childType, m_audioError);
+        error = m_fluentAudioManager.DeregisterChild().Execute();
+        Assert.AreEqual(m_audioError, error);
+    }
+
+    [Test]
     public void TestStop() {
         /// ---------------------------------------------
         /// Invalid case (Method skipped)

@@ -111,6 +111,13 @@ namespace AudioManager.Service {
             return m_error;
         }
 
+        public IFluentAudioManager DeregisterChild() {
+            if (m_error == AudioError.OK) {
+                m_error = AudioHelper.ConvertToAudioError(m_wrappedInstance?.DeregisterChild(m_name, m_child));
+            }
+            return this;
+        }
+
         public AudioError Stop() {
             if (m_error == AudioError.OK) {
                 m_error = AudioHelper.ConvertToAudioError(m_wrappedInstance?.Stop(m_name, m_child));

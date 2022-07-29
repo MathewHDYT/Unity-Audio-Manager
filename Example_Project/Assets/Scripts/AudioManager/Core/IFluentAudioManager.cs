@@ -40,6 +40,12 @@ namespace AudioManager.Core {
         public AudioError PlayScheduled(double time);
 
         /// <summary>
+        /// <see cref="IAudioManager.DeregisterChild"/>
+        /// </summary>
+        /// <returns><see cref="IFluentAudioManager"/>, class that allows chaining.</returns>
+        public IFluentAudioManager DeregisterChild();
+
+        /// <summary>
         /// <see cref="IAudioManager.Stop"/>
         /// </summary>
         /// <returns><see cref="AudioError"/>, showing wheter and how stopping the sound failed.</returns>
