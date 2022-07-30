@@ -89,6 +89,14 @@ namespace AudioManager.Core {
         public AudioError RegisterChildAttachedToGo(string name, GameObject attachGameObject, out ChildType child);
 
         /// <summary>
+        /// Deregisters and deletes the underlying AudioSource component of a previously registered child sound.
+        /// </summary>
+        /// <param name="name">Name of the registered sound.</param>
+        /// <param name="child">Type of the child we want to deregister.</param>
+        /// <returns><see cref="AudioError"/>, showing wheter and how registering the child sound attached to the given <see cref="GameObject"/> failed.</returns>
+        public AudioError DeregisterChild(string name, ChildType child);
+
+        /// <summary>
         /// Plays the sound with the given <see cref="ChildType"/> after the given delay time.
         /// </summary>
         /// <param name="name">Name of the registered sound.</param>
@@ -168,7 +176,7 @@ namespace AudioManager.Core {
         /// <returns><see cref="AudioError"/>, showing wheter and how subscribing the callback failed.</returns>
         public AudioError SubscribeSourceChanged(string name, SourceChangedCallback callback);
 
-        /// <summary>
+        /// <summary>   
         /// Unsubscribes the previously via. <see cref="SubscribeSourceChanged"/> subscribed <see cref="SourceChangedCallback"/>,
         /// so that it will not be called anymore when the sound with the given underlying <see cref="AudioSourceWrapper"/> has been changed.
         /// </summary>
@@ -247,8 +255,8 @@ namespace AudioManager.Core {
         /// Gets the value of the given exposed parameter for the complete <see cref="AudioMixerGroup"/> of the given sound.
         /// </summary>
         /// <param name="name">Name of the registered sound.</param>
-        /// <param name="value">Variable the current exposed parameter will be copied into (<see cref="float.NaN"/> on failure).</param>
         /// <param name="exposedParameterName">Name of the exposed parameter we want to get.</param>
+        /// <param name="currentValue">Variable the current exposed parameter will be copied into (<see cref="float.NaN"/> on failure).</param>
         /// <returns><see cref="AudioError"/>, showing wheter and how getting the current exposed parameter value failed.</returns>
         public AudioError GetGroupValue(string name, string exposedParameterName, out float currentValue);
 
@@ -291,7 +299,7 @@ namespace AudioManager.Core {
         public AudioError AddGroup(string name, AudioMixerGroup mixerGroup, ChildType child = Constants.DEFAULT_CHILD_TYPE);
 
         /// <summary>
-        /// Deregister a sound with the AudioManager so it can't be played anymore.
+        /// Deregisters and deletes the underlying AudioSource component of a sound with the AudioManager so it can't be played anymore.
         /// </summary>
         /// <param name="name">Name of the registered sound.</param>
         /// <returns><see cref="AudioError"/>, showing wheter and how removing the sound failed.</returns>

@@ -13,8 +13,8 @@ namespace AudioManager.Service {
         private readonly Transform m_parentTransform;
 
         // Private member variables.
-        private IDictionary<string, IDictionary<float, Coroutine>> m_soundProgressDictionary;
-        private IDictionary<string, AudioSourceWrapper> m_soundDictionary;
+        private readonly IDictionary<string, IDictionary<float, Coroutine>> m_soundProgressDictionary;
+        private readonly IDictionary<string, AudioSourceWrapper> m_soundDictionary;
 
         public DefaultAudioManager(IDictionary<string, AudioSourceWrapper> sounds, GameObject parentGameObject) {
             m_soundProgressDictionary = new Dictionary<string, IDictionary<float, Coroutine>>();
@@ -154,6 +154,24 @@ namespace AudioManager.Service {
             }
 
             RegisterAttachedToGameObject(parentSource, attachGameObject, child);
+            return error;
+        }
+
+        public AudioError DeregisterChild(string name, ChildType child) {
+            AudioError error = TryGetSource(name, out var parentSource);
+
+            // Couldn't find source.
+            if (error != AudioError.OK) {
+                return error;
+            }
+
+            // Check if all children should be deregistered instead.
+            if (child == ChildType.ALL) {
+                parentSource.DeregisterChildren();
+                return error;
+            }
+
+            error = parentSource.DeregisterChild(child);
             return error;
         }
 
@@ -510,12 +528,7 @@ namespace AudioManager.Service {
         }
 
         public AudioError RemoveSound(string name) {
-            AudioError error = AudioError.OK;
-
-            if (!DeregisterSound(name)) {
-                error = AudioError.DOES_NOT_EXIST;
-            }
-            return error;
+            return DeregisterSound(name);
         }
 
         public AudioError Set3DAudioOptions(string name, float minDistance, float maxDistance, ChildType child, float spatialBlend, float spreadAngle, float dopplerLevel, AudioRolloffMode rolloffMode) {
@@ -651,8 +664,25 @@ namespace AudioManager.Service {
             m_soundDictionary.Add(name, new AudioSourceWrapper(source));
         }
 
-        private bool DeregisterSound(string name) {
-            return m_soundDictionary.Remove(name);
+        private AudioError DeregisterSound(string name) {
+            AudioError error = AudioError.OK;
+            if (!m_soundDictionary.TryGetValue(name, out var source)) {
+                error = AudioError.DOES_NOT_EXIST;
+                return error;
+            }
+
+            DeregisterChildren(source);
+            DestroySound(name, source.Source);
+            return error;
+        }
+
+        private void DeregisterChildren(AudioSourceWrapper source) {
+            source.DeregisterChildren();
+        }
+
+        private void DestroySound(string name, AudioSource source) {
+            Object.Destroy(source);
+            m_soundDictionary.Remove(name);
         }
 
         private bool TryGetRegisteredAudioSource(string name, out AudioSourceWrapper sourceWrapper) {

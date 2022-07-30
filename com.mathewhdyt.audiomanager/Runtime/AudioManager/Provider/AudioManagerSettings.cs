@@ -22,6 +22,8 @@ namespace AudioManager.Provider {
         [Tooltip("Inital sounds that should be registered on Awake with the AudioManager and the given settings.")]
         private AudioSourceSetting[] settings;
 
+        private static AudioManagerSettings m_instace;
+
         private void OnEnable() {
             // When the gameObject first gets enabled we set the given hideFlags.
             gameObject.hideFlags = customHideFlags;
@@ -31,6 +33,14 @@ namespace AudioManager.Provider {
             // Make gameObject persistent so that audio keeps playing over scene changes,
             // as all audioSources and emtpy gameObjects get attached or parented to the passed gameObject in the AudioManager constructor.
             DontDestroyOnLoad(gameObject);
+
+            // Ensure this is the only instance that has been registered as DontDestroyOnLoad, if not detroy this instance.
+            // This is done to ensure we don't create a new instance each time we reload the scene.
+            if (m_instace is not null) {
+                Destroy(gameObject);
+                return;
+            }
+            m_instace = this;
 
             SettingsHelper.SetupSounds(out var sounds, settings, this.gameObject);
             ServiceLocator.RegisterService(new DefaultAudioManager(sounds, this.gameObject));
@@ -62,6 +72,7 @@ namespace AudioManager.Provider {
         }
 
         public void TestAwake() {
+            m_instace = null;
             Awake();
         }
 #endif // UNITY_EDITOR
