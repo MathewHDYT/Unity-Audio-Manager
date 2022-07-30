@@ -679,6 +679,78 @@ public class TestDefaultAudioManager {
     }
 
     [Test]
+    public void TestDeregisterChild() {
+        ChildType child = ChildType.AT_3D_POS;
+
+        /// ---------------------------------------------
+        /// Invalid case (AudioError.DOES_NOT_EXIST)
+        /// ---------------------------------------------
+        AudioError error = m_audioManager.DeregisterChild(m_unregisteredAudioSourceName, child);
+        Assert.AreNotEqual(AudioError.OK, error);
+        Assert.AreEqual(AudioError.DOES_NOT_EXIST, error);
+        Assert.IsFalse(m_source.isPlaying);
+
+        /// ---------------------------------------------
+        /// Invalid case (AudioError.MISSING_WRAPPER)
+        /// ---------------------------------------------
+        error = m_audioManager.DeregisterChild(m_nullAudioSourceWrapperName, child);
+        Assert.AreNotEqual(AudioError.OK, error);
+        Assert.AreEqual(AudioError.MISSING_WRAPPER, error);
+        Assert.IsFalse(m_source.isPlaying);
+
+        /// ---------------------------------------------
+        /// Invalid case (AudioError.MISSING_SOURCE)
+        /// ---------------------------------------------
+        error = m_audioManager.DeregisterChild(m_nullAudioSourceName, child);
+        Assert.AreNotEqual(AudioError.OK, error);
+        Assert.AreEqual(AudioError.MISSING_SOURCE, error);
+        Assert.IsFalse(m_source.isPlaying);
+
+        /// ---------------------------------------------
+        /// Invalid case (AudioError.MISSING_CLIP)
+        /// ---------------------------------------------
+        error = m_audioManager.DeregisterChild(m_audioSourceName, child);
+        Assert.AreNotEqual(AudioError.OK, error);
+        Assert.AreEqual(AudioError.MISSING_CLIP, error);
+        Assert.IsFalse(m_source.isPlaying);
+
+        /// ---------------------------------------------
+        /// Invalid case (AudioError.INVALID_CHILD)
+        /// ---------------------------------------------
+        m_source.clip = m_clip;
+        error = m_audioManager.DeregisterChild(m_audioSourceName, child);
+        Assert.AreNotEqual(AudioError.OK, error);
+        Assert.AreEqual(AudioError.INVALID_CHILD, error);
+        Assert.IsFalse(m_source.isPlaying);
+
+        /// ---------------------------------------------
+        /// Valid case (AudioError.OK)
+        /// ---------------------------------------------
+        m_source.spatialBlend = 1f;
+        m_audioManager = new DefaultAudioManager(m_sounds, m_gameObject);
+        error = m_audioManager.RegisterChildAttachedToGo(m_audioSourceName, m_gameObject, out child);
+        Assert.AreEqual(AudioError.OK, error);
+        Assert.IsTrue(m_wrapper.TryGetRegisteredChild(child, out _));
+
+        error = m_audioManager.DeregisterChild(m_audioSourceName, child);
+        Assert.AreEqual(AudioError.OK, error);
+        Assert.IsFalse(m_wrapper.TryGetRegisteredChild(child, out _));
+
+        error = m_audioManager.RegisterChildAttachedToGo(m_audioSourceName, m_gameObject, out child);
+        Assert.AreEqual(AudioError.OK, error);
+        Assert.IsTrue(m_wrapper.TryGetRegisteredChild(child, out _));
+
+        error = m_audioManager.RegisterChildAt3DPos(m_audioSourceName, Vector3.zero, out child);
+        Assert.AreEqual(AudioError.OK, error);
+        Assert.IsTrue(m_wrapper.TryGetRegisteredChild(child, out _));
+
+        error = m_audioManager.DeregisterChild(m_audioSourceName, ChildType.ALL);
+        Assert.AreEqual(AudioError.OK, error);
+        Assert.IsFalse(m_wrapper.TryGetRegisteredChild(ChildType.AT_3D_POS, out _));
+        Assert.IsFalse(m_wrapper.TryGetRegisteredChild(ChildType.ATTCHD_TO_GO, out _));
+    }
+
+    [Test]
     public void TestPlayScheduled() {
         ChildType child = ChildType.AT_3D_POS;
         const float delay = 1f;
@@ -2038,6 +2110,12 @@ public class TestDefaultAudioManager {
         /// ---------------------------------------------
         /// Valid case (AudioError.OK)
         /// ---------------------------------------------
+        m_source.spatialBlend = 1f;
+        m_source.clip = m_clip;
+        error = m_audioManager.RegisterChildAttachedToGo(m_audioSourceName, m_gameObject, out var child);
+        Assert.AreEqual(AudioError.OK, error);
+        Assert.IsTrue(m_wrapper.TryGetRegisteredChild(child, out _));
+
         error = m_audioManager.RemoveSound(m_audioSourceName);
         Assert.AreEqual(AudioError.OK, error);
         Assert.IsFalse(m_sounds.ContainsKey(m_audioSourceName));

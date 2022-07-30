@@ -11,6 +11,8 @@ namespace AudioManager.Core {
         public const float MIN_PROGRESS = 1f - MAX_PROGRESS;
         // Max. spatial blend value that still counts as 2D.
         public const float SPATIAL_BLEND_2D = 0f;
+        // AudioError if the given IAudioManager is not initalized yet.
+        public const AudioError NULL_AUDIO_ERROR = AudioError.NOT_INITIALIZED;
 
         // Default values for method parameters.
         public const float F_NULL_VALUE = float.NaN;

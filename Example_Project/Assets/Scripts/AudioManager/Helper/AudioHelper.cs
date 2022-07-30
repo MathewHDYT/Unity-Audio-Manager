@@ -43,5 +43,9 @@ namespace AudioManager.Helper {
         public static void SetTransformPosition(Transform transform, Vector3 position) {
             transform.position = position;
         }
+
+        public static AudioError ConvertToAudioError(AudioError? error) {
+            return error ?? Constants.NULL_AUDIO_ERROR;
+        }
     }
 }
