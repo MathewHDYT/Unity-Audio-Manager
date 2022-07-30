@@ -66,10 +66,10 @@ Not needed as it only includes code to provide a default implementation with the
 ### AudioManager.Service
 
 #### What it includes
-```DefaultAudioManager``` that gets used for a normal AudioManager project.
+```DefaultAudioManager``` that gets used for a normal AudioManager project as well as the ```FluentAudioManager``` and ```AudioChainer``` helper class.
 
 #### When you need it
-Not needed as it only includes code a default implementation of the ```IAudioManager```.
+Needed if using the AudioManager, as a fluent interface is wanted see [Fluent Interface](https://mathewhdyt.github.io/Unity-Audio-Manager/fluent_interface) for more information.
 
 ### AudioManager.Settings
 
