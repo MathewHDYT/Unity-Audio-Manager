@@ -24,6 +24,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Adjusted ```AudioManagerSettings``` GameObject to have a safety check for when we load a scene and there is already another ```AudioManagerSettings``` GameObject the scene
 - Adjusted ```RemoveSound``` to actually delete the underlying ```AudioSource``` component and deregister and delete all registered children
 
+
 ## [2.0.0](https://github.com/MathewHDYT/Unity-Audio-Manager/releases/tag/v2.0.0) - 2022-07-09
 
 ### Added
@@ -37,6 +38,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Removed ```PlayAt3DPosition```, ```PlayOneShotAt3DPosition```, ```PlayAttachedToGameObject```, ```PlayOneShotAttachedToGameObject```
 - Overhauled nearly all methods of the AudioManager with a additonal parameter ```ChildType``` that allows using that method for an ```AudioSource``` created by either ```RegisterChildAttachedToGo``` (```ChildType.ATTCHD_TO_GO```) or ```RegisterChildAt3DPos``` (```ChildType.AT_3D_POS```), the main original ```AudioSource``` (```ChildType.PARENT```) or all at once (```ChildType.ALL```)
 - Overhauled the Example scene to reflect the new changes
+
 
 ## [1.9.0](https://github.com/MathewHDYT/Unity-Audio-Manager/releases/tag/v1.9.0) - 2022-06-19
 
