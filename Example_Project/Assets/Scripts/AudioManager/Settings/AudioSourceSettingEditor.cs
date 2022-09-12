@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace AudioManager.Settings {
     [CustomEditor(typeof(AudioSourceSetting), true)]
-    public class AudioSourceSettingEditor : Editor {
+    public sealed class AudioSourceSettingEditor : Editor {
         [SerializeField]
         private AudioSource preview;
 

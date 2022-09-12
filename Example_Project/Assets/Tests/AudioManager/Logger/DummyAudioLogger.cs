@@ -1,7 +1,7 @@
 using AudioManager.Logger;
 using UnityEngine;
 
-public class DummyAudioLogger : IAudioLogger {
+public sealed class DummyAudioLogger : IAudioLogger {
     /// <summary>
     /// Empty Constructor.
     /// </summary>

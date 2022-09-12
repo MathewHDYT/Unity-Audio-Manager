@@ -4,7 +4,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public class TestAudioSourceWrapper {
+public sealed class TestAudioSourceWrapper {
     AudioSource m_source;
     AudioSource m_groupSource;
     AudioMixerGroup m_mixerGroup;

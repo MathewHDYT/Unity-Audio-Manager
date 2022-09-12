@@ -3,7 +3,7 @@ using AudioManager.Locator;
 using AudioManager.Logger;
 using NUnit.Framework;
 
-public class TestServiceLocator {
+public sealed class TestServiceLocator {
     [Test]
     public void TestGetService() {
         // Checking if default is the NullAudioManager.

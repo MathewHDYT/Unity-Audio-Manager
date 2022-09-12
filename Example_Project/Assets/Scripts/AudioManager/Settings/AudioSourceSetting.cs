@@ -3,7 +3,7 @@ using UnityEngine.Audio;
 
 namespace AudioManager.Settings {
     [CreateAssetMenu(fileName = "AudioSourceSettings", menuName = "AudioManager/AudioSourceSettings", order = 1)]
-    public class AudioSourceSetting : ScriptableObject {
+    public sealed class AudioSourceSetting : ScriptableObject {
         [Tooltip("Sets the name we can later access this objects AudioSource in the AudioManager with.")]
         public string soundName;
         [Tooltip("The AudioClip asset played by the AudioSource.")]

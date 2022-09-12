@@ -8,8 +8,7 @@
         "AudioManager.Logger",
         "AudioManager.Settings",
         "AudioManager.Locator",
-        "AudioManager.Core",
-        "AudioManager.Service"
+        "AudioManager.Core"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

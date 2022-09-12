@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace AudioManager.Settings {
     [CustomPropertyDrawer(typeof(ShowIfAttribute), true)]
-    public class ShowIfAttributeDrawer : PropertyDrawer {
+    public sealed class ShowIfAttributeDrawer : PropertyDrawer {
 
         #region Reflection helpers.
         private static MethodInfo GetMethod(object target, string methodName) {
@@ -22,7 +22,7 @@ namespace AudioManager.Settings {
         }
 
         private static IEnumerable<FieldInfo> GetAllFields(object target, Func<FieldInfo, bool> predicate) {
-            List<Type> types = new List<Type>() {
+            var types = new List<Type>() {
                 target.GetType()
             };
 
@@ -53,7 +53,7 @@ namespace AudioManager.Settings {
         private bool MeetsConditions(SerializedProperty property) {
             var showIfAttribute = this.attribute as ShowIfAttribute;
             var target = property.serializedObject.targetObject;
-            List<bool> conditionValues = new List<bool>();
+            var conditionValues = new List<bool>();
 
             foreach (var condition in showIfAttribute.Conditions) {
                 FieldInfo conditionField = GetField(target, condition);

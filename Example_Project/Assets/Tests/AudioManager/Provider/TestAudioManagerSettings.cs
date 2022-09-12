@@ -1,13 +1,12 @@
 using AudioManager.Core;
 using AudioManager.Locator;
-using AudioManager.Service;
 using AudioManager.Logger;
 using AudioManager.Provider;
 using AudioManager.Settings;
 using NUnit.Framework;
 using UnityEngine;
 
-public class TestAudioManagerSettings {
+public sealed class TestAudioManagerSettings {
     string m_soundName;
     HideFlags m_hideFlags;
     GameObject m_gameObject;

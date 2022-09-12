@@ -4,7 +4,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public class TestFluentAudioManager {
+public sealed class TestFluentAudioManager {
     string m_audioSourceName;
     ChildType m_childType;
     AudioError m_audioError;

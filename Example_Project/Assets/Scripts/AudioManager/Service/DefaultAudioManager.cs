@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 
 namespace AudioManager.Service {
-    public class DefaultAudioManager : IAudioManager {
+    public sealed class DefaultAudioManager : IAudioManager {
         // Readonly private member variables.
         private readonly GameObject m_parentGameObject;
         private readonly MonoBehaviour m_parentBehaviour;

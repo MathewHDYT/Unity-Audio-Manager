@@ -1,7 +1,7 @@
 using AudioManager.Settings;
 using NUnit.Framework;
 
-public class TestShowIfAttribute {
+public sealed class TestShowIfAttribute {
     string[] m_conditions;
     ConditionOperator m_conditionOperator;
     ActionOnConditionFail m_actionOnConditionFail;
@@ -15,7 +15,7 @@ public class TestShowIfAttribute {
 
     [Test]
     public void TestConstructor() {
-        ShowIfAttribute showIfAttribute = new ShowIfAttribute(m_actionOnConditionFail, m_conditionOperator, m_conditions);
+        var showIfAttribute = new ShowIfAttribute(m_actionOnConditionFail, m_conditionOperator, m_conditions);
         Assert.AreEqual(m_actionOnConditionFail, showIfAttribute.Action);
         Assert.AreEqual(m_conditionOperator, showIfAttribute.Operator);
         Assert.AreEqual(m_conditions, showIfAttribute.Conditions);

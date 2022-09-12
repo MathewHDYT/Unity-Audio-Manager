@@ -7,7 +7,7 @@ using UnityEngine;
 using UnityEngine.Audio;
 using UnityEngine.TestTools;
 
-public class TestDefaultAudioManager {
+public sealed class TestDefaultAudioManager {
     string m_unregisteredAudioSourceName;
     string m_nullAudioSourceWrapperName;
     string m_nullAudioSourceName;
@@ -43,7 +43,7 @@ public class TestDefaultAudioManager {
         m_maxDifference = 0.00002f;
         m_sounds = new Dictionary<string, AudioSourceWrapper>();
         m_gameObject = new GameObject();
-        m_gameObject.AddComponent<DummyMonoBehvaiour>();
+        m_gameObject.AddComponent<MonoBehaviour>();
         m_source = m_gameObject.AddComponent<AudioSource>();
         m_wrapper = new AudioSourceWrapper(m_source);
         m_initalizedSource = m_gameObject.AddComponent<AudioSource>();

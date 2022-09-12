@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public class TestNullAudioManager {
+public sealed class TestNullAudioManager {
     private IAudioManager m_am;
     private string m_text;
     private float m_val;

@@ -2,9 +2,9 @@ using AudioManager.Logger;
 using AudioManager.Core;
 
 namespace AudioManager.Locator {
-    public class ServiceLocator {
+    public sealed class ServiceLocator {
         // Default audio manager if nothing or null is registered.
-        private static readonly NullAudioManager s_nullAudioManagerService = new NullAudioManager();
+        private static readonly NullAudioManager s_nullAudioManagerService = new();
         // Audio manager instance, that implements our public API.
         private static IAudioManager s_audioManagerService = s_nullAudioManagerService;
 

@@ -1,4 +1,7 @@
 namespace AudioManager.Core {
+    /// <summary>
+    /// Defines what exactly should happen after the callback that has returned this response, has been executed.
+    /// </summary>
     public enum ProgressResponse {
         UNSUB, // Does not call the given AudioCallback anymore.
         RESUB_IN_LOOP, // Calls the given AudioCallback for the next loop iteration of the song at the same progress point.

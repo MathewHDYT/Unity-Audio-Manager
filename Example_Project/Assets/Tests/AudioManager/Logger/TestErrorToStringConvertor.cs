@@ -4,7 +4,7 @@ using AudioManager.Core;
 using System;
 using System.Linq;
 
-public class TestErrorToStringConvertor {
+public sealed class TestErrorToStringConvertor {
     [Test]
     public void TestErrorToMessage() {
         var audioErrors = Enum.GetValues(typeof(AudioError)).Cast<AudioError>();

@@ -8,7 +8,7 @@ namespace AudioManager.Logger {
     /// <summary>
     /// Logger instances of the IAudioManager interface, simply wraps the given IAudioManager instance, to seperate logging from the actual method implementation and to easily disable logging if needed.
     /// </summary>
-    public class LoggedAudioManager : IAudioManager {
+    public sealed class LoggedAudioManager : IAudioManager {
         // Readonly private member variables.
         // Class used for logging.
         private readonly IAudioLogger m_logger;

@@ -1,11 +1,9 @@
 ﻿using AudioManager.Core;
-using System.Collections;
 using UnityEngine;
 using UnityEngine.Audio;
 
 namespace AudioManager.Helper {
     public static class AudioHelper {
-
         public static AudioError LoadAudioClipFromPath(string path, out AudioClip clip) {
             clip = Resources.Load<AudioClip>(path);
             return clip ? AudioError.OK : AudioError.INVALID_PATH;

@@ -1,4 +1,7 @@
 namespace AudioManager.Core {
+    /// <summary>
+    /// Defines all possible error cases returned by methods.
+    /// </summary>
     public enum AudioError {
         OK,
         DOES_NOT_EXIST,

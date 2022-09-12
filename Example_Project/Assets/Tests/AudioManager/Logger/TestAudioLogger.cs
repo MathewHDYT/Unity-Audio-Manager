@@ -3,7 +3,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.TestTools;
 
-public class TestAudioLogger {
+public sealed class TestAudioLogger {
     string m_text;
     Object m_object;
     AudioLogger m_audioLogger;

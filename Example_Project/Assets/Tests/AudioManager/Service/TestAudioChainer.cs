@@ -4,7 +4,7 @@ using NUnit.Framework;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public class TestAudioChainer {
+public sealed class TestAudioChainer {
     DummyAudioManager m_audioManager;
 
     [SetUp]

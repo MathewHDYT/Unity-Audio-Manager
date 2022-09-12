@@ -26,7 +26,7 @@ namespace AudioManager.Core {
     /// <param name="value">Value we want to set on the given source.</param>
     /// <param name="source">Source that we want to change the given value on.</param>
     public delegate void SetCallback<T>(T value, AudioSourceWrapper source);
-    public class AudioSourceWrapper {
+    public sealed class AudioSourceWrapper {
         // Private readonly member variables.
         private readonly AudioSource m_wrappedSource;
         private readonly IDictionary<ChildType, AudioSource> m_childrenDictionary;

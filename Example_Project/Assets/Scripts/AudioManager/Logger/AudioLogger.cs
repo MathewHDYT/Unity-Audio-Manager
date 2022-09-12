@@ -1,7 +1,7 @@
 using UnityEngine;
 
 namespace AudioManager.Logger {
-    public class AudioLogger : IAudioLogger {
+    public sealed class AudioLogger : IAudioLogger {
         // Holds the minmum log level that must be passed to the Log method,
         // so that the message actually gets printed to the console.
         private readonly LoggingLevel m_logLevel = LoggingLevel.NONE;

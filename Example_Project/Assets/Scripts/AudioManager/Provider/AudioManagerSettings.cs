@@ -6,7 +6,7 @@ using AudioManager.Settings;
 using UnityEngine;
 
 namespace AudioManager.Provider {
-    public class AudioManagerSettings : MonoBehaviour {
+    public sealed class AudioManagerSettings : MonoBehaviour {
         [SerializeField]
         [Header("Hide Settings:")]
         [Tooltip("Defines how much and if the gameObject this script is attached too, should be hidden in the scene hierarchy.")]

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public class DummyAudioManager : IAudioManager {
+public sealed class DummyAudioManager : IAudioManager {
     public AudioError AddSoundFromPath(string name, string path, float volume, float pitch, bool loop, AudioSource source, AudioMixerGroup mixerGroup) {
         return AudioError.NOT_INITIALIZED;
     }

@@ -7,7 +7,7 @@ namespace AudioManager.Service {
     /// <summary>
     /// Fluent instance of the IFluentAudioManager interface, simply wraps the given IAudioManager instance, to seperate fluent interface behaviour from the actual method implementation and to easily not use that behaviour if not needed.
     /// </summary>
-    public class FluentAudioManager : IFluentAudioManager {
+    public sealed class FluentAudioManager : IFluentAudioManager {
         // Private member variables.
         private IAudioManager m_wrappedInstance;
         private string m_name;

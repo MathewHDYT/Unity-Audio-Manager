@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Audio;
 
-public class TestLoggedAudioManager {
+public sealed class TestLoggedAudioManager {
     string m_name;
     Object m_context;
     DummyAudioManager m_audioManager;
