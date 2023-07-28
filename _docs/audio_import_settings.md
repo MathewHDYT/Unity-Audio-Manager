@@ -73,7 +73,7 @@ This section describes the different load types that can be used to decrease the
 As with nearly everything in software development this is a tradeoff between performance (CPU usage) and needed memory usage (Size in memory).
 
 ### Decompressed on Load
-- Loads the Audio decoded / decompressed to [**PCM**](https://mathewhdyt.github.io/Unity-Audio-Manager/audio_import_settings#pulse_code_modulation_(pcm)) into RAM
+- Loads the Audio decoded / decompressed to [**PCM**](https://mathewhdyt.github.io/Unity-Audio-Manager/audio_import_settings#pulse-code-modulation-pcm) into RAM
 
 #### Advantages
 - Audio is in a ready-to-play state
@@ -111,7 +111,7 @@ As with nearly everything in software development this is a tradeoff between per
 
 #### Remarks
 > **Warning**
-> It is generally not recommended to use more than one or two Audio Clips playing backs at the same time
+> It is generally not recommended to use more than one or two Audio Clips playing back at the same time with the `Streaming` option enabled
 
 ## [Preload Audio Data](https://youtu.be/PaP5soZ3WWI)
 If enabled, the audio clip will be pre-loaded when the scene is loaded. This is on by default to reflect standard Unity behaviour where all ```AudioClips``` have finished loading when the scene starts playing.
